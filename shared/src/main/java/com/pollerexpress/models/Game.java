@@ -1,4 +1,4 @@
-package pollerexpress.models;
+package com.pollerexpress.models;
 
 public class Game
 {
