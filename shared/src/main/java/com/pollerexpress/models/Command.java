@@ -1,5 +1,6 @@
-package command;
-import java.lang.reflect.*;
+package com.pollerexpress.models;
+
+import java.lang.reflect.Method;
 
 public class Command implements ICommand {
 	private String _className;

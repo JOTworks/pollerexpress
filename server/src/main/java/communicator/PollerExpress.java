@@ -1,7 +1,8 @@
 package communicator;
 
+import com.pollerexpress.models.Command;
+
 import java.util.Queue;
-import command.Command;
 
 public class PollerExpress {
 	

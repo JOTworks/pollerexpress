@@ -1,5 +1,8 @@
 package cs340.pollerexpress;
 
+import com.pollerexpress.models.LoginRequest;
+import com.pollerexpress.models.LoginResponse;
+
 import org.springframework.web.client.RestTemplate;
 
 public class ClientCommunicator {
@@ -19,14 +22,14 @@ public class ClientCommunicator {
 
     //-------------------------------------------------------------------
 
-    public PollResponse runCommand(String command, String s) {
+    public LoginResponse sendLoginRequest(String command, LoginRequest request) {
 
         RestTemplate restTemplate = new RestTemplate();
         String resourceUrl = "http://localhost:8080/" + command;
 
-        PollResponse pollResponse = restTemplate.postForObject(resourceUrl, s, Results.class);
+        LoginResponse response = restTemplate.postForObject(resourceUrl, request, LoginResponse.class);
 
-        return results;
+        return response;
     }
 }
 
