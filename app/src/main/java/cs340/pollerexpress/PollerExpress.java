@@ -1,4 +1,4 @@
-package communicator;
+package cs340.pollerexpress;
 
 import com.pollerexpress.models.Command;
 
