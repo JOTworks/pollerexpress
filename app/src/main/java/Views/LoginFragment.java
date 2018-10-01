@@ -68,6 +68,10 @@ public class LoginFragment extends Fragment implements ILoginView {
         return v;
     }
 
+    public void disableButton(Button button){
+
+    }
+
     @Override
     public void onResume(){
         super.onResume();
