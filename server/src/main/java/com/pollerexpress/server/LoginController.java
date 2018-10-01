@@ -20,4 +20,7 @@ public class LoginController {
         return new ResponseEntity<LoginResponse>(
                 new LoginResponse(), HttpStatus.OK);
     }
+
+    //TODO: make register endpoint
+
 }
