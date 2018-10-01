@@ -1,7 +1,9 @@
-package cs340.pollerexpress;
+package Views;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import cs340.pollerexpress.R;
 
 public class MainActivity extends AppCompatActivity {
 

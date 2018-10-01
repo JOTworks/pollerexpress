@@ -1,5 +1,7 @@
 package command;
 
+import com.pollerexpress.models.Command;
+
 import java.util.*;
 
 public class CommandManager {

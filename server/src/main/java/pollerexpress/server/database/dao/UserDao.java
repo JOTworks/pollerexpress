@@ -1,6 +1,7 @@
 package pollerexpress.server.database.dao;
 
-import pollerexpress.models.User;
+
+import com.pollerexpress.models.User;
 
 public class UserDao
 {
