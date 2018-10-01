@@ -4,6 +4,7 @@ import com.pollerexpress.models.Authtoken;
 import com.pollerexpress.models.Command;
 import com.pollerexpress.models.LoginRequest;
 import com.pollerexpress.models.LoginResponse;
+import com.pollerexpress.models.PollResponse;
 
 import org.springframework.web.client.RestTemplate;
 
