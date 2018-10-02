@@ -3,6 +3,8 @@ package Views;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import cs340.pollerexpress.R;
 import presenter.ILoginPresenter;
+import presenter.LoginPresenter;
 
 import static android.widget.Toast.LENGTH_LONG;
 
@@ -30,7 +33,7 @@ public class LoginFragment extends Fragment implements ILoginView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loginPresenter = LoginPresenter(this.getContext())
+        loginPresenter = new LoginPresenter(this);
     }
 
     @Override
@@ -49,39 +52,61 @@ public class LoginFragment extends Fragment implements ILoginView {
 
         //add listeners to the EditText to tell the presenter if they are empty or not
 
+
         Button mlogin_button = (Button) login_button;
         mlogin_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //tell presenter
-            }
+                loginPresenter.logIn(); }
         });
 
         Button mregister_button = (Button) register_button;
         mregister_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //tell presenter
+
+
+                loginPresenter.register();
             }
         });
 
+        userNameText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                loginPresenter.updateLogin(userNameText.getText().toString(),passwordText.getText().toString());
+            }
+        });
+
+        passwordText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                loginPresenter.updateLogin(userNameText.getText().toString(),passwordText.getText().toString());
+            }
+        });
 
         return v;
-    }
-
-    public void disableButton(Button button){
-
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        //artifact from jacks 240 project, not sure what it does but we may need to override this function at somepoint?
-        /*
-        if(Data.getToken()!=null){
-            ((MainActivity) getActivity()).switchToMap();
-        }
-        */
     }
 
     @Override

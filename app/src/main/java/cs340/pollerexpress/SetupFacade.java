@@ -13,35 +13,36 @@ public class SetupFacade {
      * @param password
      * @return
      */
-    LoginResponse login(String userName, String password){
+    ErrorResponse login(String userName, String password){
 
         LoginRequest loginReq = new LoginRequest(userName,password);
         ClientCommunicator CC = ClientCommunicator.instance();
 
-        try {
+
             LoginResponse resp = CC.sendLoginRequest("login", loginReq);
 
             //update model
-            resp.getAuthToken();
-            resp.getAvailableGames();
+            ClientData CData = ClientData.getInstance();
 
-            return resp;
-        }
-        catch(Exception e){
-            return new LoginResponse(null,null,new ErrorResponse("from SetupFacade",e,null));
-        }
+            CData.setAuth(resp.getAuthToken());
+            //CData.setGameInfoList(resp.getAvailableGames());
+
+            return resp.getError();
     }
 
-    LoginResponse register(String userName, String password){
+
+
+    ErrorResponse register(String userName, String password){
+        return null;
+    }
+
+    ErrorResponse createGame(String name, int numPLayers, Color.PLAYER userColor) {
+        return null;
+    }
+
+    ErrorResponse joinGame(String gameId){
         return null;
     }
 
 
-    PollResponse createGame(String name, int numPLayers, Color.PLAYER userColor) {
-        return null;
-    }
-
-    PollResponse joinGame(String gameId){
-        return null;
-    }
 }
