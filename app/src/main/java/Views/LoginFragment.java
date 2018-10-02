@@ -24,6 +24,7 @@ public class LoginFragment extends Fragment implements ILoginView {
 
     EditText userNameText;
     EditText passwordText;
+    EditText confirmText;
 
     Button login_button;
     Button register_button;
@@ -46,6 +47,7 @@ public class LoginFragment extends Fragment implements ILoginView {
 
         userNameText = (EditText)v.findViewById(R.id.user_name);
         passwordText = (EditText)v.findViewById(R.id.password);
+        confirmText = (EditText)v.findViewById(R.id.confirm);
 
         login_button = (Button) v.findViewById(R.id.login_button);
         register_button = (Button) v.findViewById(R.id.register_button);
@@ -71,38 +73,37 @@ public class LoginFragment extends Fragment implements ILoginView {
         });
 
         userNameText.addTextChangedListener(new TextWatcher() {
-
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
             public void afterTextChanged(Editable s) {
                 loginPresenter.updateLogin(userNameText.getText().toString(),passwordText.getText().toString());
+                loginPresenter.updateRegister(userNameText.getText().toString(),passwordText.getText().toString(),confirmText.getText().toString());
             }
         });
 
         passwordText.addTextChangedListener(new TextWatcher() {
-
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
             public void afterTextChanged(Editable s) {
                 loginPresenter.updateLogin(userNameText.getText().toString(),passwordText.getText().toString());
+                loginPresenter.updateRegister(userNameText.getText().toString(),passwordText.getText().toString(),confirmText.getText().toString());
+            }
+        });
+
+        confirmText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                loginPresenter.updateRegister(userNameText.getText().toString(),passwordText.getText().toString(),confirmText.getText().toString());
             }
         });
 

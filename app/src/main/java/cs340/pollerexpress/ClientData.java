@@ -21,7 +21,7 @@ class ClientData {
     private User user;
     private Authtoken auth;
     private Game game;
-    private List<GameInfo> gameInfoList;
+    private GameInfo[] gameInfoList;
 
     public User getUser(){
         return user;
@@ -32,7 +32,7 @@ class ClientData {
     public Game getGame(){
         return game;
     }
-    public List<GameInfo> getGameInfoList(){
+    public GameInfo[] getGameInfoList(){
         return gameInfoList;
     }
     public void setUser(User user){
@@ -41,7 +41,7 @@ class ClientData {
     public void setAuth(Authtoken auth){
         this.auth = auth;
     }
-    public void setGameInfoList(List<GameInfo> gameInfoList){
+    public void setGameInfoList(GameInfo[] gameInfoList){
         this.gameInfoList = gameInfoList;
     }
 

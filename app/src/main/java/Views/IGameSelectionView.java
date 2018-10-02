@@ -1,11 +1,15 @@
 package Views;
 
+import com.pollerexpress.models.GameInfo;
+
 public interface IGameSelectionView {
 
     void changeLobbyView();
 
     void changeCreateGameView();
-    void renderGame();
-    void renderGames();
-    void disableButton();
+
+    void renderGames(GameInfo[] gameinfoList);
+
+    void disableGame(int gameListIndex);
+    void enableGame(int gameListIndex);
 }

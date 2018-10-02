@@ -8,5 +8,5 @@ public interface ILoginView {
     public void enableRegister();
 
     public void changeToGameSelectionView();
-    public void displayMessage(String message);
+    public void displayError(String errorMessage);
 }
