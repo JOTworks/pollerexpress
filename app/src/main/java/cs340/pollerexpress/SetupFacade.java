@@ -18,34 +18,41 @@ public class SetupFacade {
      *
      * @param userName
      * @param password
-     * @return res.getError
+     * @return res.getError it will return null on succesful login
      */
     ErrorResponse login(String userName, String password){
-
-        LoginRequest loginReq = new LoginRequest(userName,password);
-        ClientCommunicator CC = ClientCommunicator.instance();
-
-            LoginResponse resp = CC.sendLoginRequest("login", loginReq);
-
-            //update model
-            ClientData CData = ClientData.getInstance();
-            CData.setUser(new User(userName,password));
-            CData.setAuth(resp.getAuthToken());
-            CData.setGameInfoList(resp.getAvailableGames());
-
-            return resp.getError();
+        return loginOrRegister("login",userName,password);
     }
 
-
-
+    /**
+     *
+     * @param userName
+     * @param password
+     * @return res.getError, it will return null on succesful login
+     */
     ErrorResponse register(String userName, String password){
+        return loginOrRegister("register",userName,password);
+    }
 
+    /**
+     * keeps the code from being duplicated, but lets the presenters call login or regester as
+     * sepereate functions.
+     * @param requestType
+     * @param userName
+     * @param password
+     * @return res.getError, it will return null on succesful login
+     */
+    private ErrorResponse loginOrRegister(String requestType, String userName, String password){
         LoginRequest loginReq = new LoginRequest(userName,password);
         ClientCommunicator CC = ClientCommunicator.instance();
 
-        LoginResponse resp = CC.sendLoginRequest("register", loginReq);
+        LoginResponse resp = CC.sendLoginRequest(requestType, loginReq);
 
-        //update model
+        if(resp.getError()!=null){
+            return resp.getError();
+        }
+
+        //update model if no errors
         ClientData CData = ClientData.getInstance();
         CData.setUser(new User(userName,password));
         CData.setAuth(resp.getAuthToken());
@@ -53,6 +60,7 @@ public class SetupFacade {
 
         return resp.getError();
     }
+
 
     ErrorResponse createGame(String name, int numPLayers, Color.PLAYER userColor) {
         return null;
