@@ -1,5 +1,7 @@
 package Views;
 
+import com.pollerexpress.models.GameInfo;
+
 public class GameSelectionFragment implements IGameSelectionView {
 
     @Override
@@ -13,17 +15,17 @@ public class GameSelectionFragment implements IGameSelectionView {
     }
 
     @Override
-    public void renderGame() {
+    public void renderGames(GameInfo[] gameinfoList) {
 
     }
 
     @Override
-    public void renderGames() {
+    public void disableGame(int gameListIndex) {
 
     }
 
     @Override
-    public void disableButton() {
+    public void enableGame(int gameListIndex) {
 
     }
 }

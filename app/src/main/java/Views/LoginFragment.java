@@ -136,7 +136,7 @@ public class LoginFragment extends Fragment implements ILoginView {
     }
 
     @Override
-    public void displayMessage(String message) {
-        // todo: toast the message to the user
+    public void displayError(String errorMessage) {
+
     }
 }
