@@ -43,7 +43,7 @@ public class SetupFacade {
         LoginRequest loginReq = new LoginRequest(userName,password);
         ClientCommunicator CC = ClientCommunicator.instance();
 
-        LoginResponse resp = CC.sendRegisterRequest("login", loginReq);
+        LoginResponse resp = CC.sendLoginRequest("register", loginReq);
 
         //update model
         ClientData CData = ClientData.getInstance();
