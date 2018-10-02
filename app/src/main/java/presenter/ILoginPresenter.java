@@ -10,6 +10,7 @@ public interface ILoginPresenter {
     /**
      * Attempts to log a user in
      */
+
     void boolean logIn();
 
     /**

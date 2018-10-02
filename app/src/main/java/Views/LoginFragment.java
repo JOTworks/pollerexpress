@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import cs340.pollerexpress.R;
+import presenter.ILoginPresenter;
 
 import static android.widget.Toast.LENGTH_LONG;
 
@@ -24,12 +25,12 @@ public class LoginFragment extends Fragment implements ILoginView {
     Button login_button;
     Button register_button;
 
-
+    ILoginPresenter loginPresenter;
     /*---------------OverRides----------------------*/
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        loginPresenter = LoginPresenter(this.getContext())
     }
 
     @Override
@@ -81,5 +82,35 @@ public class LoginFragment extends Fragment implements ILoginView {
             ((MainActivity) getActivity()).switchToMap();
         }
         */
+    }
+
+    @Override
+    public void disableLogin() {
+        login_button.setEnabled(false);
+    }
+
+    @Override
+    public void enableLogin() {
+        login_button.setEnabled(true);
+    }
+
+    @Override
+    public void disableRegister() {
+        register_button.setEnabled(false);
+    }
+
+    @Override
+    public void enableRegister() {
+        register_button.setEnabled(true);
+    }
+
+    @Override
+    public void changeToGameSelectionView() {
+        // TODO: 10/1/2018 figure how to change fravements
+    }
+
+    @Override
+    public void displayMessage(String message) {
+        // todo: toast the message to the user
     }
 }

@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import cs340.pollerexpress.R;
+import presenter.ILoginPresenter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (fragment == null) {
             fragment = new LoginFragment();
-
             fm.beginTransaction()
                     .add(R.id.fragment_container, fragment)
                     .commit();
