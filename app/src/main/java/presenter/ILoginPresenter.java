@@ -10,16 +10,19 @@ public interface ILoginPresenter {
     /**
      * Attempts to log a user in
      */
-    void boolean logIn();
+    public void logIn();
 
     /**
      * Attempts to register a user
      */
-    void boolean register();
+    public void register();
 
     /**
+     * Checks whether the username and password
+     * meet the requirements for enabling the
+     * login button
      */
-    void updateLogin(String username, String password);
+    public void updateLogin(String username, String password);
 
     /**
      *
@@ -27,5 +30,5 @@ public interface ILoginPresenter {
      * @param password
      * @param confirm
      */
-    void updateRegister(String username, String password, String confirm);
+    public void updateRegister(String username, String password, String confirm);
 }
