@@ -6,10 +6,10 @@ import java.util.*;
 
 public class CommandManager {
 	private static CommandManager _instance;
-	private HashMap<Integer, Queue<Command>> user_commands;
+	private HashMap<Integer, Queue<Command>> userCommands;
 	
 	private CommandManager() {
-		user_commands = new HashMap<Integer, Queue<Command>>();
+		userCommands = new HashMap<Integer, Queue<Command>>();
 	}
 	
 	public CommandManager _instance() {
@@ -17,10 +17,6 @@ public class CommandManager {
 			_instance = new CommandManager();
 		}
 		return _instance;
-	}
-	
-	public void addUser(int id) {
-		//
 	}
 	
 	public Queue<Command> getUserCommands(int id) {
@@ -32,7 +28,11 @@ public class CommandManager {
 		//
 	}
 	
-	private void addCommandToUser(Command c, int id) {
+	protected void addCommandToUser(Command c, int id) {
+		//
+	}
+
+	private void addUser(int id) {
 		//
 	}
 }

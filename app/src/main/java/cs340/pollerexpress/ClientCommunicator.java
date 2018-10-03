@@ -65,5 +65,13 @@ public class ClientCommunicator {
         return response;
     }
 
+    /**
+     * Polls the server.
+     */
+    public PollResponse sendPoll() {
+
+        return null;
+    }
+
 }
 
