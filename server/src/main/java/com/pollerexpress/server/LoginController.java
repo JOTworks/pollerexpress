@@ -18,9 +18,17 @@ public class LoginController {
     ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         // Best practice would be to return a fail HttpStatus if I got an error.
         return new ResponseEntity<LoginResponse>(
-                new LoginResponse(), HttpStatus.OK);
+                new LoginService().login(request), HttpStatus.OK);
     }
 
     //TODO: make register endpoint
 
+
+    @PostMapping("/register")
+    public @ResponseBody
+    ResponseEntity<LoginResponse> register(@RequestBody LoginRequest request) {
+        // Best practice would be to return a fail HttpStatus if I got an error.
+        return new ResponseEntity<LoginResponse>(
+                new LoginService().register(request), HttpStatus.OK);
+    }
 }
