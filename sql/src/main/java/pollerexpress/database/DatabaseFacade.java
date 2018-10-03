@@ -5,7 +5,7 @@ import com.pollerexpress.models.ErrorResponse;
 import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.models.LoginResponse;
 import com.pollerexpress.models.User;
-
+import pollerexpress.database.exceptions.*;
 public class DatabaseFacade {
     public DatabaseFacade() {
     }

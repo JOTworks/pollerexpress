@@ -15,6 +15,12 @@ public class GameInfo
         _maxPlayers = maxPlayers;
     }
 
+    public GameInfo(String id, String name, int maxPlayers, int curPlayers)
+    {
+        this(id, name, maxPlayers);
+        _numPlayers = curPlayers;
+    }
+
     public GameInfo(GameInfo info)
     {
         _id = info._id;

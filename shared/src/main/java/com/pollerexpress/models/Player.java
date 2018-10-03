@@ -17,4 +17,10 @@ public class Player
         this.name = name;
         this.gameId = "";
     }
+
+    public Player(String name, String gameId)
+    {
+        this.name = name;
+        this.gameId = gameId;
+    }
 }

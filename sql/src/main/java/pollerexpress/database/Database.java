@@ -14,10 +14,11 @@ import pollerexpress.database.dao.AuthtokenDao;
 import pollerexpress.database.dao.GameDao;
 import pollerexpress.database.dao.IDatabase;
 import pollerexpress.database.dao.UserDao;
+import pollerexpress.database.exceptions.*;
 
 public class Database implements IDatabase
 {
-    public static final String DEFAULT_DATABASE = "build/db.sqlite3";
+    public static final String DEFAULT_DATABASE = "db.sqlite3";
     public static final String DROP_AUTH_TOKEN = "drop table if exists AUTH_TOKENS";
     public static final String DROP_USERS = "drop table if exists USERS";
     public static final String USER_TABLE = "USERS";
@@ -90,6 +91,11 @@ public class Database implements IDatabase
      * @pre not open
      * @post now connected to the database.
      * @throws DatabaseException
+     *
+     *
+     *
+     *
+     *
      */
 
     public void open() throws DatabaseException {

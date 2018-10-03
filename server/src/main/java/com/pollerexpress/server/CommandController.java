@@ -2,6 +2,7 @@ package com.pollerexpress.server;
 
 
 import com.pollerexpress.models.Command;
+import com.pollerexpress.models.PollResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

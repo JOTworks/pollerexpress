@@ -1,5 +1,7 @@
 package com.pollerexpress.models;
 
+import java.util.UUID;
+
 public class Authtoken
 {
     private String userName;
@@ -10,6 +12,11 @@ public class Authtoken
         this.token = token;
     }
 
+    public Authtoken(User u)
+    {
+        this.userName = u.name;
+        this.token = UUID.randomUUID().toString();
+    }
     public String getUserName() {
         return userName;
     }
