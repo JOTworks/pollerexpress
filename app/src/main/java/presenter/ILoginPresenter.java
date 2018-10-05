@@ -1,32 +1,46 @@
 package presenter;
 
 /**
- * This class is responsible for defining the
- * methods that the loginViews can call on the
+ * (DONE!) This class is responsible for defining the
+ * methods that the login view can call on the
  * loginPresenter
  */
 public interface ILoginPresenter {
 
     /**
-     * Attempts to log a user in
+     * Attempts to log a user in. If successful,
+     * calls a method on the login view to switch views.
+     * Otherwise, calls a method on the view to
+     * display a message to the user.
+     * @param username
+     * @param password
      */
-    public void logIn();
+    public void logIn(String username, String password);
 
 
     /**
-     * Attempts to register a user
+     * Attempts to register a user. If successful,
+     * calls a method on the login view to switch views.
+     * Otherwise, calls a method on the view to
+     * display a message to the user.
+     * @param username
+     * @param password
      */
-    public void register();
+    public void register(String username, String password);
 
     /**
-     * Checks whether the username and password
-     * meet the requirements for enabling the
-     * login button
+     * If the parameters meet the requirements
+     * for enabling login, this method enables
+     * login. Otherwise, it does nothing.
+     * @param username
+     * @param password
      */
     public void updateLogin(String username, String password);
 
     /**
-     *
+     * If the parameters meet the requirements
+     * for enabling register, this method
+     * enables register. Otherwise, it does nothing.
      * @param username
      * @param password
      * @param confirm
