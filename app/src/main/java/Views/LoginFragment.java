@@ -3,6 +3,8 @@ package Views;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -59,7 +61,9 @@ public class LoginFragment extends Fragment implements ILoginView {
         mlogin_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginPresenter.logIn(); }
+                //TODO: give control back to the presenter
+                changeToSetupGameView(); }
+                //loginPresenter.logIn(); }
         });
 
         Button mregister_button = (Button) register_button;
@@ -128,8 +132,15 @@ public class LoginFragment extends Fragment implements ILoginView {
     }
 
     @Override
-    public void changeToGameSelectionView() {
-        // TODO: 10/1/2018 figure how to change fravements
+    public void changeToSetupGameView() {
+        FragmentManager fragmentManager = getFragmentManager();
+        //Fragment createGameFragment = fragmentManager.findFragmentById(R.id.fragment_create_game);
+        Fragment fragment = new SetupGameFragment();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
+        fragmentManager.popBackStack();
     }
 
     @Override

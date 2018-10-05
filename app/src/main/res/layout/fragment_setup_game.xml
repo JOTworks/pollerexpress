@@ -17,9 +17,8 @@
         android:layout_weight="1"
         app:srcCompat="@drawable/polarexpress" />
 
-    <fragment
-        android:id="@+id/rightSideFragment"
-        android:name="Views.GameSelectionFragment"
+    <FrameLayout
+        android:id="@+id/right_side_fragment_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1" />

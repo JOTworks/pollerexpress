@@ -2,9 +2,12 @@ package Views;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.pollerexpress.models.GameInfo;
 
@@ -17,6 +20,8 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
 
     IGameSelectionPresenter gameSelectionPresenter;
 
+    Button createGameButton;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +33,25 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_game_selection, container, false);
+
+
+        createGameButton = (Button) v.findViewById(R.id.create_game_button);
+
+        Button mCreateGameButton = (Button) createGameButton;
+        mCreateGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: pull this to a method and give control to the presenter
+                FragmentManager fragmentManager = getFragmentManager();
+                //Fragment createGameFragment = fragmentManager.findFragmentById(R.id.fragment_create_game);
+                Fragment createGameFragment = new CreateGameFragment();
+
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.right_side_fragment_container, createGameFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
 
         return v;
     }
