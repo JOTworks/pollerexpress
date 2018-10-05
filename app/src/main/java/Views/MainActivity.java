@@ -19,15 +19,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //TODO: make all fragment managers fm for consistency
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 
-        if (fragment == null) {
-            fragment = new LoginFragment();
-            fm.beginTransaction()
-                    .add(R.id.fragment_container, fragment)
-                    .commit();
-        }
+        Fragment fragment = new LoginFragment();
+        //fragment = new SetupGameFragment();
+        fm.beginTransaction()
+                .add(R.id.fragment_container, fragment)
+                .commit();
     }
 
 

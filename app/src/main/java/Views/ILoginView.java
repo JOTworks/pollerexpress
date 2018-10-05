@@ -7,6 +7,6 @@ public interface ILoginView {
     public void disableRegister();
     public void enableRegister();
 
-    public void changeToGameSelectionView();
+    public void changeToSetupGameView();
     public void displayError(String errorMessage);
 }
