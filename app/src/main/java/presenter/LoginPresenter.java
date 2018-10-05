@@ -1,22 +1,34 @@
 package presenter;
 
 import Views.ILoginView;
+import cs340.pollerexpress.SetupFacade;
 
 public class LoginPresenter implements ILoginPresenter {
 
-    private ILoginView view;
+    private ILoginView loginView;
 
-    public LoginPresenter(ILoginView view){
-        this.view = view;
+    public LoginPresenter(ILoginView loginView){
+        this.loginView = loginView;
+    }
+
+
+    @Override
+    public void logIn(String username, String password) {
+
+        if(username.length() > 0 ) {
+            try {
+                SetupFacade facade = new SetupFacade();
+                facade.login(username, password);
+            }
+            catch(Exception e) {
+                loginView.displayMessage(e.getMessage());
+            }
+        }
+
     }
 
     @Override
-    public void logIn() {
-
-    }
-
-    @Override
-    public void register() {
+    public void register(String username, String password) {
 
     }
 
