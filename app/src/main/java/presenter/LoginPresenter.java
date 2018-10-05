@@ -10,7 +10,7 @@ import cs340.pollerexpress.SetupFacade;
  * now going to be done in this presenter class.
  * That includes:
  * enabling/disabling buttons,
- *
+ * sending login/register requests
  */
 public class LoginPresenter implements ILoginPresenter {
 
