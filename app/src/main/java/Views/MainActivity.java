@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 
         if (fragment == null) {
-            fragment = new LoginFragment();
+            //fragment = new LoginFragment();
+            fragment = new SetupGameFragment();
             fm.beginTransaction()
                     .add(R.id.fragment_container, fragment)
                     .commit();
