@@ -1,5 +1,6 @@
 package cs340.pollerexpress;
 
+import com.pollerexpress.models.Command;
 import com.pollerexpress.models.ErrorResponse;
 import com.pollerexpress.models.LoginRequest;
 import com.pollerexpress.models.LoginResponse;
@@ -20,7 +21,7 @@ public class SetupFacade {
      * @param password
      * @return res.getError it will return null on succesful login
      */
-    ErrorResponse login(String userName, String password){
+    public ErrorResponse login(String userName, String password){
         return loginOrRegister("login",userName,password);
     }
 
@@ -30,7 +31,7 @@ public class SetupFacade {
      * @param password
      * @return res.getError, it will return null on succesful login
      */
-    ErrorResponse register(String userName, String password){
+    public ErrorResponse register(String userName, String password){
         return loginOrRegister("register",userName,password);
     }
 
@@ -62,13 +63,40 @@ public class SetupFacade {
     }
 
 
-    ErrorResponse createGame(String name, int numPLayers, Color.PLAYER userColor) {
+    /*------------------------------------------------------------------------------------------------------------------------*/
+    /*----------------These are all the methods that creat commands and send them to the ClientComunicator--------------------*/
+    /*------------------------------------------------------------------------------------------------------------------------*/
+    /**
+     *
+     * @param name
+     * @param numPLayers
+     * @param userColor
+     * @return res.getError, it will be null on succesful Login
+     */
+    public ErrorResponse createGame(String name, int numPLayers, Color.PLAYER userColor) {
+        ClientCommunicator CC = ClientCommunicator.instance();
+        //Command command = new Command("LoginService","createGame");
+
+
         return null;
     }
 
-    ErrorResponse joinGame(String gameId){
+    /**
+     *
+     * @param gameId
+     * @return res.getError, it will be null on succesful register
+     */
+    public ErrorResponse joinGame(String gameId){
         return null;
     }
 
+    /**
+     *
+     * @param gameId
+     * @return res.getError, it will be null on succesful join
+     */
+    public ErrorResponse startGame(){
+        return null;
+    }
 
 }

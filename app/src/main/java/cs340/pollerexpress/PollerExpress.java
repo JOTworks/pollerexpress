@@ -7,7 +7,8 @@ import com.pollerexpress.models.PollResponse;
 
 import java.util.Queue;
 
-public class PollerExpress {
+public class
+PollerExpress {
 	private static int DELAY = 2000;
 
 	public PollerExpress() {
