@@ -11,6 +11,12 @@ public class Game
     {
         _info = info;
     }
+
+    public Game(GameInfo info, Player[] players)
+    {
+        _info = info;
+        _players = players;
+    }
     /*
      -----------------------------------------------------------------------
                                   Getters & Setters

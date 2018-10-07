@@ -1,5 +1,14 @@
 package com.pollerexpress.server;
 
-public class RealDatabaseFactory
+import com.pollerexpress.models.IDatabaseFacade;
+
+import pollerexpress.database.DatabaseFacade;
+
+public class RealDatabaseFactory implements IDatabaseFactory
 {
+    @Override
+    public IDatabaseFacade createDatabaseFacade()
+    {
+        return new DatabaseFacade();
+    }
 }

@@ -4,6 +4,7 @@ import com.pollerexpress.models.LoginRequest;
 import com.pollerexpress.models.LoginResponse;
 import com.pollerexpress.models.User;
 
+import pollerexpress.database.Database;
 import pollerexpress.database.DatabaseFacade;
 
 public class LoginService

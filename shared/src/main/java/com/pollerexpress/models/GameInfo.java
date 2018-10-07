@@ -1,5 +1,7 @@
 package com.pollerexpress.models;
 
+import java.util.Objects;
+
 public class GameInfo
 {
     private String _id;
@@ -95,5 +97,31 @@ public class GameInfo
         return _maxPlayers;
     }
 
+    /*
 
+        Default Java Functionality.
+
+
+     */
+    @Override
+    public String toString()
+    {
+        return String.format("Game{'%s','%s' - %s/%s}",_name,_id,_numPlayers,_maxPlayers);
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GameInfo gameInfo = (GameInfo) o;
+        return Objects.equals(_id, gameInfo._id);
+    }
+
+    @Override
+    public int hashCode()
+    {
+
+        return Objects.hash(_id);
+    }
 }
