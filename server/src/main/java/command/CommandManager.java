@@ -1,25 +1,24 @@
 package command;
 
 import com.pollerexpress.models.Command;
-
 import java.util.*;
 
 public class CommandManager {
 	private static CommandManager _instance;
-	private HashMap<Integer, Queue<Command>> userCommands;
+	private HashMap<String, Queue<Command>> userCommands;
 	
 	private CommandManager() {
-		userCommands = new HashMap<Integer, Queue<Command>>();
+		userCommands = new HashMap<String, Queue<Command>>();
 	}
 	
-	public CommandManager _instance() {
+	public static CommandManager _instance() {
 		if(_instance == null) {
 			_instance = new CommandManager();
 		}
 		return _instance;
 	}
 	
-	public Queue<Command> getUserCommands(int id) {
+	public Queue<Command> getUserCommands(String username) {
 		//
 		return null;
 	}
@@ -28,11 +27,11 @@ public class CommandManager {
 		//
 	}
 	
-	protected void addCommandToUser(Command c, int id) {
+	protected void addCommandToUser(Command c, String username) {
 		//
 	}
 
-	private void addUser(int id) {
+	private void addUser(String username) {
 		//
 	}
 }

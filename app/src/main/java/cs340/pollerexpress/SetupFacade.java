@@ -20,7 +20,7 @@ public class SetupFacade {
      * @param password
      * @return res.getError it will return null on succesful login
      */
-    ErrorResponse login(String userName, String password){
+    public ErrorResponse login(String userName, String password){
         return loginOrRegister("login",userName,password);
     }
 
@@ -30,7 +30,7 @@ public class SetupFacade {
      * @param password
      * @return res.getError, it will return null on succesful login
      */
-    ErrorResponse register(String userName, String password){
+    public ErrorResponse register(String userName, String password){
         return loginOrRegister("register",userName,password);
     }
 

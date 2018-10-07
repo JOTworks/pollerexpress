@@ -1,40 +1,45 @@
 package cs340.pollerexpress;
 
-import android.os.Handler;
-
 import com.pollerexpress.models.Command;
 import com.pollerexpress.models.PollResponse;
-
 import java.util.Queue;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PollerExpress {
 	private static int DELAY = 2000;
+	Timer timer;
 
 	public PollerExpress() {
-		final Handler handler = new Handler();
-		int delay = 1000; //milliseconds
-		final PollerExpress polar = this;
-
-		handler.postDelayed(new Runnable(){
-			public void run(){
-				polar.Poll();
-				handler.postDelayed(this, DELAY);
-			}
-		}, delay);
+		timer = new Timer();
+		timer.schedule(new PollTask(), 0, DELAY);
 	}
-	
-	public void Poll(){
-		ClientCommunicator client = ClientCommunicator.instance();
-		PollResponse response = client.sendPoll();
 
-		if(response.getError() != null) {
-			//error handling, throw an error if necessary? Wait, where would that GO???
+	class PollTask extends TimerTask {
+		ClientCommunicator client;
+
+		public PollTask() {
+			super();
+			client = ClientCommunicator.instance();
 		}
 
-		Queue<Command> commands = response.getCommands();
-		for(int i = 0; i < commands.size(); i++) {
-			Command command = commands.poll();
-			command.execute();
+		@Override
+		public void run() {
+			System.out.println("Beep!");
+
+			PollResponse response = client.sendPoll();
+
+			if(response == null) {
+				//client communicator didn't work, throw error or something? Idk how to do that though.
+			} else if(response.getError() != null) {
+				//error handling, throw an error if necessary? Wait, where would that GO???
+			} else {
+				Queue<Command> commands = response.getCommands();
+				for (int i = 0; i < commands.size(); i++) {
+					Command command = commands.poll();
+					command.execute();
+				}
+			}
 		}
 	}
 }
