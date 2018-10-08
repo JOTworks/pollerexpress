@@ -7,6 +7,11 @@ import com.pollerexpress.models.User;
 
 import java.util.List;
 
+/** This is a mastermodel. It is being observed by the
+ presenters so that if there are any changes,
+ they are reflected in the view.
+ It contains a lot of different kinds of information.
+ */
 public class ClientData {
     private static final ClientData ourInstance = new ClientData();
 

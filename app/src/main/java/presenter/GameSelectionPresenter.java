@@ -46,14 +46,14 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
         GameInfo gameInfo = gameInfoList[gameIndex];
         facade.joinGame(user, gameInfo);
 
+        /* If facade.joinGame causes update to get called,
+        * then this is next check is redundant. */
         if( gameInfo.getNumPlayers() == gameInfo.getMaxPlayers() ) {
 
             view.disableGame(gameIndex);
         }
 
-
         view.changeLobbyView();
-
     }
 
     @Override
@@ -66,6 +66,22 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
     @Override
     public void update(Observable o, Object arg) {
 
-        // call some view methods to update.
+        // get the list of existing games
+        GameInfo[] gameInfoList = clientData.getGameInfoList();
+
+        // determine which games the user can join
+        for(int i = 0; i < gameInfoList.length; i++) {
+
+            GameInfo gameInfo = gameInfoList[i];
+            if (gameInfo.getNumPlayers() < gameInfo.getMaxPlayers()) {
+                view.enableGame(i);
+            }
+            else {
+                view.disableGame(i);
+            }
+        }
+
+        // refresh the list of games in the view
+        view.renderGames(gameInfoList);
     }
 }
