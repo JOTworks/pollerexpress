@@ -34,8 +34,10 @@ public class LoginPresenter implements ILoginPresenter {
         {
             loginView.displayError(response.getMessage());
         }
+        else {
 
-        loginView.changeToSetupGameView();
+            loginView.changeToSetupGameView();
+        }
     }
 
     /**
@@ -49,8 +51,10 @@ public class LoginPresenter implements ILoginPresenter {
         {
             loginView.displayError(response.getMessage());
         }
+        else {
 
-        loginView.changeToSetupGameView();
+            loginView.changeToSetupGameView();
+        }
     }
 
     @Override
