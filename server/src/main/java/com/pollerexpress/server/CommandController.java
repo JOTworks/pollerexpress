@@ -38,6 +38,7 @@ public class CommandController {
         catch(CommandFailed failed)
         {
             //TODO send error msg somehow.
+            //if the command execute fails, still send the poll response.
         }
         return new ResponseEntity<PollResponse>((PollResponse)commands, HttpStatus.OK);
     }
