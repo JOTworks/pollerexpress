@@ -10,7 +10,7 @@ import com.pollerexpress.models.Player;
 
 
 
-public class GameListService
+public class SetupService
 {
     public Command joinGame(Player player, GameInfo info) throws CommandFailed
     {
