@@ -1,6 +1,7 @@
 package cs340.pollerexpress;
 
 import com.pollerexpress.models.Command;
+import com.pollerexpress.models.CommandFailed;
 import com.pollerexpress.models.PollResponse;
 import java.util.Queue;
 import java.util.Timer;
@@ -50,7 +51,8 @@ public class PollerExpress {
 				Queue<Command> commands = response.getCommands();
 				for (int i = 0; i < commands.size(); i++) {
 					Command command = commands.poll();
-					command.execute();
+					//TODO: Morgan, can you resolve this? An exception wasn't being handled. Thanks!
+					try {command.execute();} catch (CommandFailed e) {System.out.println("temporary line to fix error");}
 				}
 			}
 		}
