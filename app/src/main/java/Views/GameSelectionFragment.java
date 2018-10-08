@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.Button;
 
 import com.pollerexpress.models.GameInfo;
 
+import Views.recycleViewAdapters.GameSelectAdapter;
 import cs340.pollerexpress.R;
 import presenter.GameSelectionPresenter;
 import presenter.IGameSelectionPresenter;
@@ -18,9 +21,14 @@ import presenter.LoginPresenter;
 
 public class GameSelectionFragment extends Fragment implements IGameSelectionView {
 
-    IGameSelectionPresenter gameSelectionPresenter;
+    private IGameSelectionPresenter gameSelectionPresenter;
 
-    Button createGameButton;
+    private RecyclerView mGameRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+    private Button createGameButton;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,7 +43,21 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
         View v = inflater.inflate(R.layout.fragment_game_selection, container, false);
 
 
+        mGameRecyclerView = (RecyclerView) v.findViewById(R.id.game_selection_recycler_view);
 
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mGameRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mGameRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
+        mAdapter = new GameSelectAdapter(new GameInfo[] {
+                new GameInfo("id", "game1", 5, 2),
+                new GameInfo("id", "game2", 4, 1)}); //TODO: remove hardcoding
+        mGameRecyclerView.setAdapter(mAdapter);
 
 
         //---------------------Create Game Button---------------------------------------------------
