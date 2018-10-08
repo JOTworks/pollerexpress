@@ -26,4 +26,12 @@ public class Command implements ICommand {
         }
         return null;
     }
+
+    public String getClassName() { return _className; }
+
+    public String getMethodName() { return _methodName; }
+
+    public Class<?>[] getParamTypes() { return _paramTypes; }
+
+    public Object[] getParamValues() { return _paramValues; }
 }
