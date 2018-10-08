@@ -1,6 +1,7 @@
 package com.pollerexpress.models;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class GameInfo
 {
@@ -9,6 +10,14 @@ public class GameInfo
     private int _numPlayers;
     private int _maxPlayers;
 
+    public GameInfo(String name, int maxPlayers)
+    {
+        _id = UUID.randomUUID().toString();
+        _name = name;
+        _numPlayers = 0;
+        _maxPlayers = maxPlayers;
+    }
+    
     public GameInfo(String id, String name, int maxPlayers)
     {
         _id = id;
