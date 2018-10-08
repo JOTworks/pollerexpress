@@ -136,4 +136,12 @@ public class DatabaseFacade implements IDatabaseFacade
         }
     }
 
+    @Override
+    public boolean validate(Authtoken token) throws DatabaseException
+    {
+        db.open();
+        boolean valid = db.getAuthtokenDao().validate(token);
+        db.close(false);
+        return valid;
+    }
 }
