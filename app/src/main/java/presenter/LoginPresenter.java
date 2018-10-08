@@ -6,10 +6,10 @@ import Views.ILoginView;
 import cs340.pollerexpress.SetupFacade;
 
 /**
- * Logic that was, in 240, being done in the user interface is
+ * (DONE!) Logic that was, in 240, being done in the user interface is
  * now going to be done in this presenter class.
- * That includes:
- * enabling/disabling buttons,
+ * That logic includes:
+ * enabling/disabling buttons and
  * sending login/register requests
  */
 public class LoginPresenter implements ILoginPresenter {
