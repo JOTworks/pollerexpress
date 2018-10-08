@@ -1,6 +1,7 @@
 package com.pollerexpress.server;
 
 
+import com.pollerexpress.models.Authtoken;
 import com.pollerexpress.models.Command;
 import com.pollerexpress.models.CommandFailed;
 import com.pollerexpress.models.PollResponse;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Queue;
 
 import command.CommandManager;
+import pollerexpress.database.dao.AuthtokenDao;
 
 @RestController
 public class CommandController {
@@ -25,8 +27,10 @@ public class CommandController {
     public @ResponseBody
     ResponseEntity<PollResponse> execute(
             @RequestHeader("AUTH_TOKEN") String token,
+            @RequestHeader("USERNAME") String username,
             @RequestBody Command command) {
         // Best practice would be to return a fail HttpStatus if I got an error.
+        validateAuth(username, token);
 
         Queue<Command> commands = null;
         try
@@ -42,6 +46,34 @@ public class CommandController {
         return new ResponseEntity<PollResponse>((PollResponse)commands, HttpStatus.OK);
     }
 
-    //TODO: add poll endpoint
 
+
+    @PostMapping("/poll")
+    public @ResponseBody
+    ResponseEntity<PollResponse> poll(
+                    @RequestHeader("AUTH_TOKEN") String token,
+                    @RequestBody Command command) {
+
+        return ResponseEntity.ok(new PollResponse()); //TODO: implement the poll endpoint
+    }
+
+    /**
+     * Creates a new Player object
+     * @param username a username to validate
+     * @param token a token to validate
+     *
+     * @pre username is not null
+     * @pre token is not null
+     * @post throws an exception if there are any problems with the database or if the token is not valid
+     */
+    private void validateAuth(String username, String token) throws Exception {
+        Authtoken auth = new Authtoken(username, token);
+
+        Boolean isValidAuth = Factory.createDatabaseFacade().validate(auth);
+
+        if (!isValidAuth)
+            throw new SecurityException("Access denied: user " + username + " with token " + token +
+                                        "not a valid combination");
+        return;
+    }
 }

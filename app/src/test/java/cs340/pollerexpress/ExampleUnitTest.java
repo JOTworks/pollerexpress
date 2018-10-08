@@ -11,7 +11,9 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+    public void clientCommunicatorTest_works() {
+        Test_ClientCommunicator_Jack cc = Test_ClientCommunicator_Jack.instance();
+        String response = cc.sendTest();
+        assertEquals("Hello spaceman!", response);
     }
 }
