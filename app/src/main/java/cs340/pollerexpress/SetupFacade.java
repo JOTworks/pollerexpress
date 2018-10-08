@@ -1,9 +1,12 @@
 package cs340.pollerexpress;
 
 import com.pollerexpress.models.Command;
+import com.pollerexpress.models.CommandFailed;
 import com.pollerexpress.models.ErrorResponse;
+import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.models.LoginRequest;
 import com.pollerexpress.models.LoginResponse;
+import com.pollerexpress.models.Player;
 import com.pollerexpress.models.PollResponse;
 import com.pollerexpress.models.Color;
 import com.pollerexpress.models.User;
@@ -79,10 +82,11 @@ public class SetupFacade {
      */
     public ErrorResponse createGame(String name, int numPlayers, Color.PLAYER userColor) {
 
+        GameInfo info = new GameInfo(null,name,numPlayers,1);
         ClientCommunicator CC = ClientCommunicator.instance();
-        Class<?>[] types = {String.class, Integer.class, Color.PLAYER.class};
-        String[] params= {name, Integer.toString(numPlayers), userColor.toString()};
-        Command joinGameCommand = new Command("ServerSetupService","joinGame",types,params);
+        Class<?>[] types = {Player.class, GameInfo.class};
+        Object[] params= {ClientData.getInstance().getUser(), };
+        Command joinGameCommand = new Command("SetupService","joinGame",types,params);
 
         PollResponse response = CC.sendCommand(joinGameCommand);
 
@@ -94,7 +98,12 @@ public class SetupFacade {
             Queue<Command> commands = response.getCommands();
             for (int i = 0; i < commands.size(); i++) {
                 Command command = commands.poll();
-                command.execute();
+                try {
+                    command.execute();
+                } catch (CommandFailed commandFailed) {
+                    commandFailed.printStackTrace();
+                }
+
             }
         }
 
@@ -103,14 +112,14 @@ public class SetupFacade {
 
     /**
      *
-     * @param gameName
+     * @param player, info
      * @return res.getError, it will be null on succesful register
      */
-    public ErrorResponse joinGame(String gameName){
+    public ErrorResponse joinGame(Player player, GameInfo info){
         ClientCommunicator CC = ClientCommunicator.instance();
-        Class<?>[] types = {String.class};
-        String[] params= {gameName};
-        Command joinGameCommand = new Command("ServerSetupService","joinGame",null,null);
+        Class<?>[] types = {Player.class, GameInfo.class};
+        Object[] params= {player, info};
+        Command joinGameCommand = new Command("SetupService","joinGame",null,null);
 
         PollResponse response = CC.sendCommand(joinGameCommand);
 
@@ -122,7 +131,11 @@ public class SetupFacade {
             Queue<Command> commands = response.getCommands();
             for (int i = 0; i < commands.size(); i++) {
                 Command command = commands.poll();
-                command.execute();
+                try {
+                    command.execute();
+                } catch (CommandFailed commandFailed) {
+                    commandFailed.printStackTrace();
+                }
             }
         }
 
@@ -138,8 +151,8 @@ public class SetupFacade {
 
         ClientCommunicator CC = ClientCommunicator.instance();
         Class<?>[] types = {String.class};
-        String[] params= {gameName};
-        Command joinGameCommand = new Command("ServerSetupService","StartGame",null,null);
+        Object[] params= {gameName};
+        Command joinGameCommand = new Command("SetupService","StartGame",types,params);
 
         PollResponse response = CC.sendCommand(joinGameCommand);
 
@@ -151,7 +164,11 @@ public class SetupFacade {
             Queue<Command> commands = response.getCommands();
             for (int i = 0; i < commands.size(); i++) {
                 Command command = commands.poll();
-                command.execute();
+                try {
+                    command.execute();
+                } catch (CommandFailed commandFailed) {
+                    commandFailed.printStackTrace();
+                }
             }
         }
 

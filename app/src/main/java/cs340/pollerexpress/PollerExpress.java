@@ -1,6 +1,7 @@
 package cs340.pollerexpress;
 
 import com.pollerexpress.models.Command;
+import com.pollerexpress.models.CommandFailed;
 import com.pollerexpress.models.PollResponse;
 import java.util.Queue;
 
@@ -52,7 +53,11 @@ public class PollerExpress {
 				Queue<Command> commands = response.getCommands();
 				for (int i = 0; i < commands.size(); i++) {
 					Command command = commands.poll();
-					command.execute();
+					try {
+						command.execute();
+					} catch (CommandFailed commandFailed) {
+						commandFailed.printStackTrace();
+					}
 				}
 			}
 		}
