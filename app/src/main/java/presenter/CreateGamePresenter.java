@@ -10,7 +10,7 @@ import java.util.Observer;
 import Views.ICreateGameView;
 import cs340.pollerexpress.SetupFacade;
 
-public class CreateGamePresenter implements ICreateGamePresenter, Observer {
+public class CreateGamePresenter implements ICreateGamePresenter {
 
     private ICreateGameView view;
     private SetupFacade facade;
@@ -22,11 +22,6 @@ public class CreateGamePresenter implements ICreateGamePresenter, Observer {
 
         this.view = view;
         facade = new SetupFacade();
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-
     }
 
     @Override

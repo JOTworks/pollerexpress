@@ -1,8 +1,13 @@
 package presenter;
 
+import android.os.AsyncTask;
+
 import com.pollerexpress.models.ErrorResponse;
+import com.pollerexpress.models.LoginRequest;
 
 import Views.ILoginView;
+import Views.LoginFragment;
+import cs340.pollerexpress.ClientCommunicator;
 import cs340.pollerexpress.SetupFacade;
 
 /**
@@ -73,4 +78,5 @@ public class LoginPresenter implements ILoginPresenter {
         }
 
     }
+
 }
