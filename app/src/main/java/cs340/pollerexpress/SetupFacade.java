@@ -20,7 +20,7 @@ public class SetupFacade {
      * @param password
      * @return res.getError it will return null on succesful login
      */
-    ErrorResponse login(String userName, String password){
+    public ErrorResponse login(String userName, String password){
         return loginOrRegister("login",userName,password);
     }
 
@@ -30,7 +30,7 @@ public class SetupFacade {
      * @param password
      * @return res.getError, it will return null on succesful login
      */
-    ErrorResponse register(String userName, String password){
+    public ErrorResponse register(String userName, String password){
         return loginOrRegister("register",userName,password);
     }
 
@@ -42,7 +42,7 @@ public class SetupFacade {
      * @param password
      * @return res.getError, it will return null on succesful login
      */
-    private ErrorResponse loginOrRegister(String requestType, String userName, String password){
+    public  ErrorResponse loginOrRegister(String requestType, String userName, String password){
         LoginRequest loginReq = new LoginRequest(userName,password);
         ClientCommunicator CC = ClientCommunicator.instance();
 
@@ -62,11 +62,11 @@ public class SetupFacade {
     }
 
 
-    ErrorResponse createGame(String name, int numPLayers, Color.PLAYER userColor) {
+    public ErrorResponse createGame(String name, int numPLayers, Color.PLAYER userColor) {
         return null;
     }
 
-    ErrorResponse joinGame(String gameId){
+    public ErrorResponse joinGame(String gameId){
         return null;
     }
 

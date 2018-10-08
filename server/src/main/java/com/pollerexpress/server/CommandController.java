@@ -27,4 +27,6 @@ public class CommandController {
         return new ResponseEntity<PollResponse>((PollResponse)command.execute(), HttpStatus.OK);
     }
 
+    //TODO: add poll endpoint
+
 }
