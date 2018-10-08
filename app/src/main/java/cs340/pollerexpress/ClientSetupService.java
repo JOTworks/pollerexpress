@@ -3,6 +3,7 @@ package cs340.pollerexpress;
 import com.pollerexpress.models.Game;
 import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.models.ISetupService;
+import com.pollerexpress.models.Player;
 
 import java.util.ArrayList;
 
@@ -18,7 +19,7 @@ class ClientSetupService implements ISetupService {
         CD = ClientData.getInstance();
     }
 
-    public boolean addGame(GameInfo gameInfo){
+    public boolean creatGame(GameInfo gameInfo){
         ArrayList<GameInfo> infoList = CD.getGameInfoList();
         infoList.add(gameInfo);
         return true;
@@ -29,7 +30,20 @@ class ClientSetupService implements ISetupService {
         return true;
     }
     public boolean joinGame(Game game){
-        ClientData.getInstance().setGame(game);
-        return true;
+        ArrayList<GameInfo> infoList = CD.getGameInfoList();
+
+        for(int i = 0; i<infoList.size(); i++){
+            if(infoList.get(i).getId()==game.getId()) {
+                ClientData.getInstance().getGameInfoList().get(i).addPlayer();
+                ClientData.getInstance().setGame(game);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean joinGame(Player player, GameInfo info){
+         //for when its not you joining
+        return false;
     }
 }
