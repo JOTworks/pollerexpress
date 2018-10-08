@@ -62,7 +62,11 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
         return clientData.getGameInfoList();
     }
 
-
+    /**
+     *
+     * @param o
+     * @param arg
+     */
     @Override
     public void update(Observable o, Object arg) {
 
