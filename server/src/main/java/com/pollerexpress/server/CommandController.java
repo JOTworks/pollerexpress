@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Queue;
 
+import command.CommandManager;
+
 @RestController
 public class CommandController {
 
@@ -27,10 +29,11 @@ public class CommandController {
         {
             Command cmd = command.execute();
             //
+            CommandManager._instance();
         }
         catch(CommandFailed failed)
         {
-            //TODO send error msg
+            //TODO send error msg somehow.
         }
         return new ResponseEntity<PollResponse>((PollResponse)commands, HttpStatus.OK);
     }
