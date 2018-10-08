@@ -47,7 +47,7 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
         facade.joinGame(user, gameInfo);
 
         /* If facade.joinGame causes update to get called,
-        * then this is next check is redundant. */
+        * then this is check is redundant. */
         if( gameInfo.getNumPlayers() == gameInfo.getMaxPlayers() ) {
 
             view.disableGame(gameIndex);
