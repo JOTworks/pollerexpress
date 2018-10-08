@@ -13,10 +13,33 @@ public class CreateGamePresenter implements ICreateGamePresenter {
     @Override
     public void setNumOfPlayers(String numOfPlayers) {
 
+    public void createGame() {
     }
 
     @Override
     public void setUserColor(String numOfPlayers) {
+
+    public void okButtonClicked() {
+
+    }
+
+    @Override
+    public void cancelButtonClicked() {
+
+    }
+
+    @Override
+    public void playerNumSelected() {
+
+    }
+
+    @Override
+    public void nameUpdate() {
+
+    }
+
+    @Override
+    public void colorPicked() {
 
     }
 }

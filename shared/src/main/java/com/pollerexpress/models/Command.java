@@ -8,45 +8,34 @@ public class Command implements ICommand {
     private Class<?>[] _paramTypes;
     private Object[] _paramValues;
 
-    public Command() {
-    }
 
-    public Command(String className, String methodName, Class<?>[] paramTypes, Object[] paramValues) {
+    /**
+     *
+     * @param className
+     * @param methodName
+     * @param paramTypes
+     * @param paramValues
+     */
+    public Command(String className, String methodName, Class<?>[] paramTypes, Object[] paramValues)
+    {
 		_className = className;
 		_methodName = methodName;
 		_paramTypes = paramTypes;
 		_paramValues = paramValues;
 	}
     
-    public Object execute() {
-        if (_className == null)
-            return null;
 
+    public Command execute() throws CommandFailed
+    {
         try {
             Class<?> receiver = Class.forName(_className);
             Method method = receiver.getMethod(_methodName, _paramTypes);
-            method.invoke(null, _paramValues);
+           return (Command)method.invoke(null, _paramValues);
         }
         catch (Exception e) {
             e.printStackTrace();
+            throw new CommandFailed(_methodName);
         }
-        return null;
-    }
-
-    public String get_className() {
-        return _className;
-    }
-
-    public String get_methodName() {
-        return _methodName;
-    }
-
-    public Class<?>[] get_paramTypes() {
-        return _paramTypes;
-    }
-
-    public Object[] get_paramValues() {
-        return _paramValues;
     }
 
     public void set_className(String _className) {
@@ -64,4 +53,12 @@ public class Command implements ICommand {
     public void set_paramValues(Object[] _paramValues) {
         this._paramValues = _paramValues;
     }
+
+    public String getClassName() { return _className; }
+
+    public String getMethodName() { return _methodName; }
+
+    public Class<?>[] getParamTypes() { return _paramTypes; }
+
+    public Object[] getParamValues() { return _paramValues; }
 }
