@@ -70,7 +70,6 @@ public class LoginFragment extends Fragment implements ILoginView {
         Button mregister_button = (Button) register_button;
         mregister_button.setOnClickListener(new View.OnClickListener() {
             @Override
-
             public void onClick(View v) { loginPresenter.register(userNameText.getText().toString(),
                                           passwordText.getText().toString());
             }
@@ -148,6 +147,6 @@ public class LoginFragment extends Fragment implements ILoginView {
 
     @Override
     public void displayError(String errorMessage) {
-
+        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
     }
 }

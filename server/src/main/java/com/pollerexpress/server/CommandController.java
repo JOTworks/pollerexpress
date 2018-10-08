@@ -30,7 +30,7 @@ public class CommandController {
             @RequestHeader("USERNAME") String username,
             @RequestBody Command command) {
         // Best practice would be to return a fail HttpStatus if I got an error.
-        validateAuth(username, token);
+        try {validateAuth(username, token);} catch (Exception e) {}//TODO: make sure you are returning the right thing if you get a bad response
 
         Queue<Command> commands = null;
         try
