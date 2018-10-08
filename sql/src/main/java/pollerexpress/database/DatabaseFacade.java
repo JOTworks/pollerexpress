@@ -9,6 +9,7 @@ import com.pollerexpress.models.LoginResponse;
 import com.pollerexpress.models.Player;
 import com.pollerexpress.models.User;
 
+import java.util.ArrayList;
 import com.pollerexpress.database.exceptions.DataNotFoundException;
 import com.pollerexpress.database.exceptions.DatabaseException;
 public class DatabaseFacade implements IDatabaseFacade
@@ -35,7 +36,7 @@ public class DatabaseFacade implements IDatabaseFacade
             User fromDb = db.getUserDao().read(user.name);
             if (user.password.equals(fromDb.password))
             {
-                GameInfo[] info = db.getGameDao().getJoinableGames();
+                ArrayList<GameInfo> info = db.getGameDao().getJoinableGames();
                 Authtoken auth = new Authtoken(fromDb);
                 fromDb.token = auth;
 

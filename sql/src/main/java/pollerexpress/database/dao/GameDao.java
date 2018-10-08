@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.pollerexpress.database.exceptions.DataAlreadyInDatabaseException;
 import com.pollerexpress.database.exceptions.DataNotFoundException;
@@ -98,7 +99,7 @@ public class GameDao {
      * @post does not modify the database.
      * @return can return null
      */
-    public GameInfo[] getJoinableGames()
+    public ArrayList<GameInfo> getJoinableGames()
     {
         try
         {
@@ -113,8 +114,8 @@ public class GameDao {
                     games.add(new GameInfo(rs.getString("GAME_ID"), rs.getString("GAME_NAME"), rs.getInt("CURRENT_PLAYERS"), rs.getInt("MAX_PLAYERS")));
                 }
             }
-
-            return (GameInfo[])games.toArray(new GameInfo[games.size()]);
+            GameInfo[] array = (GameInfo[])games.toArray(new GameInfo[games.size()]);
+            return new ArrayList<GameInfo>(Arrays.asList(array));
         } catch (SQLException var4)
         {
             return null;//maybe return an array of size 0? though that doesn't exist.
@@ -127,7 +128,7 @@ public class GameDao {
      * @post does not modify the database.
      * @return can return null
      */
-    public GameInfo[] getGames()
+    public ArrayList<GameInfo> getGames()
     {
         try
         {
@@ -145,7 +146,8 @@ public class GameDao {
             }
             rs.close();
             stmnt.close();
-            return (GameInfo[])games.toArray(new GameInfo[games.size()]);
+            GameInfo[] array = (GameInfo[])games.toArray(new GameInfo[games.size()]);
+            return new ArrayList<GameInfo>(Arrays.asList(array));
         } catch (SQLException var4)
         {
             return null;

@@ -5,6 +5,7 @@ import com.pollerexpress.models.Game;
 import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.models.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /** This is a mastermodel. It is being observed by the
@@ -26,7 +27,7 @@ public class ClientData {
     private User user;
     private Authtoken auth;
     private Game game;
-    private GameInfo[] gameInfoList;
+    private ArrayList<GameInfo> gameInfoList;
 
     public User getUser(){
         return user;
@@ -37,7 +38,7 @@ public class ClientData {
     public Game getGame(){
         return game;
     }
-    public GameInfo[] getGameInfoList(){
+    public ArrayList<GameInfo> getGameInfoList(){
         return gameInfoList;
     }
     public void setUser(User user){
@@ -47,7 +48,7 @@ public class ClientData {
         this.auth = auth;
     }
     public void setGame(Game game) { this.game = game;}
-    public void setGameInfoList(GameInfo[] gameInfoList){
+    public void setGameInfoList(ArrayList<GameInfo> gameInfoList){
         this.gameInfoList = gameInfoList;
     }
 

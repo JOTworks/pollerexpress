@@ -1,14 +1,16 @@
 package com.pollerexpress.models;
 
+import java.util.ArrayList;
+
 public class LoginResponse {
 	Authtoken authToken;
-	GameInfo[] availableGames;
+	ArrayList<GameInfo> availableGames;
 	ErrorResponse error;
 
 	public LoginResponse() {
 	}
 
-	public LoginResponse(Authtoken authToken, GameInfo[] availableGames, ErrorResponse error) {
+	public LoginResponse(Authtoken authToken, ArrayList<GameInfo> availableGames, ErrorResponse error) {
 		this.authToken = authToken;
 		this.availableGames = availableGames;
 		this.error = error;
@@ -18,7 +20,7 @@ public class LoginResponse {
 		return authToken;
 	}
 
-	public GameInfo[] getAvailableGames() {
+	public ArrayList<GameInfo> getAvailableGames() {
 		return availableGames;
 	}
 
@@ -30,7 +32,7 @@ public class LoginResponse {
 		this.authToken = authToken;
 	}
 
-	public void setAvailableGames(GameInfo[] availableGames) {
+	public void setAvailableGames(ArrayList<GameInfo> availableGames) {
 		this.availableGames = availableGames;
 	}
 
