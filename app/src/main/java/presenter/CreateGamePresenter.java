@@ -1,58 +1,66 @@
 package presenter;
 
+import com.pollerexpress.models.Color;
+import com.pollerexpress.models.GameInfo;
+
 import java.util.Observable;
 import java.util.Observer;
 
 import Views.ICreateGameView;
+import cs340.pollerexpress.SetupFacade;
 
 public class CreateGamePresenter implements ICreateGamePresenter, Observer {
 
     private ICreateGameView view;
+    private SetupFacade facade;
+    private String gameName;
+    private int numPlayers;
+    private Color.PLAYER userColor;
 
     public CreateGamePresenter(ICreateGameView view) {
+
         this.view = view;
+        facade = new SetupFacade();
     }
 
-    @Override
-    public void setNumOfPlayers(String numOfPlayers) {}
 
-    public void createGame() {
-    }
-
-    @Override
-    public void setUserColor(String numOfPlayers) {}
-
-    public void okButtonClicked() {
-
-    }
-
-    @Override
-    public void cancelButtonClicked() {
-
-    }
-
-    @Override
-    public void playerNumSelected() {
-
-    }
-
-    @Override
-    public void nameUpdate() {
-
-    }
-
-    @Override
-    public void colorPicked() {
-
-    }
-
-    /**
-     * @param o
-     * @param arg
-     */
     @Override
     public void update(Observable o, Object arg) {
 
+    }
+
+    @Override
+    public void setNumOfPlayers(String numOfPlayers) {
+
+        numPlayers = Integer.parseInt(numOfPlayers);
+    }
+
+    @Override
+    public void setUserColor(String color) {
+
+        // convert string color to an enum
+        userColor = Color.PLAYER.valueOf(color);
+    }
+
+    @Override
+    public void setGameName(String name) {
+
+        gameName = name;
+    }
+
+    @Override
+    public void createGame() {
+
+        facade.createGame(gameName, numPlayers, userColor);
+    }
+
+    @Override
+    public void onOkClicked() {
+
+    }
+
+    @Override
+    public void onCancelClicked() {
 
     }
 }
