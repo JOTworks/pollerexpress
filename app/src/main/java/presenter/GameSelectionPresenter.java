@@ -1,79 +1,86 @@
 package presenter;
 
+import com.pollerexpress.models.GameInfo;
+import com.pollerexpress.models.User;
+
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import Views.IGameSelectionView;
+import cs340.pollerexpress.ClientData;
 import cs340.pollerexpress.SetupFacade;
 
 /**
- * (Compiling but not fully operational)
- * Responsible for implementing logic for gameselectionview . . . I think
+ * Responsible for implementing logic for game selection view
  */
-public class GameSelectionPresenter implements IGameSelectionPresenter {
+public class GameSelectionPresenter implements IGameSelectionPresenter, Observer {
 
     private IGameSelectionView view;
     private SetupFacade facade;
+    ClientData clientData = ClientData.getInstance();
 
     public GameSelectionPresenter(IGameSelectionView view) {
         this.view = view;
         facade = new SetupFacade();
     }
 
-    /**
-     * (DONE!) This method contains the logic for what happens when the
-     * user clickes "create game"
-     * @ the user should go the the createGame view
-     */
     @Override
     public void createGame() {
+
+        /*
+        * facade.createGame(...) should be called in the
+        * create game presenter since we won't have the
+        * necessary information until then.
+        * */
 
         view.changeCreateGameView();
     }
 
-    /**
-     * The method contains the logic for what happens when the user clicks "joinGame"
-     * Should this have the game id as a parameter?
-     * @pre there are less than five players in the game
-     * @post the user should go the game lobby
-     */
     @Override
-    public void joinGame() {
+    public void joinGame(int gameIndex) {
+
+        User user = clientData.getUser();
+        GameInfo[] gameInfoList = clientData.getGameInfoList().toArray(new GameInfo[0]);
+
+        GameInfo gameInfo = gameInfoList[gameIndex];
+        facade.joinGame(user, gameInfo);
+
+        /* If facade.joinGame causes update to get called,
+        * then this is check is redundant. */
+        if( gameInfo.getNumPlayers() == gameInfo.getMaxPlayers() ) {
+
+            view.disableGame(gameIndex);
+        }
 
         view.changeLobbyView();
-
-        //update the number of players in that game
-//        updatePlayerNumber(gameID);
     }
 
-    /** Gets the list of games for the view to display */
     @Override
-    public List getGameList() {
+    public ArrayList<GameInfo> getGameList() {
 
-        List gameList = new ArrayList();
-
-        /* if not from the setupFacade, where would the
-        presenter get the list of games?
-
-        Client data has a "getGameInfoList" method,
-        but I believe that just returns a list of games
-        that the user is already in, not all of the games
-        that it's possible for the user to join.
-         */
-
-//        gameList = facade.getGameList();
-
-        return gameList;
+        return clientData.getGameInfoList();
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
 
-    /**
-     * This method updates the number of players in a game
-     */
-    private void updatePlayerNumber(String gameID) {
+        // get the list of existing games
+        GameInfo[] gameInfoList = clientData.getGameInfoList().toArray(new GameInfo[0]);
 
-        //I'm not quite sure how to do this.
-        //I need to look at the UML and figure out how to
-        //access and update a particular game (or gameinfo)
+        // determine which games the user can join
+        for(int i = 0; i < gameInfoList.length; i++) {
+
+            GameInfo gameInfo = gameInfoList[i];
+            if (gameInfo.getNumPlayers() < gameInfo.getMaxPlayers()) {
+                view.enableGame(i);
+            }
+            else {
+                view.disableGame(i);
+            }
+        }
+
+        // refresh the list of games in the view
+        view.renderGames(gameInfoList);
     }
 }

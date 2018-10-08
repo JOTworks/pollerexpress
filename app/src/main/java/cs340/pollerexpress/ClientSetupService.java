@@ -4,6 +4,8 @@ import com.pollerexpress.models.Game;
 import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.models.ISetupService;
 
+import java.util.ArrayList;
+
 class ClientSetupService implements ISetupService {
     private static final ClientSetupService ourInstance = new ClientSetupService();
 
@@ -17,37 +19,13 @@ class ClientSetupService implements ISetupService {
     }
 
     public boolean addGame(GameInfo gameInfo){
-        GameInfo[] oldArray = CD.getGameInfoList();
-
-        //define the new array
-        GameInfo[] newArray = new GameInfo[oldArray.length + 1];
-
-        //copy values into new array
-        for(int i=0;i < oldArray.length;i++)
-            newArray[i] = oldArray[i];
-
-        //add new value to the new array
-        newArray[newArray.length-1] = gameInfo;
-
-        CD.setGameInfoList(newArray);
-
+        ArrayList<GameInfo> infoList = CD.getGameInfoList();
+        infoList.add(gameInfo);
         return true;
     }
-    public boolean DeleateGame(GameInfo gameInfo){
-
-        GameInfo[] original = CD.getGameInfoList();
-        GameInfo[] n = new GameInfo[original.length - 1];
-        int element = -1;
-        for(int i=0;i < original.length;i++) {
-            if (original[i].equals(gameInfo)) {
-                element = i;
-            }
-        }
-
-        System.arraycopy(original, 0, n, 0, element );
-        System.arraycopy(original, element+1, n, element, original.length - element-1);
-        CD.setGameInfoList(n);
-
+    public boolean DeleteGame(GameInfo gameInfo){
+        ArrayList<GameInfo> infoList = CD.getGameInfoList();
+        infoList.remove(gameInfo);
         return true;
     }
     public boolean joinGame(Game game){

@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Test_ClientCommunicator_Jack {
 
@@ -50,7 +51,7 @@ public class Test_ClientCommunicator_Jack {
      */
     public LoginResponse sendLoginRequest(String requestType, LoginRequest request) {
 
-        GameInfo[] info = {new GameInfo("theID", "theName", 4)};
+        ArrayList<GameInfo> info = new ArrayList<GameInfo>(Arrays.asList(new GameInfo("theID", "theName", 4)));
 
         return new LoginResponse( new Authtoken("Jackson", "myAuthTokenString"), info, new ErrorResponse("this is the error message",null,null));
 

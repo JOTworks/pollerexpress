@@ -5,12 +5,18 @@ import com.pollerexpress.models.Game;
 import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.models.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
-class ClientData {
+/** This is a mastermodel. It is being observed by the
+ presenters so that if there are any changes,
+ they are reflected in the view.
+ It contains a lot of different kinds of information.
+ */
+public class ClientData {
     private static final ClientData ourInstance = new ClientData();
 
-    static ClientData getInstance() {
+    public static ClientData getInstance() {
         return ourInstance;
     }
 
@@ -21,7 +27,7 @@ class ClientData {
     private User user;
     private Authtoken auth;
     private Game game;
-    private GameInfo[] gameInfoList;
+    private ArrayList<GameInfo> gameInfoList;
 
     public User getUser(){
         return user;
@@ -32,7 +38,7 @@ class ClientData {
     public Game getGame(){
         return game;
     }
-    public GameInfo[] getGameInfoList(){
+    public ArrayList<GameInfo> getGameInfoList(){
         return gameInfoList;
     }
     public void setUser(User user){
@@ -42,7 +48,7 @@ class ClientData {
         this.auth = auth;
     }
     public void setGame(Game game) { this.game = game;}
-    public void setGameInfoList(GameInfo[] gameInfoList){
+    public void setGameInfoList(ArrayList<GameInfo> gameInfoList){
         this.gameInfoList = gameInfoList;
     }
 
