@@ -6,11 +6,9 @@ package presenter;
  */
 public interface ICreateGamePresenter {
 
+    public void setNumOfPlayers(String numOfPlayers);
 
-    void setNumOfPlayers(String numOfPlayers);
-
-    void setUserColor(String numOfPlayers);
-
+    public void setUserColor(String numOfPlayers);
 
     public void createGame();
 
