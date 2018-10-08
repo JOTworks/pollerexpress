@@ -1,5 +1,7 @@
 package com.pollerexpress.models;
 
+import java.util.Objects;
+
 public class Player
 {
     public String name;
@@ -22,5 +24,34 @@ public class Player
     {
         this.name = name;
         this.gameId = gameId;
+    }
+
+    /*
+        Default Java Functions
+     */
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(name, player.name);
+    }
+
+    @Override
+    public int hashCode()
+    {
+
+        return Objects.hash(name);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", gameId='" + gameId + '\'' +
+                '}';
     }
 }

@@ -7,24 +7,33 @@ public class Command implements ICommand {
     private String _methodName;
     private Class<?>[] _paramTypes;
     private Object[] _paramValues;
-    
-    public Command(String className, String methodName, Class<?>[] paramTypes, Object[] paramValues) {
+
+    /**
+     *
+     * @param className
+     * @param methodName
+     * @param paramTypes
+     * @param paramValues
+     */
+    public Command(String className, String methodName, Class<?>[] paramTypes, Object[] paramValues)
+    {
 		_className = className;
 		_methodName = methodName;
 		_paramTypes = paramTypes;
 		_paramValues = paramValues;
 	}
     
-    public Object execute() {
+    public Command execute() throws CommandFailed
+    {
         try {
             Class<?> receiver = Class.forName(_className);
             Method method = receiver.getMethod(_methodName, _paramTypes);
-            method.invoke(null, _paramValues);
+           return (Command)method.invoke(null, _paramValues);
         }
         catch (Exception e) {
             e.printStackTrace();
+            throw new CommandFailed(_methodName);
         }
-        return null;
     }
 
     public String getClassName() { return _className; }

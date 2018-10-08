@@ -2,12 +2,21 @@ package pollerexpress.database;
 
 import com.pollerexpress.models.Authtoken;
 import com.pollerexpress.models.ErrorResponse;
+import com.pollerexpress.models.Game;
 import com.pollerexpress.models.GameInfo;
+import com.pollerexpress.models.IDatabaseFacade;
 import com.pollerexpress.models.LoginResponse;
+import com.pollerexpress.models.Player;
 import com.pollerexpress.models.User;
-import pollerexpress.database.exceptions.*;
-public class DatabaseFacade {
-    public DatabaseFacade() {
+
+import com.pollerexpress.database.exceptions.DataNotFoundException;
+import com.pollerexpress.database.exceptions.DatabaseException;
+public class DatabaseFacade implements IDatabaseFacade
+{
+    Database db;
+    public DatabaseFacade()
+    {
+        this.db = new Database();
     }
 
     /**
@@ -22,7 +31,6 @@ public class DatabaseFacade {
     {
         try
         {
-            Database db = new Database();
             db.open();
             User fromDb = db.getUserDao().read(user.name);
             if (user.password.equals(fromDb.password))
@@ -33,20 +41,16 @@ public class DatabaseFacade {
 
                 db.getAuthtokenDao().write(auth);
                 LoginResponse lr = new LoginResponse(auth, info, null);
+                db.close(false);
                 return lr;
             }
 
-            db.close(true);
-        }
-        catch (DataNotFoundException e)
-        {
-            return new LoginResponse(null,null, new ErrorResponse("Bad Password/user name", null, null));
+
         }
         catch (DatabaseException e) {
-            ;
         }
-
-        return null;
+        db.close(false);
+        return new LoginResponse(null,null, new ErrorResponse("Bad Password/user name", null, null));
     }
 
     /**
@@ -57,7 +61,6 @@ public class DatabaseFacade {
      */
     public LoginResponse register(User user)
     {
-        Database db = new Database();
         try
         {
             db.open();
@@ -70,4 +73,67 @@ public class DatabaseFacade {
         }
         return this.login(user);
     }
+
+
+    /**
+     *
+     * @param player
+     * @param info
+     * @return
+     */
+    public Game join(Player player, GameInfo info) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            db.getGameDao().joinGame(player, info);
+            db.close(true);
+            db.open();
+            Game game = db.getGameDao().read(info);
+            db.close(false);
+            return game;
+        }
+        catch(DatabaseException e)
+        {
+            db.close(false);
+            throw e;
+        }
+    }
+
+    /**
+     *
+     * @param player
+     * @param info
+     */
+    @Override
+    public void leave(Player player, GameInfo info) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            db.getGameDao().leaveGame(player,info);
+            db.close(true);
+        }
+        catch(DatabaseException e)
+        {
+            db.close(false);
+            throw e;
+        }
+    }
+    @Override
+    public void create(Player player, Game game) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            db.getGameDao().write(game);
+            db.close(true);
+        }
+        catch(DatabaseException e)
+        {
+            db.close(false);
+            throw e;
+        }
+    }
+
 }
