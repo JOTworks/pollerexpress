@@ -1,4 +1,32 @@
 <resources>
     <string name="app_name">pollerexpress</string>
-    <string name="create_game_button_text">Create Game</string>
+    <string name="create_game_button_text">Create New Game</string>
+    <string name="create_game_button_text2">Create Game</string>
+    <string name="join_game_text">Join</string>
+    <string name="game_name_text">Name:</string>
+    <string name="players_text">Players:</string>
+    <string name="in_game_text">In Game:</string>
+    <string name="num_players_text"># of players:</string>
+    <string name="pick_your_color_text">Pick Your Color:</string>
+    <string name="color_option_red_text">red</string>
+    <string name="color_option_blue_text">red</string>
+    <string name="color_option_yellow_text">red</string>
+    <string name="color_option_green_text">red</string>
+    <string name="color_option_black_text">red</string>
+
+    <string-array name="num_players_spinner_array">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="player_color_spinner_array">
+        <item>RED</item>
+        <item>BLUE</item>
+        <item>YELLOW</item>
+        <item>GREEN</item>
+        <item>BLACK</item>
+    </string-array>
+
 </resources>

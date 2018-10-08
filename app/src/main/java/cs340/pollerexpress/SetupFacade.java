@@ -48,7 +48,7 @@ public class SetupFacade {
      * @param password
      * @return res.getError, it will return null on succesful login
      */
-    private ErrorResponse loginOrRegister(String requestType, String userName, String password){
+    public  ErrorResponse loginOrRegister(String requestType, String userName, String password){
         LoginRequest loginReq = new LoginRequest(userName,password);
         ClientCommunicator CC = ClientCommunicator.instance();
 

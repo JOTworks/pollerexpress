@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,8 +23,11 @@ public class CommandController {
 
     @PostMapping("/execute")
     public @ResponseBody
-    ResponseEntity<PollResponse> execute(@RequestBody Command command) {
+    ResponseEntity<PollResponse> execute(
+            @RequestHeader("AUTH_TOKEN") String token,
+            @RequestBody Command command) {
         // Best practice would be to return a fail HttpStatus if I got an error.
+
         Queue<Command> commands = null;
         try
         {
@@ -37,5 +41,7 @@ public class CommandController {
         }
         return new ResponseEntity<PollResponse>((PollResponse)commands, HttpStatus.OK);
     }
+
+    //TODO: add poll endpoint
 
 }

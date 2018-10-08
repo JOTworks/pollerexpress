@@ -53,6 +53,7 @@ public class PollerExpress {
 				Queue<Command> commands = response.getCommands();
 				for (int i = 0; i < commands.size(); i++) {
 					Command command = commands.poll();
+
 					try {
 						command.execute();
 					} catch (CommandFailed commandFailed) {
