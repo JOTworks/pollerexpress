@@ -69,7 +69,10 @@ public class LoginFragment extends Fragment implements ILoginView {
         Button mregister_button = (Button) register_button;
         mregister_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { loginPresenter.register("","");
+
+
+            public void onClick(View v) { loginPresenter.register(userNameText.getText().toString(),passwordText.getText().toString());
+
             }
         });
 

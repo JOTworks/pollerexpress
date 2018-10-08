@@ -8,6 +8,7 @@ public class Command implements ICommand {
     private Class<?>[] _paramTypes;
     private Object[] _paramValues;
 
+
     /**
      *
      * @param className
@@ -23,6 +24,7 @@ public class Command implements ICommand {
 		_paramValues = paramValues;
 	}
     
+
     public Command execute() throws CommandFailed
     {
         try {
@@ -34,6 +36,22 @@ public class Command implements ICommand {
             e.printStackTrace();
             throw new CommandFailed(_methodName);
         }
+    }
+
+    public void set_className(String _className) {
+        this._className = _className;
+    }
+
+    public void set_methodName(String _methodName) {
+        this._methodName = _methodName;
+    }
+
+    public void set_paramTypes(Class<?>[] _paramTypes) {
+        this._paramTypes = _paramTypes;
+    }
+
+    public void set_paramValues(Object[] _paramValues) {
+        this._paramValues = _paramValues;
     }
 
     public String getClassName() { return _className; }

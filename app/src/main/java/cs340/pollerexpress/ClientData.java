@@ -41,6 +41,7 @@ public class ClientData {
     public void setAuth(Authtoken auth){
         this.auth = auth;
     }
+    public void setGame(Game game) { this.game = game;}
     public void setGameInfoList(GameInfo[] gameInfoList){
         this.gameInfoList = gameInfoList;
     }

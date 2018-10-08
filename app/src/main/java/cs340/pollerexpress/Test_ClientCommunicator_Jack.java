@@ -2,26 +2,30 @@ package cs340.pollerexpress;
 
 import com.pollerexpress.models.Authtoken;
 import com.pollerexpress.models.Command;
+import com.pollerexpress.models.ErrorResponse;
+import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.models.LoginRequest;
 import com.pollerexpress.models.LoginResponse;
 import com.pollerexpress.models.PollResponse;
 
 import org.springframework.web.client.RestTemplate;
 
-public class ClientCommunicator {
+import java.util.ArrayList;
+
+public class Test_ClientCommunicator_Jack {
 
     //---------------------Singleton setup------------------------------
-    private static ClientCommunicator _instance;
+    private static Test_ClientCommunicator_Jack _instance;
 
-    public static ClientCommunicator instance() {
+    public static Test_ClientCommunicator_Jack instance() {
 
         if (_instance == null)
-            _instance = new ClientCommunicator();
+            _instance = new Test_ClientCommunicator_Jack();
 
         return _instance;
     }
 
-    private ClientCommunicator() {}
+    private Test_ClientCommunicator_Jack() {}
 
     private RestTemplate restTemplate = new RestTemplate();
     private static String URL_BASE = "http://localhost:8080";
@@ -42,11 +46,16 @@ public class ClientCommunicator {
      * @post returns the response object returned by restTemplate
      */
     public LoginResponse sendLoginRequest(String requestType, LoginRequest request) {
-        String resourceUrl = URL_BASE + requestType;
 
-        LoginResponse response = restTemplate.postForObject(resourceUrl, request, LoginResponse.class);
+        GameInfo[] info = {new GameInfo("theID", "theName", 4)};
 
-        return response;
+        return new LoginResponse( new Authtoken("Jackson", "myAuthTokenString"), info, new ErrorResponse("this is the error message",null,null));
+
+        //String resourceUrl = URL_BASE + requestType;
+
+       // LoginResponse response = restTemplate.postForObject(resourceUrl, request, LoginResponse.class);
+
+        //return response;
     }
 
     /**
@@ -56,7 +65,7 @@ public class ClientCommunicator {
      * @pre command is not null
      * @post returns the response object returned by restTemplate
      */
-    public PollResponse sendCommand(Command command) {
+    public PollResponse sendCommand(Authtoken authtoken, Command command) {
         String resourceUrl = EXECUTE_URL;
 
         //TODO put authToken in a header

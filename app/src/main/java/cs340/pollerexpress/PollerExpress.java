@@ -1,8 +1,10 @@
 package cs340.pollerexpress;
 
 import com.pollerexpress.models.Command;
+import com.pollerexpress.models.CommandFailed;
 import com.pollerexpress.models.PollResponse;
 import java.util.Queue;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,6 +15,7 @@ import java.util.TimerTask;
  * when we have the command execution debugged and tested we'll get rid of that.
  */
 public class PollerExpress {
+
 	private static int DELAY = 2000;
 	Timer timer;
 
@@ -50,7 +53,12 @@ public class PollerExpress {
 				Queue<Command> commands = response.getCommands();
 				for (int i = 0; i < commands.size(); i++) {
 					Command command = commands.poll();
-					command.execute();
+
+					try {
+						command.execute();
+					} catch (CommandFailed commandFailed) {
+						commandFailed.printStackTrace();
+					}
 				}
 			}
 		}
