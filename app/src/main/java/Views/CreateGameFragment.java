@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import cs340.pollerexpress.R;
 import presenter.CreateGamePresenter;
@@ -17,7 +19,11 @@ public class CreateGameFragment extends Fragment implements ICreateGameView {
 
     ICreateGamePresenter createGamePresenter;
 
+    Button createGameButton;
 
+    //-------------------data for create game--------------------------
+    String numOfPlayers = "2";
+    String userColor = "red";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,7 @@ public class CreateGameFragment extends Fragment implements ICreateGameView {
         numPlayerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                numOfPlayers = parent.getItemAtPosition(position).toString();
                 createGamePresenter.setNumOfPlayers(parent.getItemAtPosition(position).toString());
             }
 
@@ -52,7 +59,7 @@ public class CreateGameFragment extends Fragment implements ICreateGameView {
         });
         //----------------------------User Color Spinner--------------------------------------------
 
-        Spinner playerColorSpinner = (Spinner) v.findViewById(R.id.player_color_spinner);
+        final Spinner playerColorSpinner = (Spinner) v.findViewById(R.id.player_color_spinner);
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getContext(),
                 R.array.player_color_spinner_array, R.layout.spinner_poller_theme);
         adapter2.setDropDownViewResource(R.layout.spinner_poller_theme);
@@ -61,7 +68,8 @@ public class CreateGameFragment extends Fragment implements ICreateGameView {
         playerColorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                createGamePresenter.setUserColor(parent.getItemAtPosition(position).toString());
+                userColor = parent.getItemAtPosition(position).toString();
+                createGamePresenter.setUserColor(userColor);
             }
 
             @Override
@@ -72,7 +80,15 @@ public class CreateGameFragment extends Fragment implements ICreateGameView {
         });
 
         //--------------------------------------------------------------------------------------------------
-
+        createGameButton = (Button) v.findViewById(R.id.create_game_button);
+        Button mCreateGameButton = (Button) createGameButton; //TODO: can I not remove this line?
+        createGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createGamePresenter.createGame(numOfPlayers, userColor);
+                Toast.makeText(getContext(), "It's working!", Toast.LENGTH_LONG).show(); //TODO: remove toast
+            }
+        });
 
         //TODO: onclick listener for button
 

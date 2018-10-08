@@ -30,9 +30,9 @@ public class LoginPresenter implements ILoginPresenter {
     @Override
     public void logIn(String username, String password) {
 
-        ErrorResponse response = facade.login(username, password);
+        //ErrorResponse response = facade.login(username, password);
         //ErrorResponse response = new ErrorResponse("hi", new Exception(), new Command());
-        //ErrorResponse response = null;
+        ErrorResponse response = null;
         if( response != null)
         {
             loginView.displayError(response.getMessage());
