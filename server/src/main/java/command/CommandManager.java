@@ -1,5 +1,6 @@
 package command;
 
+import com.pollerexpress.database.exceptions.DatabaseException;
 import com.pollerexpress.models.Command;
 import java.util.*;
 
@@ -25,7 +26,7 @@ public class CommandManager {
 		return kwayway;
 	}
 	
-	public Queue<Command> addCommand(Command c, String user) {
+	public Queue<Command> addCommand(Command c, String user) throws DatabaseException {
 		_switch.switchCommand(c, user);
 		Queue<Command> kwayway = userCommands.get(user);
 		return kwayway;
@@ -40,11 +41,20 @@ public class CommandManager {
 		kwayway.add(c);
 	}
 
-	protected void addCommandToAllUsers(Command c) {
+	protected void addToAll(Command c) {
 		for(Map.Entry<String, Queue<Command>> uq : userCommands.entrySet()) {
-			// String user = uq.getKey();
 			Queue<Command> kwayway = uq.getValue();
 			kwayway.add(c);
+		}
+	}
+
+	protected void addToAllExcept(Command c, String user) {
+		for(Map.Entry<String, Queue<Command>> uq : userCommands.entrySet()) {
+			String username = uq.getKey();
+			if(username != user) {
+				Queue<Command> kwayway = uq.getValue();
+				kwayway.add(c);
+			}
 		}
 	}
 

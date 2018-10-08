@@ -10,5 +10,7 @@ public interface IDatabaseFacade
     void leave(Player player, GameInfo info) throws DatabaseException;
     void create(Player player, Game game) throws DatabaseException;
     boolean validate(Authtoken token) throws DatabaseException;
-
+    Game getGame(GameInfo info) throws DatabaseException;
+    Player getPlayer(String user) throws DatabaseException;
+    GameInfo getGameInfo(String id) throws DatabaseException;
 }
