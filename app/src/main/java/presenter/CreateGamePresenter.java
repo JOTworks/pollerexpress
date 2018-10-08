@@ -9,4 +9,34 @@ public class CreateGamePresenter implements ICreateGamePresenter {
     public CreateGamePresenter(ICreateGameView view) {
         this.view = view;
     }
+
+    @Override
+    public void createGame() {
+
+    }
+
+    @Override
+    public void okButtonClicked() {
+
+    }
+
+    @Override
+    public void cancelButtonClicked() {
+
+    }
+
+    @Override
+    public void playerNumSelected() {
+
+    }
+
+    @Override
+    public void nameUpdate() {
+
+    }
+
+    @Override
+    public void colorPicked() {
+
+    }
 }
