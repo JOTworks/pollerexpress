@@ -12,10 +12,10 @@
     <string name="color_option_black_text">red</string>
 
     <string-array name="num_players_spinner_array">
-    <item>2</item>
-    <item>3</item>
-    <item>4</item>
-    <item>5</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
     </string-array>
 
     <string-array name="player_color_spinner_array">
@@ -25,4 +25,5 @@
         <item>GREEN</item>
         <item>BLACK</item>
     </string-array>
+
 </resources>

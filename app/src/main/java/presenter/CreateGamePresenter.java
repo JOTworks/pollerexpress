@@ -9,4 +9,14 @@ public class CreateGamePresenter implements ICreateGamePresenter {
     public CreateGamePresenter(ICreateGameView view) {
         this.view = view;
     }
+
+    @Override
+    public void setNumOfPlayers(String numOfPlayers) {
+
+    }
+
+    @Override
+    public void setUserColor(String numOfPlayers) {
+
+    }
 }
