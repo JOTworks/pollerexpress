@@ -1,5 +1,7 @@
 package presenter;
 
+import java.util.List;
+
 /**
  * This class is responsible for defining
  * methods the GameSelectionView can call
@@ -14,5 +16,5 @@ public interface IGameSelectionPresenter {
     public void joinGame();
 
     /** Gets the list of games for the view to display */
-    public void getGameList();
+    public List getGameList();
 }

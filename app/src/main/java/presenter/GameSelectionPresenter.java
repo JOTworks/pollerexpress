@@ -1,11 +1,13 @@
 package presenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Views.IGameSelectionView;
 import cs340.pollerexpress.SetupFacade;
 
 /**
+ * (Compiling but not fully operational)
  * Responsible for implementing logic for gameselectionview . . . I think
  */
 public class GameSelectionPresenter implements IGameSelectionPresenter {
@@ -36,27 +38,32 @@ public class GameSelectionPresenter implements IGameSelectionPresenter {
      * @post the user should go the game lobby
      */
     @Override
-    public void joinGame(String gameID) {
+    public void joinGame() {
 
         view.changeLobbyView();
 
         //update the number of players in that game
-        updatePlayerNumber(gameID);
+//        updatePlayerNumber(gameID);
     }
 
     /** Gets the list of games for the view to display */
     @Override
     public List getGameList() {
 
-        // if not from the setupFacade, where would the
-        // presenter get the list of games?
-        return facade.getGameList();
+        List gameList = new ArrayList();
 
-        /* Client data has a "getGameInfoList" method,
+        /* if not from the setupFacade, where would the
+        presenter get the list of games?
+
+        Client data has a "getGameInfoList" method,
         but I believe that just returns a list of games
         that the user is already in, not all of the games
         that it's possible for the user to join.
          */
+
+//        gameList = facade.getGameList();
+
+        return gameList;
     }
 
 
@@ -68,7 +75,5 @@ public class GameSelectionPresenter implements IGameSelectionPresenter {
         //I'm not quite sure how to do this.
         //I need to look at the UML and figure out how to
         //access and update a particular game (or gameinfo)
-
-
     }
 }
