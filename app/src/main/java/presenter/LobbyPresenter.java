@@ -2,7 +2,10 @@ package presenter;
 
 import com.pollerexpress.models.Player;
 
-public class LobbyPresenter implements ILobbyPresenter {
+import java.util.Observable;
+import java.util.Observer;
+
+public class LobbyPresenter implements ILobbyPresenter, Observer {
     @Override
     public void startButtonPressed() {
 
@@ -20,6 +23,11 @@ public class LobbyPresenter implements ILobbyPresenter {
 
     @Override
     public void leaveGamePressed() {
+
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
 
     }
 }

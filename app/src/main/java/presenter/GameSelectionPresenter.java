@@ -1,16 +1,19 @@
 package presenter;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.pollerexpress.models.GameInfo;
+
+import java.util.Observable;
+import java.util.Observer;
 
 import Views.IGameSelectionView;
+import cs340.pollerexpress.ClientData;
 import cs340.pollerexpress.SetupFacade;
 
 /**
  * (Compiling but not fully operational)
  * Responsible for implementing logic for gameselectionview . . . I think
  */
-public class GameSelectionPresenter implements IGameSelectionPresenter {
+public class GameSelectionPresenter implements IGameSelectionPresenter, Observer {
 
     private IGameSelectionView view;
     private SetupFacade facade;
@@ -22,7 +25,7 @@ public class GameSelectionPresenter implements IGameSelectionPresenter {
 
     /**
      * (DONE!) This method contains the logic for what happens when the
-     * user clickes "create game"
+     * user clicks "create game"
      * @ the user should go the the createGame view
      */
     @Override
@@ -48,22 +51,11 @@ public class GameSelectionPresenter implements IGameSelectionPresenter {
 
     /** Gets the list of games for the view to display */
     @Override
-    public List getGameList() {
+    public GameInfo[] getGameList() {
 
-        List gameList = new ArrayList();
+        ClientData clientData = ClientData.getInstance();
 
-        /* if not from the setupFacade, where would the
-        presenter get the list of games?
-
-        Client data has a "getGameInfoList" method,
-        but I believe that just returns a list of games
-        that the user is already in, not all of the games
-        that it's possible for the user to join.
-         */
-
-//        gameList = facade.getGameList();
-
-        return gameList;
+        return clientData.getGameInfoList();
     }
 
 
@@ -75,5 +67,11 @@ public class GameSelectionPresenter implements IGameSelectionPresenter {
         //I'm not quite sure how to do this.
         //I need to look at the UML and figure out how to
         //access and update a particular game (or gameinfo)
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
+        // call some view methods to update.
     }
 }

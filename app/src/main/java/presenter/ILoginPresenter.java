@@ -4,6 +4,8 @@ package presenter;
  * (DONE!) This class is responsible for defining the
  * methods that the login view can call on the
  * loginPresenter
+ *
+ * This class we are not making an observer
  */
 public interface ILoginPresenter {
 

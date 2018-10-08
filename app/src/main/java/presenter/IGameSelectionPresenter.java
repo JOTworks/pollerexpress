@@ -1,6 +1,6 @@
 package presenter;
 
-import java.util.List;
+import com.pollerexpress.models.GameInfo;
 
 /**
  * This class is responsible for defining
@@ -16,5 +16,5 @@ public interface IGameSelectionPresenter {
     public void joinGame();
 
     /** Gets the list of games for the view to display */
-    public List getGameList();
+    public GameInfo[] getGameList();
 }

@@ -1,8 +1,11 @@
 package presenter;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import Views.ICreateGameView;
 
-public class CreateGamePresenter implements ICreateGamePresenter {
+public class CreateGamePresenter implements ICreateGamePresenter, Observer {
 
     private ICreateGameView view;
 
@@ -37,6 +40,16 @@ public class CreateGamePresenter implements ICreateGamePresenter {
 
     @Override
     public void colorPicked() {
+
+    }
+
+    /**
+     * @param o
+     * @param arg
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+
 
     }
 }

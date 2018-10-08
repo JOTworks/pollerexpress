@@ -7,10 +7,10 @@ import com.pollerexpress.models.User;
 
 import java.util.List;
 
-class ClientData {
+public class ClientData {
     private static final ClientData ourInstance = new ClientData();
 
-    static ClientData getInstance() {
+    public static ClientData getInstance() {
         return ourInstance;
     }
 
