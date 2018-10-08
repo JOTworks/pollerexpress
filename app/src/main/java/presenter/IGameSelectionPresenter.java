@@ -10,6 +10,4 @@ public interface IGameSelectionPresenter {
     public void createGame();
 
     public void joinGame();
-
-    public void updatePlayerNumber();
 }
