@@ -2,6 +2,7 @@ package presenter;
 
 import com.pollerexpress.models.GameInfo;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -51,7 +52,7 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
 
     /** Gets the list of games for the view to display */
     @Override
-    public GameInfo[] getGameList() {
+    public ArrayList<GameInfo> getGameList() {
 
         ClientData clientData = ClientData.getInstance();
 
