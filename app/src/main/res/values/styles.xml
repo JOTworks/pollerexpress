@@ -14,4 +14,9 @@
         <item name="android:background">@color/PollerWhite</item>
     </style>
 
+    <style name="PollerTheme">
+        <item name="android:background">@color/PollerBackground</item>
+        <item name="android:textColor">@color/PollerWhite</item>
+    </style>
+
 </resources>

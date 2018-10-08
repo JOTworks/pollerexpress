@@ -3,6 +3,8 @@
     <string name="create_game_button_text">Create New Game</string>
     <string name="create_game_button_text2">Create Game</string>
     <string name="game_name_text">Name:</string>
+    <string name="players_text">Players:</string>
+    <string name="in_game_text">In Game:</string>
     <string name="num_players_text"># of players:</string>
     <string name="pick_your_color_text">Pick Your Color:</string>
     <string name="color_option_red_text">red</string>

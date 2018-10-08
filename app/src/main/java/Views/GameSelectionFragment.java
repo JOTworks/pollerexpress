@@ -35,6 +35,10 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
         View v = inflater.inflate(R.layout.fragment_game_selection, container, false);
 
 
+
+
+
+        //---------------------Create Game Button---------------------------------------------------
         createGameButton = (Button) v.findViewById(R.id.create_game_button);
 
         Button mCreateGameButton = (Button) createGameButton;
