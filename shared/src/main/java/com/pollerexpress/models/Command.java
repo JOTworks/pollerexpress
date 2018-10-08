@@ -7,7 +7,10 @@ public class Command implements ICommand {
     private String _methodName;
     private Class<?>[] _paramTypes;
     private Object[] _paramValues;
-    
+
+    public Command() {
+    }
+
     public Command(String className, String methodName, Class<?>[] paramTypes, Object[] paramValues) {
 		_className = className;
 		_methodName = methodName;
@@ -16,6 +19,9 @@ public class Command implements ICommand {
 	}
     
     public Object execute() {
+        if (_className == null)
+            return null;
+
         try {
             Class<?> receiver = Class.forName(_className);
             Method method = receiver.getMethod(_methodName, _paramTypes);
@@ -25,5 +31,37 @@ public class Command implements ICommand {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public String get_className() {
+        return _className;
+    }
+
+    public String get_methodName() {
+        return _methodName;
+    }
+
+    public Class<?>[] get_paramTypes() {
+        return _paramTypes;
+    }
+
+    public Object[] get_paramValues() {
+        return _paramValues;
+    }
+
+    public void set_className(String _className) {
+        this._className = _className;
+    }
+
+    public void set_methodName(String _methodName) {
+        this._methodName = _methodName;
+    }
+
+    public void set_paramTypes(Class<?>[] _paramTypes) {
+        this._paramTypes = _paramTypes;
+    }
+
+    public void set_paramValues(Object[] _paramValues) {
+        this._paramValues = _paramValues;
     }
 }
