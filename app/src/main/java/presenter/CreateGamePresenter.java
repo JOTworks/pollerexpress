@@ -1,6 +1,7 @@
 package presenter;
 
 import com.pollerexpress.models.Color;
+import com.pollerexpress.models.ErrorResponse;
 import com.pollerexpress.models.GameInfo;
 
 import java.util.Observable;
@@ -22,7 +23,6 @@ public class CreateGamePresenter implements ICreateGamePresenter, Observer {
         this.view = view;
         facade = new SetupFacade();
     }
-
 
     @Override
     public void update(Observable o, Object arg) {
@@ -51,7 +51,21 @@ public class CreateGamePresenter implements ICreateGamePresenter, Observer {
     @Override
     public void createGame() {
 
-        facade.createGame(gameName, numPlayers, userColor);
+        if( gameName.length() > 0 ) {
+
+            ErrorResponse response = facade.createGame(gameName, numPlayers, userColor);
+
+            if( response != null ) {
+
+//                view.displayError(response.getMessage());
+            }
+            else {
+
+
+            }
+        }
+
+
     }
 
     @Override
