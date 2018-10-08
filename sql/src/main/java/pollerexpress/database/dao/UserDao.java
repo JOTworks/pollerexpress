@@ -10,8 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import pollerexpress.database.exceptions.DataNotFoundException;
-import pollerexpress.database.exceptions.DatabaseException;
+import com.pollerexpress.database.exceptions.DataNotFoundException;
+import com.pollerexpress.database.exceptions.DatabaseException;
 
 public class UserDao {
     IDatabase _db;
@@ -56,13 +56,9 @@ public class UserDao {
         }
     }
 
-    public void joinGame(User user, GameInfo info) {
-    }
 
-    public void leaveGame(User user, GameInfo info) {
-    }
 
-    public Player[] getPlayersIngame(GameInfo info) throws DatabaseException {
+    public Player[] getPlayersInGame(GameInfo info) throws DatabaseException {
         try {
             PreparedStatement stmnt = this._db.getConnection().prepareStatement("USER_NAME, GAME_ID\nFROM USERS\nWHERE GAME_ID = ?");
             stmnt.setString(1, info.getId());

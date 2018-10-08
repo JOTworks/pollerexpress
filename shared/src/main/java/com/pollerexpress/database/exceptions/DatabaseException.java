@@ -1,4 +1,4 @@
-package pollerexpress.database.exceptions;
+package com.pollerexpress.database.exceptions;
 
 import java.io.IOException;
 

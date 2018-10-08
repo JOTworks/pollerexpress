@@ -10,11 +10,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import com.pollerexpress.database.exceptions.DatabaseException;
 import pollerexpress.database.dao.AuthtokenDao;
 import pollerexpress.database.dao.GameDao;
 import pollerexpress.database.dao.IDatabase;
 import pollerexpress.database.dao.UserDao;
-import pollerexpress.database.exceptions.*;
 
 public class Database implements IDatabase
 {
@@ -70,6 +70,10 @@ public class Database implements IDatabase
      * @param commit
      */
     public void close(boolean commit) {
+        if(!this.isOpen)
+        {
+            return;
+        }
         this.isOpen = false;
 
         try {
