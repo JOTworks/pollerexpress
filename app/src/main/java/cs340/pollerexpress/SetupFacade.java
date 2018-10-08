@@ -8,6 +8,8 @@ import com.pollerexpress.models.PollResponse;
 import com.pollerexpress.models.Color;
 import com.pollerexpress.models.User;
 
+import java.util.Queue;
+
 /**
  * SetupFacade absctracts the Model from the Presenters, but also acts as the LoginSetupService
  * it will parse the responces and pass the list of commands to poller to execute,
@@ -47,55 +49,112 @@ public class SetupFacade {
         LoginRequest loginReq = new LoginRequest(userName,password);
         ClientCommunicator CC = ClientCommunicator.instance();
 
-        LoginResponse resp = CC.sendLoginRequest(requestType, loginReq);
+        LoginResponse response = CC.sendLoginRequest(requestType, loginReq);
 
-        if(resp.getError()!=null){
-            return resp.getError();
+        if(response == null) {
+            //client communicator didn't work, throw error or something? Idk how to do that though.
+        } else if(response.getError()!=null){
+            return response.getError();
         }
 
         //update model if no errors
         ClientData CData = ClientData.getInstance();
         CData.setUser(new User(userName,password));
-        CData.setAuth(resp.getAuthToken());
-        CData.setGameInfoList(resp.getAvailableGames());
+        CData.setAuth(response.getAuthToken());
+        CData.setGameInfoList(response.getAvailableGames());
 
-        return resp.getError();
+        return response.getError();
     }
 
 
     /*------------------------------------------------------------------------------------------------------------------------*/
-    /*----------------These are all the methods that creat commands and send them to the ClientComunicator--------------------*/
+    /*----------------These are all the methods that create commands and send them to the ClientComunicator--------------------*/
     /*------------------------------------------------------------------------------------------------------------------------*/
     /**
      *
      * @param name
-     * @param numPLayers
+     * @param numPlayers
      * @param userColor
      * @return res.getError, it will be null on succesful Login
      */
-    public ErrorResponse createGame(String name, int numPLayers, Color.PLAYER userColor) {
-        ClientCommunicator CC = ClientCommunicator.instance();
-        //Command command = new Command("LoginService","createGame");
+    public ErrorResponse createGame(String name, int numPlayers, Color.PLAYER userColor) {
 
+        ClientCommunicator CC = ClientCommunicator.instance();
+        Class<?>[] types = {String.class, Integer.class, Color.PLAYER.class};
+        String[] params= {name, Integer.toString(numPlayers), userColor.toString()};
+        Command joinGameCommand = new Command("ServerSetupService","joinGame",types,params);
+
+        PollResponse response = CC.sendCommand(joinGameCommand);
+
+        if(response == null) {
+            //client communicator didn't work, throw error or something? Idk how to do that though.
+        } else if(response.getError() != null) {
+            return response.getError();
+        } else {
+            Queue<Command> commands = response.getCommands();
+            for (int i = 0; i < commands.size(); i++) {
+                Command command = commands.poll();
+                command.execute();
+            }
+        }
 
         return null;
     }
 
     /**
      *
-     * @param gameId
+     * @param gameName
      * @return res.getError, it will be null on succesful register
      */
-    public ErrorResponse joinGame(String gameId){
+    public ErrorResponse joinGame(String gameName){
+        ClientCommunicator CC = ClientCommunicator.instance();
+        Class<?>[] types = {String.class};
+        String[] params= {gameName};
+        Command joinGameCommand = new Command("ServerSetupService","joinGame",null,null);
+
+        PollResponse response = CC.sendCommand(joinGameCommand);
+
+        if(response == null) {
+            //client communicator didn't work, throw error or something? Idk how to do that though.
+        } else if(response.getError() != null) {
+            return response.getError();
+        } else {
+            Queue<Command> commands = response.getCommands();
+            for (int i = 0; i < commands.size(); i++) {
+                Command command = commands.poll();
+                command.execute();
+            }
+        }
+
         return null;
     }
 
     /**
      *
-     * @param gameId
+     * @param gameName
      * @return res.getError, it will be null on succesful join
      */
-    public ErrorResponse startGame(){
+    public ErrorResponse startGame(String gameName){
+
+        ClientCommunicator CC = ClientCommunicator.instance();
+        Class<?>[] types = {String.class};
+        String[] params= {gameName};
+        Command joinGameCommand = new Command("ServerSetupService","StartGame",null,null);
+
+        PollResponse response = CC.sendCommand(joinGameCommand);
+
+        if(response == null) {
+            //client communicator didn't work, throw error or something? Idk how to do that though.
+        } else if(response.getError() != null) {
+            return response.getError();
+        } else {
+            Queue<Command> commands = response.getCommands();
+            for (int i = 0; i < commands.size(); i++) {
+                Command command = commands.poll();
+                command.execute();
+            }
+        }
+
         return null;
     }
 

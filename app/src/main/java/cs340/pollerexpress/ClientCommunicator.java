@@ -56,7 +56,7 @@ public class ClientCommunicator {
      * @pre command is not null
      * @post returns the response object returned by restTemplate
      */
-    public PollResponse sendCommand(Authtoken authtoken, Command command) {
+    public PollResponse sendCommand(Command command) {
         String resourceUrl = EXECUTE_URL;
 
         //TODO put authToken in a header
