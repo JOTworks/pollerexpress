@@ -56,7 +56,7 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
         // specify an adapter (see also next example)
         mAdapter = new GameSelectAdapter(new GameInfo[] {
                 new GameInfo("id", "game1", 5, 2),
-                new GameInfo("id", "game2", 4, 1)}); //TODO: remove hardcoding
+                new GameInfo("id", "game2", 4, 1)}); //TODO: use getGameList()
         mGameRecyclerView.setAdapter(mAdapter);
 
 
