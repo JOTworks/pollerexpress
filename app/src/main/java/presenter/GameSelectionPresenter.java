@@ -12,7 +12,6 @@ import cs340.pollerexpress.ClientData;
 import cs340.pollerexpress.SetupFacade;
 
 /**
- * (UPDATE METHOD NEEDS IMPLEMENTATION!)
  * Responsible for implementing logic for game selection view
  */
 public class GameSelectionPresenter implements IGameSelectionPresenter, Observer {
@@ -42,7 +41,7 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
     public void joinGame(int gameIndex) {
 
         User user = clientData.getUser();
-        GameInfo[] gameInfoList = clientData.getGameInfoList();
+        GameInfo[] gameInfoList = clientData.getGameInfoList().toArray(new GameInfo[0]);
 
         GameInfo gameInfo = gameInfoList[gameIndex];
         facade.joinGame(user, gameInfo);
@@ -63,16 +62,11 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
         return clientData.getGameInfoList();
     }
 
-    /**
-     *
-     * @param o
-     * @param arg
-     */
     @Override
     public void update(Observable o, Object arg) {
 
         // get the list of existing games
-        GameInfo[] gameInfoList = clientData.getGameInfoList();
+        GameInfo[] gameInfoList = clientData.getGameInfoList().toArray(new GameInfo[0]);
 
         // determine which games the user can join
         for(int i = 0; i < gameInfoList.length; i++) {
