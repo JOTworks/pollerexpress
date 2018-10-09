@@ -1,7 +1,7 @@
 package com.pollerexpress.server;
 
-import com.pollerexpress.models.LoginRequest;
-import com.pollerexpress.models.LoginResponse;
+import com.pollerexpress.request.LoginRequest;
+import com.pollerexpress.reponse.LoginResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

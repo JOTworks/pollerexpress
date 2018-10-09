@@ -5,7 +5,7 @@ import com.pollerexpress.models.Authtoken;
 import com.pollerexpress.models.Game;
 import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.models.IDatabaseFacade;
-import com.pollerexpress.models.LoginResponse;
+import com.pollerexpress.reponse.LoginResponse;
 import com.pollerexpress.models.Player;
 import com.pollerexpress.models.User;
 
@@ -43,5 +43,21 @@ public class FakeLoginDatabaseFacade implements IDatabaseFacade
     public boolean validate(Authtoken token) throws DatabaseException
     {
         return true;
+    }
+    @Override
+    public Game getGame(GameInfo info) throws DatabaseException
+    {
+        return null;
+    }
+    @Override
+    public Player getPlayer(String user) throws DatabaseException
+    {
+        return null;
+    }
+
+    @Override
+    public GameInfo getGameInfo(String id) throws DatabaseException
+    {
+        return null;
     }
 }

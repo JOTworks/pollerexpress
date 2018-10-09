@@ -3,6 +3,9 @@ package presenter;
 /**
  * Declares the methods that the create game view
  * will need to be able to call on the create game presenter
+ *
+ * Doesn't need to implement observer because the create
+ * game view is not updated based on changed to models.
  */
 public interface ICreateGamePresenter {
 
@@ -14,22 +17,9 @@ public interface ICreateGamePresenter {
 
     public void setUserColor(String userColor);
 
-    public void createGame(String numOfPlayers, String userColor);
+    public void setGameName(String gameName);
 
-    /**
-     * Logic for when ok is clicked
-     */
-    public void onOkClicked();
+    public void onCreateGameClicked(String numOfPlayers, String userColor);
 
-    /**
-     * Logic for when cancel is clicked
-     */
-    public void onCancelClicked();
-
-    /**
-     * Sets the name of the game
-     */
-    public void setGameName(String name);
-
-  
+    public void onBackArrowClicked();
 }

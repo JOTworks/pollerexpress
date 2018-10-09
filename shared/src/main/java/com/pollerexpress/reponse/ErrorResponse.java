@@ -1,10 +1,17 @@
-package com.pollerexpress.models;
+package com.pollerexpress.reponse;
 
+
+import com.pollerexpress.models.Command;
 
 public class ErrorResponse {
 	private String message;
 	private Exception exception;
 	private Command failed_command;
+
+	public ErrorResponse()
+	{
+
+	}
 
 	public ErrorResponse(String message, Exception exception, Command failed_command) {
 		this.message = message;

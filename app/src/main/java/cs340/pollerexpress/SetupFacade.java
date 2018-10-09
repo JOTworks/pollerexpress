@@ -2,10 +2,10 @@ package cs340.pollerexpress;
 
 import com.pollerexpress.models.Command;
 import com.pollerexpress.models.CommandFailed;
-import com.pollerexpress.models.ErrorResponse;
+import com.pollerexpress.reponse.ErrorResponse;
 import com.pollerexpress.models.GameInfo;
-import com.pollerexpress.models.LoginRequest;
-import com.pollerexpress.models.LoginResponse;
+import com.pollerexpress.request.LoginRequest;
+import com.pollerexpress.reponse.LoginResponse;
 import com.pollerexpress.models.Player;
 import com.pollerexpress.models.PollResponse;
 import com.pollerexpress.models.Color;
@@ -25,6 +25,7 @@ public class SetupFacade {
      * @return res.getError it will return null on succesful login
      */
     public ErrorResponse login(LoginRequest request){
+
         return loginOrRegister("login", request);
     }
 
@@ -43,6 +44,7 @@ public class SetupFacade {
      * @return res.getError, it will return null on succesful login
      */
     public  ErrorResponse loginOrRegister(String requestType, LoginRequest loginReq){
+
         ClientCommunicator CC = ClientCommunicator.instance();
 
         LoginResponse response = CC.sendLoginRequest(requestType, loginReq);
@@ -88,16 +90,7 @@ public class SetupFacade {
         } else if(response.getError() != null) {
             return response.getError();
         } else {
-            Queue<Command> commands = response.getCommands();
-            for (int i = 0; i < commands.size(); i++) {
-                Command command = commands.poll();
-                try {
-                    command.execute();
-                } catch (CommandFailed commandFailed) {
-                    commandFailed.printStackTrace();
-                }
-
-            }
+            executeCommands(response.getCommands());
         }
 
         return null;
@@ -121,15 +114,7 @@ public class SetupFacade {
         } else if(response.getError() != null) {
             return response.getError();
         } else {
-            Queue<Command> commands = response.getCommands();
-            for (int i = 0; i < commands.size(); i++) {
-                Command command = commands.poll();
-                try {
-                    command.execute();
-                } catch (CommandFailed commandFailed) {
-                    commandFailed.printStackTrace();
-                }
-            }
+            executeCommands(response.getCommands());
         }
 
         return null;
@@ -154,15 +139,7 @@ public class SetupFacade {
         } else if(response.getError() != null) {
             return response.getError();
         } else {
-            Queue<Command> commands = response.getCommands();
-            for (int i = 0; i < commands.size(); i++) {
-                Command command = commands.poll();
-                try {
-                    command.execute();
-                } catch (CommandFailed commandFailed) {
-                    commandFailed.printStackTrace();
-                }
-            }
+            executeCommands(response.getCommands());
         }
 
         return null;
@@ -188,17 +165,20 @@ public class SetupFacade {
         } else if(response.getError() != null) {
             return response.getError();
         } else {
-            Queue<Command> commands = response.getCommands();
-            for (int i = 0; i < commands.size(); i++) {
-                Command command = commands.poll();
-                try {
-                    command.execute();
-                } catch (CommandFailed commandFailed) {
-                    commandFailed.printStackTrace();
-                }
-            }
+            executeCommands(response.getCommands());
         }
 
         return null;
+    }
+
+    private void executeCommands(Queue<Command> commands){
+        for (int i = 0; i < commands.size(); i++) {
+            Command command = commands.poll();
+            try {
+                command.execute();
+            } catch (CommandFailed commandFailed) {
+                commandFailed.printStackTrace();
+            }
+        }
     }
 }

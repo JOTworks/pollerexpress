@@ -1,6 +1,7 @@
 package com.pollerexpress.models;
 
 import com.pollerexpress.database.exceptions.DatabaseException;
+import com.pollerexpress.reponse.LoginResponse;
 
 public interface IDatabaseFacade
 {

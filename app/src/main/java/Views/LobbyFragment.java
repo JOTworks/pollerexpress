@@ -74,15 +74,14 @@ public class LobbyFragment extends Fragment implements ILobbyView {
             @Override
             public void onClick(View v) {
                 //TODO: pull this to a method and give control to the presenter
-                FragmentManager fragmentManager = getFragmentManager();
-                //Fragment startGameFragment = fragmentManager.findFragmentById(R.id.fragment_create_game);
+                FragmentManager fm = getFragmentManager();
                 Fragment GameFragment = new GameFragment();
 
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, GameFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-                fragmentManager.popBackStack();
+                fm.popBackStack();
             }
         });
 

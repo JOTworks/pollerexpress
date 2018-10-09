@@ -57,7 +57,11 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
         // specify an adapter (see also next example)
         mAdapter = new GameSelectAdapter(new GameInfo[] {
                 new GameInfo("id", "game1", 5, 2),
-                new GameInfo("id", "game2", 4, 1)}, gameSelectionPresenter); //TODO: use getGameList()
+                new GameInfo("id", "game2", 4, 1)}, gameSelectionPresenter); //TODO: use getGameList() (implemented below but commented out below until createGame works)
+        //I think the above is for testing, the below is for when we actually have the creategame thing WORKING
+        /*
+        mAdapter = new GameSelectAdapter(gameSelectionPresenter.getGameList(), gameSelectionPresenter);
+         */
         mGameRecyclerView.setAdapter(mAdapter);
 
 
@@ -68,15 +72,7 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
         mCreateGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: pull this to a method and give control to the presenter
-                FragmentManager fragmentManager = getFragmentManager();
-                //Fragment createGameFragment = fragmentManager.findFragmentById(R.id.fragment_create_game);
-                Fragment createGameFragment = new CreateGameFragment();
-
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.right_side_fragment_container, createGameFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                gameSelectionPresenter.createGame();
             }
         });
 
@@ -85,7 +81,14 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
 
     @Override
     public void changeCreateGameView() {
+        FragmentManager fm = getFragmentManager();
+        //Fragment createGameFragment = fm.findFragmentById(R.id.fragment_create_game);
+        Fragment createGameFragment = new CreateGameFragment();
 
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.right_side_fragment_container, createGameFragment);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     @Override

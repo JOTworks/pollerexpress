@@ -1,11 +1,11 @@
 package pollerexpress.database;
 
 import com.pollerexpress.models.Authtoken;
-import com.pollerexpress.models.ErrorResponse;
+import com.pollerexpress.reponse.ErrorResponse;
 import com.pollerexpress.models.Game;
 import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.models.IDatabaseFacade;
-import com.pollerexpress.models.LoginResponse;
+import com.pollerexpress.reponse.LoginResponse;
 import com.pollerexpress.models.Player;
 import com.pollerexpress.models.User;
 
@@ -42,7 +42,7 @@ public class DatabaseFacade implements IDatabaseFacade
 
                 db.getAuthtokenDao().write(auth);
                 LoginResponse lr = new LoginResponse(auth, info, null);
-                db.close(false);
+                db.close(true);
                 return lr;
             }
 
@@ -72,6 +72,7 @@ public class DatabaseFacade implements IDatabaseFacade
         {
             return new LoginResponse(null, null, new ErrorResponse(String.format("%s is already used", user.name), null, null));
         }
+        db.close(false);
         return this.login(user);
     }
 
