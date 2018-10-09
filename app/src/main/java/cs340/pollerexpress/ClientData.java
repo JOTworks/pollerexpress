@@ -4,6 +4,7 @@ import com.pollerexpress.models.Authtoken;
 import com.pollerexpress.models.Game;
 import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.models.Player;
+import com.pollerexpress.models.PollResponse;
 import com.pollerexpress.models.User;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class ClientData extends Observable
     private Authtoken auth;
     private Game game;
     private ArrayList<GameInfo> gameInfoList;
+    private PollerExpress theTrain;
 
     public User getUser(){
         return user;
@@ -79,30 +81,49 @@ public class ClientData extends Observable
 
     public void setUser(User user)
     {
-
-        notify();
+        synchronized (this)
+        {
+            notify();
+        }
         this.user = user;
     }
     public void setAuth(Authtoken auth)
     {
-        notify();
+        synchronized (this)
+        {
+            notify();
+        }
         this.auth = auth;
     }
     public void setGame(Game game)
     {
-        notify();
+        synchronized (this)
+        {
+            notify();
+        }
         this.game = game;
     }
 
     public void setGameInfoList(ArrayList<GameInfo> gameInfoList)
     {
-        notify();
+        synchronized (this)
+        {
+            notify();
+        }
         this.gameInfoList = gameInfoList;
     }
 
 
     public void addPlayerToGame(Player player) {
-        notify();
+        synchronized (this)
+        {
+            notify();
+        }
         this.getGame().addPlayer(player);
+    }
+
+    public void set(PollerExpress pe)
+    {
+        theTrain = pe;
     }
 }

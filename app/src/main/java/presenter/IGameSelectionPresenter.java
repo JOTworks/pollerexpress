@@ -2,12 +2,15 @@ package presenter;
 
 import com.pollerexpress.models.GameInfo;
 
+import java.util.Observer;
+
 /**
  * This class is responsible for defining
  * methods the GameSelectionView can call
  * on the GameSelectionPresenter
  */
-public interface IGameSelectionPresenter {
+public interface IGameSelectionPresenter extends Observer
+{
 
     /** Logic for when "create game" button is clicked
      * @post view changes to create Game View*/

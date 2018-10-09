@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import com.pollerexpress.models.Color;
 import com.pollerexpress.reponse.ErrorResponse;
 
+import java.util.Observable;
+
 import Views.ICreateGameView;
 import cs340.pollerexpress.SetupFacade;
 
@@ -68,6 +70,12 @@ public class CreateGamePresenter implements ICreateGamePresenter {
     }
 
     @Override
+    public void update(Observable o, Object arg)
+    {
+
+    }
+
+    @Override
     public void onBackArrowClicked() {
 
         // No game was actually created,
@@ -123,6 +131,8 @@ public class CreateGamePresenter implements ICreateGamePresenter {
             }
 
         }
+
+
     }
 
 }

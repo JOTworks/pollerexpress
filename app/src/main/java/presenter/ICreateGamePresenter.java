@@ -1,10 +1,14 @@
 package presenter;
 
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  * Declares the methods that the create game view
  * will need to be able to call on the create game presenter
  */
-public interface ICreateGamePresenter {
+public interface ICreateGamePresenter extends Observer
+{
 
     /**
      * Sets the number of players in a game
