@@ -60,6 +60,11 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
         return (GameInfo[]) clientData.getGameInfoList().toArray();
     }
 
+    /**
+     *
+     * @param o
+     * @param arg
+     */
     @Override
     public void update(Observable o, Object arg) {
 
@@ -70,7 +75,8 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
         for(int i = 0; i < gameInfoList.length; i++) {
 
             GameInfo gameInfo = gameInfoList[i];
-            if (gameInfo.getNumPlayers() < gameInfo.getMaxPlayers()) {
+            if (gameInfo.getNumPlayers() < gameInfo.getMaxPlayers())
+            {
                 view.enableGame(i);
             }
             else {

@@ -6,7 +6,7 @@ import com.pollerexpress.reponse.LoginResponse;
 public interface IDatabaseFacade
 {
     LoginResponse login(User user);
-    LoginResponse register(User user);
+    void register(User user) throws DatabaseException;
     Game join(Player player, GameInfo info) throws DatabaseException;
     void leave(Player player, GameInfo info) throws DatabaseException;
     void create(Player player, Game game) throws DatabaseException;
