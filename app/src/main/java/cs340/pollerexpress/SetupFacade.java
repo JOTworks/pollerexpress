@@ -83,9 +83,9 @@ public class SetupFacade {
         Class<?>[] types = {Player.class, GameInfo.class};
         Object[] params= {ClientData.getInstance().getUser(), info };
 
-        Command joinGameCommand = new Command(CommandsExtensions.serverSide +"CommandFacade","createGame",types,params);
+        Command createGameCommand = new Command(CommandsExtensions.serverSide +"CommandFacade","createGame",types,params);
 
-        PollResponse response = CC.sendCommand(joinGameCommand);
+        PollResponse response = CC.sendCommand(createGameCommand);
 
         if(response == null) {
             //client communicator didn't work, throw error or something? Idk how to do that though.
