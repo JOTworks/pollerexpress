@@ -25,21 +25,7 @@ class ClientSetupService implements ISetupService {
         infoList.add(gameInfo);
         return true;
     }
-    public boolean deleteGame(GameInfo gameInfo){
-        ArrayList<GameInfo> infoList = CD.getGameInfoList();
-        for(int i = 0; i<infoList.size(); i++){
-            if(infoList.get(i).getId()==gameInfo.getId()) {
-                if(infoList.get(i).getId()==CD.getGame().getId()){
-                    System.out.println("!!!you deleated the game im in");
-                    return false;
-                }
-            }
-            infoList.remove(gameInfo);
-            return true;
-        }
-        System.out.println("!!!you tried to deate a game that doesnt exist");
-        return false;
-    }
+
 
     public boolean startGame(GameInfo gameInfo){
         ArrayList<GameInfo> infoList = CD.getGameInfoList();
@@ -83,7 +69,21 @@ class ClientSetupService implements ISetupService {
         System.out.println("!!!you tried to have that dude join a game that didnt exist");
         return false;
     }
-
+    public boolean deleteGame(GameInfo gameInfo){
+        ArrayList<GameInfo> infoList = CD.getGameInfoList();
+        for(int i = 0; i<infoList.size(); i++){
+            if(infoList.get(i).getId()==gameInfo.getId()) {
+                if(infoList.get(i).getId()==CD.getGame().getId()){
+                    System.out.println("!!!you deleated the game im in");
+                    return false;
+                }
+            }
+            infoList.remove(gameInfo);
+            return true;
+        }
+        System.out.println("!!!you tried to deate a game that doesnt exist");
+        return false;
+    }
     public boolean leaveGame(Player player, GameInfo info){
         ArrayList<GameInfo> infoList = CD.getGameInfoList();
         for(int i = 0; i<infoList.size(); i++){
