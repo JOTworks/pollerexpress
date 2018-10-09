@@ -8,9 +8,9 @@ public interface ICreateGamePresenter {
 
     public void setNumOfPlayers(String numOfPlayers);
 
-    public void setUserColor(String numOfPlayers);
+    public void setUserColor(String userColor);
 
-    public void createGame();
+    public void createGame(String numOfPlayers, String userColor);
 
     public void okButtonClicked();
 

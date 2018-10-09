@@ -16,11 +16,13 @@ public class CreateGamePresenter implements ICreateGamePresenter, Observer {
     @Override
     public void setNumOfPlayers(String numOfPlayers) {}
 
-    public void createGame() {
-    }
-
     @Override
     public void setUserColor(String numOfPlayers) {}
+
+    @Override
+    public void createGame(String numOfPlayers, String userColor) {
+
+    }
 
     public void okButtonClicked() {
 
