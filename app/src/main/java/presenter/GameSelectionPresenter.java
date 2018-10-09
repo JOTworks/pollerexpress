@@ -25,6 +25,8 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
     public GameSelectionPresenter(IGameSelectionView view) {
         this.view = view;
         facade = new SetupFacade();
+        clientData.addObserver(this);
+
     }
 
     @Override

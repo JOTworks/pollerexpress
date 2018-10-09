@@ -65,7 +65,8 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
     * needs to be updated to reflect that.
     * */
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(Observable o, Object arg)
+    {
 
 
     }
