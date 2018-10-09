@@ -4,11 +4,14 @@ import android.os.AsyncTask;
 
 import com.pollerexpress.models.Color;
 import com.pollerexpress.reponse.ErrorResponse;
-import com.pollerexpress.request.CreateGameRequest;
 
 import Views.ICreateGameView;
 import cs340.pollerexpress.SetupFacade;
 
+/**
+ * Doesn't need to implement observer because the create
+ * game view is not updated based on changed to models.
+ */
 public class CreateGamePresenter implements ICreateGamePresenter {
 
     private ICreateGameView view;
@@ -50,11 +53,15 @@ public class CreateGamePresenter implements ICreateGamePresenter {
         numPlayers = Integer.parseInt(numOfPlayers);
         userColor = Color.PLAYER.valueOf(user_color);
 
-        if( gameName.length() > 0 ) {
+        if( gameName.length() > 0 && gameName.length() < 1000 ) {
 
             CreateGameTask createGameTask = new CreateGameTask();
 
             createGameTask.execute(new Object[]{gameName, numPlayers, user_color});
+        }
+        else {
+
+            view.displayError("Game name either too long or too short.");
         }
     }
 
