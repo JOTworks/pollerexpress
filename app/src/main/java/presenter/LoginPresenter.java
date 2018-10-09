@@ -53,11 +53,18 @@ public class LoginPresenter implements ILoginPresenter {
     @Override
     public void logIn(String username, String password) {
 
-        LoginTask loginTask = new LoginTask();
+        if(username.length() > 0 && username.length() < 1000
+                && password.length() > 0 && password.length() < 1000) {
 
-        LoginRequest loginRequest = new LoginRequest(username, password);
+            LoginTask loginTask = new LoginTask();
 
-        loginTask.execute(loginRequest);
+            LoginRequest loginRequest = new LoginRequest(username, password);
+
+            loginTask.execute(loginRequest);
+        }
+        else {
+            loginView.displayError("field with too many or too few characters");
+        }
     }
 
     /**
@@ -66,11 +73,18 @@ public class LoginPresenter implements ILoginPresenter {
     @Override
     public void register(String username, String password) {
 
-        RegisterTask registerTask = new RegisterTask();
+        if(username.length() > 0 && username.length() < 1000
+                && password.length() > 0 && password.length() < 1000) {
 
-        LoginRequest loginRequest = new LoginRequest(username, password);
+            RegisterTask registerTask = new RegisterTask();
 
-        registerTask.execute(loginRequest);
+            LoginRequest loginRequest = new LoginRequest(username, password);
+
+            registerTask.execute(loginRequest);
+        }
+        else {
+            loginView.displayError("field with too many or too few characters");
+        }
     }
 
     public class RegisterTask extends AsyncTask<LoginRequest, Void, ErrorResponse> {

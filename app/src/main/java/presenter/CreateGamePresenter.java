@@ -79,6 +79,11 @@ public class CreateGamePresenter implements ICreateGamePresenter {
 //        protected ErrorResponse doInBackground(CreateGameRequest... createGameRequests) {
 //            return null;
 //        }
+//
+//        @Override
+//        protected void onPostExecute(ErrorResponse response) {
+//
+//        }
 //    }
 
 }
