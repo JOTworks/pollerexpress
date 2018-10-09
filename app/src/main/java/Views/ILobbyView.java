@@ -9,6 +9,8 @@ public interface ILobbyView {
 //    void setPlayerColor(Player player,Color color);
 //    void changeView(View newView);
 
+    void changeToGameView();
+
     void displayMessage(String message);
 
     void changeToSetupGameView();

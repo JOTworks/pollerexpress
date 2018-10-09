@@ -73,21 +73,24 @@ public class LobbyFragment extends Fragment implements ILobbyView {
         mStartGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: pull this to a method and give control to the presenter
-                FragmentManager fm = getFragmentManager();
-                Fragment GameFragment = new GameFragment();
-
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, GameFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-                fm.popBackStack();
+                lobbyPresenter.startButtonPressed();
             }
         });
 
         return v;
     }
 
+    @Override
+    public void changeToGameView() {
+        FragmentManager fm = getFragmentManager();
+        Fragment GameFragment = new GameFragment();
+
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, GameFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+        fm.popBackStack();
+    }
 
     @Override
     public void displayMessage(String message) {
