@@ -89,16 +89,7 @@ public class SetupFacade {
         } else if(response.getError() != null) {
             return response.getError();
         } else {
-            Queue<Command> commands = response.getCommands();
-            for (int i = 0; i < commands.size(); i++) {
-                Command command = commands.poll();
-                try {
-                    command.execute();
-                } catch (CommandFailed commandFailed) {
-                    commandFailed.printStackTrace();
-                }
-
-            }
+            executeCommands(response.getCommands());
         }
 
         return null;
@@ -122,15 +113,7 @@ public class SetupFacade {
         } else if(response.getError() != null) {
             return response.getError();
         } else {
-            Queue<Command> commands = response.getCommands();
-            for (int i = 0; i < commands.size(); i++) {
-                Command command = commands.poll();
-                try {
-                    command.execute();
-                } catch (CommandFailed commandFailed) {
-                    commandFailed.printStackTrace();
-                }
-            }
+            executeCommands(response.getCommands());
         }
 
         return null;
@@ -155,15 +138,7 @@ public class SetupFacade {
         } else if(response.getError() != null) {
             return response.getError();
         } else {
-            Queue<Command> commands = response.getCommands();
-            for (int i = 0; i < commands.size(); i++) {
-                Command command = commands.poll();
-                try {
-                    command.execute();
-                } catch (CommandFailed commandFailed) {
-                    commandFailed.printStackTrace();
-                }
-            }
+            executeCommands(response.getCommands());
         }
 
         return null;
@@ -189,17 +164,20 @@ public class SetupFacade {
         } else if(response.getError() != null) {
             return response.getError();
         } else {
-            Queue<Command> commands = response.getCommands();
-            for (int i = 0; i < commands.size(); i++) {
-                Command command = commands.poll();
-                try {
-                    command.execute();
-                } catch (CommandFailed commandFailed) {
-                    commandFailed.printStackTrace();
-                }
-            }
+            executeCommands(response.getCommands());
         }
 
         return null;
+    }
+
+    private void executeCommands(Queue<Command> commands){
+        for (int i = 0; i < commands.size(); i++) {
+            Command command = commands.poll();
+            try {
+                command.execute();
+            } catch (CommandFailed commandFailed) {
+                commandFailed.printStackTrace();
+            }
+        }
     }
 }

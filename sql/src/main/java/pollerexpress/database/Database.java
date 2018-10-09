@@ -83,6 +83,7 @@ public class Database implements IDatabase
 
             this.dataConnection.close();
             this.dataConnection = null;
+            System.out.print("Closed Database Connection");
         }
         catch (SQLException e)
         {

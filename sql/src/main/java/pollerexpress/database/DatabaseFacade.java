@@ -72,6 +72,7 @@ public class DatabaseFacade implements IDatabaseFacade
         {
             return new LoginResponse(null, null, new ErrorResponse(String.format("%s is already used", user.name), null, null));
         }
+        db.close(false);
         return this.login(user);
     }
 

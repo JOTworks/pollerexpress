@@ -6,6 +6,11 @@ public class ErrorResponse {
 	private Exception exception;
 	private Command failed_command;
 
+	public ErrorResponse()
+	{
+
+	}
+
 	public ErrorResponse(String message, Exception exception, Command failed_command) {
 		this.message = message;
 		this.exception = exception;
