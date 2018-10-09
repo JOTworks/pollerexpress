@@ -30,7 +30,6 @@ public class CommandFacade {
 
         CommandManager CM = CommandManager._instance();
 
-        //adds load command
         Class<?>[] loadTypes = {Game.class};
         IDatabaseFacade DF = Factory.createDatabaseFacade();
         Object[] loadParams= {DF.getGame(info)};

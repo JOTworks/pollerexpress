@@ -28,7 +28,7 @@ public interface ILoginPresenter {
      * @param username
      * @param password
      */
-    public void register(String username, String password);
+    public void register(String username, String password, String confirm);
 
     /**
      * If the parameters meet the requirements

@@ -115,5 +115,5 @@ public class LobbyFragment extends Fragment implements ILobbyView {
         mAdapter.notifyItemChanged(i);
     }
 
-    
+
 }

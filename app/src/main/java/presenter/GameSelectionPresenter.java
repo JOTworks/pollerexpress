@@ -131,7 +131,7 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
         protected void onPostExecute (ErrorResponse response) {
 
             if(response != null) {
-                view.displayError(response.getMessage());
+                view.displayError("unable to join this game");
             }
             else {
                 view.changeToLobbyView();
