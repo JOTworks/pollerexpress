@@ -2,11 +2,13 @@ package presenter;
 
 import android.os.AsyncTask;
 
+import com.pollerexpress.models.Command;
 import com.pollerexpress.models.ErrorResponse;
 import com.pollerexpress.models.LoginRequest;
 
 import Views.ILoginView;
 import cs340.pollerexpress.SetupFacade;
+import cs340.pollerexpress.Test_ClientCommunicator_Jack;
 
 /**
  * Logic that was, in 240, being done in the user interface is
@@ -102,6 +104,10 @@ public class LoginPresenter implements ILoginPresenter {
         protected ErrorResponse doInBackground(LoginRequest... params) {
 
             LoginRequest loginRequest = params[0];
+//            Test_ClientCommunicator_Jack cc = Test_ClientCommunicator_Jack.instance();
+//            String response = cc.sendTest();
+//            ErrorResponse errorResponse = new ErrorResponse(response, new Exception(), new Command());
+//            return errorResponse;
             return facade.login(loginRequest);
         }
 
