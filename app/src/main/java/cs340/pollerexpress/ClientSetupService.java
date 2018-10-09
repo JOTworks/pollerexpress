@@ -35,7 +35,7 @@ class ClientSetupService implements ISetupService {
 
                 //if its your game
                 if (CD.getGame() != null && infoList.get(i).getId().equals(CD.getGame().getId())) {
-                   CD.getGame().addPlayer(player);
+                   CD.addPlayerToGame(player);
                 }
                 return true;
             }

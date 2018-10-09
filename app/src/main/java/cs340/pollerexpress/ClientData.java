@@ -3,6 +3,7 @@ package cs340.pollerexpress;
 import com.pollerexpress.models.Authtoken;
 import com.pollerexpress.models.Game;
 import com.pollerexpress.models.GameInfo;
+import com.pollerexpress.models.Player;
 import com.pollerexpress.models.User;
 
 import java.util.ArrayList;
@@ -99,4 +100,8 @@ public class ClientData extends Observable
     }
 
 
+    public void addPlayerToGame(Player player) {
+        notify();
+        this.getGame().addPlayer(player);
+    }
 }
