@@ -1,11 +1,13 @@
 package presenter;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.models.User;
 import com.pollerexpress.reponse.ErrorResponse;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -22,8 +24,10 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
     private SetupFacade facade;
     ClientData clientData = ClientData.getInstance();
 
+    private boolean update = true;
     public GameSelectionPresenter(IGameSelectionView view) {
         this.view = view;
+        Log.d("GameSelectionPresenter", "createdNew");
         facade = new SetupFacade();
         clientData.addObserver(this);
 
@@ -37,31 +41,31 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
         * create game presenter since we won't have the
         * necessary information until then.
         * */
+        update = false;
 
+        clientData.deleteObserver(this);
         view.changeCreateGameView();
     }
 
     @Override
-    public void joinGame(int gameIndex) {
-
+    public void joinGame(GameInfo info)
+    {
+        update = false;
         User user = clientData.getUser();
-        GameInfo[] gameInfoList = clientData.getGameInfoList().toArray(new GameInfo[0]);
-
-        GameInfo gameInfo = gameInfoList[gameIndex];
 
         JoinGameTask joinGameTask = new JoinGameTask();
 
-        Request request = new Request(user, gameInfo);
+        Request request = new Request(user, info);
         joinGameTask.execute(request);
+        update = true;
 
     }
 
     @Override
-    public GameInfo[] getGameList() {
+    public List<GameInfo> getGameList()
+    {
 
-        if(clientData.getGameInfoList() != null)
-            return clientData.getGameInfoList().toArray(new GameInfo[clientData.getGameInfoList().size()]);
-        return new GameInfo[]{};
+        return clientData.getGameInfoList();
     }
 
     /**
@@ -70,15 +74,15 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
      * @param arg
      */
     @Override
-    public void update(Observable o, Object arg) {
-
+    public void update(Observable o, Object arg)
+    {
+        if(!update) return;
         // get the list of existing games
-        GameInfo[] gameInfoList = clientData.getGameInfoList().toArray(new GameInfo[0]);
-
-
+        Log.d("update", "ran update");
         // refresh the list of games in the view
-        view.renderGames(gameInfoList);
+        view.renderGames(clientData.getGameInfoList());
 
+        /*
         // determine which games the user can join
         for(int i = 0; i < gameInfoList.length; i++) {
 
@@ -90,7 +94,7 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
             else {
                 view.disableGame(i);
             }
-        }
+        }*/
     }
 
     private class Request {

@@ -2,6 +2,8 @@ package Views;
 
 import com.pollerexpress.models.GameInfo;
 
+import java.util.List;
+
 public interface IGameSelectionView {
 
     void changeCreateGameView();
@@ -11,7 +13,7 @@ public interface IGameSelectionView {
      * and should be called in the presenter's update method
      * @param gameinfoList The list of existing games
      */
-    void renderGames(GameInfo[] gameinfoList);
+    void renderGames(List<GameInfo> gameinfoList);
 
     void disableGame(int gameListIndex);
     void enableGame(int gameListIndex);

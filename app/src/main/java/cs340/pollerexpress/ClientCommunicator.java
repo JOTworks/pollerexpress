@@ -2,7 +2,6 @@ package cs340.pollerexpress;
 
 
 import com.pollerexpress.models.Command;
-import com.pollerexpress.models.User;
 import com.pollerexpress.models.serializer.Serializer;
 import com.pollerexpress.request.LoginRequest;
 import com.pollerexpress.reponse.LoginResponse;
@@ -16,7 +15,8 @@ import java.net.URL;
 
 public class ClientCommunicator
 {
-    private String serverHost = "10.0.2.2";
+
+    private String serverHost = "10.0.2.2";//"192.168.1.177";//"192.168.1.177";//local host
     private String serverPort = "8080";
     private static ClientCommunicator _instance;
     private ClientCommunicator()
