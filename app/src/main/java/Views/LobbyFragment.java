@@ -73,10 +73,10 @@ public class LobbyFragment extends Fragment implements ILobbyView {
                 //Fragment startGameFragment = fm.findFragmentById(R.id.fragment_create_game);
                 Fragment GameFragment = new GameFragment();
 
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.replace(R.id.right_side_fragment_container, GameFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.right_side_fragment_container, GameFragment);
+                ft.addToBackStack(null);
+                ft.commit();
             }
         });
 

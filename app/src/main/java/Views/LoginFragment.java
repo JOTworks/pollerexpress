@@ -139,9 +139,9 @@ public class LoginFragment extends Fragment implements ILoginView {
         //Fragment createGameFragment = fm.findFragmentById(R.id.fragment_create_game);
         Fragment fragment = new SetupGameFragment();
 
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
-        fragmentTransaction.commit();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, fragment);
+        ft.commit();
         fm.popBackStack();
     }
 
