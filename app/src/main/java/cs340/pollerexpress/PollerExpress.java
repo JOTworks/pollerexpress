@@ -11,7 +11,7 @@ import java.util.TimerTask;
 /**
  * Welcome to The Poller Express.
  * Sends a poll request to the server via the ClientCommunicator every 2 seconds.
- * Currently prints a "Beep!" every time it polls so you know it's working,
+ * Currently prints a "Choo!" every time it polls so you know it's working,
  * when we have the command execution debugged and tested we'll get rid of that.
  */
 public class PollerExpress {

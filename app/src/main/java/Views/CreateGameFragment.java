@@ -56,7 +56,7 @@ public class CreateGameFragment extends Fragment implements ICreateGameView {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
-                //TODO: the create game button is going to need to be unclickable unless selections have been made in the spinners, unless there is a defaul...
+                //TODO: the create game button is going to need to be unclickable unless selections have been made in the spinners, unless there is a default...
             }
         });
         //----------------------------User Color Spinner--------------------------------------------
