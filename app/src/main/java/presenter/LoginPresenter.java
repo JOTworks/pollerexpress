@@ -116,10 +116,6 @@ public class LoginPresenter implements ILoginPresenter {
         protected ErrorResponse doInBackground(LoginRequest... params) {
 
             LoginRequest loginRequest = params[0];
-//            Test_ClientCommunicator_Jack cc = Test_ClientCommunicator_Jack.instance();
-//            String response = cc.sendTest();
-//            ErrorResponse errorResponse = new ErrorResponse(response, new Exception(), new Command());
-//            return errorResponse;
             return facade.login(loginRequest);
         }
 
