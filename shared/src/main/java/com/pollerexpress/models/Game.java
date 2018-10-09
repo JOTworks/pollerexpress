@@ -97,6 +97,29 @@ public class Game implements Serializable
         //TODO: Throw an error
     }
 
+    public int getPlayerDex(Player p)
+    {
+        for(int i = 0; i < this.getMaxPlayers(); ++i)
+        {
+            if(_players[i] != null && _players[i].equals(p) )
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+    public boolean hasPlayer(Player p)
+    {
+        for(int i = 0; i < this.getMaxPlayers(); ++i)
+        {
+            if(_players[i] != null && _players[i].equals(p) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      *
      * @return The maximum _players allowed in this game
@@ -108,6 +131,10 @@ public class Game implements Serializable
 
 
 
+    public Player[] get_players()
+    {
+        return _players;
+    }
 
 
     @Override

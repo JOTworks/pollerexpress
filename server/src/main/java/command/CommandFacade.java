@@ -30,18 +30,19 @@ public class CommandFacade {
 
         CommandManager CM = CommandManager._instance();
 
-        //adds join command
-        Class<?>[] types = {Player.class, GameInfo.class};
-        Object[] params = {player, info};
-        Command joinCommand = new Command(CommandsExtensions.clientSide+"ClientSetupService","joinGame",types,params);
-        CM.addCommand(joinCommand);
-
         //adds load command
         Class<?>[] loadTypes = {Game.class};
         IDatabaseFacade DF = Factory.createDatabaseFacade();
         Object[] loadParams= {DF.getGame(info)};
         Command loadCommand = new Command(CommandsExtensions.clientSide+"ClientSetupService","loadGame",loadTypes,loadParams);
         CM.addCommand(loadCommand,player);
+
+        //adds join command
+        Class<?>[] types = {Player.class, GameInfo.class};
+        Object[] params = {player, info};
+        Command joinCommand = new Command(CommandsExtensions.clientSide+"ClientSetupService","joinGame",types,params);
+        CM.addCommand(joinCommand);
+
 
     }
 

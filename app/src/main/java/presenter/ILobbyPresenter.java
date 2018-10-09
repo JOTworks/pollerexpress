@@ -1,5 +1,6 @@
 package presenter;
 
+import com.pollerexpress.models.Game;
 import com.pollerexpress.models.Player;
 
 import java.util.Observable;
@@ -16,4 +17,6 @@ public interface ILobbyPresenter extends Observer
     void startButtonPressed();
 
     void onBackArrowPressed();
+
+    Game getGame();
 }

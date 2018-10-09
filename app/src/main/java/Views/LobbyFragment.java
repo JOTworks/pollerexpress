@@ -6,12 +6,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.pollerexpress.models.Game;
 import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.models.Player;
 
@@ -58,11 +61,8 @@ public class LobbyFragment extends Fragment implements ILobbyView {
         mGameRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new PlayerAdapter(new Player[] { new Player("Abby"),
-                                                    new Player("Morgan"),
-                                                            new Player("Jack"),
-                                                            new Player("Torsten"),
-                                                            new Player("Nate")});
+        Game game = lobbyPresenter.getGame();
+        mAdapter = new PlayerAdapter(game.get_players() );
         mGameRecyclerView.setAdapter(mAdapter);
 
 
@@ -109,4 +109,11 @@ public class LobbyFragment extends Fragment implements ILobbyView {
         fm.popBackStack();
     }
 
+    @Override
+    public void playerJoined(Player p, int i)
+    {
+        mAdapter.notifyItemChanged(i);
+    }
+
+    
 }

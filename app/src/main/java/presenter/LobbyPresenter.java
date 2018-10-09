@@ -2,6 +2,7 @@ package presenter;
 
 import com.pollerexpress.models.Game;
 import com.pollerexpress.models.GameInfo;
+import com.pollerexpress.models.Player;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -24,6 +25,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
 
         this.lobbyView = lobbyView;
         clientData = cs340.pollerexpress.ClientData.getInstance();
+        //clientData.addObserver(this);
     }
 
 
@@ -67,7 +69,23 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
     @Override
     public void update(Observable o, Object arg)
     {
+        if( !(arg instanceof Player) ) return;
+        Player p = (Player) arg;
+        Game game = clientData.getGame();
+        int dex = game.getPlayerDex(p);
+        if(dex != -1)
+        {
+            //remove player?
+        }
+        else
+        {
+            lobbyView.playerJoined(p, dex);
+        }
+    }
 
-
+    @Override
+    public Game getGame()
+    {
+        return clientData.getGame();
     }
 }

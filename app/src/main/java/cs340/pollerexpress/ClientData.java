@@ -119,10 +119,12 @@ public class ClientData extends Observable
 
 
     public void addPlayerToGame(Player player) {
-        this.getGame().addPlayer(player);
+
         synchronized (this)
         {
-            notify();
+            this.getGame().addPlayer(player);
+            this.setChanged();
+            notifyObservers(player);
         }
     }
 

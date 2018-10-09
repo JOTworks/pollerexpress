@@ -53,7 +53,14 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.MyViewHold
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.playerName.setText(playerArray[position].getName());
+        try
+        {
+            holder.playerName.setText(playerArray[position].getName());
+        }
+        catch(NullPointerException e)
+        {
+            holder.playerName.setText("open");
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
