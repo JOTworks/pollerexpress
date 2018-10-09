@@ -10,7 +10,7 @@ import java.util.Observer;
 import Views.ICreateGameView;
 import cs340.pollerexpress.SetupFacade;
 
-public class CreateGamePresenter implements ICreateGamePresenter {
+public class CreateGamePresenter implements ICreateGamePresenter, Observer {
 
     private ICreateGameView view;
     private SetupFacade facade;
@@ -24,12 +24,14 @@ public class CreateGamePresenter implements ICreateGamePresenter {
         facade = new SetupFacade();
     }
 
+    // DONE!
     @Override
     public void setNumOfPlayers(String numOfPlayers) {
 
         numPlayers = Integer.parseInt(numOfPlayers);
     }
 
+    // DONE!
     @Override
     public void setUserColor(String color) {
 
@@ -37,10 +39,7 @@ public class CreateGamePresenter implements ICreateGamePresenter {
         userColor = Color.PLAYER.valueOf(color);
     }
 
-    public void okButtonClicked() {
-
-    }
-
+    // DONE!
     @Override
     public void setGameName(String name) {
 
@@ -48,7 +47,10 @@ public class CreateGamePresenter implements ICreateGamePresenter {
     }
 
     @Override
-    public void createGame(String numOfPlayers, String user_color) {
+    public void onCreateGameClicked(String numOfPlayers, String user_color) {
+
+        numPlayers = Integer.parseInt(numOfPlayers);
+        userColor = Color.PLAYER.valueOf(user_color);
 
         if( gameName.length() > 0 ) {
 
@@ -56,24 +58,22 @@ public class CreateGamePresenter implements ICreateGamePresenter {
 
             if( response != null ) {
 
-//                view.displayError(response.getMessage());
+                view.displayError(response.getMessage());
             }
             else {
 
-
+                // if the game was successfully created,
+                // go back to the selection view.
+                view.switchToSelectionView();
             }
         }
-
-
     }
 
     @Override
-    public void onOkClicked() {
+    public void onBackArrowClicked() {
 
-    }
-
-    @Override
-    public void onCancelClicked() {
-
+        // No game was actually created,
+        // so no model data needs to be updated
+        view.switchToSelectionView();
     }
 }

@@ -14,6 +14,10 @@ import cs340.pollerexpress.SetupFacade;
  * That logic includes:
  * enabling/disabling buttons and
  * sending login/register requests
+ *
+ * This class doesn't need to implement observer because
+ * the login view does not get updated based on model data
+ * changing.
  */
 public class LoginPresenter implements ILoginPresenter {
 
