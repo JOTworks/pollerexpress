@@ -145,4 +145,19 @@ public class DatabaseFacade implements IDatabaseFacade
         db.close(false);
         return valid;
     }
+
+    @Override
+    public Game getGame(GameInfo info) throws DatabaseException {
+        return null;
+    }
+
+    @Override
+    public Player getPlayer(String user) throws DatabaseException {
+        return null;
+    }
+
+    @Override
+    public GameInfo getGameInfo(String id) throws DatabaseException {
+        return null;
+    }
 }

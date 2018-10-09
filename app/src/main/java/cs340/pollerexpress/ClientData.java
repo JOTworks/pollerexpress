@@ -41,6 +41,37 @@ public class ClientData {
     public ArrayList<GameInfo> getGameInfoList(){
         return gameInfoList;
     }
+
+    public boolean gameExsists(GameInfo game){
+        for(int i = 0; i<gameInfoList.size(); i++){
+            if(gameInfoList.get(i).getId()==game.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean gameExsists(Game game){
+        for(int i = 0; i<gameInfoList.size(); i++){
+            if(gameInfoList.get(i).getId()==game.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isMyGame(Game game){
+            if(this.game.getId()==game.getId()) {
+                return true;
+            }
+        return false;
+    }
+    public boolean isMyGame(GameInfo game){
+        if(this.game.getId()==game.getId()) {
+            return true;
+        }
+        return false;
+    }
+
     public void setUser(User user){
         this.user = user;
     }
