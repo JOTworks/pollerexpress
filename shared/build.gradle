@@ -1,7 +1,8 @@
 apply plugin: 'java-library'
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.9.7'
 }
 
 sourceCompatibility = "1.7"

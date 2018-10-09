@@ -70,7 +70,7 @@ public class ClientCommunicator {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("AUTH_TOKEN", auth);
-        headers.add("USERNAME", auth);
+        headers.add("USERNAME", username);
         HttpEntity<Command> entity = new HttpEntity<>(command, headers);
 
         //TODO: test

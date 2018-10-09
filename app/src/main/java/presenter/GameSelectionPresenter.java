@@ -100,7 +100,8 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
         @Override
         protected ErrorResponse doInBackground(Object[]... objects) {
 
-            facade.joinGame(user, gameInfo);
+           // facade.joinGame(user, gameInfo);
+            return null;
         }
 
         @Override

@@ -80,8 +80,8 @@ public class SetupFacade {
         GameInfo info = new GameInfo(null, name,numPlayers,1);
         ClientCommunicator CC = ClientCommunicator.instance();
         Class<?>[] types = {Player.class, GameInfo.class};
-        Object[] params= {ClientData.getInstance().getUser(), };
-        Command joinGameCommand = new Command("SetupService","joinGame",types,params);
+        Object[] params= {ClientData.getInstance().getUser(), info };
+        Command joinGameCommand = new Command("SetupService","createGame",types,params);
 
         PollResponse response = CC.sendCommand(joinGameCommand);
 
