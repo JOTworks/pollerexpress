@@ -145,8 +145,7 @@ public class DatabaseFacade implements IDatabaseFacade
         db.close(false);
         return valid;
     }
-
-<<<<<<< HEAD
+    
 
 
     @Override
