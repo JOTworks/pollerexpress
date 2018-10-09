@@ -42,6 +42,7 @@ public class CommandFacade {
         Object[] loadParams= {DF.getGame(info)};
         Command loadCommand = new Command(CommandsExtensions.clientSide+"ClientSetupService","loadGame",loadTypes,loadParams);
         CM.addCommand(loadCommand,player);
+
     }
 
     public static void createGame(Player player, GameInfo info) throws CommandFailed, DatabaseException {
