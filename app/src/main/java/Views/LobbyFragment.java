@@ -13,8 +13,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.pollerexpress.models.GameInfo;
+import com.pollerexpress.models.Player;
 
 import Views.recycleViewAdapters.GameSelectAdapter;
+import Views.recycleViewAdapters.PlayerAdapter;
 import cs340.pollerexpress.R;
 import presenter.GameSelectionPresenter;
 import presenter.IGameSelectionPresenter;
@@ -43,11 +45,10 @@ public class LobbyFragment extends Fragment implements ILobbyView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_game_selection, container, false);
+        View v = inflater.inflate(R.layout.fragment_lobby, container, false);
 
 
-        mGameRecyclerView = (RecyclerView) v.findViewById(R.id.game_selection_recycler_view);
-
+        mGameRecyclerView = (RecyclerView) v.findViewById(R.id.player_recycler_view);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mGameRecyclerView.setHasFixedSize(true);
@@ -57,7 +58,11 @@ public class LobbyFragment extends Fragment implements ILobbyView {
         mGameRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        //TODO: fix this mAdapter = new GameSelectAdapter();
+        mAdapter = new PlayerAdapter(new Player[] { new Player("Abby"),
+                                                    new Player("Morgan"),
+                                                            new Player("Jack"),
+                                                            new Player("Torsten"),
+                                                            new Player("Nate")});
         mGameRecyclerView.setAdapter(mAdapter);
 
 
@@ -68,21 +73,40 @@ public class LobbyFragment extends Fragment implements ILobbyView {
         mStartGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: pull this to a method and give control to the presenter
-                FragmentManager fm = getFragmentManager();
-                //Fragment startGameFragment = fm.findFragmentById(R.id.fragment_create_game);
-                Fragment GameFragment = new GameFragment();
-
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.right_side_fragment_container, GameFragment);
-                ft.addToBackStack(null);
-                ft.commit();
+                lobbyPresenter.startButtonPressed();
             }
         });
 
         return v;
     }
 
+    @Override
+    public void changeToGameView() {
+        FragmentManager fm = getFragmentManager();
+        Fragment GameFragment = new GameFragment();
 
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, GameFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+        fm.popBackStack();
+    }
+
+    @Override
+    public void displayMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void changeToSetupGameView() {
+        FragmentManager fm = getFragmentManager();
+        //Fragment createGameFragment = fm.findFragmentById(R.id.fragment_create_game);
+        Fragment fragment = new SetupGameFragment();
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, fragment);
+        ft.commit();
+        fm.popBackStack();
+    }
 
 }

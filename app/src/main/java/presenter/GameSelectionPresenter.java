@@ -48,8 +48,10 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
         GameInfo gameInfo = gameInfoList[gameIndex];
 
         JoinGameTask joinGameTask = new JoinGameTask();
+
         Request request = new Request(user, gameInfo);
         joinGameTask.execute(request);
+
     }
 
     @Override
@@ -124,7 +126,7 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
                 view.displayError(response.getMessage());
             }
             else {
-                view.changeLobbyView();
+                view.changeToLobbyView();
             }
 
         }
