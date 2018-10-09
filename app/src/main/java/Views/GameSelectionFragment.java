@@ -43,7 +43,6 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_game_selection, container, false);
 
-
         mGameRecyclerView = (RecyclerView) v.findViewById(R.id.game_selection_recycler_view);
 
         // use this setting to improve performance if you know that changes
@@ -52,18 +51,18 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getContext());
-        mGameRecyclerView.setLayoutManager(mLayoutManager);
+        mGameRecyclerView.setLayoutManager(mLayoutManager);g
 
         // specify an adapter (see also next example)
-        mAdapter = new GameSelectAdapter(new GameInfo[] {
-                new GameInfo("id", "game1", 5, 2),
-                new GameInfo("id", "game2", 4, 1)}, gameSelectionPresenter); //TODO: use getGameList() (implemented below but commented out below until createGame works)
-        //I think the above is for testing, the below is for when we actually have the creategame thing WORKING
-        /*
-        mAdapter = new GameSelectAdapter(gameSelectionPresenter.getGameList(), gameSelectionPresenter);
-         */
-        mGameRecyclerView.setAdapter(mAdapter);
+        mAdapter = new GameSelectAdapter(gameSelectionPresenter.getGameList(),
+//                new GameInfo[] {
+//                new GameInfo("id", "game1", 5, 2),
+//                new GameInfo("id", "game2", 4, 1)},
+                  gameSelectionPresenter
 
+        );
+
+        mGameRecyclerView.setAdapter(mAdapter);
 
         //---------------------Create Game Button---------------------------------------------------
         createGameButton = (Button) v.findViewById(R.id.create_game_button);
