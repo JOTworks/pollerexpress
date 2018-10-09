@@ -2,8 +2,12 @@ package Views;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+
 import android.text.Editable;
 import android.text.TextWatcher;
+
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +61,7 @@ public class CreateGameFragment extends Fragment implements ICreateGameView {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
-                //TODO: the create game button is going to need to be unclickable unless selections have been made in the spinners, unless there is a defaul...
+                //TODO: the create game button is going to need to be unclickable unless selections have been made in the spinners, unless there is a default...
             }
         });
         //----------------------------User Color Spinner--------------------------------------------
@@ -88,7 +92,7 @@ public class CreateGameFragment extends Fragment implements ICreateGameView {
         createGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createGamePresenter.createGame(numOfPlayers, userColor);
+                createGamePresenter.onCreateGameClicked(numOfPlayers, userColor);
                 Toast.makeText(getContext(), "It's working!", Toast.LENGTH_LONG).show(); //TODO: remove toast
             }
         });
@@ -124,5 +128,23 @@ public class CreateGameFragment extends Fragment implements ICreateGameView {
         });
 
         return v;
+    }
+
+    @Override
+    public void displayError(String errorMessage) {
+        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void changeToSetupGameView() {
+
+        FragmentManager fragmentManager = getFragmentManager();
+        Fragment fragment = new SetupGameFragment();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
+        fragmentManager.popBackStack();
+
     }
 }

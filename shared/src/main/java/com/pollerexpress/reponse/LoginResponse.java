@@ -1,4 +1,8 @@
-package com.pollerexpress.models;
+package com.pollerexpress.reponse;
+
+import com.pollerexpress.models.Authtoken;
+import com.pollerexpress.models.GameInfo;
+import com.pollerexpress.reponse.ErrorResponse;
 
 import java.util.ArrayList;
 

@@ -2,13 +2,11 @@ package presenter;
 
 import android.os.AsyncTask;
 
-import com.pollerexpress.models.Command;
-import com.pollerexpress.models.ErrorResponse;
-import com.pollerexpress.models.LoginRequest;
+import com.pollerexpress.reponse.ErrorResponse;
+import com.pollerexpress.request.LoginRequest;
 
 import Views.ILoginView;
 import cs340.pollerexpress.SetupFacade;
-import cs340.pollerexpress.Test_ClientCommunicator_Jack;
 
 /**
  * Logic that was, in 240, being done in the user interface is
@@ -16,6 +14,10 @@ import cs340.pollerexpress.Test_ClientCommunicator_Jack;
  * That logic includes:
  * enabling/disabling buttons and
  * sending login/register requests
+ *
+ * This class doesn't need to implement observer because
+ * the login view does not get updated based on model data
+ * changing.
  */
 public class LoginPresenter implements ILoginPresenter {
 
