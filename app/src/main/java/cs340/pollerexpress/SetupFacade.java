@@ -22,34 +22,27 @@ public class SetupFacade {
 
     /**
      *
-     * @param userName
-     * @param password
      * @return res.getError it will return null on succesful login
      */
-    public ErrorResponse login(String userName, String password){
-        return loginOrRegister("login",userName,password);
+    public ErrorResponse login(LoginRequest request){
+        return loginOrRegister("login", request);
     }
 
     /**
      *
-     * @param userName
-     * @param password
      * @return res.getError, it will return null on succesful login
      */
-    public ErrorResponse register(String userName, String password){
-        return loginOrRegister("register",userName,password);
+    public ErrorResponse register(LoginRequest request){
+        return loginOrRegister("register", request);
     }
 
     /**
      * keeps the code from being duplicated, but lets the presenters call login or regester as
      * sepereate functions.
      * @param requestType
-     * @param userName
-     * @param password
      * @return res.getError, it will return null on succesful login
      */
-    public  ErrorResponse loginOrRegister(String requestType, String userName, String password){
-        LoginRequest loginReq = new LoginRequest(userName,password);
+    public  ErrorResponse loginOrRegister(String requestType, LoginRequest loginReq){
         ClientCommunicator CC = ClientCommunicator.instance();
 
         LoginResponse response = CC.sendLoginRequest(requestType, loginReq);
@@ -62,7 +55,7 @@ public class SetupFacade {
 
         //update model if no errors
         ClientData CData = ClientData.getInstance();
-        CData.setUser(new User(userName,password));
+        CData.setUser(new User(loginReq.getUsername(), loginReq.getPassword()));
         CData.setAuth(response.getAuthToken());
         CData.setGameInfoList(response.getAvailableGames());
 

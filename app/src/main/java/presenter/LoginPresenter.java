@@ -6,12 +6,10 @@ import com.pollerexpress.models.ErrorResponse;
 import com.pollerexpress.models.LoginRequest;
 
 import Views.ILoginView;
-import Views.LoginFragment;
-import cs340.pollerexpress.ClientCommunicator;
 import cs340.pollerexpress.SetupFacade;
 
 /**
- * (DONE!) Logic that was, in 240, being done in the user interface is
+ * Logic that was, in 240, being done in the user interface is
  * now going to be done in this presenter class.
  * That logic includes:
  * enabling/disabling buttons and
@@ -26,40 +24,6 @@ public class LoginPresenter implements ILoginPresenter {
 
         this.loginView = loginView;
         facade = new SetupFacade();
-    }
-
-    /**
-     * @pre username and password have length greater than zero
-     */
-    @Override
-    public void logIn(String username, String password) {
-
-        ErrorResponse response = facade.login(username, password);
-        if( response != null)
-        {
-            loginView.displayError(response.getMessage());
-        }
-        else {
-
-            loginView.changeToSetupGameView();
-        }
-    }
-
-    /**
-     * @pre username and password have length greater than zero
-     */
-    @Override
-    public void register(String username, String password) {
-
-        ErrorResponse response = facade.register(username, password);
-        if( response != null)
-        {
-            loginView.displayError(response.getMessage());
-        }
-        else {
-
-            loginView.changeToSetupGameView();
-        }
     }
 
     @Override
@@ -77,6 +41,78 @@ public class LoginPresenter implements ILoginPresenter {
             loginView.enableRegister();
         }
 
+    }
+
+    /**
+     * @pre username and password have length greater than zero
+     */
+    @Override
+    public void logIn(String username, String password) {
+
+        LoginTask loginTask = new LoginTask();
+
+        LoginRequest loginRequest = new LoginRequest(username, password);
+
+        loginTask.execute(loginRequest);
+    }
+
+    /**
+     * @pre username and password have length greater than zero
+     */
+    @Override
+    public void register(String username, String password) {
+
+        RegisterTask registerTask = new RegisterTask();
+
+        LoginRequest loginRequest = new LoginRequest(username, password);
+
+        registerTask.execute(loginRequest);
+    }
+
+    public class RegisterTask extends AsyncTask<LoginRequest, Void, ErrorResponse> {
+
+        @Override
+        protected ErrorResponse doInBackground(LoginRequest... params) {
+
+            LoginRequest loginRequest = params[0];
+            return facade.register(loginRequest);
+        }
+
+        @Override
+        protected void onPostExecute(ErrorResponse errorResponse) {
+
+            if( errorResponse != null ) {
+
+                loginView.displayError(errorResponse.getMessage());
+            }
+            else {
+
+                loginView.changeToSetupGameView();
+            }
+        }
+    }
+
+    public class LoginTask extends AsyncTask<LoginRequest, Void, ErrorResponse> {
+
+        @Override
+        protected ErrorResponse doInBackground(LoginRequest... params) {
+
+            LoginRequest loginRequest = params[0];
+            return facade.login(loginRequest);
+        }
+
+        @Override
+        protected void onPostExecute(ErrorResponse errorResponse) {
+
+            if( errorResponse != null)
+            {
+                loginView.displayError(errorResponse.getMessage());
+            }
+            else {
+
+                loginView.changeToSetupGameView();
+            }
+        }
     }
 
 }
