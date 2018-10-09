@@ -61,6 +61,7 @@ public class LoginHandler implements HttpHandler
                     responseBody = exchange.getResponseBody();
 
                     Serializer.writeData(resp, responseBody);
+                    CommandManager._instance().addPlayer(new Player(req.username ) );
                 }
                 catch(Exception e)
                 {
