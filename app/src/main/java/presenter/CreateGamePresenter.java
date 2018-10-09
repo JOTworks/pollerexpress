@@ -127,7 +127,8 @@ public class CreateGamePresenter implements ICreateGamePresenter {
 
                 // if the game was successfully created,
                 // go back to the selection view.
-                view.changeToSetupGameView();
+                view.changeToLobbyView();
+                //view.changeToSetupGameView();
             }
 
         }

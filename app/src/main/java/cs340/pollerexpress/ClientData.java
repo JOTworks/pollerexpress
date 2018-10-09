@@ -81,49 +81,64 @@ public class ClientData extends Observable
 
     public void setUser(User user)
     {
+        this.user = user;
+
         synchronized (this)
         {
             notify();
         }
-        this.user = user;
     }
     public void setAuth(Authtoken auth)
     {
+        this.auth = auth;
+
         synchronized (this)
         {
             notify();
         }
-        this.auth = auth;
     }
     public void setGame(Game game)
     {
+        this.game = game;
+
         synchronized (this)
         {
             notify();
         }
-        this.game = game;
     }
 
     public void setGameInfoList(ArrayList<GameInfo> gameInfoList)
     {
+        this.gameInfoList = gameInfoList;
+
         synchronized (this)
         {
             notify();
         }
-        this.gameInfoList = gameInfoList;
     }
 
 
     public void addPlayerToGame(Player player) {
+        this.getGame().addPlayer(player);
         synchronized (this)
         {
             notify();
         }
-        this.getGame().addPlayer(player);
     }
 
     public void set(PollerExpress pe)
     {
         theTrain = pe;
+    }
+    public void addGame(GameInfo info)
+    {
+
+        synchronized (this)
+        {
+            this.gameInfoList.add(info);
+            this.setChanged();
+            this.notifyObservers(this.gameInfoList);
+
+        }
     }
 }

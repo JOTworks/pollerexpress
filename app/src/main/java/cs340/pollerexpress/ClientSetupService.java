@@ -20,9 +20,9 @@ class ClientSetupService implements ISetupService {
     }
 
 
-    public static boolean createGame(GameInfo gameInfo){
-        ArrayList<GameInfo> infoList = CD.getGameInfoList();
-        infoList.add(gameInfo);
+    public static boolean createGame(GameInfo gameInfo)
+    {
+        ClientData.getInstance().addGame(gameInfo);
         return true;
     }
 
