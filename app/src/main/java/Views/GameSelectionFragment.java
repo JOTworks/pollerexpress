@@ -83,12 +83,6 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
         return v;
     }
 
-
-        @Override
-    public void changeLobbyView() {
-
-    }
-
     @Override
     public void changeCreateGameView() {
 
@@ -107,6 +101,17 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
     @Override
     public void enableGame(int gameListIndex) {
 
+    }
+
+    @Override
+    public void changeToLobbyView() {
+        FragmentManager fragmentManager = getFragmentManager();
+        //Fragment createGameFragment = fragmentManager.findFragmentById(R.id.fragment_create_game);
+        Fragment fragment = new LobbyFragment();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.right_side_fragment_container, fragment);
+        fragmentTransaction.commit();
     }
 
     @Override

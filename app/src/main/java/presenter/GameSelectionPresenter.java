@@ -42,20 +42,20 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
     @Override
     public void joinGame(int gameIndex) {
 
-        User user = clientData.getUser();
-        GameInfo[] gameInfoList = clientData.getGameInfoList().toArray(new GameInfo[0]);
+//        User user = clientData.getUser();
+//        GameInfo[] gameInfoList = clientData.getGameInfoList().toArray(new GameInfo[0]);
+//
+//        GameInfo gameInfo = gameInfoList[gameIndex];
+//        facade.joinGame(user, gameInfo);
+//
+//        /* If facade.joinGame causes update to get called,
+//        * then this is check is redundant. */
+//        if( gameInfo.getNumPlayers() == gameInfo.getMaxPlayers() ) {
+//
+//            view.disableGame(gameIndex);
+//        }
 
-        GameInfo gameInfo = gameInfoList[gameIndex];
-        facade.joinGame(user, gameInfo);
-
-        /* If facade.joinGame causes update to get called,
-        * then this is check is redundant. */
-        if( gameInfo.getNumPlayers() == gameInfo.getMaxPlayers() ) {
-
-            view.disableGame(gameIndex);
-        }
-
-        view.changeLobbyView();
+        view.changeToLobbyView();
     }
 
     @Override

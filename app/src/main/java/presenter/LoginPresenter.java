@@ -51,11 +51,12 @@ public class LoginPresenter implements ILoginPresenter {
     @Override
     public void logIn(String username, String password) {
 
-        LoginTask loginTask = new LoginTask();
-
-        LoginRequest loginRequest = new LoginRequest(username, password);
-
-        loginTask.execute(loginRequest);
+        loginView.changeToSetupGameView();
+//        LoginTask loginTask = new LoginTask();
+//
+//        LoginRequest loginRequest = new LoginRequest(username, password);
+//
+//        loginTask.execute(loginRequest);
     }
 
     /**
