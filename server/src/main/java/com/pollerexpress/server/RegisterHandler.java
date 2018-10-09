@@ -2,12 +2,8 @@ package com.pollerexpress.server;
 
 
 
-import com.pollerexpress.models.Command;
-import com.pollerexpress.models.CommandFailed;
 import com.pollerexpress.models.Player;
-import com.pollerexpress.models.PollResponse;
 import com.pollerexpress.models.serializer.Serializer;
-import com.pollerexpress.reponse.ErrorResponse;
 import com.pollerexpress.reponse.LoginResponse;
 import com.pollerexpress.request.LoginRequest;
 import com.pollerexpress.server.homeless.LoginService;
@@ -17,16 +13,13 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.util.Queue;
-
-import command.CommandManager;
 
 
 /**
  * Created by xeonocide on 9/15/18.
  */
 
-public class LoginHandler implements HttpHandler
+public class RegisterHandler implements HttpHandler
 {
 
 
@@ -34,7 +27,7 @@ public class LoginHandler implements HttpHandler
     public void handle(HttpExchange exchange) throws IOException
     {
 
-        System.out.print("Entered LoginHandler\n");
+        System.out.print("Entered RegisterHandler\n");
         try
         {
 
@@ -54,7 +47,7 @@ public class LoginHandler implements HttpHandler
                 {
                     LoginService LS = new LoginService();
 
-                    LoginResponse resp = LS.login(req);
+                    LoginResponse resp = LS.register(req);
 
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK,0);
 
@@ -90,7 +83,7 @@ public class LoginHandler implements HttpHandler
             //log the error in the terminal
             e.printStackTrace();
         }
-        System.out.print("Left login Handler\n");
+        System.out.print("Left Register Handler\n");
     }
 
 }
