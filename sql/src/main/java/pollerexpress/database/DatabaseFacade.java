@@ -42,7 +42,7 @@ public class DatabaseFacade implements IDatabaseFacade
 
                 db.getAuthtokenDao().write(auth);
                 LoginResponse lr = new LoginResponse(auth, info, null);
-                db.close(false);
+                db.close(true);
                 return lr;
             }
 

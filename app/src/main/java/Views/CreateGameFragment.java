@@ -2,12 +2,15 @@ package Views;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -20,7 +23,7 @@ public class CreateGameFragment extends Fragment implements ICreateGameView {
     ICreateGamePresenter createGamePresenter;
 
     Button createGameButton;
-
+    EditText gameName;
     //-------------------data for create game--------------------------
     String numOfPlayers = "2";
     String userColor = "red";
@@ -81,7 +84,7 @@ public class CreateGameFragment extends Fragment implements ICreateGameView {
 
         //--------------------------------------------------------------------------------------------------
         createGameButton = (Button) v.findViewById(R.id.create_game_button);
-        Button mCreateGameButton = (Button) createGameButton; //TODO: can I not remove this line?
+
         createGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +94,34 @@ public class CreateGameFragment extends Fragment implements ICreateGameView {
         });
 
         //TODO: onclick listener for button
+        //---------------------------------------------------------------------------------------------------
+        //input listeners...
+        gameName = (EditText) v.findViewById(R.id.game_name);
+        createGamePresenter.setGameName(gameName.getText().toString());
+        gameName.addTextChangedListener(new TextWatcher() {
+            private boolean _ignore = false;
+           @Override
+           public void afterTextChanged(Editable s)
+           {
+               if(_ignore) return;
 
+               _ignore = true;
+               createGamePresenter.setGameName(gameName.getText().toString());
+               _ignore = false;
+           }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+                //pass validation to Create Game Fragment
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+
+            }
+        });
 
         return v;
     }
