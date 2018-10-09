@@ -110,7 +110,7 @@ public class GameDao {
 
             while(rs.next())
             {
-                games.add(new GameInfo(rs.getString("GAME_ID"), rs.getString("GAME_NAME"), rs.getInt("CURRENT_PLAYERS"), rs.getInt("MAX_PLAYERS")));
+                games.add(new GameInfo(rs.getString("GAME_ID"), rs.getString("GAME_NAME"), rs.getInt("MAX_PLAYERS"), rs.getInt("CURRENT_PLAYERS")));
 
             }
             GameInfo[] array = (GameInfo[])games.toArray(new GameInfo[games.size()]);
