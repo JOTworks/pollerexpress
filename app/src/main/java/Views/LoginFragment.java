@@ -135,14 +135,14 @@ public class LoginFragment extends Fragment implements ILoginView {
 
     @Override
     public void changeToSetupGameView() {
-        FragmentManager fragmentManager = getFragmentManager();
-        //Fragment createGameFragment = fragmentManager.findFragmentById(R.id.fragment_create_game);
+        FragmentManager fm = getFragmentManager();
+        //Fragment createGameFragment = fm.findFragmentById(R.id.fragment_create_game);
         Fragment fragment = new SetupGameFragment();
 
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
-        fragmentManager.popBackStack();
+        fm.popBackStack();
     }
 
     @Override

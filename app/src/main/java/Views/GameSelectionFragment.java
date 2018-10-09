@@ -69,11 +69,11 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
             @Override
             public void onClick(View v) {
                 //TODO: pull this to a method and give control to the presenter
-                FragmentManager fragmentManager = getFragmentManager();
-                //Fragment createGameFragment = fragmentManager.findFragmentById(R.id.fragment_create_game);
+                FragmentManager fm = getFragmentManager();
+                //Fragment createGameFragment = fm.findFragmentById(R.id.fragment_create_game);
                 Fragment createGameFragment = new CreateGameFragment();
 
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 fragmentTransaction.replace(R.id.right_side_fragment_container, createGameFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
