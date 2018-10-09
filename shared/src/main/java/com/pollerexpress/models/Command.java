@@ -29,12 +29,14 @@ public class Command implements ICommand {
 
     public Command execute() throws CommandFailed
     {
-        try {
+        try
+        {
             Class<?> receiver = Class.forName(_className);
             Method method = receiver.getMethod(_methodName, _paramTypes);
            return (Command)method.invoke(null, _paramValues);
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             e.printStackTrace();
             throw new CommandFailed(_methodName);
         }

@@ -6,20 +6,30 @@ package presenter;
  */
 public interface ICreateGamePresenter {
 
+    /**
+     * Sets the number of players in a game
+     * @param numOfPlayers
+     */
     public void setNumOfPlayers(String numOfPlayers);
 
     public void setUserColor(String userColor);
 
     public void createGame(String numOfPlayers, String userColor);
 
-    public void okButtonClicked();
+    /**
+     * Logic for when ok is clicked
+     */
+    public void onOkClicked();
 
-    public void cancelButtonClicked();
+    /**
+     * Logic for when cancel is clicked
+     */
+    public void onCancelClicked();
 
-    public void playerNumSelected();
+    /**
+     * Sets the name of the game
+     */
+    public void setGameName(String name);
 
-    public void nameUpdate();
-
-    public void colorPicked();
   
 }
