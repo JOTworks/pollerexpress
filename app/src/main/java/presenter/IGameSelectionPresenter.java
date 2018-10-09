@@ -2,8 +2,6 @@ package presenter;
 
 import com.pollerexpress.models.GameInfo;
 
-import java.util.ArrayList;
-
 /**
  * This class is responsible for defining
  * methods the GameSelectionView can call
@@ -26,5 +24,5 @@ public interface IGameSelectionPresenter {
     public void joinGame(int gameIndex);
 
     /** Gets the list of games for the view to display */
-    public ArrayList<GameInfo> getGameList();
+    public GameInfo[] getGameList();
 }
