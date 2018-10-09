@@ -204,4 +204,20 @@ public class DatabaseFacade implements IDatabaseFacade
             db.close(false);
         }
     }
+
+    @Override
+    public Player[] getPlayersInGame(GameInfo info) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            Player[] players = db.getUserDao().getPlayersInGame(info);
+            return players;
+        }
+        finally
+        {
+            db.close(false);
+        }
+
+    }
 }
