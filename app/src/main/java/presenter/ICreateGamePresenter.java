@@ -17,23 +17,7 @@ public interface ICreateGamePresenter {
 
     public void setUserColor(String userColor);
 
-    /**
-     * Sets the name of the game
-     */
-    public void setGameName(String name);
+    public void onCreateGameClicked(String numOfPlayers, String userColor);
 
-
-    public void createGame(String numOfPlayers, String userColor);
-
-    /**
-     * Logic for when ok is clicked
-     */
-    public void onOkClicked();
-
-    /**
-     * Logic for when cancel is clicked
-     */
-    public void onCancelClicked();
-
-
+    public void onBackArrowClicked();
 }

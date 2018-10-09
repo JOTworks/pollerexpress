@@ -1,5 +1,7 @@
 package presenter;
 
+import android.os.AsyncTask;
+
 import com.pollerexpress.models.Color;
 import com.pollerexpress.models.ErrorResponse;
 import com.pollerexpress.models.GameInfo;
@@ -10,7 +12,7 @@ import java.util.Observer;
 import Views.ICreateGameView;
 import cs340.pollerexpress.SetupFacade;
 
-public class CreateGamePresenter implements ICreateGamePresenter, Observer {
+public class CreateGamePresenter implements ICreateGamePresenter {
 
     private ICreateGameView view;
     private SetupFacade facade;
@@ -37,13 +39,6 @@ public class CreateGamePresenter implements ICreateGamePresenter, Observer {
 
         // convert string color to an enum
         userColor = Color.PLAYER.valueOf(color);
-    }
-
-    // DONE!
-    @Override
-    public void setGameName(String name) {
-
-        gameName = name;
     }
 
     @Override
@@ -76,4 +71,14 @@ public class CreateGamePresenter implements ICreateGamePresenter, Observer {
         // so no model data needs to be updated
         view.switchToSelectionView();
     }
+
+
+//    public class createGameTask extends AsyncTask<CreateGameRequest, Void, ErrorResponse> {
+//
+//        @Override
+//        protected ErrorResponse doInBackground(CreateGameRequest... createGameRequests) {
+//            return null;
+//        }
+//    }
+
 }
