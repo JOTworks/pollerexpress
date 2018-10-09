@@ -61,7 +61,7 @@ public class DatabaseFacade implements IDatabaseFacade
      * @return
      * @throws DatabaseException
      */
-    public void register(User user)
+    public void register(User user) throws DatabaseException
     {
         try
         {
@@ -71,10 +71,11 @@ public class DatabaseFacade implements IDatabaseFacade
         }
         catch(DatabaseException e)
         {
-
+            db.close(false);
+            throw e;
         }
         db.close(false);
-        return;-
+        return;
     }
 
 
