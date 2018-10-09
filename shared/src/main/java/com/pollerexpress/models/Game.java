@@ -1,10 +1,14 @@
 package com.pollerexpress.models;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class Game implements Serializable
 {
     GameInfo _info;
+
+
 
     Player[] _players;
 
@@ -100,5 +104,27 @@ public class Game implements Serializable
     public int getMaxPlayers()
     {
         return _info.getMaxPlayers();
+    }
+
+
+
+
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (!(o instanceof Game))
+        {
+            return false;
+        }
+        Game game = (Game) o;
+        return _info.equals( game.getGameInfo() );
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return _info.hashCode();
     }
 }

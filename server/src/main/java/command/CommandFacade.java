@@ -37,7 +37,7 @@ public class CommandFacade {
         Command command = new Command(CommandsExtensions.clientSide+"ClientSetupService","loadGame",types,params);
         CM.addCommand(command,player);
 
-        //adds join command
+        //create game
         Class<?>[] types2 = {Player.class, GameInfo.class};
         Object[] params2 = {player, info};
         Command command2 = new Command(CommandsExtensions.clientSide+"ClientSetupService","joinGame",types,params);
@@ -50,20 +50,20 @@ public class CommandFacade {
 
         CommandManager CM = CommandManager._instance();
 
-        //adds create command
+        //create a create command for every player.
         Class<?>[] types = {Player.class, GameInfo.class};
         Object[] params= {player, info};
         Command command = new Command(CommandsExtensions.clientSide+"ClientSetupService","createGame",types,params);
         CM.addCommand(command);
 
-        //adds load command
+        //create a load command for the calling player
         Class<?>[] types2 = {Game.class};
         IDatabaseFacade DF = Factory.createDatabaseFacade();
         Object[] params2 = {DF.getGame(info)};
         Command command2 = new Command(CommandsExtensions.clientSide+"ClientSetupService","loadGame",types2,params2);
         CM.addCommand(command,player);
 
-        //adds join command
+        //create a join game command for all players
         Class<?>[] types3 = {Player.class, GameInfo.class};
         Object[] params3 = {player, info};
         Command command3 = new Command(CommandsExtensions.clientSide+"ClientSetupService","joinGame",types3,params3);
