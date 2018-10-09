@@ -145,7 +145,7 @@ public class DatabaseFacade implements IDatabaseFacade
         db.close(false);
         return valid;
     }
-
+    
     @Override
     public Game getGame(GameInfo info) throws DatabaseException
     {
