@@ -31,6 +31,13 @@ public class GameSelectAdapter extends RecyclerView.Adapter<GameSelectAdapter.My
         this.presenter = presenter;
     }
 
+
+    @Override
+    public int getItemViewType(int position)
+    {
+        return position;
+    }
+
     // Create new views (invoked by the layout manager)
     @Override
     public GameSelectAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,

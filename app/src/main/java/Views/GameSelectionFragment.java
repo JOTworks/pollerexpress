@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -55,14 +56,15 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
         // in content do not change the layout size of the RecyclerView
         mGameRecyclerView.setHasFixedSize(true);
 
-        // use a linear layout manager
+        // specify an adapter (see also next example)
+        mAdapter = new GameSelectAdapter(gameSelectionPresenter.getGameList(), gameSelectionPresenter);
+        mGameRecyclerView.setAdapter(mAdapter);
+
         mLayoutManager = new LinearLayoutManager(getContext());
         mGameRecyclerView.setLayoutManager(mLayoutManager);
+        mGameRecyclerView.setItemAnimator(null);
 
-        // specify an adapter (see also next example)
-       mAdapter = new GameSelectAdapter(gameSelectionPresenter.getGameList(), gameSelectionPresenter);
 
-        mGameRecyclerView.setAdapter(mAdapter);
 
         //---------------------Create Game Button---------------------------------------------------
         createGameButton = (Button) v.findViewById(R.id.create_game_button);
@@ -86,7 +88,8 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
     }
 
     @Override
-    public void changeCreateGameView() {
+    public void changeCreateGameView()
+    {
         //ClientData.getInstance().deleteObserver(gameSelectionPresenter);
         Log.d("GameSelect", "change o CreateGameView");
         FragmentManager fm = getFragmentManager();
@@ -102,9 +105,8 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
     @Override
     public void renderGames(List<GameInfo> gameinfoList)
     {
-        if(isVisible())
-                mAdapter.notifyDataSetChanged();
-
+        mAdapter.notifyItemInserted(-1);
+        //mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -113,7 +115,8 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
     }
 
     @Override
-    public void enableGame(int gameListIndex) {
+    public void enableGame(int gameListIndex)
+    {
 
     }
 
