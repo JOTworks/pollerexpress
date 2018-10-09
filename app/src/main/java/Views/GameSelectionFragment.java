@@ -51,7 +51,7 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getContext());
-        mGameRecyclerView.setLayoutManager(mLayoutManager);g
+        mGameRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
         mAdapter = new GameSelectAdapter(gameSelectionPresenter.getGameList(),
