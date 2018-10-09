@@ -79,6 +79,7 @@ public class ClientData extends Observable
 
     public void setUser(User user)
     {
+
         notify();
         this.user = user;
     }
