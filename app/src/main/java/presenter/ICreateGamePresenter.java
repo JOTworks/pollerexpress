@@ -3,9 +3,6 @@ package presenter;
 /**
  * Declares the methods that the create game view
  * will need to be able to call on the create game presenter
- *
- * Doesn't need to implement observer because the create
- * game view is not updated based on changed to models.
  */
 public interface ICreateGamePresenter {
 

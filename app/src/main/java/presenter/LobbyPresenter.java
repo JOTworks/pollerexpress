@@ -13,7 +13,8 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
     ILobbyView lobbyView = new LobbyFragment();
 
     @Override
-    public void startButtonPressed() {
+    public void startButtonPressed()
+    {
 
     }
 

@@ -48,7 +48,8 @@ public class DatabaseFacade implements IDatabaseFacade
 
 
         }
-        catch (DatabaseException e) {
+        catch (DatabaseException e)
+        {
         }
         db.close(false);
         return new LoginResponse(null,null, new ErrorResponse("Bad Password/user name", null, null));
@@ -60,7 +61,7 @@ public class DatabaseFacade implements IDatabaseFacade
      * @return
      * @throws DatabaseException
      */
-    public LoginResponse register(User user)
+    public void register(User user) throws DatabaseException
     {
         try
         {
@@ -70,10 +71,11 @@ public class DatabaseFacade implements IDatabaseFacade
         }
         catch(DatabaseException e)
         {
-            return new LoginResponse(null, null, new ErrorResponse(String.format("%s is already used", user.name), null, null));
+            db.close(false);
+            throw e;
         }
         db.close(false);
-        return this.login(user);
+        return;
     }
 
 
