@@ -12,15 +12,9 @@ public interface ICreateGamePresenter {
      */
     public void setNumOfPlayers(String numOfPlayers);
 
-    /**
-     * Sets the user's color
-     */
-    public void setUserColor(String color);
+    public void setUserColor(String userColor);
 
-    /**
-     * Creates the game
-     */
-    public void createGame();
+    public void createGame(String numOfPlayers, String userColor);
 
     /**
      * Logic for when ok is clicked

@@ -41,7 +41,7 @@ public class PollerExpress {
 
 		@Override
 		public void run() {
-			System.out.println("Beep!");
+			System.out.println("CHOO!");
 
 			PollResponse response = client.sendPoll();
 
@@ -58,6 +58,8 @@ public class PollerExpress {
 						command.execute();
 					} catch (CommandFailed commandFailed) {
 						commandFailed.printStackTrace();
+						//should probably just. start over at this point.
+						//THROW EPIC FAIL EXCEPTION
 					}
 				}
 			}

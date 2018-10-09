@@ -37,6 +37,10 @@ public class CreateGamePresenter implements ICreateGamePresenter {
         userColor = Color.PLAYER.valueOf(color);
     }
 
+    public void okButtonClicked() {
+
+    }
+
     @Override
     public void setGameName(String name) {
 
@@ -44,7 +48,7 @@ public class CreateGamePresenter implements ICreateGamePresenter {
     }
 
     @Override
-    public void createGame() {
+    public void createGame(String numOfPlayers, String user_color) {
 
         if( gameName.length() > 0 ) {
 

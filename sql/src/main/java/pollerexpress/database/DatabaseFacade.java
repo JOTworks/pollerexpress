@@ -145,4 +145,60 @@ public class DatabaseFacade implements IDatabaseFacade
         db.close(false);
         return valid;
     }
+
+    @Override
+    public Game getGame(GameInfo info) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            Game game = db.getGameDao().read( info.getId() );
+            return game;
+        }
+        catch(DatabaseException e)
+        {
+            throw e;
+        }
+        finally
+        {
+            db.close(false);
+        }
+    }
+    @Override
+    public Player getPlayer(String user) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            Player player = db.getUserDao().read( user);
+            return player;
+        }
+        catch(DatabaseException e)
+        {
+            throw e;
+        }
+        finally
+        {
+            db.close(false);
+        }
+    }
+
+    @Override
+    public GameInfo getGameInfo(String id) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            GameInfo game = db.getGameDao().read(id).getGameInfo();
+            return game;
+        }
+        catch (DatabaseException e)
+        {
+            throw e;
+        }
+        finally
+        {
+            db.close(false);
+        }
+    }
 }
