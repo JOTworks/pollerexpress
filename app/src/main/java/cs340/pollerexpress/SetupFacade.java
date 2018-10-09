@@ -139,7 +139,7 @@ public class SetupFacade {
         PollResponse response = CC.sendCommand(joinGameCommand);
 
         if(response == null) {
-            //client communicator didn't work, throw error or something? Idk how to do that though.
+            //client communicator didn't work, throw error or something? Idk how to do that though
         } else if(response.getError() != null) {
             return response.getError();
         } else {

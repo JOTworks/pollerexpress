@@ -14,6 +14,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.util.LinkedList;
 import java.util.Queue;
 
 import command.CommandManager;
@@ -59,7 +60,8 @@ public class ExecuteHandler implements HttpHandler
                 catch(CommandFailed error)
                 {
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK,0);
-                    PollResponse response = new PollResponse(null, new ErrorResponse("could not run command",null,req));
+                    PollResponse response = new PollResponse(new LinkedList<>(), new ErrorResponse("could not run command",error,req));
+                    responseBody = exchange.getResponseBody();
                     Serializer.writeData(response,responseBody);
                 }
                 finally
