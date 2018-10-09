@@ -72,7 +72,8 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
         for(int i = 0; i < gameInfoList.length; i++) {
 
             GameInfo gameInfo = gameInfoList[i];
-            if (gameInfo.getNumPlayers() < gameInfo.getMaxPlayers()) {
+            if (gameInfo.getNumPlayers() < gameInfo.getMaxPlayers())
+            {
                 view.enableGame(i);
             }
             else {

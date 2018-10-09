@@ -42,7 +42,8 @@ public class CreateGamePresenter implements ICreateGamePresenter {
     }
 
     @Override
-    public void onCreateGameClicked(String numOfPlayers, String user_color) {
+    public void onCreateGameClicked(String numOfPlayers, String user_color)
+    {
 
         numPlayers = Integer.parseInt(numOfPlayers);
         userColor = Color.PLAYER.valueOf(user_color);
