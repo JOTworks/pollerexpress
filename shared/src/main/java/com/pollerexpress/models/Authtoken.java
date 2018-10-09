@@ -7,6 +7,10 @@ public class Authtoken
     private String userName;
     private String token;
 
+    public Authtoken()
+    {
+
+    }
     public Authtoken(String userName, String token) {
         this.userName = userName;
         this.token = token;

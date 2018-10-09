@@ -1,6 +1,6 @@
 package cs340.pollerexpress;
 
-import com.fasterxml.jackson.databind.SerializationFeature;
+
 import com.pollerexpress.models.Authtoken;
 import com.pollerexpress.models.Command;
 import com.pollerexpress.models.LoginRequest;
@@ -29,7 +29,7 @@ public class ClientCommunicator {
 
     private ClientCommunicator() {}
 
-    private RestTemplate restTemplate = new RestTemplate(true);
+    private RestTemplate restTemplate = new RestTemplate();
     private static String URL_BASE = "http://10.0.2.2:8080";
     private static String EXECUTE_URL = URL_BASE + "/execute";
 
@@ -49,11 +49,6 @@ public class ClientCommunicator {
      */
     public LoginResponse sendLoginRequest(String requestType, LoginRequest request) {
         String resourceUrl = URL_BASE + requestType;
-
-//        MappingJackson2HttpMessageConverter jsonHttpMessageConverter = new MappingJackson2HttpMessageConverter();
-//        jsonHttpMessageConverter.getObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-//        restTemplate.getMessageConverters().add(jsonHttpMessageConverter);
-        //restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<LoginRequest> entity = new HttpEntity<>(request, headers);

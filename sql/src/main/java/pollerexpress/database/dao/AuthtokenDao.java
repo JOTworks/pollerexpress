@@ -30,8 +30,8 @@ public class AuthtokenDao
         try
         {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(WRITE_TOKEN);
-            stmnt.setString(0, token.getToken());
-            stmnt.setString(1,token.getUserName());
+            stmnt.setString(1, token.getToken());
+            stmnt.setString(2,token.getUserName());
             stmnt.execute();
             stmnt.close();
         }
