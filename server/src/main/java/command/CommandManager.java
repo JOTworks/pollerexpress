@@ -74,6 +74,7 @@ public class CommandManager {
             players = df.getPlayersInGame(info);
             for(Player p: players)
             {
+                System.out.print(p.name);
                 addCommand(c, p);
             }
             return true;

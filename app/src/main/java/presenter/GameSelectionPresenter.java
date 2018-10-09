@@ -80,7 +80,14 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
         // get the list of existing games
         Log.d("update", "ran update");
         // refresh the list of games in the view
-        view.renderGames(clientData.getGameInfoList());
+        if( arg instanceof Integer)
+        {
+            view.modifyGameData( (Integer)arg);
+        }
+        else
+        {
+            view.renderGames(clientData.getGameInfoList());
+        }
 
         /*
         // determine which games the user can join

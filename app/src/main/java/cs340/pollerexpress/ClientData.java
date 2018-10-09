@@ -1,5 +1,7 @@
 package cs340.pollerexpress;
 
+import android.util.Log;
+
 import com.pollerexpress.models.Authtoken;
 import com.pollerexpress.models.Game;
 import com.pollerexpress.models.GameInfo;
@@ -122,6 +124,7 @@ public class ClientData extends Observable
 
         synchronized (this)
         {
+            Log.d("addPlayerToGame", "11111111111111s");
             this.getGame().addPlayer(player);
             this.setChanged();
             notifyObservers(player);
@@ -143,4 +146,15 @@ public class ClientData extends Observable
 
         }
     }
+
+    public void addPlayerToGameInfo(int i)
+    {
+        synchronized (this)
+        {
+            this.getGameInfoList().get(i).addPlayer();
+            this.setChanged();
+            this.notifyObservers(Integer.valueOf(i));
+        }
+    }
+
 }

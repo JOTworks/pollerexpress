@@ -22,4 +22,6 @@ public interface IGameSelectionView {
 
     void changeToLobbyView();
 
+    void modifyGameData(Integer index);
+
 }

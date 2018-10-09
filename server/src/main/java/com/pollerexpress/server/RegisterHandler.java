@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 
+import command.CommandManager;
+
 
 /**
  * Created by xeonocide on 9/15/18.
@@ -53,6 +55,7 @@ public class RegisterHandler implements HttpHandler
 
                     responseBody = exchange.getResponseBody();
 
+                    CommandManager._instance().addPlayer(new Player(req.username ) );
                     Serializer.writeData(resp, responseBody);
                 }
                 catch(Exception e)

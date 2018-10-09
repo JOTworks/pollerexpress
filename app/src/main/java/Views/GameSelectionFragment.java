@@ -110,6 +110,12 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
     }
 
     @Override
+    public void modifyGameData(Integer dex)
+    {
+        mAdapter.notifyItemChanged(dex);
+    }
+
+    @Override
     public void disableGame(int gameListIndex) {
 
     }

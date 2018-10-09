@@ -38,7 +38,7 @@ public class CommandFacade {
 
         //adds join command
         Class<?>[] types = {Player.class, GameInfo.class};
-        Object[] params = {player, info};
+        Object[] params = {player, DF.getGameInfo(info.getId())};
         Command joinCommand = new Command(CommandsExtensions.clientSide+"ClientSetupService","joinGame",types,params);
         CM.addCommand(joinCommand);
 
