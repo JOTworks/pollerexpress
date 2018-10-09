@@ -58,7 +58,8 @@ public class CreateGamePresenter implements ICreateGamePresenter {
 
             CreateGameTask createGameTask = new CreateGameTask();
 
-            createGameTask.execute(new Object[]{gameName, numPlayers, user_color});
+            Request request = new Request(gameName, numPlayers, userColor);
+            createGameTask.execute(request);
         }
         else {
 
@@ -74,19 +75,35 @@ public class CreateGamePresenter implements ICreateGamePresenter {
         view.changeToSetupGameView();
     }
 
-    public class CreateGameTask extends AsyncTask<Object[], Void, ErrorResponse> {
+    private class Request {
+        public String name;
+        public int num;
+        public Color.PLAYER color;
+
+        public Request(String name, int num, Color.PLAYER color) {
+
+            this.name = name;
+            this.num = num;
+            this.color = color;
+        }
+
+        public String getName() { return name; }
+        public int getNum() { return num; }
+
+        public Color.PLAYER getColor() {
+            return color;
+        }
+    }
+
+    public class CreateGameTask extends AsyncTask<Request, Void, ErrorResponse> {
 
         @Override
-        protected ErrorResponse doInBackground(Object[]... params) {
+        protected ErrorResponse doInBackground(Request... params) {
 
-            Object o_name = params[0];
-            String name = (String)o_name;
-
-            Object o_num = params[1];
-            int numPlayers = (Integer) o_num;
-
-            Object o_color = params[2];
-            Color.PLAYER userColor = (Color.PLAYER) o_color;
+            Request request = params[0];
+            String name = request.getName();
+            int num = request.getNum();
+            Color.PLAYER userColor = request.getColor();
 
             return facade.createGame(name, numPlayers, userColor);
         }
