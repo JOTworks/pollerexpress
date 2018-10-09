@@ -52,6 +52,7 @@ public class SetupFacade {
 
         if(response == null) {
             //client communicator didn't work, throw error or something? Idk how to do that though.
+            return new ErrorResponse("failed",null, null);
         } else if(response.getError()!=null){
             return response.getError();
         }

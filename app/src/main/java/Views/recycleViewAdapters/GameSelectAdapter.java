@@ -13,48 +13,21 @@ import android.widget.Toast;
 
 import com.pollerexpress.models.GameInfo;
 
+import java.util.List;
+
 import cs340.pollerexpress.R;
 import presenter.IGameSelectionPresenter;
 
 public class GameSelectAdapter extends RecyclerView.Adapter<GameSelectAdapter.MyViewHolder> {
-    private GameInfo[] mGameInfoArray;
+    private List<GameInfo> mGameInfoArray;
     private IGameSelectionPresenter presenter;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class MyViewHolder extends RecyclerView.ViewHolder implements ViewStub.OnClickListener {
-        // each data item is just a string in this case
-        public TextView gameName;
-        public TextView minMaxDisplay;
-        public Button joinButton;
-        private IGameSelectionPresenter presenter;
-
-        public MyViewHolder(ConstraintLayout v, IGameSelectionPresenter presenter) {
-            super(v);
-
-            this.presenter = presenter;
-
-            gameName = v.findViewById(R.id.game_name_text);
-            minMaxDisplay = v.findViewById(R.id.game_minmax_display_text);
-            joinButton = v.findViewById(R.id.join_game_button);
-
-            joinButton.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (v.getId() == joinButton.getId()) {
-
-                int pos = getAdapterPosition();
-                presenter.joinGame(pos);
-            }
-        }
-    }
-
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public GameSelectAdapter(GameInfo[] myDataset, IGameSelectionPresenter presenter) {
-        mGameInfoArray = myDataset;
+    public GameSelectAdapter(List<GameInfo> info, IGameSelectionPresenter presenter)
+    {
+        mGameInfoArray = info;
         this.presenter = presenter;
     }
 
@@ -75,18 +48,47 @@ public class GameSelectAdapter extends RecyclerView.Adapter<GameSelectAdapter.My
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        GameInfo gameInfo = mGameInfoArray[position];
+        GameInfo gameInfo = mGameInfoArray.get(position);
 
-        holder.gameName.setText(mGameInfoArray[position].getName());
+        holder.gameName.setText(mGameInfoArray.get(position).getName());
         holder.minMaxDisplay.setText(
-                mGameInfoArray[position].getNumPlayers() + "/" +
-                        mGameInfoArray[position].getMaxPlayers());
+                gameInfo.getNumPlayers() + "/" +
+                        gameInfo.getMaxPlayers());
+        holder.game = gameInfo;
 
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mGameInfoArray.length;
+        return mGameInfoArray.size();
+    }
+
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements ViewStub.OnClickListener {
+        // each data item is just a string in this case
+        public TextView gameName;
+        public TextView minMaxDisplay;
+        public Button joinButton;
+        public GameInfo game;
+        private IGameSelectionPresenter presenter;
+
+        public MyViewHolder(ConstraintLayout v, IGameSelectionPresenter presenter) {
+            super(v);
+
+            this.presenter = presenter;
+
+            gameName = v.findViewById(R.id.game_name_text);
+            minMaxDisplay = v.findViewById(R.id.game_minmax_display_text);
+            joinButton = v.findViewById(R.id.join_game_button);
+
+            joinButton.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == joinButton.getId()) {
+                presenter.joinGame(game);
+            }
+        }
     }
 }

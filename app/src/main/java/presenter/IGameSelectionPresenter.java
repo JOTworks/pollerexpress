@@ -2,6 +2,7 @@ package presenter;
 
 import com.pollerexpress.models.GameInfo;
 
+import java.util.List;
 import java.util.Observer;
 
 /**
@@ -24,8 +25,8 @@ public interface IGameSelectionPresenter extends Observer
      * @param gameIndex The index of the game in the list
      *                  of games the user could join
      */
-    public void joinGame(int gameIndex);
+    public void joinGame(GameInfo info);
 
     /** Gets the list of games for the view to display */
-    public GameInfo[] getGameList();
+    public List<GameInfo> getGameList();
 }

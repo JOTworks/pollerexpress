@@ -2,6 +2,7 @@ package cs340.pollerexpress;
 
 import com.pollerexpress.models.Command;
 import com.pollerexpress.models.CommandFailed;
+import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.models.PollResponse;
 import java.util.Queue;
 
@@ -19,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class PollerExpress
 {
 
+    private static boolean testing = true;
 	private static int DELAY = 2000;
 	Timer timer;
 
@@ -32,10 +34,22 @@ public class PollerExpress
 
             synchronized public void run()
             {
-                System.out.println("CHOO!");
+                System.out.println(String.format("%s %d","CHOO!", ClientData.getInstance().countObservers() ) );
 
                 PollResponse response = ClientCommunicator.instance().sendPoll();
-
+                if(testing)
+                {
+                    Class<?>[] types = {GameInfo.class};
+                    Object[] params = {new GameInfo("testin123", 4)};
+                    Command command = new Command("cs340.pollerexpress.ClientSetupService","createGame",types, params );
+                    try{
+                        command.execute();
+                    }
+                    catch ( Exception e)
+                    {
+                        //do nothing
+                    }
+                }
                 if(response == null) {
                     //client communicator didn't work, throw error or something? Idk how to do that though.
                 } else if(response.getError() != null) {
@@ -46,6 +60,7 @@ public class PollerExpress
                         Command command = commands.poll();
 
                         try {
+                            System.out.print("Ran a command\n");
                             command.execute();
                         } catch (CommandFailed commandFailed) {
                             commandFailed.printStackTrace();
