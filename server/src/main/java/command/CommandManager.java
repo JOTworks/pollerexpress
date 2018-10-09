@@ -32,29 +32,42 @@ public class CommandManager {
         }
         return null;
 	}
-	
+
+    /**
+     *
+     * @param c command to add client side
+     * @param user
+     */
 	public void addCommand(Command c, Player user)
     {
 		Queue<Command> queue = userCommands.get(user.name);
 		queue.add(c);
 	}
 
-	public void addCommand(Command c, GameInfo info)
+    /**
+     *
+     * @param c
+     * @param info
+     * @return
+     */
+	public boolean addCommand(Command c, GameInfo info)
     {
         IDatabaseFacade df = Factory.createDatabaseFacade();
         Player[] players;
         try
         {
             players = df.getPlayersInGame(info);
+            for(Player p: players)
+            {
+                addCommand(c, p);
+            }
+            return true;
         }
         catch(DatabaseException e)
         {
-            return;
+            return false;
         }
-        for(Player p: players)
-        {
-            addCommand(c, p);
-        }
+
     }
 
     public void addCommand(Command c)

@@ -49,7 +49,7 @@ public class ExecuteHandler implements HttpHandler
                 try
                 {
                     req.execute();
-                    Queue<Command> commands = CommandManager._instance().addCommand(req, p.name);
+                    Queue<Command> commands = CommandManager._instance().getUserCommands(p.name);
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK,0);
 
                     responseBody = exchange.getResponseBody();
