@@ -36,7 +36,7 @@ public class LobbyFragment extends Fragment implements ILobbyView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        lobbyPresenter = new LobbyPresenter(this);
+        lobbyPresenter = new LobbyPresenter();
     }
 
     @Override
@@ -57,13 +57,11 @@ public class LobbyFragment extends Fragment implements ILobbyView {
         mGameRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new GameSelectAdapter(new GameInfo[] {
-                new GameInfo("id", "game1", 5, 2),
-                new GameInfo("id", "game2", 4, 1)}, gameSelectionPresenter); //TODO: use getGameList()
+        //TODO: fix this mAdapter = new GameSelectAdapter();
         mGameRecyclerView.setAdapter(mAdapter);
 
 
-        //---------------------Create Game Button---------------------------------------------------
+        //---------------------Start Game Button---------------------------------------------------
         startGameButton = (Button) v.findViewById(R.id.start_game_button);
 
         Button mStartGameButton = (Button) startGameButton;

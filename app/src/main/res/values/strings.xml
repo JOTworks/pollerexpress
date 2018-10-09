@@ -2,6 +2,7 @@
     <string name="app_name">pollerexpress</string>
     <string name="create_game_button_text">Create New Game</string>
     <string name="create_game_button_text2">Create Game</string>
+    <string name="start_game_button_text">Start Game</string>
     <string name="join_game_text">Join</string>
     <string name="game_name_text">Name:</string>
     <string name="players_text">Players:</string>

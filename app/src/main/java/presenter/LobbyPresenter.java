@@ -5,7 +5,13 @@ import com.pollerexpress.models.Player;
 import java.util.Observable;
 import java.util.Observer;
 
+import Views.ILobbyView;
+import Views.LobbyFragment;
+
 public class LobbyPresenter implements ILobbyPresenter, Observer {
+
+    ILobbyView lobbyView = new LobbyFragment();
+
     @Override
     public void startButtonPressed() {
 
