@@ -147,4 +147,17 @@ public class CreateGameFragment extends Fragment implements ICreateGameView {
         fragmentManager.popBackStack();
 
     }
+
+    @Override
+    public void changeToLobbyView() {
+
+        FragmentManager fragmentManager = getFragmentManager();
+        Fragment fragment = new LobbyFragment();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
+        fragmentManager.popBackStack();
+
+    }
 }

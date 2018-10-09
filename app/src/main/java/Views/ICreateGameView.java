@@ -8,4 +8,5 @@ public interface ICreateGameView {
     void displayError(String errorMessage);
     void changeToSetupGameView();
 
+    void changeToLobbyView();
 }
