@@ -28,6 +28,7 @@ public class CommandManager {
 	    if(userCommands.containsKey(user))
         {
             Queue<Command> kwayway = userCommands.get(user);
+            userCommands.put(user, new LinkedList<>() );
             return kwayway;
         }
         return null;
@@ -40,8 +41,22 @@ public class CommandManager {
      */
 	public void addCommand(Command c, Player user)
     {
-		Queue<Command> queue = userCommands.get(user.name);
-		queue.add(c);
+        Queue<Command> queue = null;
+        try
+        {
+            queue = userCommands.get(user.name);
+            if(queue == null)
+                throw new NullPointerException();
+        }
+        catch(NullPointerException e)
+        {
+            queue = new LinkedList<>();
+            userCommands.put(user.name, queue);
+        }
+        finally
+        {
+            queue.add(c);
+        }
 	}
 
     /**

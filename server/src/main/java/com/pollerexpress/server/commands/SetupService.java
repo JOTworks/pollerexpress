@@ -17,14 +17,7 @@ public class SetupService
         IDatabaseFacade df = Factory.createDatabaseFacade();
         try
         {
-            Game game = df.join(player, info);
-
-            //now     public Command(String className, String methodName, Class<?>[] paramTypes, Object[] paramValues) {
-            if (game != null)
-            {
-                Class<?>[] types = {Game.class};
-                Object[] params = {game};
-            }
+            df.join(player, info);
         }
         catch(DatabaseException e)
         {
