@@ -25,7 +25,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
         this.lobbyView = lobbyView;
         clientData = cs340.pollerexpress.ClientData.getInstance();
     }
- 
+
 
     @Override
     public void startButtonPressed() {
