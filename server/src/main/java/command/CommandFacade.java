@@ -30,18 +30,19 @@ public class CommandFacade {
 
         CommandManager CM = CommandManager._instance();
 
-        //adds load command
-        Class<?>[] types = {Game.class};
-        IDatabaseFacade DF = Factory.createDatabaseFacade();
-        Object[] params= {DF.getGame(info)};
-        Command command = new Command(CommandsExtensions.clientSide+"ClientSetupService","loadGame",types,params);
-        CM.addCommand(command,player);
+        //adds join command
+        Class<?>[] types = {Player.class, GameInfo.class};
+        Object[] params = {player, info};
+        Command joinCommand = new Command(CommandsExtensions.clientSide+"ClientSetupService","joinGame",types,params);
+        CM.addCommand(joinCommand);
 
-        //create game
-        Class<?>[] types2 = {Player.class, GameInfo.class};
-        Object[] params2 = {player, info};
-        Command command2 = new Command(CommandsExtensions.clientSide+"ClientSetupService","joinGame",types,params);
-        CM.addCommand(command2);
+        //adds load command
+        Class<?>[] loadTypes = {Game.class};
+        IDatabaseFacade DF = Factory.createDatabaseFacade();
+        Object[] loadParams= {DF.getGame(info)};
+        Command loadCommand = new Command(CommandsExtensions.clientSide+"ClientSetupService","loadGame",loadTypes,loadParams);
+        CM.addCommand(loadCommand,player);
+
     }
 
     public static void createGame(Player player, GameInfo info) throws CommandFailed, DatabaseException {
@@ -50,23 +51,12 @@ public class CommandFacade {
 
         CommandManager CM = CommandManager._instance();
 
-        //create a create command for every player.
-        Class<?>[] types = {Player.class, GameInfo.class};
-        Object[] params= {player, info};
-        Command command = new Command(CommandsExtensions.clientSide+"ClientSetupService","createGame",types,params);
-        CM.addCommand(command);
+        //adds create command
+        Class<?>[] types = {GameInfo.class};
+        Object[] params= {info};
+        Command createCommand = new Command(CommandsExtensions.clientSide+"ClientSetupService","createGame",types,params);
+        CM.addCommand(createCommand);
 
-        //create a load command for the calling player
-        Class<?>[] types2 = {Game.class};
-        IDatabaseFacade DF = Factory.createDatabaseFacade();
-        Object[] params2 = {DF.getGame(info)};
-        Command command2 = new Command(CommandsExtensions.clientSide+"ClientSetupService","loadGame",types2,params2);
-        CM.addCommand(command,player);
-
-        //create a join game command for all players
-        Class<?>[] types3 = {Player.class, GameInfo.class};
-        Object[] params3 = {player, info};
-        Command command3 = new Command(CommandsExtensions.clientSide+"ClientSetupService","joinGame",types3,params3);
-        CM.addCommand(command2);
+        joinGame(player, info);
     }
 }

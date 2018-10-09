@@ -26,6 +26,28 @@ class ClientSetupService implements ISetupService {
         return true;
     }
 
+    public boolean joinGame(Player player, GameInfo info){
+        ArrayList<GameInfo> infoList = CD.getGameInfoList();
+
+        for(int i = 0; i<infoList.size(); i++){
+            if(infoList.get(i).getId().equals(info.getId())) {
+                ClientData.getInstance().getGameInfoList().get(i).addPlayer();
+
+                //if its your game
+                if (infoList.get(i).getId().equals(CD.getGame().getId())) {
+                   CD.getGame().addPlayer(player);
+                }
+                return true;
+            }
+        }
+        System.out.println("!!!you tried to have that dude join a game that didnt exist");
+        return false;
+    }
+
+    public boolean loadGame(Game game){
+        CD.setGame(game);
+        return true;
+    }
 
     public boolean startGame(GameInfo gameInfo){
         ArrayList<GameInfo> infoList = CD.getGameInfoList();
@@ -37,38 +59,7 @@ class ClientSetupService implements ISetupService {
         }
         return false;
     }
-
-    public boolean joinGame(Game game){
-        ArrayList<GameInfo> infoList = CD.getGameInfoList();
-
-        for(int i = 0; i<infoList.size(); i++){
-            if(infoList.get(i).getId()==game.getId()) {
-                ClientData.getInstance().getGameInfoList().get(i).addPlayer();
-                ClientData.getInstance().setGame(game);
-                return true;
-            }
-        }
-        System.out.println("!!!yo im not in the game you tryin to make me join");
-        return false;
-    }
-
-    public boolean joinGame(Player player, GameInfo info){
-        ArrayList<GameInfo> infoList = CD.getGameInfoList();
-
-        for(int i = 0; i<infoList.size(); i++){
-            if(infoList.get(i).getId()==info.getId()) {
-                ClientData.getInstance().getGameInfoList().get(i).addPlayer();
-
-                //if its your game
-                if (infoList.get(i).getId() == CD.getGame().getId()) {
-                    CD.getGame().addPlayer(player);
-                }
-                return true;
-            }
-        }
-        System.out.println("!!!you tried to have that dude join a game that didnt exist");
-        return false;
-    }
+    /**************not requiered for phase 1*******************/
     public boolean deleteGame(GameInfo gameInfo){
         ArrayList<GameInfo> infoList = CD.getGameInfoList();
         for(int i = 0; i<infoList.size(); i++){
