@@ -2,6 +2,11 @@ package command;
 
 import com.pollerexpress.database.exceptions.DatabaseException;
 import com.pollerexpress.models.Command;
+import com.pollerexpress.models.GameInfo;
+import com.pollerexpress.models.IDatabaseFacade;
+import com.pollerexpress.models.Player;
+import com.pollerexpress.server.homeless.Factory;
+
 import java.util.*;
 
 public class CommandManager {
@@ -11,7 +16,6 @@ public class CommandManager {
 	
 	private CommandManager() {
 		userCommands = new HashMap<String, Queue<Command>>();
-		_switch = new CommandSwitch();
 	}
 	
 	public static CommandManager _instance() {
@@ -26,40 +30,15 @@ public class CommandManager {
 		return kwayway;
 	}
 	
-	public Queue<Command> addCommand(Command c, String user) throws DatabaseException {
-		_switch.switchCommand(c, user);
-		Queue<Command> kwayway = userCommands.get(user);
-		return kwayway;
-	}
-	
-	protected void addCommandToUser(Command c, String user) {
-		Queue kwayway = userCommands.get(user);
-		if(kwayway == null) {
-			this.addUser(user);
-			kwayway = userCommands.get(user);
-		}
-		kwayway.add(c);
+	public void addCommand(Command c, Player user) throws DatabaseException {
+		Queue<Command> queue = userCommands.get(user.name);
+		queue.add(c);
 	}
 
-	protected void addToAll(Command c) {
-		for(Map.Entry<String, Queue<Command>> uq : userCommands.entrySet()) {
-			Queue<Command> kwayway = uq.getValue();
-			kwayway.add(c);
-		}
-	}
+	public void addCommand(Command c, GameInfo info)
+    {
+        IDatabaseFacade df = Factory.createDatabaseFacade();
+        Player[] players = df.
+    }
 
-	protected void addToAllExcept(Command c, String user) {
-		for(Map.Entry<String, Queue<Command>> uq : userCommands.entrySet()) {
-			String username = uq.getKey();
-			if(username != user) {
-				Queue<Command> kwayway = uq.getValue();
-				kwayway.add(c);
-			}
-		}
-	}
-
-	private void addUser(String user) {
-		Queue<Command> kwayway = new LinkedList<Command>();
-		userCommands.put(user, kwayway);
-	}
 }

@@ -1,8 +1,10 @@
 package com.pollerexpress.models;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 
-public class Command implements ICommand {
+public class Command implements ICommand, Serializable
+{
 	private String _className;
     private String _methodName;
     private Class<?>[] _paramTypes;

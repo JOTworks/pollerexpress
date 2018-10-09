@@ -16,7 +16,7 @@ import java.net.URL;
 
 public class ClientCommunicator
 {
-    private String serverHost = "http://10.0.2.2";//local host
+    private String serverHost = "10.0.2.2";//local host
     private String serverPort = "8080";
     private static ClientCommunicator _instance;
     private ClientCommunicator()
@@ -45,7 +45,7 @@ public class ClientCommunicator
     }
     public PollResponse sendPoll()
     {
-        return (PollResponse)sendRequest( ClientData.getInstance().getUser(),"/poll");
+        return (PollResponse)sendRequest( ClientData.getInstance().getUser(),"poll");
     }
     public Object sendRequest(Object r, String operation)
     {
@@ -59,11 +59,17 @@ public class ClientCommunicator
             //specify the request type
             http.setRequestMethod("GET");
 
+            if(ClientData.getInstance().getUser() != null)
+            {
+                http.setRequestProperty("username", ClientData.getInstance().getUser().getName());
+            }
+
             http.setDoOutput(true);
 
             http.connect();
 
             OutputStream reqBody = http.getOutputStream();
+
             Serializer.writeData(r, reqBody);
 
             reqBody.close();

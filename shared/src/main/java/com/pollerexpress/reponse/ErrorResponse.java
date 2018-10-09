@@ -3,7 +3,10 @@ package com.pollerexpress.reponse;
 
 import com.pollerexpress.models.Command;
 
-public class ErrorResponse {
+import java.io.Serializable;
+
+public class ErrorResponse implements Serializable
+{
 	private String message;
 	private Exception exception;
 	private Command failed_command;

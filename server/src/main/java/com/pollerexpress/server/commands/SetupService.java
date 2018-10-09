@@ -1,4 +1,4 @@
-package com.pollerexpress.server.homeless;
+package com.pollerexpress.server.commands;
 
 import com.pollerexpress.database.exceptions.DatabaseException;
 import com.pollerexpress.models.Command;
@@ -12,7 +12,7 @@ import com.pollerexpress.server.homeless.Factory;
 
 public class SetupService
 {
-    public Command joinGame(Player player, GameInfo info) throws CommandFailed
+    public static Command joinGame(Player player, GameInfo info) throws CommandFailed
     {
         IDatabaseFacade df = Factory.createDatabaseFacade();
         try
@@ -38,7 +38,7 @@ public class SetupService
         throw new CommandFailed("join game");
     }
 
-    public Command createGame(Player player, GameInfo info) throws CommandFailed
+    public static Command createGame(Player player, GameInfo info) throws CommandFailed
     {
         //when it creates a game it must ensure that the games id is unique... so it shouldn't depend on being able to send the information back...
         //also what do i do when a command fails..

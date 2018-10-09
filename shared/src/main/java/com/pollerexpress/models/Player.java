@@ -1,8 +1,9 @@
 package com.pollerexpress.models;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Player
+public class Player implements Serializable
 {
     public String name;
     public String gameId;

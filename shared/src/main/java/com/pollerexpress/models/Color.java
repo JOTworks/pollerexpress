@@ -1,6 +1,9 @@
 package com.pollerexpress.models;
 
-public class Color {
+import java.io.Serializable;
+
+public class Color implements Serializable
+{
     public enum PLAYER {
         RED, BLUE, GREEN, YELLOW, BLACK
     }

@@ -4,9 +4,11 @@ import com.pollerexpress.models.Authtoken;
 import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.reponse.ErrorResponse;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class LoginResponse {
+public class LoginResponse implements Serializable
+{
 	Authtoken authToken;
 	ArrayList<GameInfo> availableGames;
 	ErrorResponse error;

@@ -1,8 +1,9 @@
 package com.pollerexpress.models;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Authtoken
+public class Authtoken implements Serializable
 {
     private String userName;
     private String token;

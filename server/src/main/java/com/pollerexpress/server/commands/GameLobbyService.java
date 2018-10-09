@@ -1,4 +1,4 @@
-package com.pollerexpress.server.homeless;
+package com.pollerexpress.server.commands;
 
 import com.pollerexpress.database.exceptions.DatabaseException;
 import com.pollerexpress.models.Command;
@@ -12,7 +12,7 @@ public class GameLobbyService
 {
     /* this does not belong in game list service */
     /*this belongs in gamelobbyservice */
-    public Command leaveGame(Player player, GameInfo info) throws CommandFailed
+    public static Command leaveGame(Player player, GameInfo info) throws CommandFailed
     {
         IDatabaseFacade df  = Factory.createDatabaseFacade();
         try

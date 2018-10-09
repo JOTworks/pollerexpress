@@ -1,6 +1,8 @@
 package com.pollerexpress.models;
 
-public class Game
+import java.io.Serializable;
+
+public class Game implements Serializable
 {
     GameInfo _info;
 

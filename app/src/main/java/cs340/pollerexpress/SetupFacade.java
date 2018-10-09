@@ -1,5 +1,6 @@
 package cs340.pollerexpress;
 
+import com.pollerexpress.CommandsExtensions;
 import com.pollerexpress.models.Command;
 import com.pollerexpress.models.CommandFailed;
 import com.pollerexpress.reponse.ErrorResponse;
@@ -77,12 +78,12 @@ public class SetupFacade {
      */
     public ErrorResponse createGame(String name, int numPlayers, Color.PLAYER userColor) {
 
-        GameInfo info = new GameInfo(null, name,numPlayers,1);
+        GameInfo info = new GameInfo(name,numPlayers); //max players 1.... 111111
         ClientCommunicator CC = ClientCommunicator.instance();
         Class<?>[] types = {Player.class, GameInfo.class};
         Object[] params= {ClientData.getInstance().getUser(), info };
 
-        Command joinGameCommand = new Command("SetupService","createGame",types,params);
+        Command joinGameCommand = new Command(CommandsExtensions.serverSide +"SetupService","createGame",types,params);
 
         PollResponse response = CC.sendCommand(joinGameCommand);
 
@@ -106,7 +107,7 @@ public class SetupFacade {
         ClientCommunicator CC = ClientCommunicator.instance();
         Class<?>[] types = {Player.class, GameInfo.class};
         Object[] params= {player, info};
-        Command joinGameCommand = new Command("SetupService","joinGame",types,params);
+        Command joinGameCommand = new Command(CommandsExtensions.serverSide+ "SetupService","joinGame",types,params);
 
         PollResponse response = CC.sendCommand(joinGameCommand);
 
@@ -133,7 +134,7 @@ public class SetupFacade {
         ClientCommunicator CC = ClientCommunicator.instance();
         Class<?>[] types = {String.class};
         Object[] params= {gameName};
-        Command joinGameCommand = new Command("SetupService","StartGame",types,params);
+        Command joinGameCommand = new Command(CommandsExtensions.serverSide+"SetupService","StartGame",types,params);
 
         PollResponse response = CC.sendCommand(joinGameCommand);
 
@@ -150,7 +151,7 @@ public class SetupFacade {
 
     /**
      *
-     * @param gameName
+     * @param
      * @return res.getError, it will be null on succesful join
      */
     public ErrorResponse leaveGame(){

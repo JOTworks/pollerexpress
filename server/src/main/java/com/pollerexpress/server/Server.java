@@ -33,8 +33,8 @@ public class Server
 
         System.out.println("Creating contexts");
 
-        //server.createContext("/login", new LoginHandler());
-        //server.createContext("/register", new RegisterHandler());
+        server.createContext("/login", new LoginHandler());
+        server.createContext("/register", new RegisterHandler());
         server.createContext("/exec", new ExecuteHandler());
         server.createContext("/poll", new PollHandler());
         System.out.println("Starting Server");

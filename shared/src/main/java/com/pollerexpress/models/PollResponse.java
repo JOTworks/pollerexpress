@@ -2,9 +2,11 @@ package com.pollerexpress.models;
 
 import com.pollerexpress.reponse.ErrorResponse;
 
+import java.io.Serializable;
 import java.util.Queue;
 
-public class PollResponse {
+public class PollResponse implements Serializable
+{
     private Queue<Command> commands;
     private ErrorResponse error;
 

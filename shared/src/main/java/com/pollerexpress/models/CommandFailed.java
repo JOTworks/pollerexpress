@@ -1,6 +1,8 @@
 package com.pollerexpress.models;
 
-public class CommandFailed extends Exception
+import java.io.Serializable;
+
+public class CommandFailed extends Exception implements Serializable
 {
     public String methodName;
     public CommandFailed(String methodName)

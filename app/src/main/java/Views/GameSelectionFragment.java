@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.pollerexpress.models.GameInfo;
 
+import java.io.Serializable;
+
 import Views.recycleViewAdapters.GameSelectAdapter;
 import cs340.pollerexpress.R;
 import presenter.GameSelectionPresenter;
@@ -54,13 +56,7 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
         mGameRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new GameSelectAdapter(gameSelectionPresenter.getGameList(),
-//                new GameInfo[] {
-//                new GameInfo("id", "game1", 5, 2),
-//                new GameInfo("id", "game2", 4, 1)},
-                  gameSelectionPresenter
-
-        );
+       mAdapter = new GameSelectAdapter(gameSelectionPresenter.getGameList(), gameSelectionPresenter );
 
         mGameRecyclerView.setAdapter(mAdapter);
 

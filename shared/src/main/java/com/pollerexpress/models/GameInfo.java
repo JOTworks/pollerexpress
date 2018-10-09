@@ -1,9 +1,10 @@
 package com.pollerexpress.models;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
-public class GameInfo
+public class GameInfo implements Serializable
 {
     private String _id;
     private String _name;

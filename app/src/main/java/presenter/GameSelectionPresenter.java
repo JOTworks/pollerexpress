@@ -57,7 +57,9 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
     @Override
     public GameInfo[] getGameList() {
 
-        return (GameInfo[]) clientData.getGameInfoList().toArray();
+        if(clientData.getGameInfoList() != null)
+            return (GameInfo[]) clientData.getGameInfoList().toArray();
+        return new GameInfo[]{};
     }
 
     /**

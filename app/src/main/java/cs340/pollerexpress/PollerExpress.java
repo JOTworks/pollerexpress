@@ -14,7 +14,8 @@ import java.util.TimerTask;
  * Currently prints a "Choo!" every time it polls so you know it's working,
  * when we have the command execution debugged and tested we'll get rid of that.
  */
-public class PollerExpress {
+public class PollerExpress
+{
 
 	private static int DELAY = 2000;
 	Timer timer;

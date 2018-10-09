@@ -1,6 +1,8 @@
 package com.pollerexpress.models;
 
-public class User extends Player
+import java.io.Serializable;
+
+public class User extends Player implements Serializable
 {
     public String password;//this really shouldn't be public ;) keep your password private
     public Authtoken token;
