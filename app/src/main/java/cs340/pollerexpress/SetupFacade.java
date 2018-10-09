@@ -43,6 +43,7 @@ public class SetupFacade {
      * @return res.getError, it will return null on succesful login
      */
     public  ErrorResponse loginOrRegister(String requestType, LoginRequest loginReq){
+
         ClientCommunicator CC = ClientCommunicator.instance();
 
         LoginResponse response = CC.sendLoginRequest(requestType, loginReq);
