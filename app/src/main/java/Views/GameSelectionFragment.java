@@ -43,7 +43,6 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_game_selection, container, false);
 
-
         mGameRecyclerView = (RecyclerView) v.findViewById(R.id.game_selection_recycler_view);
 
         // use this setting to improve performance if you know that changes
@@ -55,15 +54,15 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
         mGameRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new GameSelectAdapter(new GameInfo[] {
-                new GameInfo("id", "game1", 5, 2),
-                new GameInfo("id", "game2", 4, 1)}, gameSelectionPresenter); //TODO: use getGameList() (implemented below but commented out below until createGame works)
-        //I think the above is for testing, the below is for when we actually have the creategame thing WORKING
-        /*
-        mAdapter = new GameSelectAdapter(gameSelectionPresenter.getGameList(), gameSelectionPresenter);
-         */
-        mGameRecyclerView.setAdapter(mAdapter);
+        mAdapter = new GameSelectAdapter(gameSelectionPresenter.getGameList(),
+//                new GameInfo[] {
+//                new GameInfo("id", "game1", 5, 2),
+//                new GameInfo("id", "game2", 4, 1)},
+                  gameSelectionPresenter
 
+        );
+
+        mGameRecyclerView.setAdapter(mAdapter);
 
         //---------------------Create Game Button---------------------------------------------------
         createGameButton = (Button) v.findViewById(R.id.create_game_button);
@@ -77,12 +76,6 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
         });
 
         return v;
-    }
-
-
-        @Override
-    public void changeLobbyView() {
-
     }
 
     @Override
@@ -110,6 +103,17 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
     @Override
     public void enableGame(int gameListIndex) {
 
+    }
+
+    @Override
+    public void changeToLobbyView() {
+        FragmentManager fragmentManager = getFragmentManager();
+        //Fragment createGameFragment = fragmentManager.findFragmentById(R.id.fragment_create_game);
+        Fragment fragment = new LobbyFragment();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.right_side_fragment_container, fragment);
+        fragmentTransaction.commit();
     }
 
     @Override

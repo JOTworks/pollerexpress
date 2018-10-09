@@ -26,6 +26,14 @@ public class Player
         this.gameId = gameId;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getGameId() {
+        return gameId;
+    }
+
     /*
         Default Java Functions
      */

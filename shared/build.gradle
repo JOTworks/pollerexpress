@@ -1,8 +1,13 @@
 apply plugin: 'java-library'
 
 dependencies {
+<<<<<<< HEAD
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.9.7'
+=======
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.google.code.gson:gson:2.8.5'
+>>>>>>> e8159e3cb0d22e7bb5cce82fd4c23753c6fff81e
 }
 
 sourceCompatibility = "1.7"

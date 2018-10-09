@@ -93,7 +93,7 @@ public class CreateGameFragment extends Fragment implements ICreateGameView {
             @Override
             public void onClick(View v) {
                 createGamePresenter.onCreateGameClicked(numOfPlayers, userColor);
-                Toast.makeText(getContext(), "It's working!", Toast.LENGTH_LONG).show(); //TODO: remove toast
+                //Toast.makeText(getContext(), "It's working!", Toast.LENGTH_LONG).show(); //TODO: remove toast
             }
         });
 
