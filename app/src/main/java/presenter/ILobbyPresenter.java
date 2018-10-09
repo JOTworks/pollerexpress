@@ -9,11 +9,7 @@ import com.pollerexpress.models.Player;
  */
 public interface ILobbyPresenter {
 
-    public void startButtonPressed();
+    void startButtonPressed();
 
-//    public void colorPicked();
-
-    public void observeColorChanged(Player newColor);
-
-    public void leaveGamePressed();
+    void onBackArrowPressed();
 }

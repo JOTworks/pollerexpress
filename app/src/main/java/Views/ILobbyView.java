@@ -10,4 +10,6 @@ public interface ILobbyView {
 //    void changeView(View newView);
 
     void displayMessage(String message);
+
+    void changeToSetupGameView();
 }

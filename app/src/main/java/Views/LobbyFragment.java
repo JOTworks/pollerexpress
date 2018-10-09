@@ -84,5 +84,21 @@ public class LobbyFragment extends Fragment implements ILobbyView {
     }
 
 
+    @Override
+    public void displayMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void changeToSetupGameView() {
+        FragmentManager fm = getFragmentManager();
+        //Fragment createGameFragment = fm.findFragmentById(R.id.fragment_create_game);
+        Fragment fragment = new SetupGameFragment();
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, fragment);
+        ft.commit();
+        fm.popBackStack();
+    }
 
 }
