@@ -1,7 +1,10 @@
 package presenter;
 
+import android.os.AsyncTask;
+
 import com.pollerexpress.models.Color;
 import com.pollerexpress.reponse.ErrorResponse;
+import com.pollerexpress.request.CreateGameRequest;
 
 import Views.ICreateGameView;
 import cs340.pollerexpress.SetupFacade;
@@ -50,18 +53,9 @@ public class CreateGamePresenter implements ICreateGamePresenter {
 
         if( gameName.length() > 0 ) {
 
-            ErrorResponse response = facade.createGame(gameName, numPlayers, userColor);
+            CreateGameTask createGameTask = new CreateGameTask();
 
-            if( response != null ) {
-
-                view.displayError(response.getMessage());
-            }
-            else {
-
-                // if the game was successfully created,
-                // go back to the selection view.
-                view.changeToSetupGameView();
-            }
+            createGameTask.execute(new Object[]{gameName, numPlayers, user_color});
         }
     }
 
@@ -73,18 +67,38 @@ public class CreateGamePresenter implements ICreateGamePresenter {
         view.changeToSetupGameView();
     }
 
+    public class CreateGameTask extends AsyncTask<Object[], Void, ErrorResponse> {
 
-//    public class createGameTask extends AsyncTask<CreateGameRequest, Void, ErrorResponse> {
-//
-//        @Override
-//        protected ErrorResponse doInBackground(CreateGameRequest... createGameRequests) {
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(ErrorResponse response) {
-//
-//        }
-//    }
+        @Override
+        protected ErrorResponse doInBackground(Object[]... params) {
+
+            Object o_name = params[0];
+            String name = (String)o_name;
+
+            Object o_num = params[1];
+            int numPlayers = (Integer) o_num;
+
+            Object o_color = params[2];
+            Color.PLAYER userColor = (Color.PLAYER) o_color;
+
+            return facade.createGame(name, numPlayers, userColor);
+        }
+
+        @Override
+        protected void onPostExecute(ErrorResponse response) {
+
+            if( response != null ) {
+
+                view.displayError(response.getMessage());
+            }
+            else {
+
+                // if the game was successfully created,
+                // go back to the selection view.
+                view.changeToSetupGameView();
+            }
+
+        }
+    }
 
 }
