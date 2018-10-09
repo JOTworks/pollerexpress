@@ -83,7 +83,7 @@ public class SetupFacade {
         Class<?>[] types = {Player.class, GameInfo.class};
         Object[] params= {ClientData.getInstance().getUser(), info };
 
-        Command joinGameCommand = new Command(CommandsExtensions.serverSide +"SetupService","createGame",types,params);
+        Command joinGameCommand = new Command(CommandsExtensions.serverSide +"CommandFacade","createGame",types,params);
 
         PollResponse response = CC.sendCommand(joinGameCommand);
 
@@ -129,7 +129,7 @@ public class SetupFacade {
      */
     public ErrorResponse startGame(String gameName){
         /**todo:
-         *  check if i pass the correct params to the server side setupService startgame()
+         *  check if i pass the correct params to the server side CommandFacade startgame()
          */
         ClientCommunicator CC = ClientCommunicator.instance();
         Class<?>[] types = {String.class};
