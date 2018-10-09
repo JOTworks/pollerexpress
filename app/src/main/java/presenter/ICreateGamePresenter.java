@@ -17,6 +17,8 @@ public interface ICreateGamePresenter {
 
     public void setUserColor(String userColor);
 
+    public void setGameName(String gameName);
+
     public void onCreateGameClicked(String numOfPlayers, String userColor);
 
     public void onBackArrowClicked();

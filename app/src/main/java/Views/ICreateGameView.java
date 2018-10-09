@@ -6,6 +6,6 @@ public interface ICreateGameView {
 //    void enableCreateButton(Boolean yn);
 //    void highlightColor(Color color);
     void displayError(String errorMessage);
-    void switchToSelectionView();
+    void changeToSetupGameView();
 
 }

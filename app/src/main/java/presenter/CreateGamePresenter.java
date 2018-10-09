@@ -1,13 +1,7 @@
 package presenter;
 
-import android.os.AsyncTask;
-
 import com.pollerexpress.models.Color;
 import com.pollerexpress.models.ErrorResponse;
-import com.pollerexpress.models.GameInfo;
-
-import java.util.Observable;
-import java.util.Observer;
 
 import Views.ICreateGameView;
 import cs340.pollerexpress.SetupFacade;
@@ -42,6 +36,12 @@ public class CreateGamePresenter implements ICreateGamePresenter {
     }
 
     @Override
+    public void setGameName(String name) {
+
+        gameName = name;
+    }
+
+    @Override
     public void onCreateGameClicked(String numOfPlayers, String user_color) {
 
         numPlayers = Integer.parseInt(numOfPlayers);
@@ -59,7 +59,7 @@ public class CreateGamePresenter implements ICreateGamePresenter {
 
                 // if the game was successfully created,
                 // go back to the selection view.
-                view.switchToSelectionView();
+                view.changeToSetupGameView();
             }
         }
     }
@@ -69,7 +69,7 @@ public class CreateGamePresenter implements ICreateGamePresenter {
 
         // No game was actually created,
         // so no model data needs to be updated
-        view.switchToSelectionView();
+        view.changeToSetupGameView();
     }
 
 
