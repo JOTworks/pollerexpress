@@ -11,7 +11,6 @@ import java.util.*;
 
 public class CommandManager {
 	private static CommandManager _instance;
-	private CommandSwitch _switch;
 	private HashMap<String, Queue<Command>> userCommands;
 	
 	private CommandManager() {
@@ -26,11 +25,16 @@ public class CommandManager {
 	}
 	
 	public Queue<Command> getUserCommands(String user) {
-		Queue<Command> kwayway = userCommands.get(user);
-		return kwayway;
+	    if(userCommands.containsKey(user))
+        {
+            Queue<Command> kwayway = userCommands.get(user);
+            return kwayway;
+        }
+        return null;
 	}
 	
-	public void addCommand(Command c, Player user) throws DatabaseException {
+	public void addCommand(Command c, Player user)
+    {
 		Queue<Command> queue = userCommands.get(user.name);
 		queue.add(c);
 	}
@@ -38,7 +42,27 @@ public class CommandManager {
 	public void addCommand(Command c, GameInfo info)
     {
         IDatabaseFacade df = Factory.createDatabaseFacade();
-        Player[] players = df.
+        Player[] players;
+        try
+        {
+            players = df.getPlayersInGame(info);
+        }
+        catch(DatabaseException e)
+        {
+            return;
+        }
+        for(Player p: players)
+        {
+            addCommand(c, p);
+        }
+    }
+
+    public void addCommand(Command c)
+    {
+        for(Map.Entry<String, Queue<Command> > entry :userCommands.entrySet())
+        {
+            entry.getValue().add(c);
+        }
     }
 
 }
