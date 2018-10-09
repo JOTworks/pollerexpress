@@ -13,20 +13,20 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
     ILobbyView lobbyView = new LobbyFragment();
 
     @Override
-    public void startButtonPressed()
-    {
+    public void startButtonPressed() {
+
+        // if only one person in the game
+        lobbyView.displayMessage("Not enough people");
+
+        //else
+        lobbyView.displayMessage("Move to Game View");
 
     }
 
-    @Override
-    public void colorPicked() {
-
-    }
-
-    @Override
-    public void observeColorChanged(Player newColor) {
-
-    }
+//    @Override
+//    public void colorPicked() {
+//
+//    }
 
     @Override
     public void leaveGamePressed() {

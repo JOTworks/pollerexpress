@@ -11,7 +11,7 @@ public interface ILobbyPresenter {
 
     public void startButtonPressed();
 
-    public void colorPicked();
+//    public void colorPicked();
 
     public void observeColorChanged(Player newColor);
 

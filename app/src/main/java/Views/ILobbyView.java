@@ -8,4 +8,6 @@ public interface ILobbyView {
 //    void setPlayers(player[] players);
 //    void setPlayerColor(Player player,Color color);
 //    void changeView(View newView);
+
+    void displayMessage(String message);
 }
