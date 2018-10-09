@@ -7,13 +7,15 @@ import com.pollerexpress.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 /** This is a mastermodel. It is being observed by the
  presenters so that if there are any changes,
  they are reflected in the view.
  It contains a lot of different kinds of information.
  */
-public class ClientData {
+public class ClientData extends Observable {
+
     private static final ClientData ourInstance = new ClientData();
 
     public static ClientData getInstance() {
@@ -74,14 +76,28 @@ public class ClientData {
     }
 
     public void setUser(User user){
+
         this.user = user;
+        setChanged();
+        notifyObservers();
     }
     public void setAuth(Authtoken auth){
+
         this.auth = auth;
+        setChanged();
+        notifyObservers();
     }
-    public void setGame(Game game) { this.game = game;}
+    public void setGame(Game game) {
+
+        this.game = game;
+        setChanged();
+        notifyObservers();
+    }
     public void setGameInfoList(ArrayList<GameInfo> gameInfoList){
+
         this.gameInfoList = gameInfoList;
+        setChanged();
+        notifyObservers();
     }
 
 }
