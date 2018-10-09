@@ -146,6 +146,7 @@ public class DatabaseFacade implements IDatabaseFacade
         return valid;
     }
 
+<<<<<<< HEAD
 
 
     @Override
@@ -191,10 +192,10 @@ public class DatabaseFacade implements IDatabaseFacade
         try
         {
             db.open();
-            GameInfo game = db.getGameDao().read( id ).getGameInfo();
+            GameInfo game = db.getGameDao().read(id).getGameInfo();
             return game;
         }
-        catch(DatabaseException e)
+        catch (DatabaseException e)
         {
             throw e;
         }

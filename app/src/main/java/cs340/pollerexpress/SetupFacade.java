@@ -82,7 +82,7 @@ public class SetupFacade {
      */
     public ErrorResponse createGame(String name, int numPlayers, Color.PLAYER userColor) {
 
-        GameInfo info = new GameInfo(null,name,numPlayers,1);
+        GameInfo info = new GameInfo(null, name,numPlayers,1);
         ClientCommunicator CC = ClientCommunicator.instance();
         Class<?>[] types = {Player.class, GameInfo.class};
         Object[] params= {ClientData.getInstance().getUser(), };
@@ -175,4 +175,37 @@ public class SetupFacade {
         return null;
     }
 
+    /**
+     *
+     * @param gameName
+     * @return res.getError, it will be null on succesful join
+     */
+    public ErrorResponse leaveGame(){
+
+        ClientCommunicator CC = ClientCommunicator.instance();
+        Class<?>[] types = {Player.class, GameInfo.class};
+
+        Object[] params= {ClientData.getInstance().getUser(),};
+        Command joinGameCommand = new Command("SetupService","leaveGame",types,params);
+
+        PollResponse response = CC.sendCommand(joinGameCommand);
+
+        if(response == null) {
+            //client communicator didn't work, throw error or something? Idk how to do that though.
+        } else if(response.getError() != null) {
+            return response.getError();
+        } else {
+            Queue<Command> commands = response.getCommands();
+            for (int i = 0; i < commands.size(); i++) {
+                Command command = commands.poll();
+                try {
+                    command.execute();
+                } catch (CommandFailed commandFailed) {
+                    commandFailed.printStackTrace();
+                }
+            }
+        }
+
+        return null;
+    }
 }
