@@ -4,8 +4,6 @@ import com.pollerexpress.models.GameInfo;
 
 public interface IGameSelectionView {
 
-    void changeLobbyView();
-
     void changeCreateGameView();
 
     /**
@@ -19,5 +17,7 @@ public interface IGameSelectionView {
     void enableGame(int gameListIndex);
 
     void displayError(String errorMessage);
+
+    void changeToLobbyView();
 
 }
