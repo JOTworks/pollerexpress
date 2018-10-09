@@ -2,6 +2,7 @@ package cs340.pollerexpress;
 
 
 import com.pollerexpress.models.Command;
+import com.pollerexpress.models.User;
 import com.pollerexpress.models.serializer.Serializer;
 import com.pollerexpress.request.LoginRequest;
 import com.pollerexpress.reponse.LoginResponse;
@@ -41,6 +42,10 @@ public class ClientCommunicator
     public PollResponse sendCommand(Command command)
     {
         return (PollResponse) sendRequest(command, "exec");
+    }
+    public PollResponse sendPoll()
+    {
+        return (PollResponse)sendRequest( ClientData.getInstance().getUser(),"/poll");
     }
     public Object sendRequest(Object r, String operation)
     {

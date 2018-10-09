@@ -36,7 +36,7 @@ public class ExecuteHandler implements HttpHandler
 
             //if(exchange.getRequestMethod().toLowerCase().equals("get"))
             {
-                //we will assumned that the user is authorized for this test.
+                //we will assume that the user is authorized for this test, because i am to annoyed to try to do any other.
 
                 //extract the data from the request
 
@@ -50,12 +50,11 @@ public class ExecuteHandler implements HttpHandler
                 {
                     req.execute();
                     Queue<Command> commands = CommandManager._instance().addCommand(req, p.name);
-
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK,0);
 
                     responseBody = exchange.getResponseBody();
 
-                    Serializer.writeData(commands, responseBody);
+                    Serializer.writeData(new PollResponse(commands, null), responseBody);
                 }
                 catch(CommandFailed error)
                 {
@@ -68,12 +67,6 @@ public class ExecuteHandler implements HttpHandler
                     if(responseBody != null) responseBody.close();
                 }
 
-            }
-            else
-            {
-                exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST,0);
-
-                exchange.getResponseBody().close();
             }
         } catch (IOException e )
         {
@@ -93,6 +86,6 @@ public class ExecuteHandler implements HttpHandler
             e.printStackTrace();
         }
         System.out.print("Left Execute Handler\n");
-    }*/
+    }
 
 }

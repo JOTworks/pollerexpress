@@ -10,6 +10,11 @@ public class PollResponse {
 
     public PollResponse() {}
 
+    /**
+     *
+     * @param commands
+     * @param error
+     */
     public PollResponse(Queue<Command> commands, ErrorResponse error) {
         this.commands = commands;
         this.error = error;
