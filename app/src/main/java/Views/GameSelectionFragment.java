@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.pollerexpress.models.GameInfo;
 
@@ -56,7 +57,7 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
         // specify an adapter (see also next example)
         mAdapter = new GameSelectAdapter(new GameInfo[] {
                 new GameInfo("id", "game1", 5, 2),
-                new GameInfo("id", "game2", 4, 1)}); //TODO: use getGameList()
+                new GameInfo("id", "game2", 4, 1)}, gameSelectionPresenter); //TODO: use getGameList()
         mGameRecyclerView.setAdapter(mAdapter);
 
 
@@ -106,5 +107,10 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
     @Override
     public void enableGame(int gameListIndex) {
 
+    }
+
+    @Override
+    public void displayError(String errorMessage) {
+        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
     }
 }

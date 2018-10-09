@@ -6,6 +6,8 @@ import com.pollerexpress.models.LoginRequest;
 import com.pollerexpress.models.LoginResponse;
 import com.pollerexpress.models.PollResponse;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 
 public class ClientCommunicator {
@@ -26,6 +28,7 @@ public class ClientCommunicator {
     private RestTemplate restTemplate = new RestTemplate();
     private static String URL_BASE = "http://localhost:8080";
     private static String EXECUTE_URL = URL_BASE + "/execute";
+    private static String TEST_URL = URL_BASE + "/test";
 
 
     //-------------------------------------------------------------------
@@ -58,9 +61,17 @@ public class ClientCommunicator {
      */
     public PollResponse sendCommand(Command command) {
         String resourceUrl = EXECUTE_URL;
+        ClientData clientData = ClientData.getInstance();
+        String auth = clientData.getAuth().getToken();
+        String username = clientData.getAuth().getUserName();
 
-        //TODO put authToken in a header
-        PollResponse response = restTemplate.postForObject(resourceUrl, command, PollResponse.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("AUTH_TOKEN", auth);
+        headers.add("USERNAME", auth);
+        HttpEntity<Command> entity = new HttpEntity<>(command, headers);
+
+        //TODO: test
+        PollResponse response = restTemplate.postForObject(resourceUrl, entity, PollResponse.class);
 
         return response;
     }
@@ -72,6 +83,5 @@ public class ClientCommunicator {
 
         return null;
     }
-
 }
 

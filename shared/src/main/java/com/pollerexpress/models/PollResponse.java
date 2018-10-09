@@ -6,6 +6,8 @@ public class PollResponse {
     private Queue<Command> commands;
     private ErrorResponse error;
 
+    public PollResponse() {}
+
     public PollResponse(Queue<Command> commands, ErrorResponse error) {
         this.commands = commands;
         this.error = error;

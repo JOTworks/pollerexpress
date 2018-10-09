@@ -17,4 +17,7 @@ public interface IGameSelectionView {
 
     void disableGame(int gameListIndex);
     void enableGame(int gameListIndex);
+
+    void displayError(String errorMessage);
+
 }

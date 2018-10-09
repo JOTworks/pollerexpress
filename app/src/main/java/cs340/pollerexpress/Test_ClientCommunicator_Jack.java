@@ -8,6 +8,8 @@ import com.pollerexpress.models.LoginRequest;
 import com.pollerexpress.models.LoginResponse;
 import com.pollerexpress.models.PollResponse;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class Test_ClientCommunicator_Jack {
     private RestTemplate restTemplate = new RestTemplate();
     private static String URL_BASE = "http://localhost:8080";
     private static String EXECUTE_URL = URL_BASE + "/execute";
+    private static String TEST_URL = URL_BASE + "/test";
 
 
     //-------------------------------------------------------------------
@@ -81,6 +84,18 @@ public class Test_ClientCommunicator_Jack {
     public PollResponse sendPoll() {
 
         return null;
+    }
+
+    public String sendTest() {
+        String resourceUrl = TEST_URL;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("AUTH_TOKEN", "world");
+        HttpEntity<String> entity = new HttpEntity<>("Hello", headers);
+
+        String response = restTemplate.postForObject(resourceUrl, entity, String.class);
+
+        return response;
     }
 
 }
