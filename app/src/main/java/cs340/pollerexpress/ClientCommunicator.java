@@ -1,23 +1,20 @@
 package cs340.pollerexpress;
 
 
-import com.pollerexpress.models.Authtoken;
 import com.pollerexpress.models.Command;
-import com.pollerexpress.models.LoginRequest;
-import com.pollerexpress.models.LoginResponse;
+import com.pollerexpress.request.LoginRequest;
+import com.pollerexpress.reponse.LoginResponse;
 import com.pollerexpress.models.PollResponse;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 public class ClientCommunicator {
 
     //---------------------Singleton setup------------------------------
-    private static ClientCommunicator _instance;
+    private static ClientCommunicator _instance = null;
 
     public static ClientCommunicator instance() {
 

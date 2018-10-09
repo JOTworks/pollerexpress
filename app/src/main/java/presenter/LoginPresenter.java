@@ -2,13 +2,11 @@ package presenter;
 
 import android.os.AsyncTask;
 
-import com.pollerexpress.models.Command;
-import com.pollerexpress.models.ErrorResponse;
-import com.pollerexpress.models.LoginRequest;
+import com.pollerexpress.reponse.ErrorResponse;
+import com.pollerexpress.request.LoginRequest;
 
 import Views.ILoginView;
 import cs340.pollerexpress.SetupFacade;
-import cs340.pollerexpress.Test_ClientCommunicator_Jack;
 
 /**
  * Logic that was, in 240, being done in the user interface is
@@ -16,6 +14,10 @@ import cs340.pollerexpress.Test_ClientCommunicator_Jack;
  * That logic includes:
  * enabling/disabling buttons and
  * sending login/register requests
+ *
+ * This class doesn't need to implement observer because
+ * the login view does not get updated based on model data
+ * changing.
  */
 public class LoginPresenter implements ILoginPresenter {
 
@@ -51,11 +53,18 @@ public class LoginPresenter implements ILoginPresenter {
     @Override
     public void logIn(String username, String password) {
 
-        LoginTask loginTask = new LoginTask();
+        if(username.length() > 0 && username.length() < 1000
+                && password.length() > 0 && password.length() < 1000) {
 
-        LoginRequest loginRequest = new LoginRequest(username, password);
+            LoginTask loginTask = new LoginTask();
 
-        loginTask.execute(loginRequest);
+            LoginRequest loginRequest = new LoginRequest(username, password);
+
+            loginTask.execute(loginRequest);
+        }
+        else {
+            loginView.displayError("field with too many or too few characters");
+        }
     }
 
     /**
@@ -64,11 +73,18 @@ public class LoginPresenter implements ILoginPresenter {
     @Override
     public void register(String username, String password) {
 
-        RegisterTask registerTask = new RegisterTask();
+        if(username.length() > 0 && username.length() < 1000
+                && password.length() > 0 && password.length() < 1000) {
 
-        LoginRequest loginRequest = new LoginRequest(username, password);
+            RegisterTask registerTask = new RegisterTask();
 
-        registerTask.execute(loginRequest);
+            LoginRequest loginRequest = new LoginRequest(username, password);
+
+            registerTask.execute(loginRequest);
+        }
+        else {
+            loginView.displayError("field with too many or too few characters");
+        }
     }
 
     public class RegisterTask extends AsyncTask<LoginRequest, Void, ErrorResponse> {

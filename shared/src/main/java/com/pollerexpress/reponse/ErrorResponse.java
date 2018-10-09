@@ -1,5 +1,7 @@
-package com.pollerexpress.models;
+package com.pollerexpress.reponse;
 
+
+import com.pollerexpress.models.Command;
 
 public class ErrorResponse {
 	private String message;
