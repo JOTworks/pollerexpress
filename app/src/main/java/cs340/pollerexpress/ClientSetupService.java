@@ -19,12 +19,13 @@ class ClientSetupService implements ISetupService {
         CD = ClientData.getInstance();
     }
 
-    public boolean creatGame(GameInfo gameInfo){
+
+    public boolean createGame(GameInfo gameInfo){
         ArrayList<GameInfo> infoList = CD.getGameInfoList();
         infoList.add(gameInfo);
         return true;
     }
-    public boolean DeleteGame(GameInfo gameInfo){
+    public boolean deleteGame(GameInfo gameInfo){
         ArrayList<GameInfo> infoList = CD.getGameInfoList();
         infoList.remove(gameInfo);
         return true;
