@@ -19,6 +19,7 @@ import pollerexpress.database.dao.UserDao;
 public class Database implements IDatabase
 {
     public static final String DEFAULT_DATABASE = "db.sqlite3";
+    public static final String DROP_ALL_TABLES = "drop table *";
     public static final String DROP_AUTH_TOKEN = "drop table if exists AUTH_TOKENS";
     public static final String DROP_USERS = "drop table if exists USERS";
     public static final String USER_TABLE = "USERS";
@@ -147,6 +148,17 @@ public class Database implements IDatabase
         }
     }
 
+    public void deleateTables() {
+
+        try {
+            PreparedStatement Drop_stmnt = this.dataConnection.prepareStatement(DROP_ALL_TABLES);
+            Drop_stmnt.execute();
+            Drop_stmnt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Run this method to create the database on the server.
      * @param Argv not currently used
@@ -157,6 +169,8 @@ public class Database implements IDatabase
         {
             Database db = new Database();
             db.open();
+
+           //todo:make this dleeat  tables  db.deleateTables();
             db.createTables();
             db.close(true);;
         }
