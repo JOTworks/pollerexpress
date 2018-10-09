@@ -69,6 +69,8 @@ public class LobbyFragment extends Fragment implements ILobbyView {
             @Override
             public void onClick(View v) {
                 //TODO: pull this to a method and give control to the presenter
+                //loginPresenter.logIn(userNameText.getText().toString(),
+                        //passwordText.getText().toString());
                 FragmentManager fm = getFragmentManager();
                 //Fragment startGameFragment = fm.findFragmentById(R.id.fragment_create_game);
                 Fragment GameFragment = new GameFragment();

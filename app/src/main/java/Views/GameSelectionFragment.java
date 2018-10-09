@@ -68,15 +68,7 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
         mCreateGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: pull this to a method and give control to the presenter
-                FragmentManager fm = getFragmentManager();
-                //Fragment createGameFragment = fm.findFragmentById(R.id.fragment_create_game);
-                Fragment createGameFragment = new CreateGameFragment();
-
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.right_side_fragment_container, createGameFragment);
-                ft.addToBackStack(null);
-                ft.commit();
+                gameSelectionPresenter.createGame();
             }
         });
 
@@ -91,7 +83,14 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
 
     @Override
     public void changeCreateGameView() {
+        FragmentManager fm = getFragmentManager();
+        //Fragment createGameFragment = fm.findFragmentById(R.id.fragment_create_game);
+        Fragment createGameFragment = new CreateGameFragment();
 
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.right_side_fragment_container, createGameFragment);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     @Override
