@@ -80,8 +80,8 @@ public class SetupFacade {
         GameInfo info = new GameInfo(null, name,numPlayers,1);
         ClientCommunicator CC = ClientCommunicator.instance();
         Class<?>[] types = {Player.class, GameInfo.class};
-        Object[] params= {ClientData.getInstance().getUser(), };
-        Command joinGameCommand = new Command("SetupService","joinGame",types,params);
+        Object[] params= {ClientData.getInstance().getUser(), info};
+        Command joinGameCommand = new Command("SetupService","createGame",types,params);
 
         PollResponse response = CC.sendCommand(joinGameCommand);
 
@@ -105,7 +105,7 @@ public class SetupFacade {
         ClientCommunicator CC = ClientCommunicator.instance();
         Class<?>[] types = {Player.class, GameInfo.class};
         Object[] params= {player, info};
-        Command joinGameCommand = new Command("SetupService","joinGame",null,null);
+        Command joinGameCommand = new Command("SetupService","joinGame",types,params);
 
         PollResponse response = CC.sendCommand(joinGameCommand);
 
@@ -126,7 +126,9 @@ public class SetupFacade {
      * @return res.getError, it will be null on succesful join
      */
     public ErrorResponse startGame(String gameName){
-
+        /**todo:
+         *  check if i pass the correct params to the server side setupService startgame()
+         */
         ClientCommunicator CC = ClientCommunicator.instance();
         Class<?>[] types = {String.class};
         Object[] params= {gameName};
