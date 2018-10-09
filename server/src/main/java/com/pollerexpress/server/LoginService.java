@@ -27,7 +27,7 @@ public class LoginService
         }
         catch(DatabaseException e)
         {
-            return new LoginResponse(null, null, new ErrorResponse(String.format("%s is already used", user.name), null, null));
+            return new LoginResponse(null, null, new ErrorResponse(String.format("%s is already used", lr.username), null, null));
         }
     }
 }
