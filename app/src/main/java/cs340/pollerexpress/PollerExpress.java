@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class PollerExpress
 {
 
-    private static boolean testing = false;
+    private static boolean testing = true;
 	private static int DELAY = 2000;
 	Timer timer;
 
