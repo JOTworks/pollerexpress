@@ -34,7 +34,7 @@ public class CommandController {
         Queue<Command> commands = null;
         try
         {
-            Command cmd = command.execute();
+            command.execute();
             //
             CommandManager._instance();
         }

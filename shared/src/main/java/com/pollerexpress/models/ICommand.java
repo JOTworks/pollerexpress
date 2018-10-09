@@ -1,5 +1,5 @@
 package com.pollerexpress.models;
 
 public interface ICommand {
-	public ICommand execute() throws CommandFailed;
+	public void execute() throws CommandFailed;
 }

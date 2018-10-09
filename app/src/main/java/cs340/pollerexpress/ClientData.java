@@ -22,6 +22,7 @@ public class ClientData {
 
     private ClientData() {
 
+        gameInfoList = new ArrayList<>();
     }
 
     private User user;
