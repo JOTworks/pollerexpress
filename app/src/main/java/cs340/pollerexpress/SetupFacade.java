@@ -51,6 +51,7 @@ public class SetupFacade {
         LoginResponse response = CC.sendLoginRequest(requestType, loginReq);
 
         if(response == null) {
+            return new ErrorResponse("cannot connect to server",null,null);
             //client communicator didn't work, throw error or something? Idk how to do that though.
         } else if(response.getError()!=null){
             return response.getError();

@@ -16,7 +16,7 @@ import java.net.URL;
 
 public class ClientCommunicator
 {
-    private String serverHost = "192.168.1.177";//local host
+    private String serverHost = "10.0.2.2";
     private String serverPort = "8080";
     private static ClientCommunicator _instance;
     private ClientCommunicator()
