@@ -1,5 +1,7 @@
 package com.pollerexpress.models;
 
+import com.pollerexpress.reponse.ErrorResponse;
+
 import java.util.Queue;
 
 public class PollResponse {

@@ -2,10 +2,10 @@ package cs340.pollerexpress;
 
 import com.pollerexpress.models.Command;
 import com.pollerexpress.models.CommandFailed;
-import com.pollerexpress.models.ErrorResponse;
+import com.pollerexpress.reponse.ErrorResponse;
 import com.pollerexpress.models.GameInfo;
-import com.pollerexpress.models.LoginRequest;
-import com.pollerexpress.models.LoginResponse;
+import com.pollerexpress.request.LoginRequest;
+import com.pollerexpress.reponse.LoginResponse;
 import com.pollerexpress.models.Player;
 import com.pollerexpress.models.PollResponse;
 import com.pollerexpress.models.Color;

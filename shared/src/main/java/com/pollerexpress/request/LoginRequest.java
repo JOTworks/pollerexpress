@@ -1,4 +1,4 @@
-package com.pollerexpress.models;
+package com.pollerexpress.request;
 
 public class LoginRequest {
 	public String username;

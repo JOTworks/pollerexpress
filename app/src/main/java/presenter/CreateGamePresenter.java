@@ -1,7 +1,7 @@
 package presenter;
 
 import com.pollerexpress.models.Color;
-import com.pollerexpress.models.ErrorResponse;
+import com.pollerexpress.reponse.ErrorResponse;
 
 import Views.ICreateGameView;
 import cs340.pollerexpress.SetupFacade;
@@ -73,12 +73,12 @@ public class CreateGamePresenter implements ICreateGamePresenter {
     }
 
 
-//    public class createGameTask extends AsyncTask<CreateGameRequest, Void, ErrorResponse> {
-//
-//        @Override
-//        protected ErrorResponse doInBackground(CreateGameRequest... createGameRequests) {
-//            return null;
-//        }
-//    }
+    public class createGameTask extends AsyncTask<CreateGameRequest, Void, ErrorResponse> {
+
+        @Override
+        protected ErrorResponse doInBackground(CreateGameRequest... createGameRequests) {
+            return null;
+        }
+    }
 
 }

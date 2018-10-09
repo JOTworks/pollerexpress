@@ -5,7 +5,7 @@ import com.pollerexpress.models.Authtoken;
 import com.pollerexpress.models.Game;
 import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.models.IDatabaseFacade;
-import com.pollerexpress.models.LoginResponse;
+import com.pollerexpress.reponse.LoginResponse;
 import com.pollerexpress.models.Player;
 import com.pollerexpress.models.User;
 

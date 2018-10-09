@@ -1,7 +1,5 @@
 package presenter;
 
-import com.pollerexpress.models.Command;
-import com.pollerexpress.models.ErrorResponse;
 import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.models.User;
 
