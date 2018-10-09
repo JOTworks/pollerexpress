@@ -73,12 +73,12 @@ public class CreateGamePresenter implements ICreateGamePresenter {
     }
 
 
-    public class createGameTask extends AsyncTask<CreateGameRequest, Void, ErrorResponse> {
-
-        @Override
-        protected ErrorResponse doInBackground(CreateGameRequest... createGameRequests) {
-            return null;
-        }
-    }
+//    public class createGameTask extends AsyncTask<CreateGameRequest, Void, ErrorResponse> {
+//
+//        @Override
+//        protected ErrorResponse doInBackground(CreateGameRequest... createGameRequests) {
+//            return null;
+//        }
+//    }
 
 }
