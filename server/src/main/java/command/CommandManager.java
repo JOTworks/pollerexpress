@@ -31,7 +31,7 @@ public class CommandManager {
             userCommands.put(user, new LinkedList<>() );
             return kwayway;
         }
-        return null;
+        return new LinkedList<>();
 	}
 
     /**
@@ -90,6 +90,16 @@ public class CommandManager {
         for(Map.Entry<String, Queue<Command> > entry :userCommands.entrySet())
         {
             entry.getValue().add(c);
+        }
+    }
+
+    public void addPlayer(Player p)
+    {
+        Queue<Command> queue = userCommands.get(p.name);
+        if(queue == null)
+        {
+            queue = new LinkedList<>();
+            userCommands.put(p.name, queue);
         }
     }
 

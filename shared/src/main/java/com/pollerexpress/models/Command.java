@@ -40,7 +40,7 @@ public class Command implements ICommand, Serializable
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            //e.printStackTrace();
             throw new CommandFailed(_methodName);
         }
     }

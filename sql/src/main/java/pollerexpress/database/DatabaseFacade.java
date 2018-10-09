@@ -51,7 +51,10 @@ public class DatabaseFacade implements IDatabaseFacade
         catch (DatabaseException e)
         {
         }
-        db.close(false);
+        finally
+        {
+            db.close(false);
+        }
         return new LoginResponse(null,null, new ErrorResponse("Bad Password/user name", null, null));
     }
 
@@ -153,9 +156,16 @@ public class DatabaseFacade implements IDatabaseFacade
     @Override
     public boolean validate(Authtoken token) throws DatabaseException
     {
-        db.open();
-        boolean valid = db.getAuthtokenDao().validate(token);
-        db.close(false);
+        boolean valid = false;
+        try
+        {
+            db.open();
+             valid = db.getAuthtokenDao().validate(token);
+        }
+        finally
+        {
+            db.close(false);
+        }
         return valid;
     }
     

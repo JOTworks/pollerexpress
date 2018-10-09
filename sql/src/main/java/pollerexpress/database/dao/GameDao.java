@@ -187,10 +187,10 @@ public class GameDao {
 
     public static final String ADD_PLAYER = "UPDATE USERS\n " +
                                             "SET GAME_ID = ?\n" +
-                                            "WHERE USER_NAME = ?";
+                                            "WHERE USER_NAME = ? and GAME_ID != ?";
     public static final String GAME_ADD = "UPDATE GAMES\n" +
-                                                    "SET CURRENT_PLAYERS = CURRENT_PLAYERS + 1 \n" +
-                                                    "WHERE GAME_ID = ?";
+            "SET CURRENT_PLAYERS = CURRENT_PLAYERS + 1 \n"+
+            "WHERE GAME_ID = ? and CURRENT_PLAYERS < MAX_PLAYERS";
     public boolean joinGame(Player user, GameInfo info)
     {
         try
@@ -198,13 +198,17 @@ public class GameDao {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(ADD_PLAYER);
             stmnt.setString(1,info.getId() );
             stmnt.setString(2,user.name );
-            stmnt.execute();
+            stmnt.setString(3,info.getId());
+            int result = stmnt.executeUpdate();
             stmnt.close();
+
+            if(result != 1) return false;
 
             stmnt = _db.getConnection().prepareStatement(GAME_ADD);
             stmnt.setString(1,info.getId() );
-            stmnt.execute();
+            result = stmnt.executeUpdate();
             stmnt.close();
+            if(result != 1) return false;
             //TODO make sure there is room in the game....
 
 
