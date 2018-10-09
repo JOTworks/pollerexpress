@@ -13,22 +13,23 @@
         android:layout_height="wrap_content"
         android:paddingLeft="40dp"
         android:textColor="@color/PollerWhite"
+        android:text="Game3"
         android:textSize="30dp"/>
 
     <TextView
         android:id="@+id/game_minmax_display_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="132dp"
-        android:gravity="right"
+        android:layout_marginEnd="140dp"
+        android:text="5/5"
         android:textColor="@color/PollerWhite"
         android:textSize="30dp"
-        app:layout_constraintEnd_toStartOf="@+id/create_game_button"
+        app:layout_constraintEnd_toStartOf="@+id/join_game_button"
         tools:layout_editor_absoluteY="4dp" />
 
 
     <Button
-        android:id="@+id/create_game_button"
+        android:id="@+id/join_game_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"

@@ -8,6 +8,8 @@ public class Command implements ICommand {
     private Class<?>[] _paramTypes;
     private Object[] _paramValues;
 
+    public Command() {
+    }
 
     /**
      *
