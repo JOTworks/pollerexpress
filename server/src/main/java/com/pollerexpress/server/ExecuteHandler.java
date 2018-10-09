@@ -1,6 +1,7 @@
 package com.pollerexpress.server;
 
 
+
 import com.pollerexpress.models.Command;
 import com.pollerexpress.models.CommandFailed;
 import com.pollerexpress.models.Player;
@@ -8,13 +9,12 @@ import com.pollerexpress.models.PollResponse;
 import com.pollerexpress.models.serializer.Serializer;
 import com.pollerexpress.reponse.ErrorResponse;
 import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.util.Queue;
-
-import javax.xml.ws.spi.http.HttpHandler;
 
 import command.CommandManager;
 
@@ -25,6 +25,8 @@ import command.CommandManager;
 
 public class ExecuteHandler implements HttpHandler
 {
+
+
     @Override
     public void handle(HttpExchange exchange) throws IOException
     {
@@ -37,7 +39,9 @@ public class ExecuteHandler implements HttpHandler
                 //we will assumned that the user is authorized for this test.
 
                 //extract the data from the request
-                Command req = (Command) Serializer.readData(exchange.getRequestBody());
+
+               Command req = (Command) Serializer.readData(exchange.getRequestBody());
+
 
                 //get the data
                 Player p = null;
@@ -65,12 +69,12 @@ public class ExecuteHandler implements HttpHandler
                 }
 
             }
-            /*else
+            else
             {
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST,0);
 
                 exchange.getResponseBody().close();
-            }*/
+            }
         } catch (IOException e )
         {
             //something bad happened, tell the client that we had an accident
@@ -89,6 +93,6 @@ public class ExecuteHandler implements HttpHandler
             e.printStackTrace();
         }
         System.out.print("Left Execute Handler\n");
-    }
+    }*/
 
 }
