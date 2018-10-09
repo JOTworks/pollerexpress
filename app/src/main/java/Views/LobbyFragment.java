@@ -38,7 +38,7 @@ public class LobbyFragment extends Fragment implements ILobbyView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        lobbyPresenter = new LobbyPresenter();
+        lobbyPresenter = new LobbyPresenter(this);
     }
 
     @Override
