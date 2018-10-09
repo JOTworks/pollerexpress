@@ -146,8 +146,6 @@ public class DatabaseFacade implements IDatabaseFacade
         return valid;
     }
     
-
-
     @Override
     public Game getGame(GameInfo info) throws DatabaseException
     {

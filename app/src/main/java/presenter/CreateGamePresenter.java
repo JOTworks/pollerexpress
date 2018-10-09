@@ -1,27 +1,40 @@
 package presenter;
 
+import com.pollerexpress.models.Color;
+import com.pollerexpress.models.ErrorResponse;
+import com.pollerexpress.models.GameInfo;
+
 import java.util.Observable;
 import java.util.Observer;
 
 import Views.ICreateGameView;
+import cs340.pollerexpress.SetupFacade;
 
-public class CreateGamePresenter implements ICreateGamePresenter, Observer {
+public class CreateGamePresenter implements ICreateGamePresenter {
 
     private ICreateGameView view;
+    private SetupFacade facade;
+    private String gameName;
+    private int numPlayers;
+    private Color.PLAYER userColor;
 
     public CreateGamePresenter(ICreateGameView view) {
+
         this.view = view;
+        facade = new SetupFacade();
     }
 
     @Override
-    public void setNumOfPlayers(String numOfPlayers) {}
+    public void setNumOfPlayers(String numOfPlayers) {
+
+        numPlayers = Integer.parseInt(numOfPlayers);
+    }
 
     @Override
-    public void setUserColor(String numOfPlayers) {}
+    public void setUserColor(String color) {
 
-    @Override
-    public void createGame(String numOfPlayers, String userColor) {
-
+        // convert string color to an enum
+        userColor = Color.PLAYER.valueOf(color);
     }
 
     public void okButtonClicked() {
@@ -29,32 +42,38 @@ public class CreateGamePresenter implements ICreateGamePresenter, Observer {
     }
 
     @Override
-    public void cancelButtonClicked() {
+    public void setGameName(String name) {
+
+        gameName = name;
+    }
+
+    @Override
+    public void createGame(String numOfPlayers, String user_color) {
+
+        if( gameName.length() > 0 ) {
+
+            ErrorResponse response = facade.createGame(gameName, numPlayers, userColor);
+
+            if( response != null ) {
+
+//                view.displayError(response.getMessage());
+            }
+            else {
+
+
+            }
+        }
+
 
     }
 
     @Override
-    public void playerNumSelected() {
+    public void onOkClicked() {
 
     }
 
     @Override
-    public void nameUpdate() {
-
-    }
-
-    @Override
-    public void colorPicked() {
-
-    }
-
-    /**
-     * @param o
-     * @param arg
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-
+    public void onCancelClicked() {
 
     }
 }
