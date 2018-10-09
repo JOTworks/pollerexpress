@@ -1,7 +1,10 @@
 package presenter;
 
+import android.os.AsyncTask;
+
 import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.models.User;
+import com.pollerexpress.reponse.ErrorResponse;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -43,7 +46,9 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
         GameInfo[] gameInfoList = clientData.getGameInfoList().toArray(new GameInfo[0]);
 
         GameInfo gameInfo = gameInfoList[gameIndex];
-        facade.joinGame(user, gameInfo);
+
+        JoinGameTask joinGameTask = new JoinGameTask();
+        joinGameTask.execute(new Object[]{user, gameInfo});
 
         /* If facade.joinGame causes update to get called,
         * then this is check is redundant. */
@@ -57,6 +62,7 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
 
     @Override
     public GameInfo[] getGameList() {
+
         return (GameInfo[]) clientData.getGameInfoList().toArray();
     }
 
@@ -86,5 +92,20 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
 
         // refresh the list of games in the view
         view.renderGames(gameInfoList);
+    }
+
+    public class JoinGameTask extends AsyncTask<Object[], Void, ErrorResponse> {
+
+
+        @Override
+        protected ErrorResponse doInBackground(Object[]... objects) {
+
+            facade.joinGame(user, gameInfo);
+        }
+
+        @Override
+        protected void onPostExecute (ErrorResponse response) {
+
+        }
     }
 }
