@@ -12,7 +12,7 @@ import com.pollerexpress.server.homeless.Factory;
 
 public class SetupService
 {
-    public void joinGame(Player player, GameInfo info) throws CommandFailed
+    public static void  joinGame(Player player, GameInfo info) throws CommandFailed
     {
         IDatabaseFacade df = Factory.createDatabaseFacade();
         try
@@ -32,7 +32,7 @@ public class SetupService
         }
     }
 
-    public void createGame(Player player, GameInfo info) throws CommandFailed
+    public static void createGame(Player player, GameInfo info) throws CommandFailed
     {
         //when it creates a game it must ensure that the games id is unique... so it shouldn't depend on being able to send the information back...
         //also what do i do when a command fails..
@@ -48,9 +48,8 @@ public class SetupService
         {
             throw new CommandFailed("createGame");
         }
-        
-    }
 
+    }
 
 
 }

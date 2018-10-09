@@ -58,7 +58,7 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
     public GameInfo[] getGameList() {
 
         if(clientData.getGameInfoList() != null)
-            return (GameInfo[]) clientData.getGameInfoList().toArray();
+            return clientData.getGameInfoList().toArray(new GameInfo[clientData.getGameInfoList().size()]);
         return new GameInfo[]{};
     }
 

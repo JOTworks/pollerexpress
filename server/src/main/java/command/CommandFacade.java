@@ -26,7 +26,7 @@ public class CommandFacade {
     }
     public static void joinGame(Player player, GameInfo info) throws CommandFailed, DatabaseException {
         SetupService SS = new SetupService();
-        SS.createGame(player, info);
+        SS.joinGame(player, info);
 
         CommandManager CM = CommandManager._instance();
 

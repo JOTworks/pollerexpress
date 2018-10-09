@@ -90,12 +90,22 @@ public class DatabaseFacade implements IDatabaseFacade
         try
         {
             db.open();
-            db.getGameDao().joinGame(player, info);
-            db.close(true);
-            db.open();
-            Game game = db.getGameDao().read(info);
-            db.close(false);
-            return game;
+            boolean can_join = db.getGameDao().joinGame(player, info);
+            db.close(can_join);
+            if(can_join)
+            {
+                try
+                {
+                    db.open();
+                    Game game = db.getGameDao().read(info);
+                    return game;
+                }
+                finally
+                {
+                    db.close(false);
+                }
+            }
+            throw new DatabaseException();
         }
         catch(DatabaseException e)
         {
