@@ -10,7 +10,7 @@ import java.util.ArrayList;
 class ClientSetupService implements ISetupService {
     private static final ClientSetupService ourInstance = new ClientSetupService();
 
-    ClientData CD;
+    static ClientData CD = ClientData.getInstance();
     static ClientSetupService getInstance() {
         return ourInstance;
     }
@@ -20,13 +20,13 @@ class ClientSetupService implements ISetupService {
     }
 
 
-    public boolean createGame(GameInfo gameInfo){
+    public static boolean createGame(GameInfo gameInfo){
         ArrayList<GameInfo> infoList = CD.getGameInfoList();
         infoList.add(gameInfo);
         return true;
     }
 
-    public boolean joinGame(Player player, GameInfo info){
+    public static boolean joinGame(Player player, GameInfo info){
         ArrayList<GameInfo> infoList = CD.getGameInfoList();
 
         for(int i = 0; i<infoList.size(); i++){
@@ -34,7 +34,7 @@ class ClientSetupService implements ISetupService {
                 ClientData.getInstance().getGameInfoList().get(i).addPlayer();
 
                 //if its your game
-                if (infoList.get(i).getId().equals(CD.getGame().getId())) {
+                if (CD.getGame() != null && infoList.get(i).getId().equals(CD.getGame().getId())) {
                    CD.getGame().addPlayer(player);
                 }
                 return true;
@@ -44,12 +44,13 @@ class ClientSetupService implements ISetupService {
         return false;
     }
 
-    public boolean loadGame(Game game){
+    public static boolean loadGame(Game game)
+    {
         CD.setGame(game);
         return true;
     }
 
-    public boolean startGame(GameInfo gameInfo){
+    public static boolean startGame(GameInfo gameInfo){
         ArrayList<GameInfo> infoList = CD.getGameInfoList();
 
         for(int i = 0; i<infoList.size(); i++){
@@ -60,7 +61,7 @@ class ClientSetupService implements ISetupService {
         return false;
     }
     /**************not requiered for phase 1*******************/
-    public boolean deleteGame(GameInfo gameInfo){
+    public static boolean deleteGame(GameInfo gameInfo){
         ArrayList<GameInfo> infoList = CD.getGameInfoList();
         for(int i = 0; i<infoList.size(); i++){
             if(infoList.get(i).getId()==gameInfo.getId()) {

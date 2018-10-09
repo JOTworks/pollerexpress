@@ -88,7 +88,6 @@ public class ClientCommunicator
                 // The HTTP response status code indicates an error
                 // occurred, so print out the message from the HTTP response
                 System.out.println("ERROR: " + http.getResponseMessage());
-                System.exit(1);
             }
 
         }
@@ -96,7 +95,6 @@ public class ClientCommunicator
         {
             System.out.println("ERROR: could not connect to server");
             e.printStackTrace();
-            System.exit(1);
         }
         return response;
     }

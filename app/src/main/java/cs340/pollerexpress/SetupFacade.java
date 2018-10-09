@@ -179,7 +179,8 @@ public class SetupFacade {
     }
 
     private void executeCommands(Queue<Command> commands){
-        for (int i = 0; i < commands.size(); i++) {
+        while(!commands.isEmpty())
+        {
             Command command = commands.poll();
             try {
                 command.execute();
