@@ -15,8 +15,11 @@ import android.widget.Toast;
 import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.models.Player;
 
+import java.util.Observer;
+
 import Views.recycleViewAdapters.GameSelectAdapter;
 import Views.recycleViewAdapters.PlayerAdapter;
+import cs340.pollerexpress.ClientData;
 import cs340.pollerexpress.R;
 import presenter.GameSelectionPresenter;
 import presenter.IGameSelectionPresenter;
@@ -27,6 +30,7 @@ import presenter.LoginPresenter;
 public class LobbyFragment extends Fragment implements ILobbyView {
 
     private ILobbyPresenter lobbyPresenter;
+    ClientData clientData = ClientData.getInstance();
 
     private RecyclerView mGameRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -39,6 +43,7 @@ public class LobbyFragment extends Fragment implements ILobbyView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lobbyPresenter = new LobbyPresenter();
+        clientData.addObserver((Observer) lobbyPresenter);
     }
 
     @Override

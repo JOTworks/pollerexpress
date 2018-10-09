@@ -14,7 +14,10 @@ import android.widget.Toast;
 
 import com.pollerexpress.models.GameInfo;
 
+import java.util.Observer;
+
 import Views.recycleViewAdapters.GameSelectAdapter;
+import cs340.pollerexpress.ClientData;
 import cs340.pollerexpress.R;
 import presenter.GameSelectionPresenter;
 import presenter.IGameSelectionPresenter;
@@ -30,11 +33,15 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
 
     private Button createGameButton;
 
+    ClientData clientData = ClientData.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gameSelectionPresenter = new GameSelectionPresenter(this);
+
+        // Adding the gameSelectionPresenter as an observer of clientData.
+        clientData.addObserver((Observer) gameSelectionPresenter);
     }
 
     @Override
