@@ -1,4 +1,4 @@
-package com.pollerexpress.server;
+package com.pollerexpress.server.homeless;
 
 import com.pollerexpress.database.exceptions.DatabaseException;
 import com.pollerexpress.models.Command;
@@ -6,6 +6,7 @@ import com.pollerexpress.models.CommandFailed;
 import com.pollerexpress.models.GameInfo;
 import com.pollerexpress.models.IDatabaseFacade;
 import com.pollerexpress.models.Player;
+import com.pollerexpress.server.homeless.Factory;
 
 public class GameLobbyService
 {

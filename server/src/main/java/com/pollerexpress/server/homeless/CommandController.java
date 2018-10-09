@@ -1,4 +1,4 @@
-package com.pollerexpress.server;
+package com.pollerexpress.server.homeless;
 
 
 import com.pollerexpress.models.Authtoken;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Queue;
 
 import command.CommandManager;
-import pollerexpress.database.dao.AuthtokenDao;
 
 @RestController
 public class CommandController {

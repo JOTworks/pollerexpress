@@ -1,6 +1,7 @@
-package com.pollerexpress.server;
+package com.pollerexpress.server.homeless;
 
 import com.pollerexpress.models.IDatabaseFacade;
+import com.pollerexpress.server.homeless.IDatabaseFactory;
 
 import pollerexpress.database.DatabaseFacade;
 

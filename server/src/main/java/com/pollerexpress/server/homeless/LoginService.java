@@ -1,4 +1,4 @@
-package com.pollerexpress.server;
+package com.pollerexpress.server.homeless;
 
 import com.pollerexpress.database.exceptions.DatabaseException;
 import com.pollerexpress.models.IDatabaseFacade;
@@ -6,6 +6,7 @@ import com.pollerexpress.reponse.ErrorResponse;
 import com.pollerexpress.request.LoginRequest;
 import com.pollerexpress.reponse.LoginResponse;
 import com.pollerexpress.models.User;
+import com.pollerexpress.server.homeless.Factory;
 
 public class LoginService
 {

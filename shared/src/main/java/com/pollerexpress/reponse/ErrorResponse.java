@@ -8,7 +8,7 @@ public class ErrorResponse {
 	private Exception exception;
 	private Command failed_command;
 
-	public ErrorResponse()
+	private ErrorResponse()
 	{
 
 	}

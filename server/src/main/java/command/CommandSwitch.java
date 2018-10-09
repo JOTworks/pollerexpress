@@ -2,7 +2,7 @@ package command;
 
 import com.pollerexpress.database.exceptions.DatabaseException;
 import com.pollerexpress.models.*;
-import com.pollerexpress.server.Factory;
+import com.pollerexpress.server.homeless.Factory;
 
 import pollerexpress.database.DatabaseFacade;
 
