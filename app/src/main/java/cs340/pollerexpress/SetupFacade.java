@@ -107,7 +107,7 @@ public class SetupFacade {
         ClientCommunicator CC = ClientCommunicator.instance();
         Class<?>[] types = {Player.class, GameInfo.class};
         Object[] params= {player, info};
-        Command joinGameCommand = new Command(CommandsExtensions.serverSide+ "SetupService","joinGame",types,params);
+        Command joinGameCommand = new Command(CommandsExtensions.serverSide+ "CommandFacade","joinGame",types,params);
 
         PollResponse response = CC.sendCommand(joinGameCommand);
 
@@ -134,7 +134,7 @@ public class SetupFacade {
         ClientCommunicator CC = ClientCommunicator.instance();
         Class<?>[] types = {String.class};
         Object[] params= {gameName};
-        Command joinGameCommand = new Command(CommandsExtensions.serverSide+"SetupService","StartGame",types,params);
+        Command joinGameCommand = new Command(CommandsExtensions.serverSide+"CommandFacade","StartGame",types,params);
 
         PollResponse response = CC.sendCommand(joinGameCommand);
 
@@ -159,10 +159,13 @@ public class SetupFacade {
         ClientCommunicator CC = ClientCommunicator.instance();
         Class<?>[] types = {Player.class, GameInfo.class};
 
-        Object[] params= {ClientData.getInstance().getUser(),};
-        Command joinGameCommand = new Command("SetupService","leaveGame",types,params);
+        /**todo
+         * implement latter when its not 330am
+         */
+        /*Object[] params= {ClientData.getInstance().getUser(), };
+       Command joinGameCommand = new Command("CommandFacade","leaveGame",types,params);
 
-        PollResponse response = CC.sendCommand(joinGameCommand);
+       PollResponse response = CC.sendCommand(joinGameCommand);
 
         if(response == null) {
             //client communicator didn't work, throw error or something? Idk how to do that though.
@@ -171,7 +174,7 @@ public class SetupFacade {
         } else {
             executeCommands(response.getCommands());
         }
-
+        */
         return null;
     }
 
