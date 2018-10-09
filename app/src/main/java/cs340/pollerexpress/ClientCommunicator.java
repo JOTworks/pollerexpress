@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 public class ClientCommunicator {
 
     //---------------------Singleton setup------------------------------
-    private static ClientCommunicator _instance
+    private static ClientCommunicator _instance = null;
 
     public static ClientCommunicator instance() {
 
