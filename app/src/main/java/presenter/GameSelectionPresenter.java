@@ -42,25 +42,16 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
     @Override
     public void joinGame(int gameIndex) {
 
-
-        //view.changeToLobbyView();
-
         User user = clientData.getUser();
         GameInfo[] gameInfoList = clientData.getGameInfoList().toArray(new GameInfo[0]);
 
         GameInfo gameInfo = gameInfoList[gameIndex];
 
         JoinGameTask joinGameTask = new JoinGameTask();
-        joinGameTask.execute(new Object[]{user, gameInfo});
 
-        /* If facade.joinGame causes update to get called,
-        * then this is check is redundant. */
-        if( gameInfo.getNumPlayers() == gameInfo.getMaxPlayers() ) {
+        Request request = new Request(user, gameInfo);
+        joinGameTask.execute(request);
 
-            view.disableGame(gameIndex);
-        }
-
-        view.changeToLobbyView();
     }
 
     @Override
@@ -80,6 +71,10 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
         // get the list of existing games
         GameInfo[] gameInfoList = clientData.getGameInfoList().toArray(new GameInfo[0]);
 
+
+        // refresh the list of games in the view
+        view.renderGames(gameInfoList);
+
         // determine which games the user can join
         for(int i = 0; i < gameInfoList.length; i++) {
 
@@ -92,22 +87,47 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
                 view.disableGame(i);
             }
         }
-
-        // refresh the list of games in the view
-        view.renderGames(gameInfoList);
     }
 
-    public class JoinGameTask extends AsyncTask<Object[], Void, ErrorResponse> {
+    private class Request {
 
+        public User user;
+        public GameInfo gameInfo;
+
+        public Request(User user, GameInfo gameInfo) {
+            this.user = user;
+            this.gameInfo = gameInfo;
+        }
+
+        public User getUser() {
+            return user;
+        }
+
+        public GameInfo getGameInfo() {
+            return gameInfo;
+        }
+    }
+
+    public class JoinGameTask extends AsyncTask<Request, Void, ErrorResponse> {
 
         @Override
-        protected ErrorResponse doInBackground(Object[]... objects) {
+        protected ErrorResponse doInBackground(Request... params) {
 
-            facade.joinGame(user, gameInfo);
+            Request request = params[0];
+            User user = request.getUser();
+            GameInfo gameInfo = request.getGameInfo();
+            return facade.joinGame(user, gameInfo);
         }
 
         @Override
         protected void onPostExecute (ErrorResponse response) {
+
+            if(response != null) {
+                view.displayError(response.getMessage());
+            }
+            else {
+                view.changeToLobbyView();
+            }
 
         }
     }
