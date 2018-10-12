@@ -32,13 +32,15 @@ class ClientSetupService implements ISetupService {
         ArrayList<GameInfo> infoList = CD.getGameInfoList();
 
         for(int i = 0; i<infoList.size(); i++){
-            if(infoList.get(i).getId().equals(info.getId()))
+            if( infoList.get(i).getId().equals(info.getId() ) )
             {
                 //if its your game
                 if (CD.getGame() != null && infoList.get(i).getId().equals(CD.getGame().getId())) {
-                    if(!CD.getGame().hasPlayer(player))
-                        Log.d("joinGame","someone joined my game!");
+                    if(!( CD.getGame().hasPlayer(player) ) )
+                    {
+                        Log.d("joinGame", "someone joined my game!");
                         CD.addPlayerToGame(player);
+                    }
 
                 }
                 CD.addPlayerToGameInfo(i);

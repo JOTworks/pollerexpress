@@ -112,7 +112,7 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
     @Override
     public void modifyGameData(Integer dex)
     {
-        mAdapter.notifyItemChanged(dex);
+        mAdapter.notifyItemChanged(dex.intValue());
     }
 
     @Override

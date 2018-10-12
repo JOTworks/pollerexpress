@@ -10,6 +10,7 @@ import com.pollerexpress.models.PollResponse;
 import com.pollerexpress.models.User;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
@@ -101,10 +102,14 @@ public class ClientData extends Observable
     }
     public void setGame(Game game)
     {
-        this.game = game;
 
         synchronized (this)
         {
+            this.game = game;
+            if(this.game.getPlayers() == null)
+            {
+                this.game.setPlayers(new LinkedList<Player>());
+            }
             notify();
         }
     }
@@ -120,8 +125,9 @@ public class ClientData extends Observable
     }
 
 
-    public void addPlayerToGame(Player player) {
-
+    public void addPlayerToGame(Player player)
+    {
+        if(this.getGame().hasPlayer(player)) return;
         synchronized (this)
         {
             Log.d("addPlayerToGame", "11111111111111s");

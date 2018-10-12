@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.pollerexpress.database.exceptions.DataAlreadyInDatabaseException;
 import com.pollerexpress.database.exceptions.DataNotFoundException;
@@ -69,9 +70,10 @@ public class GameDao {
                 //get a list of players in the game.
                 rs.close();
                 stmnt.close();
-                Player[] players = getPlayers(gi);
+                List<Player> players = getPlayers(gi);
                 //create the game
-                Game game = new Game(gi, players);//TODO load more data
+                Game game = new Game(gi);//TODO load more data
+                game.setPlayers(players);
 
                 return game;
             }
@@ -163,7 +165,7 @@ public class GameDao {
         //first delete all player references to a game
         try
         {
-            Player[] players = getPlayers(game);
+            List<Player> players = getPlayers(game);
             for(Player player:players)
             {
                 leaveGame(player, game);
@@ -254,21 +256,23 @@ public class GameDao {
      * @param info
      * @return
      */
-    private Player[] getPlayers(GameInfo info) throws DatabaseException
+    private List<Player> getPlayers(GameInfo info) throws DatabaseException
     {
         try {
+            List<Player> players = new ArrayList<>();
             PreparedStatement stmnt = this._db.getConnection().prepareStatement("SELECT USER_NAME, GAME_ID\nFROM USERS\nWHERE GAME_ID = ?");
             stmnt.setString(1, info.getId());
             ResultSet rs = stmnt.executeQuery();
-            ArrayList players = new ArrayList();
 
+
+            int i = 0;
             while(rs.next()) {
                 Player p = new Player(rs.getString("USER_NAME"), rs.getString("GAME_ID"));
                 players.add(p);
             }
 
             rs.close();
-            return (Player[])players.toArray(new Player[players.size()]);
+            return players;
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
         }

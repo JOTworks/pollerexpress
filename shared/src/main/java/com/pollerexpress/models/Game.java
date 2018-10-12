@@ -1,7 +1,10 @@
 package com.pollerexpress.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class Game implements Serializable
@@ -10,7 +13,7 @@ public class Game implements Serializable
 
 
 
-    Player[] _players;
+    List<Player> _players;
 
 
     public Game(GameInfo info)
@@ -21,7 +24,7 @@ public class Game implements Serializable
     public Game(GameInfo info, Player[] players)
     {
         _info = info;
-        _players = players;
+        _players = new LinkedList<Player>(Arrays.asList(players) );
     }
     /*
      -----------------------------------------------------------------------
@@ -61,7 +64,8 @@ public class Game implements Serializable
      */
     public int getNumPlayers()
     {
-        return _info.getNumPlayers();
+        return _info.getNumPlayers();//might be better to return
+        //_players.size();
     }
 
     /**
@@ -69,27 +73,20 @@ public class Game implements Serializable
      */
     public void addPlayer(Player p)
     {
-        for(int i = 0; i < this.getMaxPlayers(); ++i)
+        if(!_players.contains(p))
         {
-            if(_players[i] == null)
-            {
-                _players[i] = p;
-                _info.addPlayer();
-                return;
-            }
-
+            _players.add(p);
         }
-            //could not add player, too many _players in the game.
-            //TODO: Throw an error
+
     }
 
     public void removePlayer(Player p)
     {
         for(int i = 0; i < this.getMaxPlayers(); ++i)
         {
-            if(_players[i] != null && _players[i].equals(p) )
+            if(_players.get(i) != null && _players.get(i).equals(p) )
             {
-                _players[i] = null;
+                _players.remove(p);
                 _info.removePlayer();
             }
         }
@@ -97,27 +94,15 @@ public class Game implements Serializable
         //TODO: Throw an error
     }
 
+    @Deprecated
     public int getPlayerDex(Player p)
     {
-        for(int i = 0; i < this.getMaxPlayers(); ++i)
-        {
-            if(_players[i] != null && _players[i].equals(p) )
-            {
-                return i;
-            }
-        }
-        return -1;
+        return _players.indexOf(p);
     }
+
     public boolean hasPlayer(Player p)
     {
-        for(int i = 0; i < this.getMaxPlayers(); ++i)
-        {
-            if(_players[i] != null && _players[i].equals(p) )
-            {
-                return true;
-            }
-        }
-        return false;
+        return _players.contains(p);
     }
 
     /**
@@ -131,11 +116,20 @@ public class Game implements Serializable
 
 
 
+    public void setPlayers(List<Player> players)
+    {
+        this._players = players;
+    }
+    @Deprecated
     public Player[] get_players()
+    {
+        return  null;//_players;
+    }
+
+    public List<Player> getPlayers()
     {
         return _players;
     }
-
 
     @Override
     public boolean equals(Object o)

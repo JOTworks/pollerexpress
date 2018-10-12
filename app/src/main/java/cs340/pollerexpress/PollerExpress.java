@@ -56,11 +56,12 @@ public class PollerExpress
                     //error handling, throw an error if necessary? Wait, where would that GO???
                 } else {
                     Queue<Command> commands = response.getCommands();
-                    for (int i = 0; i < commands.size(); i++) {
+                    while (!commands.isEmpty()) //queue, access in while loops, not, for loops;....
+                    {
                         Command command = commands.poll();
 
                         try {
-                            System.out.print("Ran a command\n");
+                            System.out.print("Ran "+command.getMethodName()+"\n");
                             command.execute();
                         } catch (CommandFailed commandFailed) {
                             commandFailed.printStackTrace();

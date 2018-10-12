@@ -7,6 +7,5 @@ public interface ICreateGameView {
 //    void highlightColor(Color color);
     void displayError(String errorMessage);
     void changeToSetupGameView();
-
     void changeToLobbyView();
 }

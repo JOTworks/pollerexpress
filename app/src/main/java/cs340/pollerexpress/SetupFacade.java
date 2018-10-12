@@ -126,7 +126,7 @@ public class SetupFacade {
     /**
      *
      * @param gameName
-     * @return res.getError, it will be null on succesful join
+     * @return res.getError, it will be null on successful join
      */
     public ErrorResponse startGame(String gameName){
         /**todo:
@@ -160,9 +160,7 @@ public class SetupFacade {
         ClientCommunicator CC = ClientCommunicator.instance();
         Class<?>[] types = {Player.class, GameInfo.class};
 
-        /**todo
-         * implement latter when its not 330am
-         */
+
         /*Object[] params= {ClientData.getInstance().getUser(), };
        Command joinGameCommand = new Command("CommandFacade","leaveGame",types,params);
 

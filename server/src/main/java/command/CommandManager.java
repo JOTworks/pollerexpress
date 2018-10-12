@@ -59,6 +59,32 @@ public class CommandManager {
         }
 	}
 
+
+    /**
+     *
+     * @param c command to add client side
+     * @param user
+     */
+    private void addCommand(Command c, String user)
+    {
+        Queue<Command> queue = null;
+        try
+        {
+            queue = userCommands.get(user);
+            if(queue == null)
+                throw new NullPointerException();
+        }
+        catch(NullPointerException e)
+        {
+            queue = new LinkedList<>();
+            userCommands.put(user, queue);
+        }
+        finally
+        {
+            queue.add(c);
+        }
+    }
+
     /**
      *
      * @param c
@@ -90,7 +116,9 @@ public class CommandManager {
     {
         for(Map.Entry<String, Queue<Command> > entry :userCommands.entrySet())
         {
-            entry.getValue().add(c);
+            String key = entry.getKey();
+            System.out.print("added Command "+c.getMethodName() +" to user " + key + "\n");
+            addCommand(c, entry.getKey());
         }
     }
 

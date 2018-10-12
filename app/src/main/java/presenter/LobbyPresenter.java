@@ -43,7 +43,8 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
             int playerNum = gameInfo.getNumPlayers();
 
 
-            if (playerNum < 2) {
+            if (playerNum < clientData.getGame().getMaxPlayers())
+            {
 
                 // if the game has less than two people
                 lobbyView.displayMessage("Not enough people");
@@ -52,7 +53,6 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
                 lobbyView.displayMessage("Move to Game View");
             }
         }
-
     }
 
     @Override
@@ -72,14 +72,14 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
         if( !(arg instanceof Player) ) return;
         Player p = (Player) arg;
         Game game = clientData.getGame();
-        int dex = game.getPlayerDex(p);
-        if(dex != -1)
+        int dex = game.getPlayers().indexOf(p);
+        if(dex == -1)
         {
-            //remove player?
+            lobbyView.playerLeft(dex);
         }
         else
         {
-            lobbyView.playerJoined(p, dex);
+            lobbyView.playerJoined(p);
         }
     }
 

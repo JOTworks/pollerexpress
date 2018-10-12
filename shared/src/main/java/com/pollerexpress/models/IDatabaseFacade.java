@@ -14,6 +14,5 @@ public interface IDatabaseFacade
     Game getGame(GameInfo info) throws DatabaseException;
     Player getPlayer(String user) throws DatabaseException;
     GameInfo getGameInfo(String id) throws DatabaseException;
-
     Player[] getPlayersInGame(GameInfo info) throws DatabaseException;
 }

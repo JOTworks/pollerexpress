@@ -20,6 +20,7 @@ import com.pollerexpress.models.Player;
 
 import Views.recycleViewAdapters.GameSelectAdapter;
 import Views.recycleViewAdapters.PlayerAdapter;
+import cs340.pollerexpress.PollerExpress;
 import cs340.pollerexpress.R;
 import presenter.GameSelectionPresenter;
 import presenter.IGameSelectionPresenter;
@@ -62,7 +63,7 @@ public class LobbyFragment extends Fragment implements ILobbyView {
 
         // specify an adapter (see also next example)
         Game game = lobbyPresenter.getGame();
-        mAdapter = new PlayerAdapter(game.get_players() );
+        mAdapter = new PlayerAdapter(game.getPlayers() );
         mGameRecyclerView.setAdapter(mAdapter);
 
 
@@ -93,7 +94,8 @@ public class LobbyFragment extends Fragment implements ILobbyView {
     }
 
     @Override
-    public void displayMessage(String message) {
+    public void displayMessage(String message)
+    {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
@@ -110,10 +112,15 @@ public class LobbyFragment extends Fragment implements ILobbyView {
     }
 
     @Override
-    public void playerJoined(Player p, int i)
+    public void playerJoined(Player p)
     {
-        mAdapter.notifyItemChanged(i);
+        mAdapter.notifyItemChanged(-1, p);
     }
 
+    @Override
+    public void playerLeft(int i)
+    {
+        mAdapter.notifyItemRemoved(i);
+    }
 
 }

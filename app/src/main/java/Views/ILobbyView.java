@@ -14,9 +14,10 @@ public interface ILobbyView {
 
     void changeToGameView();
 
-    void playerJoined(Player p, int i);
+    void playerJoined(Player p);
+    void playerLeft(int i);
 
-    void displayMessage(String message);
+    void displayMessage(String ntmessage);
 
     void changeToSetupGameView();
 }
