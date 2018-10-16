@@ -10,7 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.pollerexpress.database.exceptions.DatabaseException;
+import com.shared.exceptions.database.DatabaseException;
 import pollerexpress.database.dao.AuthtokenDao;
 import pollerexpress.database.dao.GameDao;
 import pollerexpress.database.dao.IDatabase;

@@ -1,17 +1,17 @@
 package pollerexpress.database;
 
-import com.pollerexpress.models.Authtoken;
-import com.pollerexpress.reponse.ErrorResponse;
-import com.pollerexpress.models.Game;
-import com.pollerexpress.models.GameInfo;
-import com.pollerexpress.models.IDatabaseFacade;
-import com.pollerexpress.reponse.LoginResponse;
-import com.pollerexpress.models.Player;
-import com.pollerexpress.models.User;
+import com.shared.models.Authtoken;
+import com.shared.models.reponses.ErrorResponse;
+import com.shared.models.Game;
+import com.shared.models.GameInfo;
+import com.shared.models.interfaces.IDatabaseFacade;
+import com.shared.models.reponses.LoginResponse;
+import com.shared.models.Player;
+import com.shared.models.User;
 
 import java.util.ArrayList;
-import com.pollerexpress.database.exceptions.DataNotFoundException;
-import com.pollerexpress.database.exceptions.DatabaseException;
+import com.shared.exceptions.database.DataNotFoundException;
+import com.shared.exceptions.database.DatabaseException;
 public class DatabaseFacade implements IDatabaseFacade
 {
     Database db;

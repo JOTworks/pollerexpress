@@ -1,9 +1,9 @@
 
 package pollerexpress.database.dao;
 
-import com.pollerexpress.models.Game;
-import com.pollerexpress.models.GameInfo;
-import com.pollerexpress.models.Player;
+import com.shared.models.Game;
+import com.shared.models.GameInfo;
+import com.shared.models.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.pollerexpress.database.exceptions.DataAlreadyInDatabaseException;
-import com.pollerexpress.database.exceptions.DataNotFoundException;
-import com.pollerexpress.database.exceptions.DatabaseException;
+import com.shared.exceptions.database.DataAlreadyInDatabaseException;
+import com.shared.exceptions.database.DataNotFoundException;
+import com.shared.exceptions.database.DatabaseException;
 
 public class GameDao {
     IDatabase _db;

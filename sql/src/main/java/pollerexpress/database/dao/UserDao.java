@@ -1,17 +1,17 @@
 
 package pollerexpress.database.dao;
 
-import com.pollerexpress.models.GameInfo;
-import com.pollerexpress.models.Player;
-import com.pollerexpress.models.User;
+import com.shared.models.GameInfo;
+import com.shared.models.Player;
+import com.shared.models.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.pollerexpress.database.exceptions.DataNotFoundException;
-import com.pollerexpress.database.exceptions.DatabaseException;
+import com.shared.exceptions.database.DataNotFoundException;
+import com.shared.exceptions.database.DatabaseException;
 
 public class UserDao {
     IDatabase _db;

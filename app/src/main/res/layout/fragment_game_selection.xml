@@ -6,7 +6,7 @@
                                              android:layout_height="match_parent"
                                              xmlns:app="http://schemas.android.com/apk/res-auto"
                                              android:gravity="center"
-                                             tools:context="Views.MainActivity"
+                                             tools:context="thePollerExpress.views.MainActivity"
                                              android:background="@color/PollerBackground"
                                              android:orientation="vertical">
 
