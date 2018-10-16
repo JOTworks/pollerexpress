@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import cs340.pollerexpress.ClientData;
 import cs340.pollerexpress.R;
 import thePollerExpress.presenters.setup.ILoginPresenter;
 import thePollerExpress.presenters.setup.LoginPresenter;

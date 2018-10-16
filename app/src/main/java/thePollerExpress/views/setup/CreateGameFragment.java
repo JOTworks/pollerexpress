@@ -18,6 +18,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.Observer;
+
+import cs340.pollerexpress.ClientData;
 import cs340.pollerexpress.R;
 import thePollerExpress.presenters.setup.CreateGamePresenter;
 import thePollerExpress.presenters.setup.ICreateGamePresenter;
@@ -25,6 +28,7 @@ import thePollerExpress.presenters.setup.ICreateGamePresenter;
 public class CreateGameFragment extends Fragment implements ICreateGameView {
 
     ICreateGamePresenter createGamePresenter;
+    ClientData clientData = ClientData.getInstance();
 
     Button createGameButton;
     EditText gameName;
@@ -36,6 +40,7 @@ public class CreateGameFragment extends Fragment implements ICreateGameView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        createGamePresenter = new CreateGamePresenter(this);
+       clientData.addObserver((Observer) createGameButton);
     }
 
     @Override

@@ -19,6 +19,7 @@ import java.util.List;
 
 import thePollerExpress.views.setup.SetupViewAdapters.GameSelectAdapter;
 import thePollerExpress.models.ClientData;
+
 import cs340.pollerexpress.R;
 import thePollerExpress.presenters.setup.GameSelectionPresenter;
 import thePollerExpress.presenters.setup.IGameSelectionPresenter;
@@ -33,11 +34,11 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
 
     private Button createGameButton;
 
+    ClientData clientData = ClientData.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
