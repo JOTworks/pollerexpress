@@ -1,9 +1,9 @@
 package cs340.pollerexpress;
 
-import com.pollerexpress.models.Authtoken;
-import com.pollerexpress.models.Game;
-import com.pollerexpress.models.GameInfo;
-import com.pollerexpress.models.User;
+import com.shared.models.Authtoken;
+import com.shared.models.Game;
+import com.shared.models.GameInfo;
+import com.shared.models.User;
 
 import java.util.ArrayList;
 import java.util.List;

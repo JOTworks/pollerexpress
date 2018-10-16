@@ -1,26 +1,27 @@
 
 package pollerexpress.database.dao;
 
-import com.pollerexpress.models.Game;
-import com.pollerexpress.models.GameInfo;
-import com.pollerexpress.models.Player;
+import com.shared.models.Game;
+import com.shared.models.GameInfo;
+import com.shared.models.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-import com.pollerexpress.database.exceptions.DataAlreadyInDatabaseException;
-import com.pollerexpress.database.exceptions.DataNotFoundException;
-import com.pollerexpress.database.exceptions.DatabaseException;
+import com.shared.exceptions.database.DataAlreadyInDatabaseException;
+import com.shared.exceptions.database.DataNotFoundException;
+import com.shared.exceptions.database.DatabaseException;
 
 public class GameDao {
     IDatabase _db;
     public static final String PARAMS = "GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS";
     public static final String PARAMS_INSERT = "?,?,?,?";
     public static final String SELECT_ALL_GAME_INFO = "SELECT GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS\n FROM  GAMES";
-    public static final String SELECT_GAME = " SELECT " + PARAMS + "\nWHERE GAME_ID = ?\n From GAMES";
+    public static final String SELECT_GAME = " SELECT GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS \n FROM GAMES \n WHERE GAME_ID = ?";
     public static final String SELECT_ALL_JOINABLE_GAME_INFO = "SELECT GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS\n WHERE NOT MAX_PLAYERS = CURRENT_PLAYERS \n  FROM GAMES";
     public static final String CREATE_NEW_GAME = "INSERT INTO GAMES("+ PARAMS+") \nVALUES("+PARAMS_INSERT+")";
     public GameDao(IDatabase db) {
@@ -67,11 +68,13 @@ public class GameDao {
                 //first get the game info for the game.
                 GameInfo gi = new GameInfo(rs.getString("GAME_ID"), rs.getString("GAME_NAME"), rs.getInt("MAX_PLAYERS"), rs.getInt("CURRENT_PLAYERS") );
                 //get a list of players in the game.
-                Player[] players = getPlayers(gi);
-                //create the game
-                Game game = new Game(gi, players);//TODO load more data
                 rs.close();
                 stmnt.close();
+                List<Player> players = getPlayers(gi);
+                //create the game
+                Game game = new Game(gi);//TODO load more data
+                game.setPlayers(players);
+
                 return game;
             }
             rs.close();
@@ -103,16 +106,14 @@ public class GameDao {
     {
         try
         {
-            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SELECT_ALL_JOINABLE_GAME_INFO);
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SELECT_ALL_GAME_INFO);
             ResultSet rs = stmnt.executeQuery();
             ArrayList games = new ArrayList();
 
             while(rs.next())
             {
-                if (rs.getInt("CURRENT_PLAYERS") < rs.getInt("MAX_PLAYERS"))
-                {
-                    games.add(new GameInfo(rs.getString("GAME_ID"), rs.getString("GAME_NAME"), rs.getInt("CURRENT_PLAYERS"), rs.getInt("MAX_PLAYERS")));
-                }
+                games.add(new GameInfo(rs.getString("GAME_ID"), rs.getString("GAME_NAME"), rs.getInt("MAX_PLAYERS"), rs.getInt("CURRENT_PLAYERS")));
+
             }
             GameInfo[] array = (GameInfo[])games.toArray(new GameInfo[games.size()]);
             return new ArrayList<GameInfo>(Arrays.asList(array));
@@ -164,7 +165,7 @@ public class GameDao {
         //first delete all player references to a game
         try
         {
-            Player[] players = getPlayers(game);
+            List<Player> players = getPlayers(game);
             for(Player player:players)
             {
                 leaveGame(player, game);
@@ -188,10 +189,10 @@ public class GameDao {
 
     public static final String ADD_PLAYER = "UPDATE USERS\n " +
                                             "SET GAME_ID = ?\n" +
-                                            "WHERE USER = ?";
+                                            "WHERE USER_NAME = ? and GAME_ID != ?";
     public static final String GAME_ADD = "UPDATE GAMES\n" +
-                                                    "SET CURRENT_PLAYERS = CURRENT_PLAYERS + 1\n" +
-                                                    "WHERE GAME_ID = ?";
+            "SET CURRENT_PLAYERS = CURRENT_PLAYERS + 1 \n"+
+            "WHERE GAME_ID = ? and CURRENT_PLAYERS < MAX_PLAYERS";
     public boolean joinGame(Player user, GameInfo info)
     {
         try
@@ -199,13 +200,17 @@ public class GameDao {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(ADD_PLAYER);
             stmnt.setString(1,info.getId() );
             stmnt.setString(2,user.name );
-            stmnt.execute();
+            stmnt.setString(3,info.getId());
+            int result = stmnt.executeUpdate();
             stmnt.close();
+
+            if(result != 1) return false;
 
             stmnt = _db.getConnection().prepareStatement(GAME_ADD);
             stmnt.setString(1,info.getId() );
-            stmnt.execute();
+            result = stmnt.executeUpdate();
             stmnt.close();
+            if(result != 1) return false;
             //TODO make sure there is room in the game....
 
 
@@ -213,6 +218,7 @@ public class GameDao {
         }
         catch(SQLException e)
         {
+            e.printStackTrace();
             return false;
         }
         return true;
@@ -250,21 +256,23 @@ public class GameDao {
      * @param info
      * @return
      */
-    private Player[] getPlayers(GameInfo info) throws DatabaseException
+    private List<Player> getPlayers(GameInfo info) throws DatabaseException
     {
         try {
-            PreparedStatement stmnt = this._db.getConnection().prepareStatement("USER_NAME, GAME_ID\nFROM USERS\nWHERE GAME_ID = ?");
+            List<Player> players = new ArrayList<>();
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement("SELECT USER_NAME, GAME_ID\nFROM USERS\nWHERE GAME_ID = ?");
             stmnt.setString(1, info.getId());
             ResultSet rs = stmnt.executeQuery();
-            ArrayList players = new ArrayList();
 
+
+            int i = 0;
             while(rs.next()) {
                 Player p = new Player(rs.getString("USER_NAME"), rs.getString("GAME_ID"));
                 players.add(p);
             }
 
             rs.close();
-            return (Player[])players.toArray(new Player[players.size()]);
+            return players;
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
         }

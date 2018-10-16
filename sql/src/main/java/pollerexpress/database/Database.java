@@ -10,7 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.pollerexpress.database.exceptions.DatabaseException;
+import com.shared.exceptions.database.DatabaseException;
 import pollerexpress.database.dao.AuthtokenDao;
 import pollerexpress.database.dao.GameDao;
 import pollerexpress.database.dao.IDatabase;
@@ -19,7 +19,9 @@ import pollerexpress.database.dao.UserDao;
 public class Database implements IDatabase
 {
     public static final String DEFAULT_DATABASE = "db.sqlite3";
+    public static final String DROP_ALL_TABLES = "drop table *";
     public static final String DROP_AUTH_TOKEN = "drop table if exists AUTH_TOKENS";
+    public static final String DROP_GAMES_TOKEN = "drop table if exists GAMES";
     public static final String DROP_USERS = "drop table if exists USERS";
     public static final String USER_TABLE = "USERS";
     public static final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS USERS\n ( `USER_NAME` TEXT NOT NULL UNIQUE, `PASSWORD` TEXT NOT NULL, 'GAME_ID' TEXT, PRIMARY KEY(`USER_NAME`) )";
@@ -147,6 +149,23 @@ public class Database implements IDatabase
         }
     }
 
+    public void deleateTables() {
+
+        try {
+            PreparedStatement Drop_stmnt = this.dataConnection.prepareStatement(DROP_AUTH_TOKEN);
+            Drop_stmnt.execute();
+            Drop_stmnt.close();
+            Drop_stmnt = this.dataConnection.prepareStatement(DROP_USERS);
+            Drop_stmnt.execute();
+            Drop_stmnt.close();
+            Drop_stmnt = this.dataConnection.prepareStatement(DROP_GAMES_TOKEN);
+            Drop_stmnt.execute();
+            Drop_stmnt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Run this method to create the database on the server.
      * @param Argv not currently used
@@ -157,6 +176,9 @@ public class Database implements IDatabase
         {
             Database db = new Database();
             db.open();
+
+           //todo:make this dleeat  tables  db.deleateTables();
+            db.deleateTables();
             db.createTables();
             db.close(true);;
         }

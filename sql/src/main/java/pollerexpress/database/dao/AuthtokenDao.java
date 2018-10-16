@@ -2,7 +2,7 @@ package pollerexpress.database.dao;
 
 
 
-import com.pollerexpress.models.Authtoken;
+import com.shared.models.Authtoken;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
