@@ -32,14 +32,13 @@ public class Command implements ICommand, Serializable
 	}
     
 
-    public void execute() throws CommandFailed
+    public Object execute() throws CommandFailed
     {
         try
         {
             Class<?> receiver = Class.forName(_className);
             Method method = receiver.getMethod(_methodName, _paramTypes);
-            method.invoke(null, _paramValues);
-           return;
+            return method.invoke(null, _paramValues);
         }
         catch (Exception e)
         {
