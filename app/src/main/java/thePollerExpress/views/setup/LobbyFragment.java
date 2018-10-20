@@ -25,6 +25,7 @@ import java.util.Observer;
 import cs340.pollerexpress.R;
 import thePollerExpress.presenters.setup.ILobbyPresenter;
 import thePollerExpress.presenters.setup.LobbyPresenter;
+import thePollerExpress.views.setup.development.MethodCallerFragment;
 
 public class LobbyFragment extends Fragment implements ILobbyView {
 
@@ -73,10 +74,24 @@ public class LobbyFragment extends Fragment implements ILobbyView {
             @Override
             public void onClick(View v) {
                 lobbyPresenter.startButtonPressed();
+
+                // Go to the method caller fragment
+                changeToMethodCallerFragment();
             }
         });
 
         return v;
+    }
+
+    private void changeToMethodCallerFragment() {
+
+        FragmentManager fm = getFragmentManager();
+        Fragment fragment = new MethodCallerFragment();
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, fragment);
+        ft.commit();
+        fm.popBackStack();
     }
 
     @Override

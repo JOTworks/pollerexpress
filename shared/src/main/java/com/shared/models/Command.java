@@ -6,6 +6,10 @@ import com.shared.models.interfaces.ICommand;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
+/**
+Thi class is in the models package because we will
+ eventually have a list of commands in the database.
+* */
 public class Command implements ICommand, Serializable
 {
 	private String _className;
