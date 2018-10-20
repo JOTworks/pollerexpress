@@ -7,13 +7,13 @@ import java.lang.reflect.Method;
 
 public class MethodCaller {
 
-    MethodCallerFragment fragment;
-    public MethodCaller(MethodCallerFragment inFragment){
-        fragment = inFragment;
-    }
-    String execute(Command[] Commands) throws CommandFailed {
-        return Commands[0].execute().toString();
-    }
+//    MethodCallerFragment fragment;
+//    public MethodCaller(MethodCallerFragment inFragment){
+//        fragment = inFragment;
+//    }
+//    String execute(Command[] Commands) throws CommandFailed {
+//        return Commands[0].execute().toString();
+//    }
 
 
 }
