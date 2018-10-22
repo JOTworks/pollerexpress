@@ -5,13 +5,17 @@ import com.shared.models.Command;
 
 import java.lang.reflect.Method;
 
+import thePollerExpress.views.setup.development.MethodCallerFragment;
+
 public class MethodCaller {
 
     MethodCallerFragment fragment;
+
     public MethodCaller(MethodCallerFragment inFragment){
         fragment = inFragment;
     }
-    String execute(Command[] Commands) throws CommandFailed {
+
+    public String execute(Command[] Commands) throws CommandFailed {
         return Commands[0].execute().toString();
     }
 

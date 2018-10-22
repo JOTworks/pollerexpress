@@ -75,6 +75,8 @@ public class LobbyFragment extends Fragment implements ILobbyView {
             public void onClick(View v) {
                 lobbyPresenter.startButtonPressed();
 
+                // This is development code.
+                // This should be deleted when the game view is filled out.
                 // Go to the method caller fragment
                 changeToMethodCallerFragment();
             }
@@ -83,6 +85,8 @@ public class LobbyFragment extends Fragment implements ILobbyView {
         return v;
     }
 
+    /*This method if for testing purposes only.
+    * This should be deleted when the game view is filled out.*/
     private void changeToMethodCallerFragment() {
 
         FragmentManager fm = getFragmentManager();

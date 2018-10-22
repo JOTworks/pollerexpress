@@ -5,9 +5,9 @@ import java.util.Arrays;
 
 
 
-class MethodBuilder {
+public class MethodBuilder {
 
-    static Command[] parse(String inputMethods) throws Exception {
+    public static Command[] parse(String inputMethods) throws Exception {
 
         String[] Methods = inputMethods.split("\\;");
         Command[] Commands = new Command[Methods.length];
@@ -19,7 +19,7 @@ class MethodBuilder {
         return null;
     }
 
-    static Command parseMethod(String inputMethod,int i) throws Exception {
+    public static Command parseMethod(String inputMethod,int i) throws Exception {
 
         String _className;
         String _methodName;
