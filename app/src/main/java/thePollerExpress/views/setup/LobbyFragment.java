@@ -19,13 +19,10 @@ import com.shared.models.Player;
 import thePollerExpress.views.game.GameFragment;
 import thePollerExpress.views.setup.SetupViewAdapters.PlayerAdapter;
 
-import java.util.Observer;
-
 
 import cs340.pollerexpress.R;
 import thePollerExpress.presenters.setup.ILobbyPresenter;
 import thePollerExpress.presenters.setup.LobbyPresenter;
-import thePollerExpress.views.setup.development.MethodCallerFragment;
 
 public class LobbyFragment extends Fragment implements ILobbyView {
 

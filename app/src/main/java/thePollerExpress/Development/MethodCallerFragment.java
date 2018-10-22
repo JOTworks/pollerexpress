@@ -1,4 +1,4 @@
-package thePollerExpress.views.setup.development;
+package thePollerExpress.Development;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
