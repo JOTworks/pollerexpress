@@ -51,7 +51,7 @@ public class MethodCallerFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_methodcaller, container, false);
+        View v = inflater.inflate(R.layout.fragment_method_caller, container, false);
 
         methods = (EditText) v.findViewById(R.id.methods);
 
