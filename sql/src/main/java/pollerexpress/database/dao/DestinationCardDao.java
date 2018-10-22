@@ -85,8 +85,8 @@ public class DestinationCardDao {
             if(rs.next())
             {
                 //TODO: actually build the cities rather than making empty ones.
-                City city1 = new City();
-                City city2 = new City();
+                City city1 = null;
+                City city2 = null;
                 card = new DestinationCard(rs.getString("CARD_ID"), city1, city2, rs.getInt("POINTS"));
             }
             rs.close();

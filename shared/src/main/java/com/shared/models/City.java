@@ -9,16 +9,17 @@ public class City
     Point point;
 
     List<Route> routes;
+
     public City(String name, Point p)
     {
-        this.name= name;
+        this.name = name;
         this.point = p;
-        this. routes = new ArrayList<>(routes);
+        this.routes = new ArrayList<>(routes);
     }
 
     public City setRoutes(List<Route> routes)
     {
-        this.routes=  routes;
+        this.routes = routes;
         return this;
     }
 
@@ -28,4 +29,22 @@ public class City
         return this;
     }
 
+    public String getName()
+    {
+        return name;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (o == null || (!(o instanceof City))) return false;
+
+        return ((City) o).getName().equals(this.name);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return this.name.hashCode();
+    }
 }
