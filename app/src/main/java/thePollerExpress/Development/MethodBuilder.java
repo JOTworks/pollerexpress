@@ -4,7 +4,9 @@ import com.shared.models.Command;
 import java.util.Arrays;
 
 
-
+/**
+ * Jack
+ */
 public class MethodBuilder {
 
     public static Command[] parse(String inputMethods) throws Exception {

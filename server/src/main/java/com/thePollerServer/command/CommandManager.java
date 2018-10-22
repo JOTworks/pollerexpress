@@ -9,6 +9,9 @@ import com.thePollerServer.utilities.Factory;
 
 import java.util.*;
 
+/**
+ *
+ */
 public class CommandManager {
 	private static CommandManager _instance;
 	private HashMap<String, Queue<Command>> userCommands;

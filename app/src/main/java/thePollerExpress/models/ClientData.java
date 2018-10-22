@@ -14,7 +14,9 @@ import java.util.Observable;
 
 import thePollerExpress.communication.PollerExpress;
 
-/** This is a mastermodel. It is being observed by the
+/**
+ * Who was in charge of this class?
+ * This is a mastermodel. It is being observed by the
  presenters so that if there are any changes,
  they are reflected in the view.
  It contains a lot of different kinds of information.

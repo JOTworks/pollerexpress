@@ -21,10 +21,12 @@ import org.w3c.dom.Text;
 import cs340.pollerexpress.R;
 import thePollerExpress.Development.MethodBuilder;
 import thePollerExpress.Development.MethodCaller;
+import thePollerExpress.communication.ClientCommunicator;
 
 /**
+ * Abby
  * The class is responsible for finding client classes
- * and running commands. We are using it for testing purposes.
+ * and running methods. We are using it for testing purposes.
  * This class will have runtime dependencies but no
  * type dependencies because of reflection.
  */
@@ -61,15 +63,12 @@ public class MethodCallerFragment extends Fragment {
 
                 try{
 
-                    //returns commands, not strings
+                    // These are the commands that we want to run.
                     Command[] commandList = MethodBuilder.parse(methods.getText().toString());
 
-                    // for now, returns a string
-//                    results.setData(methodCaller.execute(commandList));
                     results.setText(methodCaller.execute(commandList));
 
                 } catch(Exception e) {
-//                    results.setData(e.getMessage());
                     results.setText(e.getMessage());
                 }
             }
@@ -104,6 +103,7 @@ public class MethodCallerFragment extends Fragment {
             super(itemView);
         }
 
+        //bind the view to the viewholder
         public void bind() {
 
         }

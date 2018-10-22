@@ -11,6 +11,7 @@ import thePollerExpress.views.setup.ILobbyView;
 import thePollerExpress.models.ClientData;
 
 /**
+ * Abby
  * At least in phase 1, no async task is necessary for this class.
  */
 public class LobbyPresenter implements ILobbyPresenter, Observer {
@@ -47,7 +48,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
                 lobbyView.displayMessage("Not enough people");
             } else {
                 // if the game has at least two people
-                lobbyView.displayMessage("Move to Game View");
+                lobbyView.displayMessage("At this point, we want to move to Game View");
             }
         }
     }

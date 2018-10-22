@@ -11,6 +11,9 @@ import com.shared.models.Player;
 import com.thePollerServer.commandServices.SetupService;
 import com.thePollerServer.utilities.Factory;
 
+/**
+ * Torsten
+ */
 public class CommandFacade {
 
     private static final CommandFacade ourInstance = new CommandFacade();

@@ -15,6 +15,9 @@ import java.net.URL;
 
 import thePollerExpress.models.ClientData;
 
+/**
+ * Who was in charge of this class?
+ */
 public class ClientCommunicator
 {
 
