@@ -36,11 +36,13 @@ public class MethodCallerFragment extends Fragment {
     EditText methods;
     TextView results;
     MethodCaller methodCaller = new MethodCaller(this);
+    RecyclerView recyclerView;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
     }
 
