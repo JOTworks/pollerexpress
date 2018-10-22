@@ -3,6 +3,7 @@ package com.thePollerServer.utilities;
 import com.shared.models.City;
 import com.shared.models.DestinationCard;
 import com.shared.models.GameInfo;
+import com.shared.models.Point;
 
 import java.util.UUID;
 
@@ -16,7 +17,7 @@ public class DeckBuilder {
      * Otherwise the decks should already exist.
      */
     public void makeDefaultDecks() {
-        City city = new City();
+        City city = new City("North Pole", new Point(0.0,0.0));
         DestinationCard[] cards = {
                 new DestinationCard(city, city, 1),
                 new DestinationCard(city, city, 1),
