@@ -36,7 +36,6 @@ public class MethodCallerFragment extends Fragment {
     EditText methods;
     TextView results;
     MethodCaller methodCaller = new MethodCaller(this);
-    RecyclerView recyclerView;
 
 
     @Override
@@ -76,7 +75,10 @@ public class MethodCallerFragment extends Fragment {
             }
         });
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+//        return super.onCreateView(inflater, container, savedInstanceState);
+
+        return v;
+
     }
 
 
