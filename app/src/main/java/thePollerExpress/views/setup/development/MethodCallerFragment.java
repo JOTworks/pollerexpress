@@ -75,8 +75,37 @@ public class MethodCallerFragment extends Fragment {
             }
         });
 
-
-
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+
+    public class Adapter extends RecyclerView.Adapter<ResultViewHolder> {
+
+        @NonNull
+        @Override
+        public ResultViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+            return null;
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ResultViewHolder resultViewHolder, int i) {
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return 0;
+        }
+    }
+
+    private class ResultViewHolder extends RecyclerView.ViewHolder {
+
+        public ResultViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        public void bind() {
+
+        }
     }
 }
