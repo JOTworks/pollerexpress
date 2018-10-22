@@ -90,8 +90,10 @@ public class GameSelectAdapter extends RecyclerView.Adapter<GameSelectAdapter.My
         }
 
         @Override
-        public void onClick(View v) {
-            if (v.getId() == joinButton.getId()) {
+        public void onClick(View v)
+        {
+            if ( v.getId() == joinButton.getId() )
+            {
                 presenter.joinGame(game);
             }
         }
