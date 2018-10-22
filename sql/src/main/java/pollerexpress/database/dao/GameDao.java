@@ -18,8 +18,8 @@ import com.shared.exceptions.database.DatabaseException;
 
 public class GameDao {
     IDatabase _db;
-    public static final String PARAMS = "GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS, DESTINATION_DECK_POS, TRAIN_DECK_POS";
-    public static final String PARAMS_INSERT = "?,?,?,?,?,?";
+    public static final String PARAMS = "GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS";
+    public static final String PARAMS_INSERT = "?,?,?,?";
     public static final String SELECT_ALL_GAME_INFO = "SELECT GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS\n FROM  GAMES";
     public static final String SELECT_GAME = " SELECT GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS \n FROM GAMES \n WHERE GAME_ID = ?";
     public static final String SELECT_ALL_JOINABLE_GAME_INFO = "SELECT GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS\n WHERE NOT MAX_PLAYERS = CURRENT_PLAYERS \n  FROM GAMES";
@@ -41,8 +41,6 @@ public class GameDao {
             stmnt.setString( 2,game.getName() );
             stmnt.setInt( 3,game.getGameInfo().getMaxPlayers() );
             stmnt.setInt( 4,game.getGameInfo().getNumPlayers() );
-            stmnt.setInt( 5,1 );
-            stmnt.setInt( 6, 1 );
             stmnt.execute();
             stmnt.close();
         }
