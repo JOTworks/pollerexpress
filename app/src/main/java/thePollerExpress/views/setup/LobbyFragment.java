@@ -1,6 +1,5 @@
 package thePollerExpress.views.setup;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -88,8 +87,6 @@ public class LobbyFragment extends Fragment implements ILobbyView {
     * This should be deleted when the game view is filled out.*/
     private void changeToMethodCallerFragment() {
 
-        /* Is this returning null?
-        * Perhaps the activity should change the fragments, not the fragments themselves. */
         FragmentManager fm = getFragmentManager();
         Fragment fragment = new MethodCallerFragment();
 

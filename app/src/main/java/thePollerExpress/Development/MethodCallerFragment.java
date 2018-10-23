@@ -82,19 +82,36 @@ public class MethodCallerFragment extends Fragment {
                     // We run the commands and get back an array list of results
                     results = methodCaller.execute(commandList);
 
+                    // set up the adapter, which needs a list
+                    adapter = new Adapter(results);
+                    recyclerView.setAdapter(adapter);
+
+                    layoutManager = new LinearLayoutManager(getContext());
+                    recyclerView.setLayoutManager(layoutManager);
+
+
                 } catch(Exception e) {
 
-                    //What do we do with e.getMessage()?
+                    //display the error message
+                    results.add(e.getMessage());
+
+                    // set up the adapter, which needs a list
+                    adapter = new Adapter(results);
+                    recyclerView.setAdapter(adapter);
+
+                    layoutManager = new LinearLayoutManager(getContext());
+                    recyclerView.setLayoutManager(layoutManager);
+
                 }
             }
         });
 
-        // set up the adapter, which needs a list
-        adapter = new Adapter(results);
-        recyclerView.setAdapter(adapter);
-
-        layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
+//        // set up the adapter, which needs a list
+//        adapter = new Adapter(results);
+//        recyclerView.setAdapter(adapter);
+//
+//        layoutManager = new LinearLayoutManager(getContext());
+//        recyclerView.setLayoutManager(layoutManager);
 
         return v;
     }
@@ -112,7 +129,7 @@ public class MethodCallerFragment extends Fragment {
 
             // create a new view
             ConstraintLayout v = (ConstraintLayout) LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.game_data_view, parent, false);
+                    .inflate(R.layout.method_result_view, parent, false);
 
             //we need to create and return a result view holder
             ResultViewHolder viewHolder = new ResultViewHolder(v);
