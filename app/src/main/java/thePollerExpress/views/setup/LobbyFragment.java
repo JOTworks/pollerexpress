@@ -72,11 +72,6 @@ public class LobbyFragment extends Fragment implements ILobbyView {
             @Override
             public void onClick(View v) {
                 lobbyPresenter.startButtonPressed();
-
-                // This is development code.
-                // This should be deleted when the game view is filled out.
-                // Go to the method caller fragment
-                changeToMethodCallerFragment();
             }
         });
 
@@ -99,13 +94,21 @@ public class LobbyFragment extends Fragment implements ILobbyView {
     @Override
     public void changeToGameView() {
         FragmentManager fm = getFragmentManager();
+        Fragment fragment = new GameFragment();
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, fragment);
+        ft.commit();
+        fm.popBackStack();
+
+        /* FragmentManager fm = getFragmentManager();
         Fragment GameFragment = new GameFragment();
 
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, GameFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-        fm.popBackStack();
+        fm.popBackStack();*/
     }
 
     @Override

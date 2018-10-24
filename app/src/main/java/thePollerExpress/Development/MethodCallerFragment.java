@@ -77,10 +77,12 @@ public class MethodCallerFragment extends Fragment {
                 try{
 
                     // These are the commands that we want to run.
-                    Command[] commandList = MethodBuilder.parse(methods.getText().toString());
-
+                    //Command[] commandList = MethodBuilder.parse(methods.getText().toString());
                     // We run the commands and get back an array list of results
-                    results = methodCaller.execute(commandList);
+                    //results = methodCaller.execute(commandList);
+
+                    //jack is getting rid of reflection for now, its hard, instead hardcodding funtions
+                    results = methodCaller.parse(methods.getText().toString());
 
                     // set up the adapter, which needs a list
                     adapter = new Adapter(results);

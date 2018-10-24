@@ -49,6 +49,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
             } else {
                 // if the game has at least two people
                 lobbyView.displayMessage("At this point, we want to move to Game View");
+                lobbyView.changeToGameView();
             }
         }
     }
