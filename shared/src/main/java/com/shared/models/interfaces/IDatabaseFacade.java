@@ -30,13 +30,20 @@ public interface IDatabaseFacade
      * @param canDiscard number of cards that the player may discard
      * @return
      */
-    List<DestinationCard> drawDestinationCards(Player player, int canDiscard);
+    List<DestinationCard> drawDestinationCards(Player player, int canDiscard)throws DatabaseException;
 
     /**
      * Discards a card from a players hand
      * @param player who is discarding
      * @param cards the cards the player wants to discard.
      */
-    void DiscardDestinationCard(Player player, List<DestinationCard> cards);
+    void discardDestinationCard(Player player, List<DestinationCard> cards) throws DatabaseException;
+
+    /**
+     * the number of destination cards a player can discard
+     * @param player
+     * @return
+     */
+    int getPlayerDiscards(Player player) throws DatabaseException;
 
 }

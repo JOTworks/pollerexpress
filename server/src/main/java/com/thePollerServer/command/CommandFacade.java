@@ -9,6 +9,7 @@ import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.interfaces.IDatabaseFacade;
 import com.shared.models.Player;
+import com.thePollerServer.commandServices.GameService;
 import com.thePollerServer.commandServices.SetupService;
 import com.thePollerServer.utilities.Factory;
 
@@ -66,6 +67,12 @@ public class CommandFacade {
         joinGame(player, info);
     }
 
+    /**
+     *
+     * @param info
+     * @throws CommandFailed
+     * @throws DatabaseException
+     */
     public static void startGame(GameInfo info) throws CommandFailed, DatabaseException
     {
         IDatabaseFacade df = Factory.createDatabaseFacade();
@@ -93,8 +100,22 @@ public class CommandFacade {
         }
 
     }
-    public static void discardDestinationCard(Player p, List<DestinationCard> card)
+    public static void discardDestinationCard(Player p, List<DestinationCard> card) throws CommandFailed, DatabaseException
     {
+        GameService gm = new GameService();
+        boolean discarded = gm.discardDestinationCards(p, card);
+        if(!discarded)
+        {
+            throw new CommandFailed("discardDestinationCard");
+        }
+        IDatabaseFacade df = Factory.createDatabaseFacade();
+        CommandManager CM = CommandManager._instance();
+
+        Class<?>[] types = { Player.class, card.getClass()};
+        Object[] params = { p,  card };
+        //TODO fix command names.
+        Command cmd = new Command(CommandsExtensions.clientSide + "GameService", "discardDesitnationCard", types, params);
+        CM.addCommand(cmd, df.getGameInfo(df.getPlayer(p.name).gameId));
 
     }
 }

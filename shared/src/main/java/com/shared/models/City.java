@@ -2,6 +2,7 @@ package com.shared.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class City
 {
@@ -16,6 +17,7 @@ public class City
         this.point = p;
         this.routes = new ArrayList<>(routes);
     }
+
 
     public City setRoutes(List<Route> routes)
     {

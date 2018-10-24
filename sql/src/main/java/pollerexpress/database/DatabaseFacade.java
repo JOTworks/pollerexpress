@@ -1,6 +1,7 @@
 package pollerexpress.database;
 
 import com.shared.models.Authtoken;
+import com.shared.models.DestinationCard;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
@@ -10,6 +11,8 @@ import com.shared.models.Player;
 import com.shared.models.User;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import com.shared.exceptions.database.DataNotFoundException;
 import com.shared.exceptions.database.DatabaseException;
 public class DatabaseFacade implements IDatabaseFacade
@@ -238,6 +241,56 @@ public class DatabaseFacade implements IDatabaseFacade
         {
             db.close(false);
         }
-
     }
+
+
+    @Override
+    public List<DestinationCard> drawDestinationCards(Player player, int canDiscard) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            GameInfo info = db.getGameDao().read(player.getGameId()).getGameInfo();
+            List<DestinationCard> cards = new ArrayList<>();
+            for(int i = 0; i  < 3; ++i)//TODO get rid of magic numbers
+            {
+                cards.add( db.getDestinationCardDao().drawCard(info, player) );
+            }
+            db.getUserDao();//TODO set the players discard to something.
+            db.close(true);
+            return cards;
+        }
+        finally
+        {
+            if(db.isOpen())
+            {
+                db.close(false);
+            }
+        }
+    }
+
+    @Override
+    public void discardDestinationCard(Player player, List<DestinationCard> cards)
+    {
+        //TODO implement this.
+    }
+
+
+    @Override
+    public int getPlayerDiscards(Player player) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            return db.getUserDao().getPlayersDiscards(player);
+        }
+        finally
+        {
+            if(db.isOpen())
+            {
+                db.close(false);
+            }
+        }
+    }
+
 }

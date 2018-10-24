@@ -79,4 +79,55 @@ public class UserDao {
             throw new DatabaseException(e.getMessage());
         }
     }
+
+    public static final String GET_PLAYER_DISCARDS= "SELECT USER_NAME, DESTINATION_DISCARDS\n" +
+                                                    "FROM USERS\n" +
+                                                    "WHERE USER_NAME = ?";
+    public int getPlayersDiscards(Player player) throws DatabaseException
+    {
+     ;
+        try
+        {
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(GET_PLAYER_DISCARDS);
+            stmnt.setString(1, player.getName());
+            ResultSet rs = stmnt.executeQuery();
+            if(rs.next())
+            {
+                try
+                {
+                    return rs.getInt("DESTINATION_DISCARDS");
+                }
+                finally
+                {
+                    rs.close();
+                }
+            }
+            throw new DataNotFoundException("USERS", player.getName());
+        }
+        catch(SQLException e)
+        {
+            throw new DatabaseException(e.getMessage());
+        }
+
+    }
+
+
+    public static final String SET_PLAYER_DISCARDS= "UPDATE USERS SET DESTINATION_DISCARDS = ?\n" +
+            "WHERE USER_NAME = ?";
+    public void setPlayersDiscards(Player player, int discards) throws DatabaseException
+    {
+        ;
+        try
+        {
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SET_PLAYER_DISCARDS);
+            stmnt.setInt(1, discards);
+            stmnt.setString(2, player.getName());
+            stmnt.executeUpdate();
+        }
+        catch(SQLException e)
+        {
+            throw new DatabaseException(e.getMessage());
+        }
+
+    }
 }
