@@ -37,19 +37,26 @@ public class MethodCaller {
         ArrayList<String> result = new ArrayList<String>();
         ClientData CC = ClientData.getInstance();
         switch (s) {
+            case "help":
+                result.add("getUserName\n" +
+                        "getGameID\n" +
+                        "---\n" +
+                        "add commands to the methodCaller class\n" +
+                        "in the parse funtion, as a case");
+                break;
             case "getUserName":
                 result.add(CC.getUser().getName());
-                return result;
+                break;
             case "getGameID":
                 if(CC.getGame()!=null)
                     result.add(CC.getGame().getId());
                 else
                     result.add("game is null");
-                return result;
+                break;
 
             default:
                 throw new IllegalArgumentException("that didn't match any predefined commands");
         }
-        //throw new IllegalArgumentException("should not have gotten to end of switch");
+        return result;
     }
 }

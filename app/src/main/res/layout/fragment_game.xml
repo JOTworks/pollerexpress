@@ -33,18 +33,17 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="100dp"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:orientation="horizontal">
 
                 <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@color/PollerWhite">
                     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:tools="http://schemas.android.com/tools"
-                        android:layout_width="200dp"
-                        android:layout_height="match_parent"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
                         android:gravity="center"
                         tools:context="thePollerExpress.views.MainActivity"
                         android:background="@color/PollerWhite"
@@ -52,7 +51,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="PLAYER NAME"
                             android:textColor="@color/PollerBackground"
@@ -112,14 +111,14 @@
 
     </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:background="@color/PollerWhite">
                     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:tools="http://schemas.android.com/tools"
-                        android:layout_width="200dp"
-                        android:layout_height="match_parent"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
                         android:gravity="center"
                         tools:context="thePollerExpress.views.MainActivity"
                         android:background="@color/PollerWhite"
@@ -127,7 +126,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="PLAYER NAME"
                             android:textColor="@color/PollerBackground"
@@ -187,14 +186,14 @@
 
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:background="@color/PollerWhite">
                     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:tools="http://schemas.android.com/tools"
-                        android:layout_width="200dp"
-                        android:layout_height="match_parent"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
                         android:gravity="center"
                         tools:context="thePollerExpress.views.MainActivity"
                         android:background="@color/PollerWhite"
@@ -202,7 +201,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="PLAYER NAME"
                             android:textColor="@color/PollerBackground"
@@ -262,14 +261,14 @@
 
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:background="@color/PollerWhite">
                     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:tools="http://schemas.android.com/tools"
-                        android:layout_width="200dp"
-                        android:layout_height="match_parent"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
                         android:gravity="center"
                         tools:context="thePollerExpress.views.MainActivity"
                         android:background="@color/PollerWhite"
@@ -277,7 +276,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="PLAYER NAME"
                             android:textColor="@color/PollerBackground"
@@ -338,6 +337,186 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <!--board and bank-->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="500dp"
+                android:orientation="horizontal"
+               >
+                <!--gameBoard-->
+                <LinearLayout
+                    android:layout_width="860dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="@color/PollerWhite">
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:context="thePollerExpress.views.MainActivity"
+                        android:background="@color/PollerWhite"
+                        android:layout_margin="5dp"
+                        />
+                </LinearLayout>
+
+
+                <!--bank-->
+                <LinearLayout
+                    android:layout_width="150dp"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="5dp"
+                    android:gravity="center"
+                    android:background="@color/PollerWhite">
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        tools:context="thePollerExpress.views.MainActivity"
+                        android:background="@color/PollerWhite"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PLAYER NAME"
+                            android:textColor="@color/PollerBackground"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PLAYER NAME"
+                            android:textColor="@color/PollerBackground"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PLAYER NAME"
+                            android:textColor="@color/PollerBackground"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PLAYER NAME"
+                            android:textColor="@color/PollerBackground"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PLAYER NAME"
+                            android:textColor="@color/PollerBackground"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PLAYER NAME"
+                            android:textColor="@color/PollerBackground"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PLAYER NAME"
+                            android:textColor="@color/PollerBackground"
+                            android:gravity="center"/>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <!--your stuff-->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="130dp"
+                android:orientation="horizontal"
+                >
+
+                <!--your train cards-->
+                <LinearLayout
+                    android:layout_width="500dp"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="5dp"
+                    android:background="@color/PollerWhite">
+                </LinearLayout>
+
+                <!--your destination cards-->
+                <LinearLayout
+                    android:layout_width="380dp"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="5dp"
+                    android:background="@color/PollerWhite">
+                </LinearLayout>
+
+                <!--your info-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="5dp"
+                    android:background="@color/PollerWhite">
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:layout_width="110dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        tools:context="thePollerExpress.views.MainActivity"
+                        android:background="@color/PollerWhite"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Your Name"
+                            android:textColor="@color/PollerBackground"
+                            android:gravity="center"/>
+
+                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            xmlns:tools="http://schemas.android.com/tools"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:gravity="center"
+                            tools:context="thePollerExpress.views.MainActivity"
+                            android:background="@color/PollerWhite"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:layout_width="20dp"
+                                android:layout_height="50dp"
+                                android:layout_weight="1"
+                                android:layout_margin="5dp"
+                                android:background="@drawable/polarexpress"
+                                android:text="10"
+                                android:textColor="@color/PollerWhite"
+                                android:textAlignment="center"/>
+                            <TextView
+                                android:layout_width="20dp"
+                                android:layout_height="50dp"
+                                android:layout_weight="1"
+                                android:layout_margin="5dp"
+                                android:background="@drawable/polarexpress"
+                                android:text="10"
+                                android:textColor="@color/PollerWhite"
+                                android:textAlignment="center"/>
+
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </LinearLayout>
