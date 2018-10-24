@@ -11,10 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import com.shared.exceptions.database.DatabaseException;
-import pollerexpress.database.dao.AuthtokenDao;
-import pollerexpress.database.dao.GameDao;
-import pollerexpress.database.dao.IDatabase;
-import pollerexpress.database.dao.UserDao;
+import pollerexpress.database.dao.*;
+import pollerexpress.database.utilities.DeckBuilder;
 
 public class Database implements IDatabase
 {
@@ -32,9 +30,11 @@ public class Database implements IDatabase
     public static final String CREATE_GAME_TABLE = "CREATE TABLE IF NOT EXISTS  GAMES\n ('GAME_ID' TEXT NOT NULL UNIQUE, 'GAME_NAME' TEXT NOT NULL,'MAX_PLAYERS' INT, 'CURRENT_PLAYERS' INT, PRIMARY KEY('GAME_ID') )";
     final String CONNECTION_URL;
     Connection dataConnection;
+    DeckBuilder deckBuilder;
     UserDao uDao;
     GameDao gDao;
     AuthtokenDao aDao;
+    DestinationCardDao dcDao;
     private boolean isOpen;
     String url;
 
@@ -57,9 +57,11 @@ public class Database implements IDatabase
         this.isOpen = false;
         this.url = CONNECTION_URL + dataBaseName;
         this.dataConnection = null;
+        this.deckBuilder = new DeckBuilder(this);
         this.uDao = new UserDao(this);
         this.aDao = new AuthtokenDao(this);
         this.gDao = new GameDao(this);
+        this.dcDao = new DestinationCardDao(this);
     }
 
     public Database() {
@@ -187,6 +189,7 @@ public class Database implements IDatabase
 
             db.deleteTables();
             db.createTables();
+            db.deckBuilder.makeDefaultDecks();
 
             db.close(true);;
         }
@@ -211,7 +214,6 @@ public class Database implements IDatabase
 
     }
 
-
     public UserDao getUserDao()
     {
         return this.uDao;
@@ -226,4 +228,6 @@ public class Database implements IDatabase
     {
         return this.gDao;
     }
+
+    public DestinationCardDao getDestinationCardDao() { return this.dcDao; }
 }

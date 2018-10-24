@@ -1,15 +1,22 @@
-package com.thePollerServer.utilities;
+package pollerexpress.database.utilities;
 
 import com.shared.models.City;
 import com.shared.models.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Point;
+import com.shared.models.interfaces.IDatabaseFacade;
 
 import java.util.UUID;
 
-public class DeckBuilder {
+import pollerexpress.database.dao.DestinationCardDao;
+import pollerexpress.database.dao.IDatabase;
 
-    public DeckBuilder(){}
+public class DeckBuilder {
+    IDatabase _db;
+
+    public DeckBuilder(IDatabase db) {
+        this._db = db;
+    }
 
     /**
      * Creates the default decks.
@@ -17,6 +24,7 @@ public class DeckBuilder {
      * Otherwise the decks should already exist.
      */
     public void makeDefaultDecks() {
+        DestinationCardDao dCardDao = _db.getDestinationCardDao();
         City city = new City("North Pole", new Point(0.0,0.0));
         DestinationCard[] cards = {
                 new DestinationCard(city, city, 1),
@@ -51,7 +59,11 @@ public class DeckBuilder {
                 new DestinationCard(city, city, 1),
         };
         for(DestinationCard card : cards) {
-            //add card to table
+            try {
+                dCardDao.insertIntoDefault(card);
+            } catch(Exception e) {
+                System.out.println("Destination deck got built wrong!!!");
+            }
         }
 
         //do same thing for train cards...

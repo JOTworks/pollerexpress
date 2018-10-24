@@ -34,6 +34,6 @@ public class Route
     }
     public Player getOwner()
     {
-        return owne
+        return owner;
     }
 }

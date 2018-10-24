@@ -25,4 +25,7 @@ public class DestinationCard {
     public String getId() {
         return _id;
     }
+    public City getCity1() { return _city1; }
+    public City getCity2() { return _city2; }
+    public int getPoints() { return _points; }
 }

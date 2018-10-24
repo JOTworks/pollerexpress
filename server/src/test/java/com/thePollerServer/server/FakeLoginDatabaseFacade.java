@@ -18,9 +18,9 @@ public class FakeLoginDatabaseFacade implements IDatabaseFacade
     }
 
     @Override
-    public LoginResponse register(User user)
+    public void register(User user)
     {
-        return null;
+        //return null;
     }
 
     @Override
@@ -59,5 +59,10 @@ public class FakeLoginDatabaseFacade implements IDatabaseFacade
     public GameInfo getGameInfo(String id) throws DatabaseException
     {
         return null;
+    }
+
+    @Override
+    public Player[] getPlayersInGame(GameInfo info) throws DatabaseException {
+        return new Player[0];
     }
 }
