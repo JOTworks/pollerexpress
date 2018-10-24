@@ -55,7 +55,7 @@ public class MethodCaller {
                 break;
 
             default:
-                throw new IllegalArgumentException("that didn't match any predefined commands");
+                result.add("that didn't match any commands");
         }
         return result;
     }
