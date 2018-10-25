@@ -1,5 +1,6 @@
 package com.shared.models;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class DestinationCard {
@@ -28,4 +29,13 @@ public class DestinationCard {
     public City getCity1() { return _city1; }
     public City getCity2() { return _city2; }
     public int getPoints() { return _points; }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DestinationCard card = (DestinationCard) o;
+        return Objects.equals(_id, card._id);
+    }
 }

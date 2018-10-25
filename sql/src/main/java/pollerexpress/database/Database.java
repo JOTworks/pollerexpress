@@ -89,7 +89,7 @@ public class Database implements IDatabase
 
             this.dataConnection.close();
             this.dataConnection = null;
-            System.out.print("Closed Database Connection\n");
+            //System.out.print("Closed Database Connection\n");
         }
         catch (SQLException e)
         {
@@ -118,7 +118,7 @@ public class Database implements IDatabase
             try {
                 this.dataConnection = DriverManager.getConnection(this.url);
                 this.dataConnection.setAutoCommit(false);
-                System.out.println("Created a new connection to the database.");
+                //System.out.println("Created a new connection to the database.");
             } catch (SQLException var2) {
                 System.out.printf("%s/n", var2.getStackTrace());
                 throw new DatabaseException(var2.getSQLState());
@@ -193,7 +193,7 @@ public class Database implements IDatabase
 
             db.close(true);;
         }
-        catch (DatabaseException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }

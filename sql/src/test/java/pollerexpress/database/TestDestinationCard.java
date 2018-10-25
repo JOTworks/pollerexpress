@@ -2,12 +2,17 @@ package pollerexpress.database;
 
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.DestinationCard;
+import com.shared.models.GameInfo;
+import com.shared.models.Player;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import javax.print.attribute.standard.Destination;
 
 import pollerexpress.database.dao.DestinationCardDao;
 import pollerexpress.database.dao.IDatabase;
@@ -16,28 +21,181 @@ import pollerexpress.database.utilities.DeckBuilder;
 import static org.junit.Assert.*;
 
 public class TestDestinationCard {
+    Database db;
+    DeckBuilder builder;
+    DestinationCardDao dcDao;
+    GameInfo gi;
+    Player p;
+
+    @Before
+    public void up() {
+        db = new Database();
+        builder = db.deckBuilder;
+        dcDao = db.dcDao;
+        gi = new GameInfo("Game",3);
+        p = new Player("username", gi.getId());
+        try {
+            db.open();
+
+            db.deleteTables();
+            db.createTables();
+
+            db.close(true);
+
+            builder.makeDefaultDecks();
+
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @After
+    public void down() {
+        try {
+            dcDao.deleteDeck(gi);
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            fail();
+        }
+    }
 
     @Test
-    public void test() {
-        assertTrue(true);
-        IDatabase db = new Database();
-        try {
-            ((Database) db).open();
-        } catch (DatabaseException e) {
-            System.out.println("Database won't open :)))");
-        }
-        DeckBuilder builder = new DeckBuilder(db);
-        DestinationCardDao dcDao = new DestinationCardDao(db);
-
+    public void testBuildDefaultDeck() {
         //test the the default Destination Deck was filled properly in the database, or that it even exists.
-        /* TEST 1 */
         try {
             ArrayList<DestinationCard> deck = dcDao.getDefaultDeck();
-            System.out.println(deck.size());
             assertEquals(30, deck.size());
         } catch(Exception e) {
-            System.out.println("TestDestinationCard Test1 threw an exception.");
-            fail(e.getMessage());
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
+    public void testBuildGameDeck() {
+        try {
+            builder.makeDestinationDeck(gi);
+            System.out.println(dcDao.getDeckSize(gi));
+            assertTrue(30 == dcDao.getDeckSize(gi));
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
+    public void testDrawCard() {
+        DestinationCard card = null;
+
+        try {
+            //make deck and get starting deck size for comparison
+            builder.makeDestinationDeck(gi);
+            int deckSize = dcDao.getDeckSize(gi);
+
+            //run drawCard()
+            card = dcDao.drawCard(p);
+
+            //check card is not null
+            assertNotNull(card);
+
+            //check deck size is 1 less than before.
+            assertEquals(deckSize - 1, dcDao.getDeckSize(gi));
+
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
+    public void testGetPlayerHand() {
+        try{
+            //make game deck
+            builder.makeDestinationDeck(gi);
+
+            //draw three cards
+            DestinationCard card1 = dcDao.drawCard(p);
+            DestinationCard card2 = dcDao.drawCard(p);
+            DestinationCard card3 = dcDao.drawCard(p);
+
+            //get player's hand
+            ArrayList<DestinationCard> hand = dcDao.getHand(p);
+
+            //check the player's hand contains 3 cards
+            assertEquals(3, hand.size());
+
+            //check the player's hand contains the right 3 cards.
+            assertTrue(hand.contains(card1));
+            assertTrue(hand.contains(card2));
+            assertTrue(hand.contains(card3));
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
+    public void testDiscard() {
+        try {
+            //make game deck
+            builder.makeDestinationDeck(gi);
+
+            //draw a card
+            DestinationCard card = dcDao.drawCard(p);
+
+            //get player's hand size and get deck size
+            int handSize = dcDao.getHand(p).size();
+            int deckSize = dcDao.getDeckSize(gi);
+
+            //discard a card
+            dcDao.discardCard(gi, card);
+
+            //get player's hand size and get deck size again
+            //player's hand should be 1 less, deck size should be the same.
+            assertEquals(handSize - 1, dcDao.getHand(p).size());
+            assertEquals(deckSize, dcDao.getDeckSize(gi));
+
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
+    public void testShuffle() {
+        try {
+            //make game deck
+            builder.makeDestinationDeck(gi);
+
+            //first, test the discard pile.
+            int discardCount = dcDao.getDiscardPile(gi).size();
+            assertEquals(0, discardCount);
+
+            DestinationCard card = dcDao.drawCard(p);
+            dcDao.discardCard(gi, card);
+            discardCount = dcDao.getDiscardPile(gi).size();
+            assertEquals(1, discardCount);
+
+            //shouldn't shuffle if the deck isn't empty, so let's check that
+
+            //you can't draw on an empty deck, and doing so should return null.
+
+            //when the deck IS empty, and the discard pile isn't, they should switch sizes.
+
+            //you can draw a card again after the deck is shuffled.
+
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            fail();
         }
     }
 }
