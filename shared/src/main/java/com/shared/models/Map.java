@@ -1,16 +1,21 @@
 package com.shared.models;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Map
 {
-    List<Route> routes;
-    List<City> cities;
+    HashMap<String, City> cities;
 
-    public Map(List<Route> routes, List<City> cities)
+    public Map(List<City> cities)
     {
-        this.routes = routes;
-        this.cities = cities;
+        this.cities = new HashMap<>();
+        for(City city: cities)
+        {
+            this.cities.put(city.getName(), city);
+        }
+        //TODO add verification that this list of cities is a single interconnected graph.
+        //easy enough to do.
     }
 
     /**
@@ -36,4 +41,10 @@ public class Map
         //do stuff implement a depth first search...
         return true;
     }
+
+    public City getCityByName(String cityName)
+    {
+        return null;//TODO implement this later at some point.
+    }
+
 }

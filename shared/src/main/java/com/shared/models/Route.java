@@ -10,14 +10,37 @@ public class Route
     int distance;
     Player owner;
 
+    public Route(Route r)
+    {
+        cities = r.cities;
+        this.distance = r.distance;
+    }
+
     public Route(City dest, City target, int distance)
     {
         cities = new ArrayList<>(2);
         cities.set(0, dest);
         cities.set(1, target);
         this.distance = distance;
+        dest.addRoute(this);
+        target.addRoute(this);
     }
 
+    public City getDestination(City me)
+    {
+        if(cities.get(0).equals(me))
+        {
+            return cities.get(1);
+        }
+        else if( cities.get(1).equals(me))
+        {
+            return cities.get(0);
+        }
+
+        assert(false);
+
+        return null;//TODO throw exception raise a problem
+    }
 
     /**
      * Ideally this would return an unmodificable list.

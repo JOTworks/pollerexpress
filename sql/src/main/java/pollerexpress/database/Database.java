@@ -11,8 +11,15 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import com.shared.exceptions.database.DatabaseException;
+
 import pollerexpress.database.dao.*;
 import pollerexpress.database.utilities.DeckBuilder;
+
+//import pollerexpress.database.dao.AuthtokenDao;
+//import pollerexpress.database.dao.DestinationCardDao;
+//import pollerexpress.database.dao.GameDao;
+//import pollerexpress.database.dao.IDatabase;
+//import pollerexpress.database.dao.UserDao;
 
 public class Database implements IDatabase
 {
@@ -23,7 +30,7 @@ public class Database implements IDatabase
     public static final String DROP_USERS = "drop table if exists USERS";
     public static final String DROP_DEFAULT_DESTINATION_DECK = "drop table if exists DEFAULT_DESTINATION_DECK";
     public static final String USER_TABLE = "USERS";
-    public static final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS USERS\n ( `USER_NAME` TEXT NOT NULL UNIQUE, `PASSWORD` TEXT NOT NULL, 'GAME_ID' TEXT, PRIMARY KEY(`USER_NAME`) )";
+    public static final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS USERS\n ( `USER_NAME` TEXT NOT NULL UNIQUE, `PASSWORD` TEXT NOT NULL,  'GAME_ID' TEXT, 'DESTINATION_DISCARDS' INT, PRIMARY KEY(`USER_NAME`) )";
     public static final String CREATE_AUTHTOKEN_TABLE = "CREATE TABLE IF NOT EXISTS AUTH_TOKENS\n ( `AUTH_ID` TEXT NOT NULL PRIMARY KEY UNIQUE, `USER_NAME` TEXT NOT NULL, FOREIGN KEY(`USER_NAME`) REFERENCES `USERS`(`USER_NAME`) )";
     public static final String CREATE_DEFAULT_DESTINATION_DECK_TABLE = "CREATE TABLE IF NOT EXISTS DEFAULT_DESTINATION_DECK\n (`CARD_ID` TEXT NOT NULL UNIQUE, `CITY_1` TEXT NOT NULL, `CITY_2` TEXT NOT NULL, `POINTS` INT, PRIMARY KEY(`CARD_ID`) )";
     public static final String GAME_TABLE = " GAMES";
@@ -214,20 +221,22 @@ public class Database implements IDatabase
 
     }
 
-    public UserDao getUserDao()
+
+    public boolean isOpen()
     {
-        return this.uDao;
+        return isOpen;
     }
 
-    public AuthtokenDao getAuthtokenDao()
+
+    public DestinationCardDao getDestinationCardDao()
     {
-        return this.aDao;
+        return this.dcDao;
     }
 
-    public GameDao getGameDao()
-    {
-        return this.gDao;
-    }
 
-    public DestinationCardDao getDestinationCardDao() { return this.dcDao; }
+    public UserDao getUserDao() { return this.uDao; }
+
+    public AuthtokenDao getAuthtokenDao() { return this.aDao; }
+
+    public GameDao getGameDao() { return this.gDao; }
 }
