@@ -13,11 +13,11 @@ public class City
 
     public City(String name, Point p)
     {
+
         this.name = name;
         this.point = p;
-        this.routes = new ArrayList<>(routes);
+        this.routes = new ArrayList<>();
     }
-
 
     public City setRoutes(List<Route> routes)
     {

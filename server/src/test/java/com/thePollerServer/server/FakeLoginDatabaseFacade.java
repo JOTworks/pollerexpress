@@ -25,9 +25,9 @@ public class FakeLoginDatabaseFacade implements IDatabaseFacade
     }
 
     @Override
-    public void register(User user) throws DatabaseException
+    public void register(User user)
     {
-
+        //return null;
     }
 
     @Override
@@ -102,7 +102,6 @@ public class FakeLoginDatabaseFacade implements IDatabaseFacade
             return 1;
         }
     }
-
-
+    
 }
 

@@ -11,11 +11,15 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import com.shared.exceptions.database.DatabaseException;
-import pollerexpress.database.dao.AuthtokenDao;
-import pollerexpress.database.dao.DestinationCardDao;
-import pollerexpress.database.dao.GameDao;
-import pollerexpress.database.dao.IDatabase;
-import pollerexpress.database.dao.UserDao;
+
+import pollerexpress.database.dao.*;
+import pollerexpress.database.utilities.DeckBuilder;
+
+//import pollerexpress.database.dao.AuthtokenDao;
+//import pollerexpress.database.dao.DestinationCardDao;
+//import pollerexpress.database.dao.GameDao;
+//import pollerexpress.database.dao.IDatabase;
+//import pollerexpress.database.dao.UserDao;
 
 public class Database implements IDatabase
 {
@@ -33,10 +37,11 @@ public class Database implements IDatabase
     public static final String CREATE_GAME_TABLE = "CREATE TABLE IF NOT EXISTS  GAMES\n ('GAME_ID' TEXT NOT NULL UNIQUE, 'GAME_NAME' TEXT NOT NULL,'MAX_PLAYERS' INT, 'CURRENT_PLAYERS' INT, PRIMARY KEY('GAME_ID') )";
     final String CONNECTION_URL;
     Connection dataConnection;
+    DeckBuilder deckBuilder;
     UserDao uDao;
     GameDao gDao;
-    DestinationCardDao dcDao;
     AuthtokenDao aDao;
+    DestinationCardDao dcDao;
     private boolean isOpen;
     String url;
 
@@ -59,6 +64,7 @@ public class Database implements IDatabase
         this.isOpen = false;
         this.url = CONNECTION_URL + dataBaseName;
         this.dataConnection = null;
+        this.deckBuilder = new DeckBuilder(this);
         this.uDao = new UserDao(this);
         this.aDao = new AuthtokenDao(this);
         this.gDao = new GameDao(this);
@@ -90,7 +96,7 @@ public class Database implements IDatabase
 
             this.dataConnection.close();
             this.dataConnection = null;
-            System.out.print("Closed Database Connection\n");
+            //System.out.print("Closed Database Connection\n");
         }
         catch (SQLException e)
         {
@@ -119,7 +125,7 @@ public class Database implements IDatabase
             try {
                 this.dataConnection = DriverManager.getConnection(this.url);
                 this.dataConnection.setAutoCommit(false);
-                System.out.println("Created a new connection to the database.");
+                //System.out.println("Created a new connection to the database.");
             } catch (SQLException var2) {
                 System.out.printf("%s/n", var2.getStackTrace());
                 throw new DatabaseException(var2.getSQLState());
@@ -190,10 +196,11 @@ public class Database implements IDatabase
 
             db.deleteTables();
             db.createTables();
+            db.deckBuilder.makeDefaultDecks();
 
             db.close(true);;
         }
-        catch (DatabaseException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -226,18 +233,10 @@ public class Database implements IDatabase
         return this.dcDao;
     }
 
-    public UserDao getUserDao()
-    {
-        return this.uDao;
-    }
 
-    public AuthtokenDao getAuthtokenDao()
-    {
-        return this.aDao;
-    }
+    public UserDao getUserDao() { return this.uDao; }
 
-    public GameDao getGameDao()
-    {
-        return this.gDao;
-    }
+    public AuthtokenDao getAuthtokenDao() { return this.aDao; }
+
+    public GameDao getGameDao() { return this.gDao; }
 }

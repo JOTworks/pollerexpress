@@ -254,11 +254,13 @@ public class DatabaseFacade implements IDatabaseFacade
             List<DestinationCard> cards = new ArrayList<>();
             for(int i = 0; i  < 3; ++i)//TODO get rid of magic numbers
             {
-                cards.add( db.getDestinationCardDao().drawCard(info, player) );
+                cards.add( db.getDestinationCardDao().drawCard(player) );
             }
             db.getUserDao();//TODO set the players discard to something.
             db.close(true);
             return cards;
+        } catch(Exception e) {
+            throw new DatabaseException(e.getMessage());
         }
         finally
         {
