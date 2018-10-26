@@ -151,8 +151,8 @@ public class DestinationCardDao {
         return hand;
     }
 
-    public void discardCard(GameInfo gi, DestinationCard card) throws DatabaseException, SQLException {
-        String TABLE_NAME = "\"DESTINATION_DECK_" + gi.getId() + "\"";
+    public void discardCard(Player player, DestinationCard card) throws DatabaseException, SQLException {
+        String TABLE_NAME = "\"DESTINATION_DECK_" + player.getGameId() + "\"";
         String UPDATE = UPDATE_CARD.replace("<TABLE_NAME>",TABLE_NAME);
 
         _db.open();

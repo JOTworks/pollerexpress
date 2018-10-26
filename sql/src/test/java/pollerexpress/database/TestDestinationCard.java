@@ -155,7 +155,7 @@ public class TestDestinationCard {
             int deckSize = dcDao.getDeckSize(gi);
 
             //discard a card
-            dcDao.discardCard(gi, card);
+            dcDao.discardCard(p, card);
 
             //get player's hand size and get deck size again
             //player's hand should be 1 less, deck size should be the same.
@@ -180,7 +180,7 @@ public class TestDestinationCard {
             assertEquals(0, discardCount);
 
             DestinationCard card = dcDao.drawCard(p);
-            dcDao.discardCard(gi, card);
+            dcDao.discardCard(p, card);
             discardCount = dcDao.getDiscardPile(gi).size();
             assertEquals(1, discardCount);
 

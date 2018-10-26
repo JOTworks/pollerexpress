@@ -2,9 +2,11 @@ package pollerexpress.database.utilities;
 
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.City;
+import com.shared.models.Color;
 import com.shared.models.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Point;
+import com.shared.models.TrainCard;
 import com.shared.models.interfaces.IDatabaseFacade;
 
 import java.sql.PreparedStatement;
@@ -15,6 +17,8 @@ import java.util.UUID;
 
 import pollerexpress.database.dao.DestinationCardDao;
 import pollerexpress.database.dao.IDatabase;
+
+import static com.shared.models.Color.TRAIN.*;
 
 public class DeckBuilder {
     IDatabase _db;
@@ -68,6 +72,13 @@ public class DeckBuilder {
         }
 
         //do same thing for train cards...
+        //12 of each color, 14 rainbow.
+        Color.TRAIN[] colors = {PURPLE, WHITE, BLUE, YELLOW, ORANGE, BLACK, RED, GREEN, RAINBOW};
+        for(Color.TRAIN color : colors) {
+            //add twelve cards of each color
+            //tcDao.insertIntoDefault(new TrainCard(color));
+        }
+        //add two extra of rainbow
     }
 
     public void makeDestinationDeck(GameInfo gi) throws DatabaseException, SQLException {
