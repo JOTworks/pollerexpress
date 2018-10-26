@@ -3,12 +3,14 @@ package thePollerExpress.models;
 import android.util.Log;
 
 import com.shared.models.Authtoken;
+import com.shared.models.ChatHistory;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.shared.models.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Observable;
 
@@ -17,7 +19,9 @@ import thePollerExpress.communication.PollerExpress;
 /**
  * This class is called "ClientData" rather than "User" in order
  * to easily distinguish it from the "User" class in the shared
- * module. This class contains user information, including information
+ * module. Take "client" and "user" to mean the same thing.
+ *
+ * This class contains user information, including information
  * about all the games the user is a part of and the chat history
  * for each of those games.
  */
@@ -38,14 +42,21 @@ public class ClientData extends Observable
     private Authtoken auth;
 
     /** Represents the user's currently active game.
-     * That is, eitehr the game they are joining
-     * or the game they are currently playing.
+     * That is, either the game they are currently playing
+     * or the game they are in the process of joining.
      */
     private Game game;
 
     /** Information about each game the client is part of. */
     private ArrayList<GameInfo> gameInfoList;
     private PollerExpress theTrain;
+
+    /** Maps every gameInfo to its chat history */
+    private HashMap<GameInfo, ChatHistory> gameInfoChatHistoryMap = new HashMap<>();
+
+    public HashMap<GameInfo, ChatHistory> getGameInfoChatHistoryMap() {
+        return gameInfoChatHistoryMap;
+    }
 
     public User getUser(){
         return user;
