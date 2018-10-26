@@ -1,4 +1,4 @@
-package thePollerExpress.Development;
+package thePollerExpress.views.game;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,20 +15,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.shared.models.Command;
-import com.shared.models.GameInfo;
-
-import org.w3c.dom.Text;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import cs340.pollerexpress.R;
-import thePollerExpress.Development.MethodBuilder;
 import thePollerExpress.Development.MethodCaller;
-import thePollerExpress.communication.ClientCommunicator;
-import thePollerExpress.views.game.ChatFragment;
-import thePollerExpress.views.setup.SetupViewAdapters.GameSelectAdapter;
+import thePollerExpress.Development.MethodCallerFragment;
+import thePollerExpress.presenters.game.ChatPresenter;
+import thePollerExpress.presenters.game.interfaces.IChatPresenter;
+import thePollerExpress.views.game.interfaces.IChatView;
+import thePollerExpress.views.setup.SetupGameFragment;
 
 /**
  * Abby
@@ -37,13 +34,14 @@ import thePollerExpress.views.setup.SetupViewAdapters.GameSelectAdapter;
  * This class will have runtime dependencies but no
  * type dependencies because of reflection.
  */
-public class MethodCallerFragment extends Fragment {
+public class ChatFragment extends Fragment implements IChatView {
 
-    Button runMethodsButton;
+    Button sendChatButton;
     Button chatViewButton;
-    EditText methods;
+    Button devViewButton;
+    EditText chatMessage;
     ArrayList<String> results = new ArrayList<>();
-    MethodCaller methodCaller = new MethodCaller(this);
+    IChatPresenter CP = new ChatPresenter(this);
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     Adapter adapter;
@@ -58,12 +56,14 @@ public class MethodCallerFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_method_caller, container, false);
+        View v = inflater.inflate(R.layout.fragment_chat, container, false);
 
         // wire up the widgets
-        methods = (EditText) v.findViewById(R.id.methods);
-        runMethodsButton = (Button) v.findViewById(R.id.run_methods_button);
+        chatMessage = (EditText) v.findViewById(R.id.chat_message);
+        sendChatButton = (Button) v.findViewById(R.id.send_chat_button);
         chatViewButton = (Button) v.findViewById(R.id.chat_view_button);
+        devViewButton = (Button) v.findViewById(R.id.dev_view_button);
+
         //set up the recyclerview
         recyclerView = (RecyclerView) v.findViewById(R.id.method_caller_recycler_view);
 
@@ -72,41 +72,10 @@ public class MethodCallerFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         // listen for run button to be clicked
-        runMethodsButton.setOnClickListener(new View.OnClickListener() {
+        sendChatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                try{
-
-                    // These are the commands that we want to run.
-                    //Command[] commandList = MethodBuilder.parse(methods.getText().toString());
-                    // We run the commands and get back an array list of results
-                    //results = methodCaller.execute(commandList);
-
-                    //jack is getting rid of reflection for now, its hard, instead hardcodding funtions
-                    results = methodCaller.parse(methods.getText().toString());
-
-                    // set up the adapter, which needs a list
-                    adapter = new Adapter(results);
-                    recyclerView.setAdapter(adapter);
-
-                    layoutManager = new LinearLayoutManager(getContext());
-                    recyclerView.setLayoutManager(layoutManager);
-
-
-                } catch(Exception e) {
-
-                    //display the error message
-                    results.add(e.getMessage());
-
-                    // set up the adapter, which needs a list
-                    adapter = new Adapter(results);
-                    recyclerView.setAdapter(adapter);
-
-                    layoutManager = new LinearLayoutManager(getContext());
-                    recyclerView.setLayoutManager(layoutManager);
-
-                }
+                CP.PressedSendButton(chatMessage.getText().toString());
             }
         });
 
@@ -114,18 +83,17 @@ public class MethodCallerFragment extends Fragment {
         chatViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                FragmentManager fm = getFragmentManager();
-                //Fragment createGameFragment = fm.findFragmentById(R.id.fragment_create_game);
-                Fragment fragment = new ChatFragment();
-
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.chat_history_fragment_container, fragment);
-                ft.commit();
-                fm.popBackStack();
+                CP.PressedChatViewButton();
             }
         });
 
+        // listen for run button to be clicked
+        devViewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CP.PressedDevViewButton();
+            }
+        });
 
 //        // set up the adapter, which needs a list
 //        adapter = new Adapter(results);
@@ -135,6 +103,22 @@ public class MethodCallerFragment extends Fragment {
 //        recyclerView.setLayoutManager(layoutManager);
 
         return v;
+    }
+
+    public void changeToDevView(){
+        FragmentManager fm = getFragmentManager();
+        //Fragment createGameFragment = fm.findFragmentById(R.id.fragment_create_game);
+        Fragment fragment = new MethodCallerFragment();
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.chat_history_fragment_container, fragment);
+        ft.commit();
+        fm.popBackStack();
+    }
+
+    public void displayMessage(String message)
+    {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
     public class Adapter extends RecyclerView.Adapter<ResultViewHolder> {
@@ -187,4 +171,7 @@ public class MethodCallerFragment extends Fragment {
             method_result.setText(result);
         }
     }
+
+
+
 }

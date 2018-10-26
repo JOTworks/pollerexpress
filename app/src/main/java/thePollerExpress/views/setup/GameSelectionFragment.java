@@ -96,7 +96,7 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.right_side_fragment_container, createGameFragment);
-        ft.addToBackStack(null);
+
         ft.commit();
     }
 
