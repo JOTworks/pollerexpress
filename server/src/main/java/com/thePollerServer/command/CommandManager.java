@@ -20,7 +20,7 @@ public class CommandManager {
     /**
      * Abby
      * This is a list of all the chatCommands
-     * which we want because...because..because why? */
+     * which we want because...because...because why? */
 	private ArrayList<Command> chatCommands;
 	
 	private CommandManager() {
