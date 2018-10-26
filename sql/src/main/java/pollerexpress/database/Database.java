@@ -149,7 +149,7 @@ public class Database implements IDatabase
         }
     }
 
-    public void deleateTables() {
+    public void deleteTables() {
 
         try {
             PreparedStatement Drop_stmnt = this.dataConnection.prepareStatement(DROP_AUTH_TOKEN);
@@ -166,6 +166,7 @@ public class Database implements IDatabase
             e.printStackTrace();
         }
     }
+
     /**
      * Run this method to create the database on the server.
      * @param Argv not currently used
@@ -178,7 +179,7 @@ public class Database implements IDatabase
             db.open();
 
            //todo:make this dleeat  tables  db.deleateTables();
-            db.deleateTables();
+            db.deleteTables();
             db.createTables();
             db.close(true);;
         }
@@ -202,7 +203,6 @@ public class Database implements IDatabase
         }
 
     }
-
 
     public UserDao getUserDao()
     {

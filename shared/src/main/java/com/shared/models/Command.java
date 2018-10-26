@@ -13,8 +13,7 @@ public class Command implements ICommand, Serializable
     private Class<?>[] _paramTypes;
     private Object[] _paramValues;
 
-    public Command() {
-    }
+    public Command() {}
 
     /**
      *

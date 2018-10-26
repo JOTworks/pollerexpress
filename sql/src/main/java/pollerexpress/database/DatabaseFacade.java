@@ -1,6 +1,9 @@
 package pollerexpress.database;
 
+import com.shared.exceptions.CommandFailed;
 import com.shared.models.Authtoken;
+import com.shared.models.ChatMessage;
+import com.shared.models.Command;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
@@ -81,7 +84,6 @@ public class DatabaseFacade implements IDatabaseFacade
         return;
     }
 
-
     /**
      *
      * @param player
@@ -137,6 +139,7 @@ public class DatabaseFacade implements IDatabaseFacade
             throw e;
         }
     }
+
     @Override
     public void create(Player player, Game game) throws DatabaseException
     {
@@ -168,7 +171,35 @@ public class DatabaseFacade implements IDatabaseFacade
         }
         return valid;
     }
-    
+
+    /**
+     * Abby
+     * We want to add the chat command to the database.
+     * @param chatCommand The command to add to the database.
+     * @throws DatabaseException
+     */
+    @Override
+    public void addChat(Command chatCommand) throws DatabaseException {
+
+        /*Would we need a chat DAO?
+        * Would I need to modify the Database class's
+        * createTable method so that it created a table of chats?
+        *
+        * I'm thinking that the answer to both of those questions is "Yes."
+        *
+        * At this very moment, though, I'm going to leave the database
+        * stuff alone and go back to working on the command stuff.*/
+
+        try
+        {
+            db.open();
+        }
+        finally
+        {
+            db.close(false);
+        }
+    }
+
     @Override
     public Game getGame(GameInfo info) throws DatabaseException
     {
@@ -187,6 +218,7 @@ public class DatabaseFacade implements IDatabaseFacade
             db.close(false);
         }
     }
+
     @Override
     public Player getPlayer(String user) throws DatabaseException
     {
@@ -240,4 +272,5 @@ public class DatabaseFacade implements IDatabaseFacade
         }
 
     }
+
 }

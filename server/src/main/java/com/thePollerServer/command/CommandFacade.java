@@ -1,5 +1,6 @@
 package com.thePollerServer.command;
 
+import com.shared.models.ChatMessage;
 import com.shared.utilities.CommandsExtensions;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
@@ -11,6 +12,9 @@ import com.shared.models.Player;
 import com.thePollerServer.commandServices.SetupService;
 import com.thePollerServer.utilities.Factory;
 
+/**
+ * This class provides a simple interface for calling commands.
+ */
 public class CommandFacade {
 
     private static final CommandFacade ourInstance = new CommandFacade();
@@ -19,9 +23,8 @@ public class CommandFacade {
         return ourInstance;
     }
 
-    private CommandFacade() {
+    private CommandFacade() { }
 
-    }
     public static void joinGame(Player player, GameInfo info) throws CommandFailed, DatabaseException {
         SetupService SS = new SetupService();
         SS.joinGame(player, info);
@@ -56,5 +59,10 @@ public class CommandFacade {
         CM.addCommand(createCommand);
 
         joinGame(player, info);
+    }
+
+    public static void chat(ChatMessage chatMessage, GameInfo gameInfo) {
+
+
     }
 }
