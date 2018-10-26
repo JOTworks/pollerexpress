@@ -102,6 +102,6 @@ public class FakeLoginDatabaseFacade implements IDatabaseFacade
             return 1;
         }
     }
-    
+
 }
 

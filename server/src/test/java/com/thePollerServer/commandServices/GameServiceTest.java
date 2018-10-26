@@ -28,6 +28,7 @@ public class GameServiceTest
     public void setUp() throws Exception
     {
         Factory.setFactory(new GSDFactory());
+
         me = new Player("Torsten");
         otherMe = new Player("Jack");
         DestinationCard [] cards = {new DestinationCard(null,null,20), new DestinationCard(null, null,0), new DestinationCard(null, null, 30)};

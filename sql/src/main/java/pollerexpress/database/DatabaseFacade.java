@@ -259,8 +259,8 @@ public class DatabaseFacade implements IDatabaseFacade
             db.getUserDao();//TODO set the players discard to something.
             db.close(true);
             return cards;
-        } catch(Exception e) {
-            throw new DatabaseException(e.getMessage());
+        } catch(DatabaseException e) {
+            throw e;
         }
         finally
         {
@@ -272,9 +272,25 @@ public class DatabaseFacade implements IDatabaseFacade
     }
 
     @Override
-    public void discardDestinationCard(Player player, List<DestinationCard> cards)
+    public void discardDestinationCard(Player player, List<DestinationCard> cards) throws DatabaseException
     {
         //TODO implement this.
+        try
+        {
+            db.open();
+            for( DestinationCard card: cards)
+            {
+                db.getDestinationCardDao().discardCard(player, card);
+            }
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen())
+            {
+                db.close(false);
+            }
+        }
     }
 
 
