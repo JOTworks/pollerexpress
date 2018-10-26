@@ -115,7 +115,7 @@ public class CommandFacade
         Class<?>[] types = { Player.class, card.getClass()};
         Object[] params = { p,  card };
         //TODO fix command names.
-        Command cmd = new Command(CommandsExtensions.clientSide + "GameService", "discardDesitnationCard", types, params);
+        Command cmd = new Command(CommandsExtensions.clientSide + "GameService", "discardDestinationCard", types, params);
         CM.addCommand(cmd, df.getGameInfo(df.getPlayer(p.name).gameId));
 
     }

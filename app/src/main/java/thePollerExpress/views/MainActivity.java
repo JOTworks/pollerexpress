@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import cs340.pollerexpress.R;
+import thePollerExpress.views.game.MapView;
 import thePollerExpress.views.setup.LoginFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fm = getSupportFragmentManager();
 
-        Fragment fragment = new LoginFragment();
+        Fragment fragment = new MapView();//new LoginFragment();
         //fragment = new SetupGameFragment();
         fm.beginTransaction()
                 .add(R.id.fragment_container, fragment)
