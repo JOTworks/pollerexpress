@@ -31,4 +31,18 @@ public class ChatMessage {
     public Player getMessageSender() {
         return messageSender;
     }
+
+    public String toString() {
+
+        StringBuilder chatDisplay = new StringBuilder();
+
+        /*I need to find a better way of displaying the time.*/
+        chatDisplay.append(timestamp)
+                .append('\n')
+                .append(message)
+                .append('\n')
+                .append(messageSender.getName());
+
+        return chatDisplay.toString();
+    }
 }
