@@ -81,7 +81,7 @@ public class DeckBuilder {
         //add two extra of rainbow
     }
 
-    public void makeDestinationDeck(GameInfo gi) throws DatabaseException, SQLException {
+    public void makeDestinationDeck(GameInfo gi) throws DatabaseException {
         DestinationCardDao dcDao = _db.getDestinationCardDao();
 
         //drop if exists and then create table
@@ -106,7 +106,7 @@ public class DeckBuilder {
 
 
 
-    public void shuffleDestinationDeck(GameInfo gi) throws DatabaseException, SQLException {
+    public void shuffleDestinationDeck(GameInfo gi) throws DatabaseException {
         //implement later; calls this.shuffle()
         String table = "\"DESTINATION_DECK_" + gi.getId() + "\"";
         DestinationCardDao dcDao = _db.getDestinationCardDao();
@@ -125,7 +125,7 @@ public class DeckBuilder {
         //implement later; calls this.shuffle()
     }
 
-    private void shuffle(String tablename, ArrayList<String> discardPile) throws DatabaseException, SQLException {
+    private void shuffle(String tablename, ArrayList<String> discardPile) throws DatabaseException {
         System.out.println("every day i'm shuffling");
         String UPDATE_CARD = "UPDATE " + tablename + "\n SET POSITION = ?, PLAYER = NULL\n WHERE CARD_ID = ?";
         _db.open();
@@ -135,13 +135,17 @@ public class DeckBuilder {
         System.out.println(discardPile.size());
         System.out.println(discardPile.get(0));
 
-        PreparedStatement stmnt;
-        for(int i = 0; i < discardPile.size(); i++) {
-            stmnt = _db.getConnection().prepareStatement(UPDATE_CARD);
-            stmnt.setInt( 1, i + 1 );
-            stmnt.setString( 2, discardPile.get(i));
-            stmnt.execute();
-            stmnt.close();
+        try {
+            PreparedStatement stmnt;
+            for (int i = 0; i < discardPile.size(); i++) {
+                stmnt = _db.getConnection().prepareStatement(UPDATE_CARD);
+                stmnt.setInt(1, i + 1);
+                stmnt.setString(2, discardPile.get(i));
+                stmnt.execute();
+                stmnt.close();
+            }
+        } catch(SQLException e) {
+            throw new DatabaseException(e.getMessage());
         }
 
         _db.close(true);
