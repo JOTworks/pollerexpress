@@ -4,7 +4,9 @@ import com.shared.models.GameInfo;
 
 import java.util.List;
 
-public interface IGameSelectionView {
+import thePollerExpress.views.IPollerExpressView;
+
+public interface IGameSelectionView extends IPollerExpressView {
 
     void changeCreateGameView();
 
