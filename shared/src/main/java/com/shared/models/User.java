@@ -17,4 +17,9 @@ public class User extends Player implements Serializable
         super(name, gameId);
         this.password = password;
     }
+
+    public Hand getHand()
+    {
+        return hand;
+    }
 }
