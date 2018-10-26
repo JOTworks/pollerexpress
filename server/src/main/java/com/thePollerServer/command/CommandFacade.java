@@ -20,7 +20,8 @@ import java.util.List;
 import pollerexpress.database.Database;
 import pollerexpress.database.DatabaseFacade;
 
-public class CommandFacade {
+public class CommandFacade
+{
 
     private static final CommandFacade ourInstance = new CommandFacade();
 
