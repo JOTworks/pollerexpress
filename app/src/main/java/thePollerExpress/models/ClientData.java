@@ -14,10 +14,12 @@ import java.util.Observable;
 
 import thePollerExpress.communication.PollerExpress;
 
-/** This is a mastermodel. It is being observed by the
- presenters so that if there are any changes,
- they are reflected in the view.
- It contains a lot of different kinds of information.
+/**
+ * This class is called "ClientData" rather than "User" in order
+ * to easily distinguish it from the "User" class in the shared
+ * module. This class contains user information, including information
+ * about all the games the user is a part of and the chat history
+ * for each of those games.
  */
 public class ClientData extends Observable
 {
@@ -34,7 +36,14 @@ public class ClientData extends Observable
 
     private User user;
     private Authtoken auth;
+
+    /** Represents the user's currently active game.
+     * That is, eitehr the game they are joining
+     * or the game they are currently playing.
+     */
     private Game game;
+
+    /** Information about each game the client is part of. */
     private ArrayList<GameInfo> gameInfoList;
     private PollerExpress theTrain;
 
@@ -51,7 +60,7 @@ public class ClientData extends Observable
         return gameInfoList;
     }
 
-    public boolean gameExsists(GameInfo game){
+    public boolean gameExists(GameInfo game){
         for(int i = 0; i<gameInfoList.size(); i++){
             if(gameInfoList.get(i).getId()==game.getId()) {
                 return true;
@@ -59,7 +68,7 @@ public class ClientData extends Observable
         }
         return false;
     }
-    public boolean gameExsists(Game game){
+    public boolean gameExists(Game game){
         for(int i = 0; i<gameInfoList.size(); i++){
             if(gameInfoList.get(i).getId()==game.getId()) {
                 return true;
@@ -124,7 +133,10 @@ public class ClientData extends Observable
         }
     }
 
-
+    /** Adds the given player (we're expecting that player
+     * to be the user) to the current game
+     * @param player
+     */
     public void addPlayerToGame(Player player)
     {
         if(this.getGame().hasPlayer(player)) return;
@@ -137,10 +149,18 @@ public class ClientData extends Observable
         }
     }
 
+    /*This method is a bit nondescript. What does it do?*/
     public void set(PollerExpress pe)
     {
         theTrain = pe;
     }
+
+    /**
+     * Adds information about a game to the
+     * client's list of information about the
+     * games the client is in.
+     * @param info information about a particular game
+     */
     public void addGame(GameInfo info)
     {
 
@@ -153,6 +173,12 @@ public class ClientData extends Observable
         }
     }
 
+    /**
+     * Adds the player (the user) to the list of players
+     * in the GameInfo.
+     * @param i And index for a particular GameInfo object
+     *          in a list of GameInfo objects.
+     */
     public void addPlayerToGameInfo(int i)
     {
         synchronized (this)

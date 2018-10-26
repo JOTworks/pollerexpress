@@ -32,6 +32,10 @@ public class ChatMessage {
         return messageSender;
     }
 
+    /**
+     * @return A string containing timestamp, message, and sender name,
+     * separated by new lines.
+     */
     public String toString() {
 
         StringBuilder chatDisplay = new StringBuilder();
@@ -45,4 +49,5 @@ public class ChatMessage {
 
         return chatDisplay.toString();
     }
+
 }
