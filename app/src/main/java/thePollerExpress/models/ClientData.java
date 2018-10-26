@@ -55,20 +55,6 @@ public class ClientData extends Observable
     public ArrayList<GameInfo> getGameInfoList(){
         return gameInfoList;
     }
-    public ArrayList<ChatMessage> getchatMessageList(){
-        return chatMessageList;
-    }
-
-    public ArrayList<String> getMessageList(){
-
-        ArrayList<String> messageList = new ArrayList<>();
-
-        for (ChatMessage message:chatMessageList)
-              {
-            messageList.add(message.getMessage());
-        }
-        return messageList;
-    }
 
 
     public boolean gameExsists(GameInfo game){
@@ -137,16 +123,6 @@ public class ClientData extends Observable
     public void setGameInfoList(ArrayList<GameInfo> gameInfoList)
     {
         this.gameInfoList = gameInfoList;
-
-        synchronized (this)
-        {
-            notify();
-        }
-    }
-
-    public void setChatMessageList(ArrayList<ChatMessage> chatMessageList)
-    {
-        this.chatMessageList = chatMessageList;
 
         synchronized (this)
         {

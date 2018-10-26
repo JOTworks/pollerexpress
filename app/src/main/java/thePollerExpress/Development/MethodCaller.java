@@ -47,6 +47,7 @@ public class MethodCaller {
                 break;
             case "getChatMessages":
                 result = CD.getMessageList();
+                break;
             case "getUserName":
                 result.add(CD.getUser().getName());
                 break;

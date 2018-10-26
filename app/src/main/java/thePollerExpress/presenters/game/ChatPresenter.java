@@ -44,20 +44,14 @@ public class ChatPresenter implements IChatPresenter, Observer {
             //todo: this block should all be in a facade, not presenter, but not sure which one.
             Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
             ChatMessage chatMessage = new ChatMessage(message, timeStamp, clientData.getUser());
-            Class<?>[] types = {ChatMessage.class};
-            Object[] params= {chatMessage};
+            GameInfo gameInfo = ClientData.getInstance().getGame().getGameInfo();
+
+            Class<?>[] types = {ChatMessage.class, GameInfo.class};
+            Object[] params= {chatMessage, gameInfo};
             //todo: make sure methodName really will be chat, and not something else
             Command chatCommand = new Command(CommandsExtensions.serverSide +"CommandFacade","chat",types,params);
-            //CC.sendCommand(chatCommand);
+            CC.sendCommand(chatCommand);
             //also have to deal with pull response, i think Nate said he was refactoring that to get rid of code duplication
-
-            /*---------------just here to test notify needs to be deleted----------------------*/
-
-            ArrayList<ChatMessage> tempList = clientData.getchatMessageList();
-            tempList.add(chatMessage);
-            clientData.setChatMessageList(tempList);
-
-            /*----------------------------------------------------------------------------------*/
 
             chatView.displayMessage("chat sent");
         }
@@ -81,6 +75,6 @@ public class ChatPresenter implements IChatPresenter, Observer {
         {
             if( !(arg instanceof ArrayList) ) return;
 
-            chatView.displayChats(clientData.getMessageList());
+            //todo: actualy update the view
         }
 }
