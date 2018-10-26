@@ -3,6 +3,7 @@ package thePollerExpress.models;
 import android.util.Log;
 
 import com.shared.models.Authtoken;
+import com.shared.models.ChatMessage;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
@@ -32,6 +33,7 @@ public class ClientData extends Observable
     private ClientData() {
 
         gameInfoList = new ArrayList<>();
+        chatMessageList = new ArrayList<>();
     }
 
     private User user;
@@ -39,6 +41,7 @@ public class ClientData extends Observable
     private Game game;
     private ArrayList<GameInfo> gameInfoList;
     private PollerExpress theTrain;
+    private ArrayList<ChatMessage> chatMessageList;
 
     public User getUser(){
         return user;
@@ -52,6 +55,21 @@ public class ClientData extends Observable
     public ArrayList<GameInfo> getGameInfoList(){
         return gameInfoList;
     }
+    public ArrayList<ChatMessage> getchatMessageList(){
+        return chatMessageList;
+    }
+
+    public ArrayList<String> getMessageList(){
+
+        ArrayList<String> messageList = new ArrayList<>();
+
+        for (ChatMessage message:chatMessageList)
+              {
+            messageList.add(message.getMessage());
+        }
+        return messageList;
+    }
+
 
     public boolean gameExsists(GameInfo game){
         for(int i = 0; i<gameInfoList.size(); i++){
@@ -119,6 +137,16 @@ public class ClientData extends Observable
     public void setGameInfoList(ArrayList<GameInfo> gameInfoList)
     {
         this.gameInfoList = gameInfoList;
+
+        synchronized (this)
+        {
+            notify();
+        }
+    }
+
+    public void setChatMessageList(ArrayList<ChatMessage> chatMessageList)
+    {
+        this.chatMessageList = chatMessageList;
 
         synchronized (this)
         {

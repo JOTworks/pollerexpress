@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.shared.models.ChatMessage;
+
 import java.util.ArrayList;
 
 import cs340.pollerexpress.R;
@@ -114,6 +116,19 @@ public class ChatFragment extends Fragment implements IChatView {
         ft.replace(R.id.chat_history_fragment_container, fragment);
         ft.commit();
         fm.popBackStack();
+    }
+
+    @Override
+    public void displayChats(ArrayList<String> messageList) {
+
+        // set up the adapter, which needs a list
+
+        results = messageList;
+        adapter = new Adapter(results);
+        recyclerView.setAdapter(adapter);
+
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
     }
 
     public void displayMessage(String message)

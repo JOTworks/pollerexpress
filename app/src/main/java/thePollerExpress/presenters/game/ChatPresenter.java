@@ -1,11 +1,17 @@
 package thePollerExpress.presenters.game;
 
+import com.shared.models.ChatMessage;
+import com.shared.models.Command;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
+import com.shared.utilities.CommandsExtensions;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.TimeUnit;
 
 import thePollerExpress.communication.ClientCommunicator;
 import thePollerExpress.models.ClientData;
@@ -27,6 +33,7 @@ public class ChatPresenter implements IChatPresenter, Observer {
             this.chatView = chatView;
             clientData = ClientData.getInstance();
             clientData.addObserver(this);
+            CC = ClientCommunicator.instance();
         }
 
 
@@ -34,7 +41,25 @@ public class ChatPresenter implements IChatPresenter, Observer {
         public void PressedSendButton(String message) {
 
 
-            chatView.displayMessage("Will send chat eventualy");
+            //todo: this block should all be in a facade, not presenter, but not sure which one.
+            Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
+            ChatMessage chatMessage = new ChatMessage(message, timeStamp, clientData.getUser());
+            Class<?>[] types = {ChatMessage.class};
+            Object[] params= {chatMessage};
+            //todo: make sure methodName really will be chat, and not something else
+            Command chatCommand = new Command(CommandsExtensions.serverSide +"CommandFacade","chat",types,params);
+            //CC.sendCommand(chatCommand);
+            //also have to deal with pull response, i think Nate said he was refactoring that to get rid of code duplication
+
+            /*---------------just here to test notify needs to be deleted----------------------*/
+
+            ArrayList<ChatMessage> tempList = clientData.getchatMessageList();
+            tempList.add(chatMessage);
+            clientData.setChatMessageList(tempList);
+
+            /*----------------------------------------------------------------------------------*/
+
+            chatView.displayMessage("chat sent");
         }
 
         @Override
@@ -54,17 +79,8 @@ public class ChatPresenter implements IChatPresenter, Observer {
         @Override
         public void update(Observable o, Object arg)
         {
- /*           if( !(arg instanceof Player) ) return;
-            Player p = (Player) arg;
-            Game game = clientData.getGame();
-            int dex = game.getPlayers().indexOf(p);
-            if(dex == -1)
-            {
-                View.playerLeft(dex);
-            }
-            else
-            {
-                lobbyView.playerJoined(p);
-            }*/
+            if( !(arg instanceof ArrayList) ) return;
+
+            chatView.displayChats(clientData.getMessageList());
         }
 }

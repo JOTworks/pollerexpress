@@ -35,21 +35,24 @@ public class MethodCaller {
 
     public ArrayList<String> parse(String s) {
         ArrayList<String> result = new ArrayList<String>();
-        ClientData CC = ClientData.getInstance();
+        ClientData CD = ClientData.getInstance();
         switch (s) {
             case "help":
                 result.add("getUserName\n" +
+                        "getChatMessages\n" +
                         "getGameID\n" +
                         "---\n" +
                         "add commands to the methodCaller class\n" +
                         "in the parse funtion, as a case");
                 break;
+            case "getChatMessages":
+                result = CD.getMessageList();
             case "getUserName":
-                result.add(CC.getUser().getName());
+                result.add(CD.getUser().getName());
                 break;
             case "getGameID":
-                if(CC.getGame()!=null)
-                    result.add(CC.getGame().getId());
+                if(CD.getGame()!=null)
+                    result.add(CD.getGame().getId());
                 else
                     result.add("game is null");
                 break;
