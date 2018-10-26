@@ -7,6 +7,7 @@ public class Player implements Serializable
 {
     public String name;
     public String gameId;
+    public int destinationDiscards;
     /**
      * Creates a new Player object
      * @param name username of the player
@@ -19,12 +20,19 @@ public class Player implements Serializable
     {
         this.name = name;
         this.gameId = "";
+        destinationDiscards = 0;
     }
 
     public Player(String name, String gameId)
     {
         this.name = name;
         this.gameId = gameId;
+        destinationDiscards = 0;
+    }
+    public Player(String name, String gameId, int destinationDiscards)
+    {
+        this(name, gameId);
+        this.destinationDiscards = destinationDiscards;
     }
 
     public String getName() {

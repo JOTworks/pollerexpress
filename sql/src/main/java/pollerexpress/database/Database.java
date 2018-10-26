@@ -11,10 +11,15 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import com.shared.exceptions.database.DatabaseException;
-import pollerexpress.database.dao.AuthtokenDao;
-import pollerexpress.database.dao.GameDao;
-import pollerexpress.database.dao.IDatabase;
-import pollerexpress.database.dao.UserDao;
+
+import pollerexpress.database.dao.*;
+import pollerexpress.database.utilities.DeckBuilder;
+
+//import pollerexpress.database.dao.AuthtokenDao;
+//import pollerexpress.database.dao.DestinationCardDao;
+//import pollerexpress.database.dao.GameDao;
+//import pollerexpress.database.dao.IDatabase;
+//import pollerexpress.database.dao.UserDao;
 
 public class Database implements IDatabase
 {
@@ -23,16 +28,20 @@ public class Database implements IDatabase
     public static final String DROP_AUTH_TOKEN = "drop table if exists AUTH_TOKENS";
     public static final String DROP_GAMES_TOKEN = "drop table if exists GAMES";
     public static final String DROP_USERS = "drop table if exists USERS";
+    public static final String DROP_DEFAULT_DESTINATION_DECK = "drop table if exists DEFAULT_DESTINATION_DECK";
     public static final String USER_TABLE = "USERS";
-    public static final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS USERS\n ( `USER_NAME` TEXT NOT NULL UNIQUE, `PASSWORD` TEXT NOT NULL, 'GAME_ID' TEXT, PRIMARY KEY(`USER_NAME`) )";
+    public static final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS USERS\n ( `USER_NAME` TEXT NOT NULL UNIQUE, `PASSWORD` TEXT NOT NULL,  'GAME_ID' TEXT, 'DESTINATION_DISCARDS' INT, PRIMARY KEY(`USER_NAME`) )";
     public static final String CREATE_AUTHTOKEN_TABLE = "CREATE TABLE IF NOT EXISTS AUTH_TOKENS\n ( `AUTH_ID` TEXT NOT NULL PRIMARY KEY UNIQUE, `USER_NAME` TEXT NOT NULL, FOREIGN KEY(`USER_NAME`) REFERENCES `USERS`(`USER_NAME`) )";
+    public static final String CREATE_DEFAULT_DESTINATION_DECK_TABLE = "CREATE TABLE IF NOT EXISTS DEFAULT_DESTINATION_DECK\n (`CARD_ID` TEXT NOT NULL UNIQUE, `CITY_1` TEXT NOT NULL, `CITY_2` TEXT NOT NULL, `POINTS` INT, PRIMARY KEY(`CARD_ID`) )";
     public static final String GAME_TABLE = " GAMES";
     public static final String CREATE_GAME_TABLE = "CREATE TABLE IF NOT EXISTS  GAMES\n ('GAME_ID' TEXT NOT NULL UNIQUE, 'GAME_NAME' TEXT NOT NULL,'MAX_PLAYERS' INT, 'CURRENT_PLAYERS' INT, PRIMARY KEY('GAME_ID') )";
     final String CONNECTION_URL;
     Connection dataConnection;
+    DeckBuilder deckBuilder;
     UserDao uDao;
     GameDao gDao;
     AuthtokenDao aDao;
+    DestinationCardDao dcDao;
     private boolean isOpen;
     String url;
 
@@ -55,9 +64,11 @@ public class Database implements IDatabase
         this.isOpen = false;
         this.url = CONNECTION_URL + dataBaseName;
         this.dataConnection = null;
+        this.deckBuilder = new DeckBuilder(this);
         this.uDao = new UserDao(this);
         this.aDao = new AuthtokenDao(this);
         this.gDao = new GameDao(this);
+        this.dcDao = new DestinationCardDao(this);
     }
 
     public Database() {
@@ -85,7 +96,7 @@ public class Database implements IDatabase
 
             this.dataConnection.close();
             this.dataConnection = null;
-            System.out.print("Closed Database Connection\n");
+            //System.out.print("Closed Database Connection\n");
         }
         catch (SQLException e)
         {
@@ -114,7 +125,7 @@ public class Database implements IDatabase
             try {
                 this.dataConnection = DriverManager.getConnection(this.url);
                 this.dataConnection.setAutoCommit(false);
-                System.out.println("Created a new connection to the database.");
+                //System.out.println("Created a new connection to the database.");
             } catch (SQLException var2) {
                 System.out.printf("%s/n", var2.getStackTrace());
                 throw new DatabaseException(var2.getSQLState());
@@ -135,12 +146,15 @@ public class Database implements IDatabase
             PreparedStatement users_stmnt = this.dataConnection.prepareStatement(CREATE_USER_TABLE) ;
             PreparedStatement authtokens_stmnt = this.dataConnection.prepareStatement(CREATE_AUTHTOKEN_TABLE);
             PreparedStatement games_stmnt = this.dataConnection.prepareStatement(CREATE_GAME_TABLE);
+            PreparedStatement destination_deck = this.dataConnection.prepareStatement(CREATE_DEFAULT_DESTINATION_DECK_TABLE);
             users_stmnt.execute();
-            games_stmnt.execute();
             authtokens_stmnt.execute();
+            games_stmnt.execute();
+            destination_deck.execute();
             users_stmnt.close();
             games_stmnt.close();
             authtokens_stmnt.close();
+            destination_deck.close();
         }
         catch (SQLException e)
         {
@@ -149,7 +163,7 @@ public class Database implements IDatabase
         }
     }
 
-    public void deleateTables() {
+    public void deleteTables() {
 
         try {
             PreparedStatement Drop_stmnt = this.dataConnection.prepareStatement(DROP_AUTH_TOKEN);
@@ -159,6 +173,9 @@ public class Database implements IDatabase
             Drop_stmnt.execute();
             Drop_stmnt.close();
             Drop_stmnt = this.dataConnection.prepareStatement(DROP_GAMES_TOKEN);
+            Drop_stmnt.execute();
+            Drop_stmnt.close();
+            Drop_stmnt = this.dataConnection.prepareStatement(DROP_DEFAULT_DESTINATION_DECK);
             Drop_stmnt.execute();
             Drop_stmnt.close();
 
@@ -177,12 +194,13 @@ public class Database implements IDatabase
             Database db = new Database();
             db.open();
 
-           //todo:make this dleeat  tables  db.deleateTables();
-            db.deleateTables();
+            db.deleteTables();
             db.createTables();
+            db.deckBuilder.makeDefaultDecks();
+
             db.close(true);;
         }
-        catch (DatabaseException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -204,18 +222,21 @@ public class Database implements IDatabase
     }
 
 
-    public UserDao getUserDao()
+    public boolean isOpen()
     {
-        return this.uDao;
+        return isOpen;
     }
 
-    public AuthtokenDao getAuthtokenDao()
+
+    public DestinationCardDao getDestinationCardDao()
     {
-        return this.aDao;
+        return this.dcDao;
     }
 
-    public GameDao getGameDao()
-    {
-        return this.gDao;
-    }
+
+    public UserDao getUserDao() { return this.uDao; }
+
+    public AuthtokenDao getAuthtokenDao() { return this.aDao; }
+
+    public GameDao getGameDao() { return this.gDao; }
 }

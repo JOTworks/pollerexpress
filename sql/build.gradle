@@ -4,6 +4,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':shared')
     implementation 'org.xerial:sqlite-jdbc:3.25.2'
+    implementation 'junit:junit:4.12'
 }
 
 sourceCompatibility = "7"
