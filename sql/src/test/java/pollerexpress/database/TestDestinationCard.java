@@ -1,6 +1,5 @@
 package pollerexpress.database;
 
-import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
@@ -10,12 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
-import javax.print.attribute.standard.Destination;
 
 import pollerexpress.database.dao.DestinationCardDao;
-import pollerexpress.database.dao.IDatabase;
 import pollerexpress.database.utilities.DeckBuilder;
 
 import static org.junit.Assert.*;
@@ -79,8 +74,7 @@ public class TestDestinationCard {
     public void testBuildGameDeck() {
         try {
             builder.makeDestinationDeck(gi);
-            System.out.println(dcDao.getDeckSize(gi));
-            assertTrue(30 == dcDao.getDeckSize(gi));
+            assertEquals(30, dcDao.getDeckSize(gi));
         } catch(Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -184,11 +178,16 @@ public class TestDestinationCard {
             discardCount = dcDao.getDiscardPile(gi).size();
             assertEquals(1, discardCount);
 
-            //shouldn't shuffle if the deck isn't empty, so let's check that
+            for(int i = 0; i < 5; i++) {
+                card = dcDao.drawCard(p);
+                dcDao.discardCard(p, card);
+            }
+            //test shuffle
+            builder.shuffleDestinationDeck(gi);
 
             //you can't draw on an empty deck, and doing so should return null.
 
-            //when the deck IS empty, and the discard pile isn't, they should switch sizes.
+            //after shuffling, the discard pile should be empty and the deck should have increased by the former size of the discard pile.
 
             //you can draw a card again after the deck is shuffled.
 

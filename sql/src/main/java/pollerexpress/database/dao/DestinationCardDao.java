@@ -26,7 +26,6 @@ public class DestinationCardDao {
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS <TABLE_NAME>";
     public static final String INSERT_CARD = "INSERT INTO <TABLE_NAME>(CARD_ID, POSITION, PLAYER)\n VALUES(?,?,?)";
     public static final String INSERT_DEFAULT_CARD = "INSERT INTO DEFAULT_DESTINATION_DECK(CARD_ID, CITY_1, CITY_2, POINTS)\n VALUES(?,?,?,?)";
-    //public static final String SELECT_TOP_CARD = "SELECT CARD_ID\n FROM <TABLE_NAME>\n WHERE POSITION != 0\n ORDER BY POSITION ASC\n LIMIT 1";
     public static final String SELECT_TOP_CARD = "SELECT DEF.CARD_ID, DEF.CITY_1, DEF.CITY_2, DEF.POINTS\n FROM DEFAULT_DESTINATION_DECK AS DEF\n LEFT JOIN <TABLE_NAME> AS DECK\n ON DECK.CARD_ID = DEF.CARD_ID\n WHERE POSITION != 0\n ORDER BY POSITION ASC\n LIMIT 1";
     public static final String SELECT_HAND = "SELECT DEF.CARD_ID, DEF.CITY_1, DEF.CITY_2, DEF.POINTS\n FROM <TABLE_NAME> AS DECK\n LEFT JOIN DEFAULT_DESTINATION_DECK AS DEF\n ON DECK.CARD_ID = DEF.CARD_ID\n WHERE PLAYER = ?";
     public static final String SELECT_DISCARD = "SELECT CARD_ID\n FROM <TABLE_NAME>\n WHERE POSITION = 0 AND PLAYER IS NULL";
@@ -93,17 +92,47 @@ public class DestinationCardDao {
         _db.close(true);
     }
 
-    public void updateCard(GameInfo gi, String card, int position, String player) {
-        //implement later
+    public void updateCard(GameInfo gi, String card, int position, String player) throws DatabaseException {
+        String TABLE_NAME = "\"DESTINATION_DECK_" + gi.getId() + "\"";
+        String UPDATE = UPDATE_CARD.replace("<TABLE_NAME>",TABLE_NAME);
+        _db.open();
+
+        try{
+            PreparedStatement stmnt = _db.getConnection().prepareStatement(UPDATE);
+            stmnt.setInt(1, position);
+            stmnt.setString(2, player);
+            stmnt.setString(3, card);
+            stmnt.execute();
+            stmnt.close();
+        } catch(SQLException e) {
+            throw new DatabaseException(e.getMessage());
+        }
+
+        _db.close(true);
     }
 
-    public DestinationCard getCard(String id) {
-        //implement later
-        return null;
+    public DestinationCard getCard(String id) throws DatabaseException {
+        DestinationCard card = null;
+        _db.open();
+
+        try {
+            PreparedStatement stmnt = _db.getConnection().prepareStatement(SELECT_CARD);
+            stmnt.setString(1, id);
+            ResultSet rs = stmnt.executeQuery();
+            if(rs.next()) {
+                City city1 = new City(rs.getString("CITY_1"), new Point(0.0,0.0));
+                City city2 = city1;
+                card = new DestinationCard(rs.getString("CARD_ID"), city1, city2, rs.getInt("POINTS"));
+            }
+        } catch(SQLException e) {
+            throw new DatabaseException(e.getMessage());
+        }
+
+        _db.close(true);
+        return card;
     }
 
     public DestinationCard drawCard(Player player) throws DatabaseException {
-        //TODO: check for shuffle time, wherever that happens.
         //get card
         DestinationCard card = null;
         String TABLE_NAME = "\"DESTINATION_DECK_" + player.getGameId() + "\"";

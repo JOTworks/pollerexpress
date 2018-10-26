@@ -28,7 +28,7 @@ public class Database implements IDatabase
     public static final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS USERS\n ( `USER_NAME` TEXT NOT NULL UNIQUE, `PASSWORD` TEXT NOT NULL,  'GAME_ID' TEXT, 'DESTINATION_DISCARDS' INT, PRIMARY KEY(`USER_NAME`) )";
     public static final String CREATE_AUTHTOKEN_TABLE = "CREATE TABLE IF NOT EXISTS AUTH_TOKENS\n ( `AUTH_ID` TEXT NOT NULL PRIMARY KEY UNIQUE, `USER_NAME` TEXT NOT NULL, FOREIGN KEY(`USER_NAME`) REFERENCES `USERS`(`USER_NAME`) )";
     public static final String CREATE_DEFAULT_DESTINATION_DECK_TABLE = "CREATE TABLE IF NOT EXISTS DEFAULT_DESTINATION_DECK\n (`CARD_ID` TEXT NOT NULL UNIQUE, `CITY_1` TEXT NOT NULL, `CITY_2` TEXT NOT NULL, `POINTS` INT, PRIMARY KEY(`CARD_ID`) )";
-    public static final String CREATE_DEFAULT_TRAIN_DECK_TABLE = "CREATE TABLE IF NOT EXISTS DEFAULT_TRAIN_DECK\n (`CARD_ID` TEXT NOT NULL UNIQUE, `COLOR` INT, PRIMARY KEY(`CARD_ID`) )";
+    public static final String CREATE_DEFAULT_TRAIN_DECK_TABLE = "CREATE TABLE IF NOT EXISTS DEFAULT_TRAIN_DECK\n (`CARD_ID` TEXT NOT NULL UNIQUE, `COLOR` TEXT, PRIMARY KEY(`CARD_ID`) )";
     public static final String GAME_TABLE = " GAMES";
     public static final String CREATE_GAME_TABLE = "CREATE TABLE IF NOT EXISTS  GAMES\n ('GAME_ID' TEXT NOT NULL UNIQUE, 'GAME_NAME' TEXT NOT NULL,'MAX_PLAYERS' INT, 'CURRENT_PLAYERS' INT, PRIMARY KEY('GAME_ID') )";
     final String CONNECTION_URL;
@@ -38,6 +38,7 @@ public class Database implements IDatabase
     GameDao gDao;
     AuthtokenDao aDao;
     DestinationCardDao dcDao;
+    TrainCardDao tcDao;
     private boolean isOpen;
     String url;
 
@@ -65,6 +66,7 @@ public class Database implements IDatabase
         this.aDao = new AuthtokenDao(this);
         this.gDao = new GameDao(this);
         this.dcDao = new DestinationCardDao(this);
+        this.tcDao = new TrainCardDao(this);
     }
 
     public Database() {
@@ -114,7 +116,9 @@ public class Database implements IDatabase
 
     public void open() throws DatabaseException {
         if (this.isOpen) {
-            throw new DatabaseException("Tried to open an open line");
+            //throw new DatabaseException("Tried to open an open line");
+            System.out.println("Tried to open an open line");
+            //won't fail silently this way, but also won't break everything if there's a recoverable error elsewhere.
         } else {
             this.isOpen = true;
 
@@ -234,6 +238,8 @@ public class Database implements IDatabase
     {
         return this.dcDao;
     }
+
+    public TrainCardDao getTrainCardDao() { return this.tcDao; }
 
 
     public UserDao getUserDao() { return this.uDao; }
