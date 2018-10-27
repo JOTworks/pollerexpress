@@ -1,6 +1,5 @@
 package com.shared.models;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,9 +22,24 @@ public class Map
         City boston = new City("Boston" , new Point(200,300) );
 
         City houston = new City("Houston", new Point(500, 1200));
-        new Route(boston, houston, 4);
+        City phoenix= new City("Phoenix", new Point(1200, 400));
+        City moscow = new City("Moscow", new Point(1350, 1350));
+        City potlatch = new City("potlatch", new Point(1550, 1500));
+        new Route(boston, houston, 4).setOwner(new Player("Torsten"));
+        new Route(boston, phoenix, 5, 30 );
+        new Route(boston, phoenix, 5, -30 );
+        new Route(moscow, houston, 5 );
+        new Route(phoenix, moscow, 5 );
+        new Route(potlatch, moscow, 2);
+        new Route( boston, potlatch, 18, 230 );
+        new Route(houston, phoenix, 5, -14 );
         DEFAULT_MAP.add(boston);
         DEFAULT_MAP.add(houston);
+        DEFAULT_MAP.add(phoenix);
+        DEFAULT_MAP.add(moscow);
+        DEFAULT_MAP.add(potlatch);
+
+
 
 
     }

@@ -11,7 +11,8 @@ public class Route extends Observable
     List<City> cities;
     int distance;
     Player owner;
-    int id;//used for double routes.
+    public int id;//used for double routes.
+    //TODO save a color
 
     /**
      * produces a copy of the route r..
@@ -67,6 +68,21 @@ public class Route extends Observable
         assert(false);
 
         return null;//TODO throw exception raise a problem
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Path" +cities.toString();
+    }
+
+    /**
+     * returns the number of train cards needed to reach the end
+     * @return
+     */
+    public int getDistance()
+    {
+        return distance;
     }
 
     /**
