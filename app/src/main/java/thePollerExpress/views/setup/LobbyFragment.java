@@ -16,6 +16,7 @@ import com.shared.models.Game;
 import com.shared.models.Player;
 
 
+import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.GameFragment;
 import thePollerExpress.views.setup.SetupViewAdapters.PlayerAdapter;
 
@@ -121,4 +122,13 @@ public class LobbyFragment extends Fragment implements ILobbyView {
         mAdapter.notifyItemRemoved(i);
     }
 
+    @Override
+    public void displayError(String errorMessage) {
+
+    }
+
+    @Override
+    public void changeView(IPollerExpressView view) {
+
+    }
 }

@@ -2,7 +2,9 @@ package thePollerExpress.views.setup;
 
 import com.shared.models.Player;
 
-public interface ILobbyView {
+import thePollerExpress.views.IPollerExpressView;
+
+public interface ILobbyView extends IPollerExpressView {
 
 //    void attachPresenter(IGamePresenter gamePresenter);
 //    void setPlayers(player[] players);

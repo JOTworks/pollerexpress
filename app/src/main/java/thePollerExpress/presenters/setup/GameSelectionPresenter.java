@@ -3,17 +3,23 @@ package thePollerExpress.presenters.setup;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.shared.models.Command;
 import com.shared.models.GameInfo;
+import com.shared.models.Player;
 import com.shared.models.User;
 import com.shared.models.reponses.ErrorResponse;
+import com.shared.utilities.CommandsExtensions;
 
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import thePollerExpress.utilities.AsyncRunner;
+import thePollerExpress.utilities.ViewFactory;
 import thePollerExpress.views.setup.IGameSelectionView;
 import thePollerExpress.models.ClientData;
 import thePollerExpress.facades.SetupFacade;
+import thePollerExpress.views.setup.LobbyFragment;
 
 /**
  * Responsible for implementing logic for game selection view
@@ -53,10 +59,17 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
         update = false;
         User user = clientData.getUser();
 
-        JoinGameTask joinGameTask = new JoinGameTask();
 
-        Request request = new Request(user, info);
-        joinGameTask.execute(request);
+        AsyncRunner commandRunner = new AsyncRunner(view);
+        commandRunner.setNextView(ViewFactory.createLobbyView());
+
+        Class<?>[] types = {Player.class, GameInfo.class};
+        Object[] params = {user, info};
+        Command joinGameCommand = new Command(CommandsExtensions.clientSideFacade + "SetupFacade",
+                "joinGame", types, params, new SetupFacade());
+
+        commandRunner.execute(joinGameCommand);
+
         update = true;
 
     }
