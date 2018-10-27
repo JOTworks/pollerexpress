@@ -59,7 +59,23 @@ public class TrainCardDao {
     }
 
     public void insertCard(GameInfo gi, String cardId, int position, String player) throws DatabaseException {
-        //
+        String TABLE_NAME = "\"TRAIN_DECK_" + gi.getId() + "\"";
+        String INSERT = INSERT_CARD.replace("<TABLE_NAME>",TABLE_NAME);
+
+        _db.open();
+
+        try {
+            PreparedStatement stmnt = _db.getConnection().prepareStatement(INSERT);
+            stmnt.setString(1, cardId);
+            stmnt.setInt(2, position);
+            stmnt.setString(3, player);
+            stmnt.execute();
+            stmnt.close();
+        } catch(SQLException e) {
+            throw new DatabaseException(e.getMessage());
+        }
+
+        _db.close(true);
     }
 
     public void updateCard(GameInfo gi, String card, int position, String player) {

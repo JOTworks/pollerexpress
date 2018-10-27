@@ -118,7 +118,6 @@ public class Database implements IDatabase
         if (this.isOpen) {
             //throw new DatabaseException("Tried to open an open line");
             System.out.println("Tried to open an open line");
-            return;
             //won't fail silently this way, but also won't break everything if there's a recoverable error elsewhere.
         } else {
             this.isOpen = true;
@@ -203,9 +202,10 @@ public class Database implements IDatabase
 
             db.deleteTables();
             db.createTables();
-            db.deckBuilder.makeDefaultDecks();
 
-            db.close(true);;
+            db.close(true);
+
+            db.deckBuilder.makeDefaultDecks();
         }
         catch (Exception e)
         {
