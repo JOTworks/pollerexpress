@@ -55,5 +55,6 @@ public class MapView extends Fragment implements IGameView
     {
         super.onDestroy();
         Log.d("MapView", "onDestroy");
+        //TODO tell my presenter to disconnect itself from what it is observing.
     }
 }

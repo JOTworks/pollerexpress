@@ -2,22 +2,22 @@ package com.shared.models;
 
 public class Point
 {
-    Double x;
-    Double y;
+    float x;
+    float y;
 
-    public Point(Double x, Double y)
+    public Point(float x, float y)
     {
         this.x = x;
         this.y = y;
     }
 
 
-    public Double getX()
+    public float getX()
     {
         return x;
     }
 
-    public Double getY()
+    public float getY()
     {
         return y;
     }
