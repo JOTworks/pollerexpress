@@ -1,21 +1,18 @@
-package com.thePollerServer.server;
+package com.thePollerServer.commandServices;
 
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Authtoken;
 import com.shared.models.DestinationCard;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
-import com.shared.models.interfaces.IDatabaseFacade;
-import com.shared.models.reponses.LoginResponse;
 import com.shared.models.Player;
 import com.shared.models.User;
+import com.shared.models.interfaces.IDatabaseFacade;
+import com.shared.models.reponses.LoginResponse;
 
-import org.junit.runners.Parameterized;
-
-import java.util.Collection;
 import java.util.List;
 
-public class FakeLoginDatabaseFacade implements IDatabaseFacade
+public class GSDFacade implements IDatabaseFacade
 {
 
     @Override
@@ -25,9 +22,9 @@ public class FakeLoginDatabaseFacade implements IDatabaseFacade
     }
 
     @Override
-    public void register(User user)
+    public void register(User user) throws DatabaseException
     {
-        //return null;
+
     }
 
     @Override
@@ -104,4 +101,3 @@ public class FakeLoginDatabaseFacade implements IDatabaseFacade
     }
 
 }
-

@@ -19,6 +19,11 @@ public class City
         this.routes = new ArrayList<>();
     }
 
+    public Point getPoint()
+    {
+        return point;
+    }
+
     public City setRoutes(List<Route> routes)
     {
         this.routes = routes;

@@ -10,4 +10,5 @@ public interface IDatabase
     void close(boolean commit);
     Connection getConnection();
     DestinationCardDao getDestinationCardDao();
+    TrainCardDao getTrainCardDao();
 }

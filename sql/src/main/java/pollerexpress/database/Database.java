@@ -15,12 +15,6 @@ import com.shared.exceptions.database.DatabaseException;
 import pollerexpress.database.dao.*;
 import pollerexpress.database.utilities.DeckBuilder;
 
-//import pollerexpress.database.dao.AuthtokenDao;
-//import pollerexpress.database.dao.DestinationCardDao;
-//import pollerexpress.database.dao.GameDao;
-//import pollerexpress.database.dao.IDatabase;
-//import pollerexpress.database.dao.UserDao;
-
 public class Database implements IDatabase
 {
     public static final String DEFAULT_DATABASE = "db.sqlite3";
@@ -29,10 +23,12 @@ public class Database implements IDatabase
     public static final String DROP_GAMES_TOKEN = "drop table if exists GAMES";
     public static final String DROP_USERS = "drop table if exists USERS";
     public static final String DROP_DEFAULT_DESTINATION_DECK = "drop table if exists DEFAULT_DESTINATION_DECK";
+    public static final String DROP_DEFAULT_TRAIN_DECK = "drop table if exists DEFAULT_TRAIN_DECK";
     public static final String USER_TABLE = "USERS";
     public static final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS USERS\n ( `USER_NAME` TEXT NOT NULL UNIQUE, `PASSWORD` TEXT NOT NULL,  'GAME_ID' TEXT, 'DESTINATION_DISCARDS' INT, PRIMARY KEY(`USER_NAME`) )";
     public static final String CREATE_AUTHTOKEN_TABLE = "CREATE TABLE IF NOT EXISTS AUTH_TOKENS\n ( `AUTH_ID` TEXT NOT NULL PRIMARY KEY UNIQUE, `USER_NAME` TEXT NOT NULL, FOREIGN KEY(`USER_NAME`) REFERENCES `USERS`(`USER_NAME`) )";
     public static final String CREATE_DEFAULT_DESTINATION_DECK_TABLE = "CREATE TABLE IF NOT EXISTS DEFAULT_DESTINATION_DECK\n (`CARD_ID` TEXT NOT NULL UNIQUE, `CITY_1` TEXT NOT NULL, `CITY_2` TEXT NOT NULL, `POINTS` INT, PRIMARY KEY(`CARD_ID`) )";
+    public static final String CREATE_DEFAULT_TRAIN_DECK_TABLE = "CREATE TABLE IF NOT EXISTS DEFAULT_TRAIN_DECK\n (`CARD_ID` TEXT NOT NULL UNIQUE, `COLOR` TEXT, PRIMARY KEY(`CARD_ID`) )";
     public static final String GAME_TABLE = " GAMES";
     public static final String CREATE_GAME_TABLE = "CREATE TABLE IF NOT EXISTS  GAMES\n ('GAME_ID' TEXT NOT NULL UNIQUE, 'GAME_NAME' TEXT NOT NULL,'MAX_PLAYERS' INT, 'CURRENT_PLAYERS' INT, PRIMARY KEY('GAME_ID') )";
     final String CONNECTION_URL;
@@ -42,6 +38,7 @@ public class Database implements IDatabase
     GameDao gDao;
     AuthtokenDao aDao;
     DestinationCardDao dcDao;
+    TrainCardDao tcDao;
     private boolean isOpen;
     String url;
 
@@ -69,6 +66,7 @@ public class Database implements IDatabase
         this.aDao = new AuthtokenDao(this);
         this.gDao = new GameDao(this);
         this.dcDao = new DestinationCardDao(this);
+        this.tcDao = new TrainCardDao(this);
     }
 
     public Database() {
@@ -118,7 +116,10 @@ public class Database implements IDatabase
 
     public void open() throws DatabaseException {
         if (this.isOpen) {
-            throw new DatabaseException("Tried to open an open line");
+            //throw new DatabaseException("Tried to open an open line");
+            System.out.println("Tried to open an open line");
+            return;
+            //won't fail silently this way, but also won't break everything if there's a recoverable error elsewhere.
         } else {
             this.isOpen = true;
 
@@ -147,14 +148,17 @@ public class Database implements IDatabase
             PreparedStatement authtokens_stmnt = this.dataConnection.prepareStatement(CREATE_AUTHTOKEN_TABLE);
             PreparedStatement games_stmnt = this.dataConnection.prepareStatement(CREATE_GAME_TABLE);
             PreparedStatement destination_deck = this.dataConnection.prepareStatement(CREATE_DEFAULT_DESTINATION_DECK_TABLE);
+            PreparedStatement train_deck = this.dataConnection.prepareStatement(CREATE_DEFAULT_TRAIN_DECK_TABLE);
             users_stmnt.execute();
             authtokens_stmnt.execute();
             games_stmnt.execute();
             destination_deck.execute();
+            train_deck.execute();
             users_stmnt.close();
             games_stmnt.close();
             authtokens_stmnt.close();
             destination_deck.close();
+            train_deck.close();
         }
         catch (SQLException e)
         {
@@ -176,6 +180,9 @@ public class Database implements IDatabase
             Drop_stmnt.execute();
             Drop_stmnt.close();
             Drop_stmnt = this.dataConnection.prepareStatement(DROP_DEFAULT_DESTINATION_DECK);
+            Drop_stmnt.execute();
+            Drop_stmnt.close();
+            Drop_stmnt = this.dataConnection.prepareStatement(DROP_DEFAULT_TRAIN_DECK);
             Drop_stmnt.execute();
             Drop_stmnt.close();
 
@@ -232,6 +239,8 @@ public class Database implements IDatabase
     {
         return this.dcDao;
     }
+
+    public TrainCardDao getTrainCardDao() { return this.tcDao; }
 
 
     public UserDao getUserDao() { return this.uDao; }

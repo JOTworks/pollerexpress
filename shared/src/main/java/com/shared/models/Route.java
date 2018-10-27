@@ -3,8 +3,10 @@ package com.shared.models;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.Observable;
 
-public class Route
+public class Route extends Observable
 {
     List<City> cities;
     int distance;
@@ -54,9 +56,28 @@ public class Route
     public void setOwner(Player player)
     {
         this.owner = player;
+        synchronized (this)
+        {
+            notifyObservers(player);
+        }
     }
     public Player getOwner()
     {
         return owner;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (!(o instanceof Route)) return false;
+        Route route = (Route) o;
+        return route.hashCode() == this.hashCode();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return (cities.get(0)).hashCode() + cities.get(1).hashCode();
     }
 }
