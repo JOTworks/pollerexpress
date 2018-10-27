@@ -18,6 +18,14 @@ import pollerexpress.database.dao.UserDao;
 
 public class Database implements IDatabase
 {
+
+    /*
+    * Abby
+    * -- Make a chat table with message, timestamp (unique id), sender, and game_id columns
+    * You can always find the game_id.
+    * Ids will have hyphens and those have to have double quotes around them. This
+    * gets tricky, so check with Morgan when you get stuck".
+    * */
     public static final String DEFAULT_DATABASE = "db.sqlite3";
     public static final String DROP_ALL_TABLES = "drop table *";
     public static final String DROP_AUTH_TOKEN = "drop table if exists AUTH_TOKENS";

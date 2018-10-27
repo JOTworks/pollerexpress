@@ -1,9 +1,7 @@
 package pollerexpress.database;
 
-import com.shared.exceptions.CommandFailed;
 import com.shared.models.Authtoken;
-import com.shared.models.ChatMessage;
-import com.shared.models.Command;
+import com.shared.models.Chat;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
@@ -174,21 +172,21 @@ public class DatabaseFacade implements IDatabaseFacade
 
     /**
      * Abby
-     * We want to add the chat command to the database.
-     * @param chatCommand The command to add to the database.
+     * We want to add the chat to the database.
+     * @param chat
+     * @param gameInfo
      * @throws DatabaseException
      */
     @Override
-    public void addChat(Command chatCommand) throws DatabaseException {
+    public void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
 
-        /*Would we need a chat DAO?
+        /*
+        * Would we need a chat DAO?
+        * YES
         * Would I need to modify the Database class's
         * createTable method so that it created a table of chats?
-        *
-        * I'm thinking that the answer to both of those questions is "Yes."
-        *
-        * At this very moment, though, I'm going to leave the database
-        * stuff alone and go back to working on the command stuff.*/
+        * YES
+        */
 
         try
         {

@@ -2,8 +2,7 @@ package com.shared.models.interfaces;
 
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Authtoken;
-import com.shared.models.ChatMessage;
-import com.shared.models.Command;
+import com.shared.models.Chat;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
@@ -24,5 +23,5 @@ public interface IDatabaseFacade
     Player[] getPlayersInGame(GameInfo info) throws DatabaseException;
 
     // Abby
-    void addChat(Command chatCommand) throws DatabaseException;
+    void chat(Chat chat, GameInfo gameInfo) throws DatabaseException;
 }

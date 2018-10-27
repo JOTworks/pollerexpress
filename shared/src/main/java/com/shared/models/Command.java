@@ -17,10 +17,12 @@ public class Command implements ICommand, Serializable
 
     /**
      *
-     * @param className
-     * @param methodName
-     * @param paramTypes
-     * @param paramValues
+     * @param className finds the class
+     * @param methodName finds the method name
+     * @param paramTypes in case the method was overloaded,
+     *                   this makes sure we are calling
+     *                   the right version of the method,
+     * @param paramValues the parameters the method needs.
      */
     public Command(String className, String methodName, Class<?>[] paramTypes, Object[] paramValues)
     {

@@ -7,12 +7,12 @@ import java.sql.Timestamp;
 
 import static org.junit.Assert.*;
 
-public class ChatMessageTest {
+public class ChatTest {
 
     private Long time;
     private Timestamp timestamp;
     private Player message_sender;
-    private ChatMessage chat;
+    private Chat chat;
 
     @Before
     public void setUp() throws Exception {
@@ -21,7 +21,7 @@ public class ChatMessageTest {
         time = Long.valueOf(1540515647);
         timestamp = new Timestamp(time);
         message_sender = new Player("MyName", "MyGameId");
-        chat = new ChatMessage("Hi, it's me", timestamp, message_sender);
+        chat = new Chat("Hi, it's me", timestamp, message_sender);
     }
 
     @Test
