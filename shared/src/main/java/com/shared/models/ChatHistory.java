@@ -1,6 +1,9 @@
 package com.shared.models;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Observable;
 
 /**
@@ -24,6 +27,7 @@ public class ChatHistory extends Observable {
     /**
      * Adds a chat, sorts the chats, and notifies
      * observers that the chat history has changed.
+     * @post A chat has been added to the list of chats.
      * @param chat
      */
     public void addChat(Chat chat) {
@@ -40,29 +44,36 @@ public class ChatHistory extends Observable {
     /**
      * This method sorts the chatsMessages by their timestamps,
      * putting the earlier messages at the front of the list.
-     * If two ChatMessages have the same timestamp, then we
-     * sort, alphabetically, by the name of the sender.
+     * @pre chats is nonempty
      * @return a list of Chat objects, sorted by their timestamps
-     *          or null if the arraylist of ChatMessages is empty.
+
      */
     private ArrayList<Chat> sortChats(ArrayList<Chat> chats) {
 
-        if(chats.size() == 0) { return null; }
+        Comparator<Chat> comparator = new Comparator<Chat>() {
 
+            /* a value less than 0 if this Chat object's timestamp object is before that of the
+            given argument; and a value greater than 0 if this Chat object's timestamp object is after
+            that of the given argument.*/
+            @Override
+            public int compare(Chat chat, Chat t1) {
+                Timestamp thisTimestamp = chat.getTimestamp();
+                Timestamp givenTimestamp = t1.getTimestamp();
+                if(thisTimestamp.compareTo(givenTimestamp) < 0) {
+                    return -1;
+                }
+                else return 1;
+            }
+        };
 
-        for(int i = 0; i < chats.size(); i++) {
+        Collections.sort(chats, comparator);
 
-
-        }
-
-        // for now, just return the unsorted class.
         return chats;
     }
 
     /**
      * (DONE)
-     * Sorts the chats by timestamp, then returns
-     * them as strings of the form "name: message"
+     * returns chats as strings of the form "name: message"
      * @return An arraylist of sorted, formatted strings.
      */
     public ArrayList<String> getChatsAsString() {
@@ -75,12 +86,7 @@ public class ChatHistory extends Observable {
 
             Chat chat = chats.get(i);
 
-            StringBuilder ss = new StringBuilder();
-            ss.append(chat.getMessageSender().getName())
-                    .append(": ")
-                    .append(chat.getMessage());
-
-            chatsAsStrings.add(ss.toString());
+            chatsAsStrings.add(chat.toString());
         }
 
         return chatsAsStrings;
