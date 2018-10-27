@@ -49,7 +49,11 @@ public class ChatHistory extends Observable {
 
         if(chats.size() == 0) { return null; }
 
-        /*get the timestamp of each and use a compare method*/
+
+        for(int i = 0; i < chats.size(); i++) {
+
+
+        }
 
         // for now, just return the unsorted class.
         return chats;
