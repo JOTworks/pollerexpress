@@ -178,19 +178,15 @@ public class DatabaseFacade implements IDatabaseFacade
      * @throws DatabaseException
      */
     @Override
-    public void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
-
-        /*
-        * Would we need a chat DAO?
-        * YES
-        * Would I need to modify the Database class's
-        * createTable method so that it created a table of chats?
-        * YES
-        */
+    public void addChat(Chat chat, GameInfo gameInfo) throws DatabaseException {
 
         try
         {
             db.open();
+            db.getChatDao().addChat(chat, gameInfo);
+        }
+        catch(DatabaseException e) {
+            throw e;
         }
         finally
         {

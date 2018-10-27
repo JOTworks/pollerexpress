@@ -1,28 +1,32 @@
 package com.thePollerServer.commandServices;
 
+import com.shared.exceptions.CommandFailed;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Chat;
+import com.shared.models.Game;
 import com.shared.models.GameInfo;
-
-import pollerexpress.database.DatabaseFacade;
+import com.shared.models.interfaces.IDatabaseFacade;
+import com.thePollerServer.utilities.Factory;
 
 public class GameService {
 
-    public void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
+    /**
+     * Abby
+     * (DONE) Sends the chat on to the database facade.
+     * @param chat
+     * @param gameInfo
+     * @throws DatabaseException
+     */
+    public void chat(Chat chat, GameInfo gameInfo) throws CommandFailed {
 
-        DatabaseFacade databaseFacade = new DatabaseFacade();
-        databaseFacade.chat(chat, gameInfo);
+        IDatabaseFacade databaseFacade = Factory.createDatabaseFacade();
+        try{
+
+            databaseFacade.addChat(chat, gameInfo);
+        }
+        catch (DatabaseException e) {
+
+            throw new CommandFailed("chatCommand");
+        }
     }
-
-    /*
-    * In this class, you should rebuild the command and put
-    * it on the command manager.
-    *
-    * Client-side GameService and chat(Command chatCommand) are
-    * the method and class you will define with the command.
-    *
-    * Cool.
-    *
-    * Just do things the way they have been done.
-    * */
 }

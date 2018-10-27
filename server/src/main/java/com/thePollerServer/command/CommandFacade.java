@@ -60,12 +60,12 @@ public class CommandFacade {
     /**
      * Abby
      * (DONE) The ExecuteHandler will call this method.
-     * This methods sends the chat along to the database,
+     * This methods sends the chat along to the GameService,
      * rebuilds the command and adds it to CommandManager.
      * @param chat
      * @param gameInfo
      */
-    public static void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
+    public static void chat(Chat chat, GameInfo gameInfo) throws DatabaseException, CommandFailed {
 
         // send the chat along to the database
         GameService gameService = new GameService();

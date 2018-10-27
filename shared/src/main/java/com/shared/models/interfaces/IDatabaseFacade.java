@@ -23,5 +23,5 @@ public interface IDatabaseFacade
     Player[] getPlayersInGame(GameInfo info) throws DatabaseException;
 
     // Abby
-    void chat(Chat chat, GameInfo gameInfo) throws DatabaseException;
+    void addChat(Chat chat, GameInfo gameInfo) throws DatabaseException;
 }

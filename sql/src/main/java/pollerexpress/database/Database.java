@@ -11,7 +11,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import com.shared.exceptions.database.DatabaseException;
+import com.shared.models.interfaces.IDatabaseFacade;
+
 import pollerexpress.database.dao.AuthtokenDao;
+import pollerexpress.database.dao.ChatDao;
 import pollerexpress.database.dao.GameDao;
 import pollerexpress.database.dao.IDatabase;
 import pollerexpress.database.dao.UserDao;
@@ -19,13 +22,6 @@ import pollerexpress.database.dao.UserDao;
 public class Database implements IDatabase
 {
 
-    /*
-    * Abby
-    * -- Make a chat table with message, timestamp (unique id), sender, and game_id columns
-    * You can always find the game_id.
-    * Ids will have hyphens and those have to have double quotes around them. This
-    * gets tricky, so check with Morgan when you get stuck".
-    * */
     public static final String DEFAULT_DATABASE = "db.sqlite3";
     public static final String DROP_ALL_TABLES = "drop table *";
     public static final String DROP_AUTH_TOKEN = "drop table if exists AUTH_TOKENS";
@@ -41,6 +37,7 @@ public class Database implements IDatabase
     UserDao uDao;
     GameDao gDao;
     AuthtokenDao aDao;
+    ChatDao cDao;
     private boolean isOpen;
     String url;
 
@@ -225,5 +222,9 @@ public class Database implements IDatabase
     public GameDao getGameDao()
     {
         return this.gDao;
+    }
+
+    public ChatDao getChatDao() {
+        return this.cDao;
     }
 }
