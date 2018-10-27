@@ -15,6 +15,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import thePollerExpress.utilities.AsyncRunner;
+import thePollerExpress.utilities.ViewFactory;
 import thePollerExpress.views.setup.IGameSelectionView;
 import thePollerExpress.models.ClientData;
 import thePollerExpress.facades.SetupFacade;
@@ -60,7 +61,7 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
 
 
         AsyncRunner commandRunner = new AsyncRunner(view);
-        commandRunner.setNextView(new LobbyFragment());
+        commandRunner.setNextView(ViewFactory.createLobbyView());
 
         Class<?>[] types = {Player.class, GameInfo.class};
         Object[] params = {user, info};
@@ -69,9 +70,6 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
 
         commandRunner.execute(joinGameCommand);
 
-//        JoinGameTask joinGameTask = new JoinGameTask();
-//        Request request = new Request(user, info);
-//        joinGameTask.execute(request);
         update = true;
 
     }
