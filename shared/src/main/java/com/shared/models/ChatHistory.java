@@ -1,6 +1,7 @@
 package com.shared.models;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 /**
  * Abby
@@ -8,13 +9,9 @@ import java.util.ArrayList;
  * This class should be observed by the chat presenter
  * (and that's necessary for phase2).
  */
-public class ChatHistory {
+public class ChatHistory extends Observable {
 
     ArrayList<Chat> chats;
-
-    public ChatHistory(ArrayList<Chat> chats) {
-        this.chats = chats;
-    }
 
     public ChatHistory() {
         chats = new ArrayList<>();
@@ -24,13 +21,20 @@ public class ChatHistory {
         return chats;
     }
 
-    public void setChats(ArrayList<Chat> chats) {
-        this.chats = chats;
-    }
-
+    /**
+     * Adds a chat, sorts the chats, and notifies
+     * observers that the chat history has changed.
+     * @param chat
+     */
     public void addChat(Chat chat) {
 
-        chats.add(chat);
+        synchronized (this)
+        {
+            this.getChats().add(chat);
+            sortChats(chats);
+            this.setChanged();
+            notifyObservers(this.chats);
+        }
     }
 
     /**

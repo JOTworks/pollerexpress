@@ -40,23 +40,9 @@ public class ClientData extends Observable
 
     private User user;
     private Authtoken auth;
-
-    /** Represents the user's currently active game.
-     * That is, either the game they are currently playing
-     * or the game they are in the process of joining.
-     */
     private Game game;
-
-    /** Information about each game the client is part of. */
     private ArrayList<GameInfo> gameInfoList;
     private PollerExpress theTrain;
-
-    /** Maps every gameInfo to its chat history */
-    private HashMap<GameInfo, ChatHistory> gameInfoChatHistoryMap = new HashMap<>();
-
-    public HashMap<GameInfo, ChatHistory> getGameInfoChatHistoryMap() {
-        return gameInfoChatHistoryMap;
-    }
 
     public User getUser(){
         return user;
@@ -90,9 +76,9 @@ public class ClientData extends Observable
 
     public boolean isMyGame(Game game)
     {
-            if(this.game.getId()==game.getId()) {
-                return true;
-            }
+        if(this.game.getId()==game.getId()) {
+            return true;
+        }
         return false;
     }
     public boolean isMyGame(GameInfo game){
