@@ -2,11 +2,8 @@ package com.shared.models.interfaces;
 
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Authtoken;
-<<<<<<< HEAD
 import com.shared.models.DestinationCard;
-=======
 import com.shared.models.Chat;
->>>>>>> origin/serverChatBranch
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
@@ -28,7 +25,7 @@ public interface IDatabaseFacade
     GameInfo getGameInfo(String id) throws DatabaseException;
     Player[] getPlayersInGame(GameInfo info) throws DatabaseException;
 
-<<<<<<< HEAD
+
     /**
      * Draws a card to players hand.
      * @param player player who is drawing
@@ -51,9 +48,7 @@ public interface IDatabaseFacade
      */
     int getPlayerDiscards(Player player) throws DatabaseException;
 
-}
-=======
     // Abby
     void chat(Chat chat, GameInfo gameInfo) throws DatabaseException;
 }
->>>>>>> origin/serverChatBranch
+

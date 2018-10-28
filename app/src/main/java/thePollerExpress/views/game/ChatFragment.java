@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.shared.models.ChatMessage;
+import com.shared.models.Chat;
 
 import java.util.ArrayList;
 

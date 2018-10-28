@@ -1,6 +1,7 @@
 package thePollerExpress.presenters.game;
 
-import com.shared.models.ChatMessage;
+
+import com.shared.models.Chat;
 import com.shared.models.Command;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
@@ -43,10 +44,10 @@ public class ChatPresenter implements IChatPresenter, Observer {
 
             //todo: this block should all be in a facade, not presenter, but not sure which one.
             Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
-            ChatMessage chatMessage = new ChatMessage(message, timeStamp, clientData.getUser());
+            Chat chatMessage = new Chat(message, timeStamp, clientData.getUser());
             GameInfo gameInfo = ClientData.getInstance().getGame().getGameInfo();
 
-            Class<?>[] types = {ChatMessage.class, GameInfo.class};
+            Class<?>[] types = {Chat.class, GameInfo.class};
             Object[] params= {chatMessage, gameInfo};
             //todo: make sure methodName really will be chat, and not something else
             Command chatCommand = new Command(CommandsExtensions.serverSide +"CommandFacade","chat",types,params);

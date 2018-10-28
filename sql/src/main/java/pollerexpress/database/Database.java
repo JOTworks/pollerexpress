@@ -209,10 +209,6 @@ public class Database implements IDatabase
             Database db = new Database();
             db.open();
 
-<<<<<<< HEAD
-=======
-           //todo:make this dleeat  tables  db.deleateTables();
->>>>>>> origin/serverChatBranch
             db.deleteTables();
             db.createTables();
 
@@ -241,12 +237,9 @@ public class Database implements IDatabase
 
     }
 
-<<<<<<< HEAD
+
 
     public boolean isOpen()
-=======
-    public UserDao getUserDao()
->>>>>>> origin/serverChatBranch
     {
         return isOpen;
     }
@@ -258,7 +251,6 @@ public class Database implements IDatabase
     }
 
     public TrainCardDao getTrainCardDao() { return this.tcDao; }
-
 
     public UserDao getUserDao() { return this.uDao; }
 

@@ -7,19 +7,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
 import cs340.pollerexpress.R;
 import thePollerExpress.Development.MethodCallerFragment;
+import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.interfaces.IGameView;
 import thePollerExpress.views.setup.GameSelectionFragment;
 
 public class GameFragment extends Fragment implements IGameView {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void displayError(String errorMessage) {
+
+        //todo: fill out
+    }
+
+    @Override
+    public void changeView(IPollerExpressView view) {
 
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,5 +64,7 @@ public class GameFragment extends Fragment implements IGameView {
 
         return v;
     }
+
+
 
 }

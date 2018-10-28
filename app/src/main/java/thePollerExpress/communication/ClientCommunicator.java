@@ -24,10 +24,8 @@ public class ClientCommunicator
     private String serverHost = "10.0.2.2";//"192.168.1.177";//"192.168.1.177";//local host
     private String serverPort = "8080";
     private static ClientCommunicator _instance;
-    private ClientCommunicator()
-    {
 
-    }
+    private ClientCommunicator() {}
 
 
     public static ClientCommunicator instance()
@@ -39,6 +37,7 @@ public class ClientCommunicator
         }
         return _instance;
     }
+
     public LoginResponse sendLoginRequest(String requestType, LoginRequest request)
     {
         return (LoginResponse)sendRequest(request, requestType);
@@ -48,10 +47,12 @@ public class ClientCommunicator
     {
         return (PollResponse) sendRequest(command, "exec");
     }
+
     public PollResponse sendPoll()
     {
         return (PollResponse)sendRequest( ClientData.getInstance().getUser(),"poll");
     }
+
     public Object sendRequest(Object r, String operation)
     {
         Object response = null;

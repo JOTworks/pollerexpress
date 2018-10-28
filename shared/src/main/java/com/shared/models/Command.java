@@ -17,7 +17,11 @@ public class Command implements ICommand, Serializable
     private Class<?>[] _paramTypes;
     private Object[] _paramValues;
 
-    public Command() {}
+
+    private Object _genericObject;
+
+    public Command() {
+    }
 
     /**
      *
@@ -35,7 +39,14 @@ public class Command implements ICommand, Serializable
 		_paramTypes = paramTypes;
 		_paramValues = paramValues;
 	}
-    
+
+    public Command(String className, String methodName, Class<?>[] paramTypes, Object[] paramValues, Object genericObject) {
+        _className = className;
+        _methodName = methodName;
+        _paramTypes = paramTypes;
+        _paramValues = paramValues;
+        _genericObject = genericObject;
+    }
 
     public Object execute() throws CommandFailed
     {
@@ -43,7 +54,7 @@ public class Command implements ICommand, Serializable
         {
             Class<?> receiver = Class.forName(_className);
             Method method = receiver.getMethod(_methodName, _paramTypes);
-            return method.invoke(null, _paramValues);
+            return method.invoke(_genericObject, _paramValues); //If generic object is null then it will invoke on static methods
         }
         catch (Exception e)
         {

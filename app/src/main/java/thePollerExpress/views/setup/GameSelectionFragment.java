@@ -17,6 +17,7 @@ import com.shared.models.GameInfo;
 
 import java.util.List;
 
+import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.setup.SetupViewAdapters.GameSelectAdapter;
 import thePollerExpress.models.ClientData;
 
@@ -141,6 +142,16 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
     @Override
     public void displayError(String errorMessage) {
         Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void changeView(IPollerExpressView view) {
+        //TODO: test
+        FragmentManager fragmentManager = getFragmentManager();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.right_side_fragment_container, (Fragment) view);
+        fragmentTransaction.commit();
     }
 
 }

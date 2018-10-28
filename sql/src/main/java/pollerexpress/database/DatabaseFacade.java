@@ -1,11 +1,9 @@
 package pollerexpress.database;
 
 import com.shared.models.Authtoken;
-<<<<<<< HEAD
+
 import com.shared.models.DestinationCard;
-=======
 import com.shared.models.Chat;
->>>>>>> origin/serverChatBranch
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
@@ -304,7 +302,6 @@ public class DatabaseFacade implements IDatabaseFacade
         }
     }
 
-<<<<<<< HEAD
     @Override
     public void discardDestinationCard(Player player, List<DestinationCard> cards) throws DatabaseException
     {
@@ -345,6 +342,4 @@ public class DatabaseFacade implements IDatabaseFacade
         }
     }
 
-=======
->>>>>>> origin/serverChatBranch
 }

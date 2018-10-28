@@ -11,6 +11,7 @@ import android.widget.HorizontalScrollView;
 
 
 import cs340.pollerexpress.R;
+import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.interfaces.IGameView;
 
 public class MapView extends Fragment implements IGameView
@@ -41,5 +42,15 @@ public class MapView extends Fragment implements IGameView
         super.onDestroy();
         Log.d("MapView", "onDestroy");
         //TODO tell my presenter to disconnect itself from what it is observing.
+    }
+
+    @Override
+    public void displayError(String errorMessage) {
+
+    }
+
+    @Override
+    public void changeView(IPollerExpressView view) {
+
     }
 }

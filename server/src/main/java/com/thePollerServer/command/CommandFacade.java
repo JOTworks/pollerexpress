@@ -1,10 +1,8 @@
 package com.thePollerServer.command;
 
-<<<<<<< HEAD
+
 import com.shared.models.DestinationCard;
-=======
 import com.shared.models.Chat;
->>>>>>> origin/serverChatBranch
 import com.shared.utilities.CommandsExtensions;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
@@ -70,7 +68,6 @@ public class CommandFacade
     }
 
     /**
-<<<<<<< HEAD
      *
      * @param info
      * @throws CommandFailed
@@ -103,24 +100,22 @@ public class CommandFacade
         }
 
     }
-    public static void discardDestinationCard(Player p, List<DestinationCard> card) throws CommandFailed, DatabaseException
-    {
+    public static void discardDestinationCard(Player p, List<DestinationCard> card) throws CommandFailed, DatabaseException {
         GameService gm = new GameService();
         boolean discarded = gm.discardDestinationCards(p, card);
-        if(!discarded)
-        {
+        if (!discarded) {
             throw new CommandFailed("discardDestinationCard");
         }
         IDatabaseFacade df = Factory.createDatabaseFacade();
         CommandManager CM = CommandManager._instance();
 
-        Class<?>[] types = { Player.class, card.getClass()};
-        Object[] params = { p,  card };
+        Class<?>[] types = {Player.class, card.getClass()};
+        Object[] params = {p, card};
         //TODO fix command names.
         Command cmd = new Command(CommandsExtensions.clientSide + "GameService", "discardDestinationCard", types, params);
         CM.addCommand(cmd, df.getGameInfo(df.getPlayer(p.name).gameId));
-
-=======
+    }
+    /**
      * Abby
      * (DONE) The ExecuteHandler will call this method.
      * This methods sends the chat along to the database,
@@ -146,6 +141,5 @@ public class CommandFacade
 
         CommandManager commandManager = CommandManager._instance();
         commandManager.addCommand(chatCommand);
->>>>>>> origin/serverChatBranch
     }
 }

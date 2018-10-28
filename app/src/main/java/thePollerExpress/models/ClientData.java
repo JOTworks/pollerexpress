@@ -86,12 +86,8 @@ public class ClientData extends Observable
         return gameInfoList;
     }
 
-<<<<<<< HEAD
 
-    public boolean gameExsists(GameInfo game){
-=======
     public boolean gameExists(GameInfo game){
->>>>>>> origin/serverChatBranch
         for(int i = 0; i<gameInfoList.size(); i++){
             if(gameInfoList.get(i).getId()==game.getId()) {
                 return true;
