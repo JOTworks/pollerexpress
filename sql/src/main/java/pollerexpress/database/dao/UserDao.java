@@ -25,7 +25,7 @@ public class UserDao {
 
     public void write(String name, String password) throws DatabaseException {
         try {
-            PreparedStatement stmnt = this._db.getConnection().prepareStatement("insert into USERS(USER_NAME, PASSWORD, GAME_ID)\nvalues(?,?, ?)");
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(WRITE);
             stmnt.setString(1, name);
             stmnt.setString(2, password);
             stmnt.setString(3, "");

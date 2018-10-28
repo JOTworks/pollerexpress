@@ -49,7 +49,7 @@ public class TestTrainCard {
     @After
     public void down() {
         try {
-            //tcDao.deleteDeck(gi);
+            tcDao.deleteDeck(gi);
         } catch(Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -84,7 +84,25 @@ public class TestTrainCard {
 
     @Test
     public void testDrawCard() {
-        //
+       try {
+            //make deck and get starting deck size for comparison
+            builder.makeTrainDeck(gi);
+            int deckSize = tcDao.getDeckSize(gi);
+
+            //run drawCard()
+            TrainCard card = tcDao.drawCard(p);
+
+            //check card is not null
+            assertNotNull(card);
+
+            //check deck size is 1 less than before.
+            assertEquals(deckSize - 1, tcDao.getDeckSize(gi));
+
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            fail();
+        }
     }
 
     @Test

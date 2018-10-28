@@ -133,7 +133,7 @@ public class DeckBuilder {
     }
 
     public void shuffleTrainDeck(GameInfo gi) throws DatabaseException {
-        String table = "\"DESTINATION_DECK_" + gi.getId() + "\"";
+        String table = "\"TRAIN_DECK_" + gi.getId() + "\"";
         TrainCardDao tcDao = _db.getTrainCardDao();
 
         this.shuffle(table, tcDao.getDiscardPile(gi));
