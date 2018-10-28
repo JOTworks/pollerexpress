@@ -62,10 +62,8 @@ public class LobbyFragment extends Fragment implements ILobbyView {
 
         // specify an adapter (see also next example)
         Game game = lobbyPresenter.getGame();
-        mAdapter = new PlayerAdapter(game.getPlayers() );
+        mAdapter = new PlayerAdapter(game.getPlayers());
         mGameRecyclerView.setAdapter(mAdapter);
-
-
         //---------------------Start Game Button---------------------------------------------------
         startGameButton = (Button) v.findViewById(R.id.start_game_button);
 

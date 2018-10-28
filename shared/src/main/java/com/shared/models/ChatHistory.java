@@ -1,5 +1,6 @@
 package com.shared.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,7 +9,7 @@ import java.util.ArrayList;
  * This class should be observed by the chat presenter
  * (and that's necessary for phase2).
  */
-public class ChatHistory {
+public class ChatHistory implements Serializable {
 
     ArrayList<Chat> chats;
 
