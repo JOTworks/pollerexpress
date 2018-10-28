@@ -11,21 +11,46 @@ public class Route extends Observable
     List<City> cities;
     int distance;
     Player owner;
+    int id;//used for double routes.
 
+    /**
+     * produces a copy of the route r..
+     * @param r
+     */
     public Route(Route r)
     {
+        this.id = r.id;
         cities = r.cities;
         this.distance = r.distance;
     }
 
+    /**
+     *The main route constructor
+     * @param dest
+     * @param target
+     * @param distance
+     */
     public Route(City dest, City target, int distance)
     {
-        cities = new ArrayList<>(2);
-        cities.set(0, dest);
-        cities.set(1, target);
+        this.id = 0;
+        cities = new ArrayList<>();
+        cities.add (dest);
+        cities.add(target);
         this.distance = distance;
         dest.addRoute(this);
         target.addRoute(this);
+    }
+
+    /**
+     *The main route constructor
+     * @param dest
+     * @param target
+     * @param distance
+     */
+    public Route(City dest, City target, int distance, int id)
+    {
+        this(dest, target, distance);
+        this.id = id;
     }
 
     public City getDestination(City me)
@@ -78,6 +103,6 @@ public class Route extends Observable
     @Override
     public int hashCode()
     {
-        return (cities.get(0)).hashCode() + cities.get(1).hashCode();
+        return (cities.get(0)).hashCode() + cities.get(1).hashCode() +id;
     }
 }

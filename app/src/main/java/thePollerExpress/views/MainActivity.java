@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fm = getSupportFragmentManager();
 
-        Fragment fragment = new MapView();//new LoginFragment();
+        Fragment fragment = new LoginFragment();
         //fragment = new SetupGameFragment();
         fm.beginTransaction()
                 .add(R.id.fragment_container, fragment)

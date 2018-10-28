@@ -11,6 +11,11 @@ public class City
 
     List<Route> routes;
 
+    /**
+     * returns a city
+     * @param name
+     * @param p
+     */
     public City(String name, Point p)
     {
 

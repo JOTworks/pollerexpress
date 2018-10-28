@@ -6,6 +6,7 @@ import com.shared.models.Authtoken;
 import com.shared.models.ChatMessage;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
+import com.shared.models.Map;
 import com.shared.models.Player;
 import com.shared.models.User;
 
@@ -33,9 +34,12 @@ public class ClientData extends Observable
     private ClientData() {
 
         gameInfoList = new ArrayList<>();
-        chatMessageList = new ArrayList<>();
+
+        map = Map.DEFAULT_MAP;
+
     }
 
+    public Map map;
     private User user;
     private Authtoken auth;
     private Game game;
