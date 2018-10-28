@@ -13,6 +13,12 @@ public class Game extends Observable implements Serializable
 
     // the chat history for the game
     ChatHistory chatHistory = new ChatHistory();
+    public ChatHistory getChatHistory() {
+        return chatHistory;
+    }
+    public void setChatHistory(ChatHistory chatHistory) {
+        this.chatHistory = chatHistory;
+    }
 
     public void addChat(Chat chat) {
 

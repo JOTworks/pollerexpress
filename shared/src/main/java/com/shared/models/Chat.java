@@ -1,5 +1,6 @@
 package com.shared.models;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * to display a single chat message, including
  * the player who sent it and what time it was sent.
  */
-public class Chat {
+public class Chat implements Serializable {
 
     private String message;
     private Timestamp timestamp;

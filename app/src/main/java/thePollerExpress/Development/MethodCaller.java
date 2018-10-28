@@ -39,14 +39,14 @@ public class MethodCaller {
         switch (s) {
             case "help":
                 result.add("getUserName\n" +
-                        "getChatMessages(currently does nothing)\n" +
+                        "getChatMessages\n" +
                         "getGameID\n" +
                         "---\n" +
                         "add commands to the methodCaller class\n" +
                         "in the parse funtion, as a case");
                 break;
             case "getChatMessages":
-                //result = CD.getMessageList();
+                result = CD.getGame().getChatHistory().getChatsAsString();
                 break;
             case "getUserName":
                 result.add(CD.getUser().getName());
