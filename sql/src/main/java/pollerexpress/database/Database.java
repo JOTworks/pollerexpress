@@ -17,6 +17,14 @@ import pollerexpress.database.utilities.DeckBuilder;
 
 public class Database implements IDatabase
 {
+
+    /*
+    * Abby
+    * -- Make a chat table with message, timestamp (unique id), sender, and game_id columns
+    * You can always find the game_id.
+    * Ids will have hyphens and those have to have double quotes around them. This
+    * gets tricky, so check with Morgan when you get stuck".
+    * */
     public static final String DEFAULT_DATABASE = "db.sqlite3";
     public static final String DROP_ALL_TABLES = "drop table *";
     public static final String DROP_AUTH_TOKEN = "drop table if exists AUTH_TOKENS";
@@ -189,6 +197,7 @@ public class Database implements IDatabase
             e.printStackTrace();
         }
     }
+
     /**
      * Run this method to create the database on the server.
      * @param Argv not currently used
@@ -200,6 +209,10 @@ public class Database implements IDatabase
             Database db = new Database();
             db.open();
 
+<<<<<<< HEAD
+=======
+           //todo:make this dleeat  tables  db.deleateTables();
+>>>>>>> origin/serverChatBranch
             db.deleteTables();
             db.createTables();
 
@@ -228,8 +241,12 @@ public class Database implements IDatabase
 
     }
 
+<<<<<<< HEAD
 
     public boolean isOpen()
+=======
+    public UserDao getUserDao()
+>>>>>>> origin/serverChatBranch
     {
         return isOpen;
     }

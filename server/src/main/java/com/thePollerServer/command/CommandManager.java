@@ -10,11 +10,22 @@ import com.thePollerServer.utilities.Factory;
 import java.util.*;
 
 /**
+<<<<<<< HEAD
  *
+=======
+ * What does CommandManager do?
+>>>>>>> origin/serverChatBranch
  */
 public class CommandManager {
+
 	private static CommandManager _instance;
 	private HashMap<String, Queue<Command>> userCommands;
+
+    /**
+     * Abby
+     * This is a list of all the chatCommands
+     * which we want because...because...because why? */
+	private ArrayList<Command> chatCommands;
 	
 	private CommandManager() {
 		userCommands = new HashMap<String, Queue<Command>>();
@@ -26,13 +37,20 @@ public class CommandManager {
 		}
 		return _instance;
 	}
-	
+
+    /** The poller gets this queue of commands and
+     * uses them to synchronize the app across
+     * players' screens.
+     * @param user the client app that wants to synchronize
+     *             its screen with the other client screens.
+     * @return
+     */
 	public Queue<Command> getUserCommands(String user) {
 	    if(userCommands.containsKey(user))
         {
             Queue<Command> kwayway = userCommands.get(user);
             userCommands.put(user, new LinkedList<>() );
-            return kwayway;
+            return kwayway; // that's queue, to you
         }
         return new LinkedList<>();
 	}
@@ -115,6 +133,12 @@ public class CommandManager {
 
     }
 
+    /**
+     * Adds a command to any user registered on the app
+     * This is for commands like createGame, not for
+     * commands like chat.
+     * @param c
+     */
     public void addCommand(Command c)
     {
         for(Map.Entry<String, Queue<Command> > entry :userCommands.entrySet())

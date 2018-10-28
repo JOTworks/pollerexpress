@@ -10,6 +10,15 @@ public class Game extends Observable implements Serializable
 {
     GameInfo _info;
 
+
+    // the chat history for the game
+    ChatHistory chatHistory = new ChatHistory();
+
+    public void addChat(Chat chat) {
+
+
+    }
+
     List<Player> _players;
 
 

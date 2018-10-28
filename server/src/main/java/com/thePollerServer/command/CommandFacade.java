@@ -1,6 +1,10 @@
 package com.thePollerServer.command;
 
+<<<<<<< HEAD
 import com.shared.models.DestinationCard;
+=======
+import com.shared.models.Chat;
+>>>>>>> origin/serverChatBranch
 import com.shared.utilities.CommandsExtensions;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
@@ -29,9 +33,8 @@ public class CommandFacade
         return ourInstance;
     }
 
-    private CommandFacade() {
+    private CommandFacade() { }
 
-    }
     public static void joinGame(Player player, GameInfo info) throws CommandFailed, DatabaseException {
         SetupService SS = new SetupService();
         SS.joinGame(player, info);
@@ -49,8 +52,6 @@ public class CommandFacade
         Object[] params = {player, DF.getGameInfo(info.getId())};
         Command joinCommand = new Command(CommandsExtensions.clientSide+"ClientSetupService","joinGame",types,params);
         CM.addCommand(joinCommand);
-
-
     }
 
     public static void createGame(Player player, GameInfo info) throws CommandFailed, DatabaseException {
@@ -69,6 +70,7 @@ public class CommandFacade
     }
 
     /**
+<<<<<<< HEAD
      *
      * @param info
      * @throws CommandFailed
@@ -118,5 +120,32 @@ public class CommandFacade
         Command cmd = new Command(CommandsExtensions.clientSide + "GameService", "discardDestinationCard", types, params);
         CM.addCommand(cmd, df.getGameInfo(df.getPlayer(p.name).gameId));
 
+=======
+     * Abby
+     * (DONE) The ExecuteHandler will call this method.
+     * This methods sends the chat along to the database,
+     * rebuilds the command and adds it to CommandManager.
+     * @param chat
+     * @param gameInfo
+     */
+    public static void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
+
+        // send the chat along to the database
+        GameService gameService = new GameService();
+        gameService.chat(chat, gameInfo);
+
+        // rebuild the command and give it to the CommandManager
+
+        Class<?>[] types = {Chat.class, GameInfo.class};
+        Object[] params = {chat, gameInfo};
+
+        Command chatCommand = new Command(CommandsExtensions.clientSide+"GameService",
+                "chat",
+                types,
+                params);
+
+        CommandManager commandManager = CommandManager._instance();
+        commandManager.addCommand(chatCommand);
+>>>>>>> origin/serverChatBranch
     }
 }

@@ -1,7 +1,11 @@
 package pollerexpress.database;
 
 import com.shared.models.Authtoken;
+<<<<<<< HEAD
 import com.shared.models.DestinationCard;
+=======
+import com.shared.models.Chat;
+>>>>>>> origin/serverChatBranch
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
@@ -84,7 +88,6 @@ public class DatabaseFacade implements IDatabaseFacade
         return;
     }
 
-
     /**
      *
      * @param player
@@ -140,6 +143,7 @@ public class DatabaseFacade implements IDatabaseFacade
             throw e;
         }
     }
+
     @Override
     public void create(Player player, Game game) throws DatabaseException
     {
@@ -171,7 +175,35 @@ public class DatabaseFacade implements IDatabaseFacade
         }
         return valid;
     }
-    
+
+    /**
+     * Abby
+     * We want to add the chat to the database.
+     * @param chat
+     * @param gameInfo
+     * @throws DatabaseException
+     */
+    @Override
+    public void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
+
+        /*
+        * Would we need a chat DAO?
+        * YES
+        * Would I need to modify the Database class's
+        * createTable method so that it created a table of chats?
+        * YES
+        */
+
+        try
+        {
+            db.open();
+        }
+        finally
+        {
+            db.close(false);
+        }
+    }
+
     @Override
     public Game getGame(GameInfo info) throws DatabaseException
     {
@@ -190,6 +222,7 @@ public class DatabaseFacade implements IDatabaseFacade
             db.close(false);
         }
     }
+
     @Override
     public Player getPlayer(String user) throws DatabaseException
     {
@@ -271,6 +304,7 @@ public class DatabaseFacade implements IDatabaseFacade
         }
     }
 
+<<<<<<< HEAD
     @Override
     public void discardDestinationCard(Player player, List<DestinationCard> cards) throws DatabaseException
     {
@@ -311,4 +345,6 @@ public class DatabaseFacade implements IDatabaseFacade
         }
     }
 
+=======
+>>>>>>> origin/serverChatBranch
 }
