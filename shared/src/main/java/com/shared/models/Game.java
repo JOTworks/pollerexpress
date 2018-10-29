@@ -21,8 +21,7 @@ public class Game extends Observable implements Serializable
     }
 
     public void addChat(Chat chat) {
-
-
+        chatHistory.addChat(chat);
     }
 
     List<Player> _players;

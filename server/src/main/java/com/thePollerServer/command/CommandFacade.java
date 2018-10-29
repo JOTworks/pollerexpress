@@ -134,7 +134,7 @@ public class CommandFacade
         Class<?>[] types = {Chat.class, GameInfo.class};
         Object[] params = {chat, gameInfo};
 
-        Command chatCommand = new Command(CommandsExtensions.clientSide+"GameService",
+        Command chatCommand = new Command(CommandsExtensions.clientSide+"ClientGameService",
                 "chat",
                 types,
                 params);
