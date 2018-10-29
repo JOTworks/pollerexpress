@@ -46,10 +46,12 @@ public class CommandManager {
      * @return
      */
 	public Queue<Command> getUserCommands(String user) {
+
 	    if(userCommands.containsKey(user))
         {
             Queue<Command> kwayway = userCommands.get(user);
             userCommands.put(user, new LinkedList<>() );
+            System.out.print(String.format("Command Manager: %s returned queue %d\n", user, kwayway.size()));
             return kwayway; // that's queue, to you
         }
         return new LinkedList<>();
@@ -62,23 +64,7 @@ public class CommandManager {
      */
 	public void addCommand(Command c, Player user)
     {
-        Queue<Command> queue = null;
-        try
-        {
-            queue = userCommands.get(user.name);
-            if(queue == null)
-                throw new NullPointerException();
-        }
-        catch(NullPointerException e)
-        {
-            queue = new LinkedList<>();
-            userCommands.put(user.name, queue);
-            //System.out.print
-        }
-        finally
-        {
-            queue.add(c);
-        }
+       addCommand(c, user.getName());
 	}
 
 
@@ -103,6 +89,7 @@ public class CommandManager {
         }
         finally
         {
+            System.out.print(String.format("added %s command to %s\n", c.getMethodName(),user));
             queue.add(c);
         }
     }
@@ -117,18 +104,21 @@ public class CommandManager {
     {
         IDatabaseFacade df = Factory.createDatabaseFacade();
         Player[] players;
+        System.out.print("adding game!!\n");
+
         try
         {
             players = df.getPlayersInGame(info);
+            System.out.print("players in game!!\n");
             for(Player p: players)
             {
-                System.out.print(p.name);
                 addCommand(c, p);
             }
             return true;
         }
         catch(DatabaseException e)
         {
+            e.printStackTrace();
             return false;
         }
 
