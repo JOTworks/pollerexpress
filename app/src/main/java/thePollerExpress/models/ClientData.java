@@ -38,6 +38,8 @@ public class ClientData extends Observable
     private ArrayList<GameInfo> gameInfoList;
     private PollerExpress theTrain;
 
+    //--------------------------------methods-------------------------------------------------------
+
     public User getUser(){
         return user;
     }
@@ -141,6 +143,7 @@ public class ClientData extends Observable
     {
         theTrain = pe;
     }
+
     public void addGame(GameInfo info)
     {
 
