@@ -19,6 +19,7 @@ public class PollResponse implements Serializable
      */
     public PollResponse(Queue<Command> commands, ErrorResponse error) {
         this.commands = commands;
+        System.out.print(String.format("created poll response %d", commands.size() ) );
         this.error = error;
     }
 
