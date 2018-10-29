@@ -4,6 +4,12 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * This class contains just the game information
+ * you need from the game selection screen.
+ * Leaves out information only needed by those
+ * actually in the game.
+ */
 public class GameInfo implements Serializable
 {
     private String _id;

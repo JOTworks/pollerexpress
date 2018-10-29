@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import cs340.pollerexpress.R;
+import thePollerExpress.views.game.MapView;
 import thePollerExpress.views.setup.LoginFragment;
 
 public class MainActivity extends AppCompatActivity {

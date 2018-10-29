@@ -4,10 +4,12 @@ import com.shared.models.Command;
 import java.util.Arrays;
 
 
+/**
+ * Jack
+ */
+public class MethodBuilder {
 
-class MethodBuilder {
-
-    static Command[] parse(String inputMethods) throws Exception {
+    public static Command[] parse(String inputMethods) throws Exception {
 
         String[] Methods = inputMethods.split("\\;");
         Command[] Commands = new Command[Methods.length];
@@ -19,37 +21,43 @@ class MethodBuilder {
         return null;
     }
 
-    static Command parseMethod(String inputMethod,int i) throws Exception {
+    public static Command parseMethod(String inputMethod,int i) throws Exception {
 
         String _className;
         String _methodName;
         Class<?>[] _paramTypes;
         Object[] _paramValues;
 
-        String[] section = inputMethod.split("\\.");
+        String[] section = inputMethod.split("!");
 
         //syntax checking
-        if(section.length<3)
-            throw new Exception("command "+i+" is missing a .'s");
+        if(section.length<3){
+            throw new Exception("this is 0:"+section[0]);
+           // throw new Exception("command "+i+" is missing a .'s");
+            }
         if(section.length>3)
             throw new Exception("command "+i+" has to many .'s");
         _className = section[0];
         _methodName = section[1];
 
-        String[] strParams = inputMethod.split("\\,");
-        _paramTypes = new Class<?>[strParams.length];
-        _paramValues = new Object[strParams.length];
+        if(section[2]!=null) {
+            String[] strParams = section[2].split("\\,");
+            _paramTypes = new Class<?>[strParams.length];
+            _paramValues = new Object[strParams.length];
 
-        for(int j=0;j<strParams.length;j++){
-            String[] paramSection = strParams[j].split("\\:");
+            for (int j = 0; j < strParams.length; j++) {
+                String[] paramSection = strParams[j].split("\\:");
 
-            if(paramSection.length!=2)
-                throw new Exception("command"+i+":param"+j+" the : is weird");
+                if (paramSection.length != 2)
+                    throw new Exception("command" + i + ":param" + j + " the : is weird");
 
-            _paramTypes[j] = Class.forName(paramSection[0]);
-            _paramValues[j] = paramSection[1];
+                _paramTypes[j] = Class.forName(paramSection[0]);
+                _paramValues[j] = paramSection[1];
+            }
+        }else{
+            _paramTypes = null;
+            _paramValues = null;
         }
-
         return new Command(_className,_methodName,_paramTypes,_paramValues);
     }
 

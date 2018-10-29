@@ -29,7 +29,6 @@ public class GameSelectAdapter extends RecyclerView.Adapter<GameSelectAdapter.My
         this.presenter = presenter;
     }
 
-
     @Override
     public int getItemViewType(int position)
     {
@@ -43,7 +42,8 @@ public class GameSelectAdapter extends RecyclerView.Adapter<GameSelectAdapter.My
         // create a new view
         ConstraintLayout v = (ConstraintLayout) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.game_data_view, parent, false);
-        //...
+
+        // ...
         MyViewHolder vh = new MyViewHolder(v, presenter);
         return vh;
     }
@@ -90,8 +90,10 @@ public class GameSelectAdapter extends RecyclerView.Adapter<GameSelectAdapter.My
         }
 
         @Override
-        public void onClick(View v) {
-            if (v.getId() == joinButton.getId()) {
+        public void onClick(View v)
+        {
+            if ( v.getId() == joinButton.getId() )
+            {
                 presenter.joinGame(game);
             }
         }

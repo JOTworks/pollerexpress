@@ -1,5 +1,7 @@
 package thePollerExpress.communication;
 
+import android.util.Log;
+
 import com.shared.models.Command;
 import com.shared.exceptions.CommandFailed;
 import com.shared.models.GameInfo;
@@ -52,12 +54,15 @@ public class PollerExpress
                 }
                 if(response == null) {
                     //client communicator didn't work, throw error or something? Idk how to do that though.
+                    Log.d("PollerExpress", "no response");
                 } else if(response.getError() != null) {
                     //error handling, throw an error if necessary? Wait, where would that GO???
                 } else {
+                    Log.d("PollerExpress", "got a response");
                     Queue<Command> commands = response.getCommands();
                     while (!commands.isEmpty()) //queue, access in while loops, not, for loops;....
                     {
+                        Log.d("PollerExpress", "something a response");
                         Command command = commands.poll();
 
                         try {

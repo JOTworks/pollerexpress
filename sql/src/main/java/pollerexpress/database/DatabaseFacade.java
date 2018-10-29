@@ -1,6 +1,9 @@
 package pollerexpress.database;
 
 import com.shared.models.Authtoken;
+
+import com.shared.models.DestinationCard;
+import com.shared.models.Chat;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
@@ -10,6 +13,8 @@ import com.shared.models.Player;
 import com.shared.models.User;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import com.shared.exceptions.database.DataNotFoundException;
 import com.shared.exceptions.database.DatabaseException;
 public class DatabaseFacade implements IDatabaseFacade
@@ -81,7 +86,6 @@ public class DatabaseFacade implements IDatabaseFacade
         return;
     }
 
-
     /**
      *
      * @param player
@@ -137,6 +141,7 @@ public class DatabaseFacade implements IDatabaseFacade
             throw e;
         }
     }
+
     @Override
     public void create(Player player, Game game) throws DatabaseException
     {
@@ -168,7 +173,35 @@ public class DatabaseFacade implements IDatabaseFacade
         }
         return valid;
     }
-    
+
+    /**
+     * Abby
+     * We want to add the chat to the database.
+     * @param chat
+     * @param gameInfo
+     * @throws DatabaseException
+     */
+    @Override
+    public void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
+
+        /*
+        * Would we need a chat DAO?
+        * YES
+        * Would I need to modify the Database class's
+        * createTable method so that it created a table of chats?
+        * YES
+        */
+
+        try
+        {
+            db.open();
+        }
+        finally
+        {
+            db.close(false);
+        }
+    }
+
     @Override
     public Game getGame(GameInfo info) throws DatabaseException
     {
@@ -187,6 +220,7 @@ public class DatabaseFacade implements IDatabaseFacade
             db.close(false);
         }
     }
+
     @Override
     public Player getPlayer(String user) throws DatabaseException
     {
@@ -238,6 +272,74 @@ public class DatabaseFacade implements IDatabaseFacade
         {
             db.close(false);
         }
-
     }
+
+
+    @Override
+    public List<DestinationCard> drawDestinationCards(Player player, int canDiscard) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            GameInfo info = db.getGameDao().read(player.getGameId()).getGameInfo();
+            List<DestinationCard> cards = new ArrayList<>();
+            for(int i = 0; i  < 3; ++i)//TODO get rid of magic numbers
+            {
+                cards.add( db.getDestinationCardDao().drawCard(player) );
+            }
+            db.getUserDao();//TODO set the players discard to something.
+            db.close(true);
+            return cards;
+        } catch(DatabaseException e) {
+            throw e;
+        }
+        finally
+        {
+            if(db.isOpen())
+            {
+                db.close(false);
+            }
+        }
+    }
+
+    @Override
+    public void discardDestinationCard(Player player, List<DestinationCard> cards) throws DatabaseException
+    {
+        //TODO implement this.
+        try
+        {
+            db.open();
+            for( DestinationCard card: cards)
+            {
+                db.getDestinationCardDao().discardCard(player, card);
+            }
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen())
+            {
+                db.close(false);
+            }
+        }
+    }
+
+
+    @Override
+    public int getPlayerDiscards(Player player) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            return db.getUserDao().getPlayersDiscards(player);
+        }
+        finally
+        {
+            if(db.isOpen())
+            {
+                db.close(false);
+            }
+        }
+    }
+
 }

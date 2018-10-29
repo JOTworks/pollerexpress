@@ -45,19 +45,18 @@ public class GameFacade {
         return response.getError();
     }
 
-    public ErrorResponse startGame(User user, Integer myInteger){ //TODO: this is not what should be here
+    public ErrorResponse discardDestCard(User user, Integer myInteger){ //TODO: this is not what should be here (which is why I have myInteger as a placeholder)
 
         ClientCommunicator CC = ClientCommunicator.instance();
 
-        Class<?>[] types = {User.class};
-        Object[] params= {user};
-        Command startGame = new Command(CommandsExtensions.serverSide+ "CommandFacade","startGame",types,params);
+        Class<?>[] types = {User.class, Integer.class};
+        Object[] params= {user, myInteger};
+        Command startGame = new Command(CommandsExtensions.serverSide+ "CommandFacade","discardDestCard",types,params);
         PollResponse response = CC.sendCommand(startGame);
 
 
         if(response == null) {
-            return new ErrorResponse("cannot connect to server",null,null);
-            //client communicator didn't work, throw error or something? Idk how to do that though.
+            return new ErrorResponse("cannot connect to server",null,null); //TODO: the communicator should populate the response with an error saying it could not connect (It might do that already in which case this line would be redundant
         } else if(response.getError()!=null){
             return response.getError();
         } else {

@@ -22,11 +22,10 @@ import com.thePollerServer.command.CommandManager;
 
 /**
  * Created by xeonocide on 9/15/18.
+ * This class gets commands from the server and executes them.
  */
-
 public class ExecuteHandler implements HttpHandler
 {
-
 
     @Override
     public void handle(HttpExchange exchange) throws IOException

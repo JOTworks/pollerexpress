@@ -25,7 +25,8 @@ import cs340.pollerexpress.R;
 import thePollerExpress.presenters.setup.GameSelectionPresenter;
 import thePollerExpress.presenters.setup.IGameSelectionPresenter;
 
-public class GameSelectionFragment extends Fragment implements IGameSelectionView {
+public class GameSelectionFragment extends Fragment implements IGameSelectionView
+{
 
     private IGameSelectionPresenter gameSelectionPresenter;
 
@@ -97,7 +98,7 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.right_side_fragment_container, createGameFragment);
-        ft.addToBackStack(null);
+
         ft.commit();
     }
 

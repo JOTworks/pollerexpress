@@ -16,11 +16,11 @@ import com.shared.models.Game;
 import com.shared.models.Player;
 
 
+
+import thePollerExpress.Development.MethodCallerFragment;
 import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.GameFragment;
 import thePollerExpress.views.setup.SetupViewAdapters.PlayerAdapter;
-
-import java.util.Observer;
 
 
 import cs340.pollerexpress.R;
@@ -62,10 +62,8 @@ public class LobbyFragment extends Fragment implements ILobbyView {
 
         // specify an adapter (see also next example)
         Game game = lobbyPresenter.getGame();
-        mAdapter = new PlayerAdapter(game.getPlayers() );
+        mAdapter = new PlayerAdapter(game.getPlayers());
         mGameRecyclerView.setAdapter(mAdapter);
-
-
         //---------------------Start Game Button---------------------------------------------------
         startGameButton = (Button) v.findViewById(R.id.start_game_button);
 
@@ -80,16 +78,37 @@ public class LobbyFragment extends Fragment implements ILobbyView {
         return v;
     }
 
+    /*This method if for testing purposes only.
+    * This should be deleted when the game view is filled out.*/
+    private void changeToMethodCallerFragment() {
+
+        FragmentManager fm = getFragmentManager();
+        Fragment fragment = new MethodCallerFragment();
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, fragment);
+        ft.commit();
+        fm.popBackStack();
+    }
+
     @Override
     public void changeToGameView() {
         FragmentManager fm = getFragmentManager();
+        Fragment fragment = new GameFragment();
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, fragment);
+        ft.commit();
+        fm.popBackStack();
+
+        /* FragmentManager fm = getFragmentManager();
         Fragment GameFragment = new GameFragment();
 
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, GameFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-        fm.popBackStack();
+        fm.popBackStack();*/
     }
 
     @Override
