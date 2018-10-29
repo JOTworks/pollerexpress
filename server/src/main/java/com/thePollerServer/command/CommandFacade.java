@@ -134,14 +134,14 @@ public class CommandFacade
         Class<?>[] types = {Chat.class, GameInfo.class};
         Object[] params = {chat, gameInfo};
 
-        Command chatCommand = new Command(CommandsExtensions.clientSide+"GameService",
+        Command chatCommand = new Command(CommandsExtensions.clientSide+"ClientGameService",
                 "chat",
                 types,
                 params);
 
         CommandManager commandManager = CommandManager._instance();
 
-        //todo:chat should only be added to people with the game its in, not all people
-        commandManager.addCommand(chatCommand);
+
+        commandManager.addCommand(chatCommand, gameInfo);
     }
 }
