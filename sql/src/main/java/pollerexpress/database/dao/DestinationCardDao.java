@@ -132,6 +132,12 @@ public class DestinationCardDao {
         return card;
     }
 
+    /**
+     *
+     * @param player
+     * @return TrainCard, if deck is not empty; null if deck is empty.
+     * @throws DatabaseException
+     */
     public DestinationCard drawCard(Player player) throws DatabaseException {
         //get card
         DestinationCard card = null;
@@ -151,20 +157,18 @@ public class DestinationCardDao {
             }
             rs.close();
             stmnt.close();
-            if (card == null) {
-                throw new DataNotFoundException("TOP CARD", "DESTINATION_DECK");
+
+            if(card != null) {
+                //update deck to show card has been drawn, and by who.
+                String UPDATE_DECK = UPDATE_CARD.replace("<TABLE_NAME>", TABLE_NAME);
+
+                stmnt = _db.getConnection().prepareStatement(UPDATE_DECK);
+                stmnt.setInt(1, 0);
+                stmnt.setString(2, player.getName());
+                stmnt.setString(3, card.getId());
+                stmnt.execute();
+                stmnt.close();
             }
-
-
-            //update deck to show card has been drawn, and by who.
-            String UPDATE_DECK = UPDATE_CARD.replace("<TABLE_NAME>", TABLE_NAME);
-
-            stmnt = _db.getConnection().prepareStatement(UPDATE_DECK);
-            stmnt.setInt(1, 0);
-            stmnt.setString(2, player.getName());
-            stmnt.setString(3, card.getId());
-            stmnt.execute();
-            stmnt.close();
         } catch(SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
