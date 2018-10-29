@@ -73,6 +73,7 @@ public class CommandManager {
         {
             queue = new LinkedList<>();
             userCommands.put(user.name, queue);
+            System.out.print
         }
         finally
         {

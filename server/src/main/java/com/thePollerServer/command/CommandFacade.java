@@ -141,7 +141,7 @@ public class CommandFacade
 
         CommandManager commandManager = CommandManager._instance();
 
-        //todo:chat should only be added to people with the game its in, not all people
-        commandManager.addCommand(chatCommand);
+
+        commandManager.addCommand(chatCommand, gameInfo);
     }
 }
