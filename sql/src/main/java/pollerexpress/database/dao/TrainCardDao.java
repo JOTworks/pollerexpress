@@ -19,6 +19,7 @@ public class TrainCardDao {
     public static final String INSERT_DEFAULT_CARD = "INSERT INTO DEFAULT_TRAIN_DECK(CARD_ID, COLOR)\n VALUES(?,?)";
     public static final String UPDATE_CARD = "UPDATE <TABLE_NAME>\n SET POSITION = ?, PLAYER = ?\n WHERE CARD_ID = ?";
     public static final String SELECT_TOP_CARD = "SELECT DEF.CARD_ID, DEF.COLOR\n FROM DEFAULT_TRAIN_DECK AS DEF\n LEFT JOIN <TABLE_NAME> AS DECK\n ON DECK.CARD_ID = DEF.CARD_ID\n WHERE POSITION != 0\n ORDER BY POSITION ASC\n LIMIT 1";
+    public static final String SELECT_HAND = "SELECT DEF.CARD_ID, DEF.COLOR\n FROM <TABLE_NAME> AS DECK\n LEFT JOIN DEFAULT_TRAIN_DECK AS DEF\n ON DECK.CARD_ID = DEF.CARD_ID\n WHERE PLAYER = ?";
     public static final String SELECT_ALL_DEFAULT = "SELECT *\n FROM DEFAULT_TRAIN_DECK";
     public static final String SELECT_DISCARD = "SELECT CARD_ID\n FROM <TABLE_NAME>\n WHERE POSITION = 0 AND PLAYER IS NULL";
     public static final String COUNT_GAME_DECK = "SELECT COUNT(*)\n FROM <TABLE_NAME> WHERE POSITION != 0";
@@ -108,15 +109,17 @@ public class TrainCardDao {
             rs.close();
             stmnt.close();
 
-            //set card to player's hand
-            String UPDATE_DECK = UPDATE_CARD.replace("<TABLE_NAME>", TABLE_NAME);
+            if(card != null) {
+                //set card to player's hand
+                String UPDATE_DECK = UPDATE_CARD.replace("<TABLE_NAME>", TABLE_NAME);
 
-            stmnt = _db.getConnection().prepareStatement(UPDATE_DECK);
-            stmnt.setInt(1, 0);
-            stmnt.setString(2, player.getName());
-            stmnt.setString(3, card.getId());
-            stmnt.execute();
-            stmnt.close();
+                stmnt = _db.getConnection().prepareStatement(UPDATE_DECK);
+                stmnt.setInt(1, 0);
+                stmnt.setString(2, player.getName());
+                stmnt.setString(3, card.getId());
+                stmnt.execute();
+                stmnt.close();
+            }
         } catch(SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
@@ -126,12 +129,47 @@ public class TrainCardDao {
     }
 
     public ArrayList<TrainCard> getHand(Player player) throws DatabaseException {
-        //
-        return null;
+        String TABLE_NAME = "\"TRAIN_DECK_" + player.getGameId() + "\"";
+        String GET_HAND = SELECT_HAND.replace("<TABLE_NAME>",TABLE_NAME);
+        ArrayList<TrainCard> hand = new ArrayList<>();
+
+        _db.open();
+
+        try{
+            PreparedStatement stmnt = _db.getConnection().prepareStatement(GET_HAND);
+            stmnt.setString(1, player.getName());
+            ResultSet rs = stmnt.executeQuery();
+            while(rs.next()) {
+                hand.add(new TrainCard(rs.getString("CARD_ID"), Color.TRAIN.valueOf(rs.getString("COLOR"))));
+            }
+            rs.close();
+            stmnt.close();
+        } catch(SQLException e) {
+            throw new DatabaseException(e.getMessage());
+        }
+
+        _db.close(true);
+        return hand;
     }
 
     public void discardCard(Player player, TrainCard card) throws DatabaseException {
-        //
+        String TABLE_NAME = "\"TRAIN_DECK_" + player.getGameId() + "\"";
+        String UPDATE = UPDATE_CARD.replace("<TABLE_NAME>",TABLE_NAME);
+
+        _db.open();
+
+        try {
+            PreparedStatement stmnt = _db.getConnection().prepareStatement(UPDATE);
+            stmnt.setInt(1, 0);
+            stmnt.setString(2, null);
+            stmnt.setString(3, card.getId());
+            stmnt.execute();
+            stmnt.close();
+        } catch(SQLException e) {
+            throw new DatabaseException(e.getMessage());
+        }
+
+        _db.close(true);
     }
 
     public int getDeckSize(GameInfo gi) throws DatabaseException {

@@ -1,5 +1,6 @@
 package com.shared.models;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class TrainCard {
@@ -18,4 +19,13 @@ public class TrainCard {
     public String getId() { return _id; }
 
     public Color.TRAIN getColor() { return _color; }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TrainCard card = (TrainCard) o;
+        return Objects.equals(_id, card._id);
+    }
 }

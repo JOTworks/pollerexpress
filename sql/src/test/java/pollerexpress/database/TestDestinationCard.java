@@ -183,13 +183,35 @@ public class TestDestinationCard {
                 dcDao.discardCard(p, card);
             }
             //test shuffle
-            builder.shuffleDestinationDeck(gi);
+            //builder.shuffleDestinationDeck(gi);
+
+            //empty the deck
+            int deckSize = dcDao.getDeckSize(gi);
+            for(int i = 0; i < deckSize; i++) {
+                card = dcDao.drawCard(p);
+                dcDao.discardCard(p, card);
+            }
+            assertEquals(0, dcDao.getDeckSize(gi));
 
             //you can't draw on an empty deck, and doing so should return null.
+            assertNull(dcDao.drawCard(p));
 
             //after shuffling, the discard pile should be empty and the deck should have increased by the former size of the discard pile.
+            int formerDiscardCount = dcDao.getDiscardPile(gi).size();
+            builder.shuffleDestinationDeck(gi);
+            assertEquals(0, dcDao.getDiscardPile(gi).size());
+            assertEquals(formerDiscardCount, dcDao.getDeckSize(gi));
 
-            //you can draw a card again after the deck is shuffled.
+            //test previous, this time with there still being some cards in the deck.
+            for(int i = 0; i < 15; i++) {
+                card = dcDao.drawCard(p);
+                dcDao.discardCard(p, card);
+            }
+            formerDiscardCount = dcDao.getDiscardPile(gi).size();
+            int formerDeckCount = dcDao.getDeckSize(gi);
+            builder.shuffleDestinationDeck(gi);
+            assertEquals(0, dcDao.getDiscardPile(gi).size());
+            assertEquals(formerDeckCount + formerDiscardCount, dcDao.getDeckSize(gi));
 
         } catch(Exception e) {
             System.out.println(e.getMessage());
