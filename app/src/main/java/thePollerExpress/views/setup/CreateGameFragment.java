@@ -162,5 +162,7 @@ public class CreateGameFragment extends Fragment implements ICreateGameView {
         fragmentTransaction.replace(R.id.right_side_fragment_container, fragment);
         fragmentTransaction.commit();
 
+
+
     }
 }

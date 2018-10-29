@@ -8,6 +8,8 @@ import com.shared.models.reponses.LoginResponse;
 import com.shared.models.User;
 import com.thePollerServer.utilities.Factory;
 
+import pollerexpress.database.DatabaseFacade;
+
 public class LoginService
 {
     public LoginResponse login(LoginRequest lr)
@@ -20,7 +22,10 @@ public class LoginService
     {
         //currently all error correction is handled down the line at by the facade.
         //the service is just parsing the data.
-        IDatabaseFacade df = Factory.createDatabaseFacade();
+
+        //Jack is working right here
+        //IDatabaseFacade df = Factory.createDatabaseFacade();
+        DatabaseFacade df = new DatabaseFacade();
         try{
             User user = new User(lr.username, lr.password);
             df.register(user);

@@ -2,19 +2,21 @@ package thePollerExpress.services;
 
 import android.util.Log;
 
+import com.shared.models.Chat;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
-import com.shared.models.interfaces.ISetupService;
 
 import java.util.ArrayList;
 
 import thePollerExpress.models.ClientData;
 
-class ClientGameService implements ISetupService {
+class ClientGameService {
+
     private static final ClientGameService ourInstance = new ClientGameService();
 
     static ClientData CD = ClientData.getInstance();
+
     static ClientGameService getInstance() {
         return ourInstance;
     }
@@ -23,10 +25,9 @@ class ClientGameService implements ISetupService {
         CD = ClientData.getInstance();
     }
 
-
     public static boolean addDestCardsToHand()
     {
-        CD.);
+        //CD.);
         return true;
     }
 
@@ -68,6 +69,13 @@ class ClientGameService implements ISetupService {
             }
         }
         return false;
+    }
+
+    public static boolean chat(Chat chat, GameInfo gameInfo)
+    {
+        //we dont need the gameinfo, becasue chats should only be sent to poeple in the game? but i guess i could check here too
+        CD.getGame().addChat(chat);
+        return true;
     }
 
 }

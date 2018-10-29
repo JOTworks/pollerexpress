@@ -15,6 +15,9 @@ import java.net.URL;
 
 import thePollerExpress.models.ClientData;
 
+/**
+ * Who was in charge of this class?
+ */
 public class ClientCommunicator
 {
 
@@ -76,10 +79,12 @@ public class ClientCommunicator
             Serializer.writeData(r, reqBody);
 
             reqBody.close();
+
             if (http.getResponseCode() == HttpURLConnection.HTTP_OK)
             {
                 try
                 {
+
                     response = Serializer.readData(http.getInputStream());
                 }
                 catch(ClassNotFoundException e)

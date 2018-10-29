@@ -10,6 +10,9 @@ import thePollerExpress.presenters.game.interfaces.IGamePresenter;
 import thePollerExpress.utilities.AsyncRunner;
 import thePollerExpress.views.game.interfaces.IGameView;
 
+/**
+ * Abby
+ */
 public class GamePresenter implements IGamePresenter {
 
     private IGameView view;

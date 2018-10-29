@@ -4,12 +4,25 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
 
-public class Game implements Serializable
+public class Game extends Observable implements Serializable
 {
     GameInfo _info;
 
 
+    // the chat history for the game
+    ChatHistory chatHistory = new ChatHistory();
+    public ChatHistory getChatHistory() {
+        return chatHistory;
+    }
+    public void setChatHistory(ChatHistory chatHistory) {
+        this.chatHistory = chatHistory;
+    }
+
+    public void addChat(Chat chat) {
+        chatHistory.addChat(chat);
+    }
 
     List<Player> _players;
 
@@ -75,7 +88,10 @@ public class Game implements Serializable
         {
             _players.add(p);
         }
-
+        synchronized(this)
+        {
+            notifyObservers(p);
+        }
     }
 
     public void removePlayer(Player p)
@@ -86,6 +102,10 @@ public class Game implements Serializable
             {
                 _players.remove(p);
                 _info.removePlayer();
+                synchronized(this)
+                {
+                    notifyObservers(p);
+                }
             }
         }
         //could not remove player, player already in game

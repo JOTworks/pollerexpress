@@ -19,8 +19,9 @@ import thePollerExpress.models.ClientData;
 import thePollerExpress.communication.PollerExpress;
 
 /**
- * SetupFacade absctracts the Model from the Presenters, but also acts as the LoginSetupService
- * it will parse the responces and pass the list of commands to poller to execute,
+ * Who was in charge of this class?
+ * SetupFacade abstracts the Model from the Presenters, but also acts as the LoginSetupService
+ * it will parse the responses and pass the list of commands to poller to execute,
  * the error to the presenter and update the model for login and register results
  */
 public class SetupFacade {

@@ -2,11 +2,15 @@ package com.shared.models.interfaces;
 
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Authtoken;
+import com.shared.models.DestinationCard;
+import com.shared.models.Chat;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.shared.models.User;
 import com.shared.models.reponses.LoginResponse;
+
+import java.util.List;
 
 public interface IDatabaseFacade
 {
@@ -20,4 +24,31 @@ public interface IDatabaseFacade
     Player getPlayer(String user) throws DatabaseException;
     GameInfo getGameInfo(String id) throws DatabaseException;
     Player[] getPlayersInGame(GameInfo info) throws DatabaseException;
+
+
+    /**
+     * Draws a card to players hand.
+     * @param player player who is drawing
+     * @param canDiscard number of cards that the player may discard
+     * @return
+     */
+    List<DestinationCard> drawDestinationCards(Player player, int canDiscard)throws DatabaseException;
+
+    /**
+     * Discards a card from a players hand
+     * @param player who is discarding
+     * @param cards the cards the player wants to discard.
+     */
+    void discardDestinationCard(Player player, List<DestinationCard> cards) throws DatabaseException;
+
+    /**
+     * the number of destination cards a player can discard
+     * @param player
+     * @return
+     */
+    int getPlayerDiscards(Player player) throws DatabaseException;
+
+    // Abby
+    void chat(Chat chat, GameInfo gameInfo) throws DatabaseException;
 }
+

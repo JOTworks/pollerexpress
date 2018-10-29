@@ -6,12 +6,17 @@ import com.shared.models.interfaces.ICommand;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
+/**
+Thi class is in the models package because we will
+ eventually have a list of commands in the database.
+* */
 public class Command implements ICommand, Serializable
 {
 	private String _className;
     private String _methodName;
     private Class<?>[] _paramTypes;
     private Object[] _paramValues;
+
 
     private Object _genericObject;
 
@@ -20,10 +25,12 @@ public class Command implements ICommand, Serializable
 
     /**
      *
-     * @param className
-     * @param methodName
-     * @param paramTypes
-     * @param paramValues
+     * @param className finds the class
+     * @param methodName finds the method name
+     * @param paramTypes in case the method was overloaded,
+     *                   this makes sure we are calling
+     *                   the right version of the method,
+     * @param paramValues the parameters the method needs.
      */
     public Command(String className, String methodName, Class<?>[] paramTypes, Object[] paramValues)
     {
