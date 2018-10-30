@@ -37,14 +37,25 @@ public class TestChat {
     }
 
     @Test
-    public void test() {
+    public void a() {
+        /*
+        deleteGame
+        leaveGame
+        startGame
+        loadGame
+        joinGame
+        createGame
+        */
+    }
+
+    @Test
+    public void TaddChat() {
 
        ClientData CD = ClientData.getInstance();
        CD.setGame(new Game(new GameInfo("name",0)));
        assertTrue(CD.getGame().getChatHistory().getChats().size()==0);
        CD.getGame().addChat(new Chat("chat1",new Timestamp(10000),CD.getUser()));
        assertTrue(CD.getGame().getChatHistory().getChats().size()==1);
-
        /*
         //that the chat is empty
         assertTrue(CD.getGame().getChatHistory().getChatsAsString().size() == 0);
@@ -60,8 +71,6 @@ public class TestChat {
 
         ClientCommunicator.instance().sendCommand(chatCommand);
         */
-
-
         assertTrue(true);
         assertEquals(1,1);
         assertNotNull("hi");
