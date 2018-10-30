@@ -59,16 +59,16 @@ class ClientSetupService implements ISetupService {
         return true;
     }
 
-    public static boolean startGame(GameInfo gameInfo){
-        ArrayList<GameInfo> infoList = CD.getGameInfoList();
-
-        for(int i = 0; i<infoList.size(); i++){
-            if(infoList.get(i).getId()==gameInfo.getId()) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    public static boolean startGame(GameInfo gameInfo){
+//        ArrayList<GameInfo> infoList = CD.getGameInfoList();
+//
+//        for(int i = 0; i<infoList.size(); i++){
+//            if(infoList.get(i).getId()==gameInfo.getId()) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
     /**************not requiered for phase 1*******************/
     public static boolean deleteGame(GameInfo gameInfo){
         ArrayList<GameInfo> infoList = CD.getGameInfoList();

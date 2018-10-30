@@ -2,16 +2,15 @@ package thePollerExpress.facades;
 
 import com.shared.exceptions.CommandFailed;
 import com.shared.models.Command;
+import com.shared.models.DestinationCard;
 import com.shared.models.PollResponse;
 import com.shared.models.User;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.utilities.CommandsExtensions;
 
-import java.util.List;
 import java.util.Queue;
 
 import thePollerExpress.communication.ClientCommunicator;
-import thePollerExpress.communication.PollerExpress;
 import thePollerExpress.models.ClientData;
 
 public class GameFacade {
@@ -45,12 +44,12 @@ public class GameFacade {
         return response.getError();
     }
 
-    public ErrorResponse discardDestCard(User user, Integer myInteger){ //TODO: this is not what should be here (which is why I have myInteger as a placeholder)
+    public ErrorResponse discardDestCard(User user, DestinationCard destCard){
 
         ClientCommunicator CC = ClientCommunicator.instance();
 
-        Class<?>[] types = {User.class, Integer.class};
-        Object[] params= {user, myInteger};
+        Class<?>[] types = {User.class, DestinationCard.class};
+        Object[] params= {user, destCard};
         Command startGame = new Command(CommandsExtensions.serverSide+ "CommandFacade","discardDestCard",types,params);
         PollResponse response = CC.sendCommand(startGame);
 
@@ -65,7 +64,6 @@ public class GameFacade {
 
         return response.getError();
     }
-
 
 
     /**

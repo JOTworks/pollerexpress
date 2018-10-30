@@ -13,7 +13,7 @@ import thePollerExpress.views.game.interfaces.IGameView;
 /**
  * Abby
  */
-public class GamePresenter implements IGamePresenter {
+public class DestinationSelectionPresenter implements IGamePresenter {
 
     private IGameView view;
     private GameFacade facade;
