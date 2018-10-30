@@ -6,9 +6,12 @@ import com.shared.models.Chat;
 
 import java.util.ArrayList;
 
-public interface IChatView {
+import thePollerExpress.views.IPollerExpressView;
 
-    public void displayMessage(String message);
+public interface IChatView extends IPollerExpressView
+{
+
+    public void displayError(String message);
     public void changeToDevView();
     public void displayChats(ArrayList<String> messageList);
 }
