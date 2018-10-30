@@ -82,6 +82,7 @@ public class CommandFacade
 
         for(Player p :game.getPlayers())
         {
+            //this maybe should be put into the service, but most of the logic has to deal with commands....
             List<DestinationCard> dlist = df.drawDestinationCards(p, 1) ;
 
             {

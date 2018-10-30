@@ -45,7 +45,7 @@ public class ClientData extends Observable
     }
 
     public Map map;
-    private User user;
+    private User user = null;
     private Authtoken auth;
 
     /** Represents the user's currently active game.

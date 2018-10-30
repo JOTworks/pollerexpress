@@ -9,12 +9,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import cs340.pollerexpress.R;
 import thePollerExpress.Development.MethodCallerFragment;
+import thePollerExpress.presenters.game.GamePresenter;
+import thePollerExpress.presenters.game.interfaces.IGamePresenter;
 import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.interfaces.IGameView;
 import thePollerExpress.views.setup.GameSelectionFragment;
 
 public class GameFragment extends Fragment implements IGameView {
 
+    IGamePresenter gamePresenter;
     @Override
     public void displayError(String errorMessage) {
 
@@ -29,6 +32,7 @@ public class GameFragment extends Fragment implements IGameView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        gamePresenter = new GamePresenter();
     }
 
 
@@ -44,6 +48,16 @@ public class GameFragment extends Fragment implements IGameView {
         fm.beginTransaction()
                 .add(R.id.chat_history_fragment_container, fragment)
                 .commit();
+
+
+        fragment = new DestinationSelectionFragment();
+        fm.beginTransaction()
+                .add(R.id.destination_fragment_container, fragment)
+                .commit();
+
+
+        gamePresenter.startGame();
+
 
        /* fragment = new PlayerFragment();
         fm.beginTransaction()
