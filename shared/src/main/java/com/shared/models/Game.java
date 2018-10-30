@@ -1,5 +1,7 @@
 package com.shared.models;
 
+import com.shared.models.states.GameState;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -10,6 +12,7 @@ public class Game extends Observable implements Serializable
 {
     GameInfo _info;
 
+    private GameState gameState; //TODO: this is not accesable yet
 
     // the chat history for the game
     ChatHistory chatHistory = new ChatHistory();

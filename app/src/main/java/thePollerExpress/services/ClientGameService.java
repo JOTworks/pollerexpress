@@ -51,6 +51,9 @@ class ClientGameService {
         return true;
     }
 
+    public static boolean setAlertForStartGame() {
+        CD.getGame().
+    }
 
 
     public static boolean chat(Chat chat, GameInfo gameInfo)

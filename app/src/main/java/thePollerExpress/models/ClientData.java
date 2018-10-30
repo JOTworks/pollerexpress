@@ -54,6 +54,7 @@ public class ClientData extends Observable
      */
     private Game game;
 
+
     /** Information about each game the client is part of. */
     private ArrayList<GameInfo> gameInfoList;
     private PollerExpress theTrain;
