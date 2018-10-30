@@ -9,12 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.shared.models.Player;
+
 import cs340.pollerexpress.R;
 import thePollerExpress.Development.MethodCallerFragment;
 import thePollerExpress.views.game.interfaces.IGameView;
+import thePollerExpress.views.game.interfaces.IPlayerView;
 import thePollerExpress.views.setup.GameSelectionFragment;
 
-public class PlayerFragment extends Fragment {
+public class PlayerFragment extends Fragment implements IPlayerView {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,4 +35,8 @@ public class PlayerFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void renderPlayer(Player p) {
+
+    }
 }
