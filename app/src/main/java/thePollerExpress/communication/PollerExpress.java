@@ -39,9 +39,9 @@ public class PollerExpress
             synchronized public void run()
             {
                 System.out.println(String.format("%s %d", "CHOO!", ClientData.getInstance().countObservers()));
-                if( ClientData.getInstance().getUser() != null )
+                if( ClientData.getInstance().getUser() == null )
                 {
-
+                    return;
                 }
                 PollResponse response = ClientCommunicator.instance().sendPoll();
 
