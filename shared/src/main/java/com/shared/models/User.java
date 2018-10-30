@@ -6,11 +6,14 @@ public class User extends Player implements Serializable
 {
     public String password;//this really shouldn't be public ;) keep your password private
     public Authtoken token;
-    public Hand hand;
+    public DestCardHand destCardHand;
+    public TrainCardHand trainCardHand;
     public User(String name, String password)
     {
         super(name);
         this.password = password;
+        destCardHand = new DestCardHand();
+        trainCardHand = new TrainCardHand();
     }
     public User(String name, String password, String gameId)
     {
@@ -18,8 +21,13 @@ public class User extends Player implements Serializable
         this.password = password;
     }
 
-    public Hand getHand()
+    public DestCardHand getDestCardHand()
     {
-        return hand;
+        return destCardHand;
+    }
+
+    public TrainCardHand getTrainCardHand()
+    {
+        return trainCardHand;
     }
 }
