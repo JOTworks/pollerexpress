@@ -3,11 +3,13 @@ package thePollerExpress.services;
 import android.util.Log;
 
 import com.shared.models.Chat;
+import com.shared.models.DestinationCard;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import thePollerExpress.models.ClientData;
 
@@ -25,51 +27,23 @@ class ClientGameService {
         CD = ClientData.getInstance();
     }
 
-    public static boolean addDestCardsToHand()
+    public static boolean addDestCardsToHand(List<DestinationCard> destinationCards)
     {
-        //CD.);
+        for (DestinationCard card : destinationCards) {
+            CD.addDestCardToHand(card);
+        }
         return true;
     }
 
-    public static boolean joinGame(Player player, GameInfo info){
-        ArrayList<GameInfo> infoList = CD.getGameInfoList();
-
-        for(int i = 0; i<infoList.size(); i++){
-            if( infoList.get(i).getId().equals(info.getId() ) )
-            {
-                //if its your game
-                if (CD.getGame() != null && infoList.get(i).getId().equals(CD.getGame().getId())) {
-                    if(!( CD.getGame().hasPlayer(player) ) )
-                    {
-                        Log.d("joinGame", "someone joined my game!");
-                        CD.addPlayerToGame(player);
-                    }
-
-                }
-                CD.addPlayerToGameInfo(i);
-                return true;
-            }
-        }
-        System.out.println("!!!you tried to have that dude join a game that didnt exist");
-        return false;
-    }
-
-    public static boolean loadGame(Game game)
+    public static boolean removeDestCardFromHand(List<DestinationCard> destinationCards)
     {
-        CD.setGame(game);
+        for (DestinationCard card : destinationCards) {
+            CD.addDestCardToHand(card);
+        }
         return true;
     }
 
-    public static boolean startGame(GameInfo gameInfo){
-        ArrayList<GameInfo> infoList = CD.getGameInfoList();
 
-        for(int i = 0; i<infoList.size(); i++){
-            if(infoList.get(i).getId()==gameInfo.getId()) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public static boolean chat(Chat chat, GameInfo gameInfo)
     {
