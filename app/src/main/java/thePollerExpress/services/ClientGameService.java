@@ -27,22 +27,29 @@ class ClientGameService {
         CD = ClientData.getInstance();
     }
 
-    public static boolean addDestCardsToHand(List<DestinationCard> destinationCards)
-    {
+    public static boolean drawDestinationCards(Player player, List<DestinationCard> destinationCards){
+
+        //todo:check if you should have gotten this command if you are the player
         for (DestinationCard card : destinationCards) {
             CD.addDestCardToHand(card);
         }
         return true;
     }
 
-    public static boolean removeDestCardFromHand(List<DestinationCard> destinationCards)
+    public static boolean drawDestinationCards(Player player, int cardCount){
+
+        CD.getGame().getPlayers().
+        return true;
+    }
+
+    public static boolean discardDestinationCards(List<DestinationCard> destinationCards)
     {
         for (DestinationCard card : destinationCards) {
             CD.addDestCardToHand(card);
         }
         return true;
     }
-
+    //todo: make it discard for players
 
 
     public static boolean chat(Chat chat, GameInfo gameInfo)

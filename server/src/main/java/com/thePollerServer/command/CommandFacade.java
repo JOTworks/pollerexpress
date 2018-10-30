@@ -88,14 +88,14 @@ public class CommandFacade
             {
                 Class<?>[] types = {Player.class, dlist.getClass()};//we will see if this works...
                 Object[] params = {p, dlist};//TODO get the right name for this command
-                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "GameService", "drawDestinationCards", types, params);
+                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawDestinationCards", types, params);
                 CM.addCommand(drawDestinationCards, p);
             }
             //next create the command for all other players...
             {
                 Class<?>[] types = {Player.class, Integer.class};
                 Object[] params = {p, new Integer(3)};
-                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "GameService", "drawDestinationCards", types, params);
+                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawDestinationCards", types, params);
                 CM.addCommand(drawDestinationCards, info);
             }
 
