@@ -37,7 +37,6 @@ public class ChatFragment extends Fragment implements IChatView {
     Button devViewButton;
     EditText chatMessage;
     ArrayList<String> results = new ArrayList<>();
-    ArrayList<String> chatList = new ArrayList();
     IChatPresenter CP = new ChatPresenter(this);
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
