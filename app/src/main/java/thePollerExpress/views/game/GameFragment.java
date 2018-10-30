@@ -45,6 +45,10 @@ public class GameFragment extends Fragment implements IGameView {
                 .add(R.id.chat_history_fragment_container, fragment)
                 .commit();
 
+        fragment = new DestinationSelectionFragment();
+        fm.beginTransaction()
+                .add(R.id.destination_fragment_container, fragment)
+                .commit();
        /* fragment = new PlayerFragment();
         fm.beginTransaction()
                 .add(R.id.player_1, fragment)

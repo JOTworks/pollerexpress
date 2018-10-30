@@ -13,6 +13,7 @@ public class DestCardHand extends Observable implements Serializable {
         destCards = new ArrayList<>();
     }
 
+    public List<DestinationCard> getDestinationCards(){ return destCards; }
     public void setDestinationCards(List<DestinationCard> destinationCards)
     {
         this.destCards = destinationCards;

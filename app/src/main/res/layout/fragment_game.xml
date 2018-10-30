@@ -178,13 +178,12 @@
                 </LinearLayout>
 
                 <!--your destination cards-->
-                <fragment
+                <FrameLayout
                     android:layout_margin="5dp"
                     android:layout_width="380dp"
                     android:layout_height="fill_parent"
-                    android:id="@+id/destinationCardHand"
-                    android:name="thePollerExpress.views.game.DestinationHandFragment"></fragment>
-
+                    android:id="@+id/destination_fragment_container"
+                    />
                 <!--your info-->
                 <LinearLayout
                     android:layout_width="wrap_content"
