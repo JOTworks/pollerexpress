@@ -75,7 +75,6 @@ public class PollerExpress
 
                 while (!commands.isEmpty()) //queue, access in while loops, not, for loops;....
                 {
-                    Log.d("PollerExpress", "something a response");
                     Command command = commands.poll();
 
                     try

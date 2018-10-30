@@ -23,11 +23,27 @@ class ClientGameService {
         return ourInstance;
     }
 
-    private ClientGameService() {
+    private ClientGameService()
+    {
         CD = ClientData.getInstance();
     }
 
-    public static boolean addDestCardsToHand(List<DestinationCard> destinationCards)
+    public static boolean drawDestinationCards(Player player, List<DestinationCard> destinationCards)
+    {
+        if(!CD.getUser().equals(player)) return false;
+        for (DestinationCard card : destinationCards) {
+            CD.addDestCardToHand(card);
+        }
+        return true;
+    }
+    public static boolean drawDestinationCards(Player player, Integer cardNumber)
+    {
+        Player real = CD.getGame().getPlayer(player);
+        real.setDestinationCardCount(real.getDestinationDiscardCount() + cardNumber.intValue());
+        return true;
+    }
+
+    public static boolean removeDestCardFromHand(Player player, List<DestinationCard> destinationCards)
     {
         for (DestinationCard card : destinationCards) {
             CD.addDestCardToHand(card);
@@ -35,14 +51,9 @@ class ClientGameService {
         return true;
     }
 
-    public static boolean removeDestCardFromHand(List<DestinationCard> destinationCards)
-    {
-        for (DestinationCard card : destinationCards) {
-            CD.addDestCardToHand(card);
-        }
-        return true;
+    public static boolean setAlertForStartGame() {
+        CD.getGame().
     }
-
 
 
     public static boolean chat(Chat chat, GameInfo gameInfo)

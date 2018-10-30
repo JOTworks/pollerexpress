@@ -111,8 +111,8 @@ public class HistoryFragment extends Fragment implements IChatView {
 
     @Override
     public void changeView(IPollerExpressView view) {
-
     }
+
 
     public void changeToDevView(){
         FragmentManager fm = getFragmentManager();

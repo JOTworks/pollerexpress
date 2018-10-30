@@ -66,6 +66,7 @@ public class Player extends Observable implements Serializable
         this.destinationCardCount = destinationCards;
         synchronized (this)
         {
+            this.setChanged();
             this.notifyObservers();
         }
     }
@@ -80,6 +81,7 @@ public class Player extends Observable implements Serializable
         this.destinationDiscardCount = destinationDiscardCount;
         synchronized (this)
         {
+            this.setChanged();
             this.notifyObservers();
         }
     }

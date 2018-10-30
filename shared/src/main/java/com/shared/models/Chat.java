@@ -23,7 +23,8 @@ public class Chat implements Serializable {
         this.messageSender = messageSender;
     }
 
-    public String getMessage() {
+    public String getMessage()
+    {
         return message;
     }
 
