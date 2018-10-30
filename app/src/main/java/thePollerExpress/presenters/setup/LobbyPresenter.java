@@ -45,8 +45,6 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
 
             if (playerNum < clientData.getGame().getMaxPlayers())
             {
-
-                // if the game has less than two people
                 lobbyView.displayMessage("Not enough people");
             } else {
                 // if the game has at least two people

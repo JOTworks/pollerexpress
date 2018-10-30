@@ -89,6 +89,7 @@ public class Game extends Observable implements Serializable
         if(!_players.contains(p))
         {
             _players.add(p);
+            _info.addPlayer();
         }
         synchronized(this)
         {
