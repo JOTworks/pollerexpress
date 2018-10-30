@@ -54,7 +54,7 @@ public class Player extends Observable implements Serializable
     {
         return gameId;
     }
-
+    public void setGameID(String gameId){ this.gameId = gameId;}
 
     public int getDestinationCardCount()
     {

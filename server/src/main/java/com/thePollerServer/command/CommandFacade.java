@@ -3,6 +3,7 @@ package com.thePollerServer.command;
 
 import com.shared.models.DestinationCard;
 import com.shared.models.Chat;
+import com.shared.models.User;
 import com.shared.utilities.CommandsExtensions;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
@@ -70,13 +71,15 @@ public class CommandFacade
 
     /**
      *
-     * @param info
+     * @param user
      * @throws CommandFailed
      * @throws DatabaseException
      */
-    public static void startGame(GameInfo info) throws CommandFailed, DatabaseException
+    public static void startGame(User user) throws CommandFailed, DatabaseException
     {
         IDatabaseFacade df = Factory.createDatabaseFacade();
+        System.out.println("gameID="+user.getGameId());
+        GameInfo info = df.getGameInfo(user.getGameId());
         Game game = df.getGame(info);
         CommandManager CM = CommandManager._instance();
 

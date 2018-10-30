@@ -124,30 +124,6 @@ public class SetupFacade {
 
     /**
      *
-     * @param gameName
-     * @return res.getError, it will be null on successful join
-     */
-    public PollResponse startGame(String gameName){
-        /**todo:
-         *  check if i pass the correct params to the server side CommandFacade startgame()
-         */
-        ClientCommunicator CC = ClientCommunicator.instance();
-        Class<?>[] types = {String.class};
-        Object[] params= {gameName};
-        Command joinGameCommand = new Command(CommandsExtensions.serverSide+"CommandFacade","StartGame",types,params);
-
-        PollResponse response = CC.sendCommand(joinGameCommand);
-
-        if(response == null) {
-            //client communicator didn't work, throw error or something? Idk how to do that though
-            response = new PollResponse(null, new ErrorResponse("Could not contact server", new Exception(),joinGameCommand) );
-        }
-
-        return response;
-    }
-
-    /**
-     *
      * @param
      * @return res.getError, it will be null on succesful join
      */
