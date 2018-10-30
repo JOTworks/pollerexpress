@@ -76,7 +76,6 @@ public class Game extends Observable implements Serializable
     public int getNumPlayers()
     {
         return _info.getNumPlayers();//might be better to return
-        //_players.size();
     }
 
     /**
@@ -134,18 +133,15 @@ public class Game extends Observable implements Serializable
         return _info.getMaxPlayers();
     }
 
-
+    public Player getPlayer(Player p)
+    {
+        return _players.get( _players.indexOf(p) );
+    }
 
     public void setPlayers(List<Player> players)
     {
         this._players = players;
     }
-    @Deprecated
-    public Player[] get_players()
-    {
-        return  null;//_players;
-    }
-
     public List<Player> getPlayers()
     {
         return _players;

@@ -105,12 +105,12 @@ public class HistoryFragment extends Fragment implements IChatView {
     }
 
     @Override
-    public void displayError(String message) {
-
+    public void displayError(String message)
+    {
     }
-
     @Override
-    public void changeView(IPollerExpressView view) {
+    public void changeView(IPollerExpressView view)
+    {
 
     }
 

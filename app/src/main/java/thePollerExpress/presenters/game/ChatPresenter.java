@@ -2,6 +2,7 @@ package thePollerExpress.presenters.game;
 
 
 import com.shared.exceptions.CommandFailed;
+import com.shared.models.Chat;
 import com.shared.models.interfaces.ICommand;
 
 import java.util.ArrayList;
@@ -20,23 +21,21 @@ public class ChatPresenter implements IChatPresenter, Observer {
         private IChatView chatView;
         private ClientData clientData;
 
-        //todo: figure out if we should have this call game or setup facade instead of CC directly
-        private ClientCommunicator CC;
 
-        public ChatPresenter(IChatView chatView){
+
+        public ChatPresenter(IChatView chatView)
+        {
 
             this.chatView = chatView;
             clientData = ClientData.getInstance();
             clientData.getGame().getChatHistory().addObserver(this);
-            CC = ClientCommunicator.instance();
         }
 
 
         @Override
-        public void PressedSendButton(final String message) {
+        public void PressedSendButton(final String message)
+        {
 
-
-            //todo: this block should all be in a facade, not presenter, but not sure which one.
 
             AsyncRunner commandRunner = new AsyncRunner(chatView);
 
@@ -68,7 +67,7 @@ public class ChatPresenter implements IChatPresenter, Observer {
         @Override
         public void update(Observable o, Object arg)
         {
-            if( !(arg instanceof ArrayList) ) return;
+            if( !(arg instanceof Chat) ) return;
 
             //todo: actualy update the view
         }

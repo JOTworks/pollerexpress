@@ -3,15 +3,18 @@ package com.shared.models;
 import java.util.Objects;
 import java.util.UUID;
 
-public class DestinationCard {
+public class DestinationCard
+{
     private String _id;
     private City _city1;
     private City _city2;
     private int _points;
+    private boolean discardable;
 
     public DestinationCard(City city1, City city2, int points)
     {
         this(UUID.randomUUID().toString(), city1, city2, points);
+        this.discardable = false;
     }
 
     public DestinationCard(String id, City city1, City city2, int points)
