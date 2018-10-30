@@ -27,7 +27,7 @@ public class GameService
 {
     public void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
         IDatabaseFacade df = Factory.createDatabaseFacade();
-        df.chat(chat, gameInfo);
+        //df.chat(chat, gameInfo);
     }
 
     //returns true if all

@@ -41,9 +41,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
             lobbyView.displayMessage("game is null");
         }else {
             Game game = clientData.getGame();
-            GameInfo gameInfo = game.getGameInfo();
-            int playerNum = gameInfo.getNumPlayers();
-
+            int playerNum = game.getNumPlayers();
 
             if (playerNum < clientData.getGame().getMaxPlayers())
             {

@@ -26,6 +26,7 @@ import thePollerExpress.Development.MethodCaller;
 import thePollerExpress.Development.MethodCallerFragment;
 import thePollerExpress.presenters.game.ChatPresenter;
 import thePollerExpress.presenters.game.interfaces.IChatPresenter;
+import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.interfaces.IChatView;
 import thePollerExpress.views.setup.SetupGameFragment;
 
@@ -131,7 +132,7 @@ public class ChatFragment extends Fragment implements IChatView {
         recyclerView.setLayoutManager(layoutManager);
     }
 
-    public void displayMessage(String message)
+    public void displayError(String message)
     {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
@@ -187,6 +188,10 @@ public class ChatFragment extends Fragment implements IChatView {
         }
     }
 
+    public void changeView(IPollerExpressView view)
+    {
+        //do nothing
+    }
 
 
 }
