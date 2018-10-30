@@ -15,6 +15,10 @@ public class GamePresenter implements IGamePresenter {
     private GameFacade facade;
     ClientData CD = ClientData.getInstance();
 
+    public GamePresenter(IGameView view) {
+        this.view = view;
+    }
+
     @Override
     public void startGame() {
 
