@@ -5,6 +5,7 @@ import android.util.Log;
 import com.shared.models.Authtoken;
 import com.shared.models.ChatHistory;
 
+import com.shared.models.DestinationCard;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Map;
@@ -213,4 +214,7 @@ public class ClientData extends Observable
         }
     }
 
+    public void addDestCardToHand(DestinationCard card) {
+
+    }
 }
