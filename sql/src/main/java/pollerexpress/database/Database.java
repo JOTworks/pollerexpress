@@ -38,7 +38,7 @@ public class Database implements IDatabase
     public static final String CREATE_AUTHTOKEN_TABLE = "CREATE TABLE IF NOT EXISTS AUTH_TOKENS\n ( `AUTH_ID` TEXT NOT NULL PRIMARY KEY UNIQUE, `USER_NAME` TEXT NOT NULL, FOREIGN KEY(`USER_NAME`) REFERENCES `USERS`(`USER_NAME`) )";
     public static final String CREATE_DEFAULT_DESTINATION_DECK_TABLE = "CREATE TABLE IF NOT EXISTS DEFAULT_DESTINATION_DECK\n (`CARD_ID` TEXT NOT NULL UNIQUE, `CITY_1` TEXT NOT NULL, `CITY_2` TEXT NOT NULL, `POINTS` INT, PRIMARY KEY(`CARD_ID`) )";
     public static final String CREATE_DEFAULT_TRAIN_DECK_TABLE = "CREATE TABLE IF NOT EXISTS DEFAULT_TRAIN_DECK\n (`CARD_ID` TEXT NOT NULL UNIQUE, `COLOR` TEXT, PRIMARY KEY(`CARD_ID`) )";
-    public static final String CREATE_CHAT_TABLE = "CREATE TABLE IF NOT EXISTS CHATS\n (`TIMESTAMP` INT TEXT NOT NULL, `GAME` TEXT NOT NULL, `PLAYER` TEXT NOT NULL, `MESSAGE` TEXT NOT NULL, PRIMARY KEY(`TIMESTAMP`) )";
+    public static final String CREATE_CHAT_TABLE = "CREATE TABLE IF NOT EXISTS CHATS\n (`TIMESTAMP` TIMESTAMP NOT NULL, `GAME` TEXT NOT NULL, `PLAYER` TEXT NOT NULL, `MESSAGE` TEXT NOT NULL, PRIMARY KEY(`TIMESTAMP`) )";
     public static final String GAME_TABLE = " GAMES";
     public static final String CREATE_GAME_TABLE = "CREATE TABLE IF NOT EXISTS  GAMES\n ('GAME_ID' TEXT NOT NULL UNIQUE, 'GAME_NAME' TEXT NOT NULL,'MAX_PLAYERS' INT, 'CURRENT_PLAYERS' INT, PRIMARY KEY('GAME_ID') )";
     final String CONNECTION_URL;
@@ -49,6 +49,7 @@ public class Database implements IDatabase
     AuthtokenDao aDao;
     DestinationCardDao dcDao;
     TrainCardDao tcDao;
+    ChatDao cDao;
     private boolean isOpen;
     String url;
 
@@ -77,6 +78,7 @@ public class Database implements IDatabase
         this.gDao = new GameDao(this);
         this.dcDao = new DestinationCardDao(this);
         this.tcDao = new TrainCardDao(this);
+        this.cDao = new ChatDao(this);
     }
 
     public Database() {
@@ -252,6 +254,7 @@ public class Database implements IDatabase
         return isOpen;
     }
 
+    public ChatDao getChatDao() { return cDao; }
 
     public DestinationCardDao getDestinationCardDao()
     {
