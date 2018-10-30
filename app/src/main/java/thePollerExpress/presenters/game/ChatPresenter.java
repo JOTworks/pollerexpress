@@ -3,8 +3,10 @@ package thePollerExpress.presenters.game;
 
 import com.shared.exceptions.CommandFailed;
 import com.shared.models.Chat;
+
 import com.shared.models.interfaces.ICommand;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -36,7 +38,6 @@ public class ChatPresenter implements IChatPresenter, Observer {
         public void PressedSendButton(final String message)
         {
 
-
             AsyncRunner commandRunner = new AsyncRunner(chatView);
 
             commandRunner.execute(new ICommand()
@@ -54,6 +55,7 @@ public class ChatPresenter implements IChatPresenter, Observer {
         public void PressedChatViewButton() {
             chatView.displayError("Already in Chat");
         }
+
         @Override
         public void PressedDevViewButton() {
             chatView.changeToDevView();
@@ -69,6 +71,10 @@ public class ChatPresenter implements IChatPresenter, Observer {
         {
             if( !(arg instanceof Chat) ) return;
 
-            //todo: actualy update the view
+            // get all of the chats
+            ArrayList<String> chats = clientData.getGame().getChatHistory().getChatsAsString();
+
+            //display the chats
+            chatView.displayChats(chats);
         }
 }
