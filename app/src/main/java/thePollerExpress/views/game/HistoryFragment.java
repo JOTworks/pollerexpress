@@ -23,6 +23,7 @@ import cs340.pollerexpress.R;
 import thePollerExpress.Development.MethodCallerFragment;
 import thePollerExpress.presenters.game.ChatPresenter;
 import thePollerExpress.presenters.game.interfaces.IChatPresenter;
+import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.interfaces.IChatView;
 
 /**
@@ -101,6 +102,16 @@ public class HistoryFragment extends Fragment implements IChatView {
 //        recyclerView.setLayoutManager(layoutManager);
 
         return v;
+    }
+
+    @Override
+    public void displayError(String message) {
+
+    }
+
+    @Override
+    public void changeView(IPollerExpressView view) {
+
     }
 
     public void changeToDevView(){

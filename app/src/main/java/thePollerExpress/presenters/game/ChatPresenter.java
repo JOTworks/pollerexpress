@@ -2,8 +2,11 @@ package thePollerExpress.presenters.game;
 
 
 import com.shared.exceptions.CommandFailed;
+import com.shared.models.Chat;
+import com.shared.models.Player;
 import com.shared.models.interfaces.ICommand;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -33,7 +36,6 @@ public class ChatPresenter implements IChatPresenter, Observer {
 
         @Override
         public void PressedSendButton(final String message) {
-
 
             //todo: this block should all be in a facade, not presenter, but not sure which one.
 
@@ -67,8 +69,14 @@ public class ChatPresenter implements IChatPresenter, Observer {
         @Override
         public void update(Observable o, Object arg)
         {
-            if( !(arg instanceof ArrayList) ) return;
+            if( !(arg instanceof Chat) ) return;
 
             //todo: actually update the view
+
+            // get all of the chats
+            ArrayList<String> chats = clientData.getGame().getChatHistory().getChatsAsString();
+
+            //display the chats
+            chatView.displayChats(chats);
         }
 }

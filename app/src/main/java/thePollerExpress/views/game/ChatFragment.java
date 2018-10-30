@@ -91,13 +91,6 @@ public class ChatFragment extends Fragment implements IChatView {
             }
         });
 
-//        // set up the adapter, which needs a list
-//        adapter = new Adapter(results);
-//        recyclerView.setAdapter(adapter);
-//
-//        layoutManager = new LinearLayoutManager(getContext());
-//        recyclerView.setLayoutManager(layoutManager);
-
         return v;
     }
 
@@ -175,9 +168,9 @@ public class ChatFragment extends Fragment implements IChatView {
         }
 
         // bind the view to the viewholder
-        public void bind(String result) {
+        public void bind(String in_chat) {
 
-            chat.setText(result);
+            chat.setText(in_chat);
         }
     }
 
