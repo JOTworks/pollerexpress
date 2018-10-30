@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,7 +126,11 @@ public class LobbyFragment extends Fragment implements ILobbyView,  IPollerExpre
     @Override
     public void playerJoined(Player p)
     {
-        mAdapter.notifyItemChanged(-1, p);
+
+        mAdapter.notifyDataSetChanged();
+
+        //mAdapter.notifyItemInserted(-1);
+        //mAdapter.notifyItemChanged(-1, p);
     }
 
     @Override

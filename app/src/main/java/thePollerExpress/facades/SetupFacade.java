@@ -1,5 +1,7 @@
 package thePollerExpress.facades;
 
+import android.app.Activity;
+
 import com.shared.utilities.CommandsExtensions;
 import com.shared.models.Command;
 import com.shared.exceptions.CommandFailed;
@@ -61,7 +63,7 @@ public class SetupFacade {
         } else if(response.getError()!=null){
             return response.getError();
         }
-        ClientData.getInstance().set(new PollerExpress());
+
         //update model if no errors
         ClientData CData = ClientData.getInstance();
         CData.setUser(new User(loginReq.getUsername(), loginReq.getPassword()));
