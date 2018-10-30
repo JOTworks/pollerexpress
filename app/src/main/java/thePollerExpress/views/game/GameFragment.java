@@ -32,7 +32,7 @@ public class GameFragment extends Fragment implements IGameView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        gamePresenter = new GamePresenter();
+        gamePresenter = new GamePresenter(this);
     }
 
 
