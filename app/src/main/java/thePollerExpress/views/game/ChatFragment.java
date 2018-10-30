@@ -36,7 +36,7 @@ public class ChatFragment extends Fragment implements IChatView {
     Button chatViewButton;
     Button devViewButton;
     EditText chatMessage;
-    ArrayList<String> results = new ArrayList<>();
+    ArrayList<String> chatList = new ArrayList<>();
     IChatPresenter CP = new ChatPresenter(this);
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
@@ -61,7 +61,7 @@ public class ChatFragment extends Fragment implements IChatView {
         devViewButton = (Button) v.findViewById(R.id.dev_view_button);
 
         //set up the recyclerview
-        recyclerView = (RecyclerView) v.findViewById(R.id.method_caller_recycler_view);
+        recyclerView = (RecyclerView) v.findViewById(R.id.chat_recycler_view);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -117,8 +117,8 @@ public class ChatFragment extends Fragment implements IChatView {
 
         // set up the adapter, which needs a list
 
-        results = messageList;
-        adapter = new Adapter(results);
+        chatList = messageList;
+        adapter = new Adapter(chatList);
         recyclerView.setAdapter(adapter);
 
         layoutManager = new LinearLayoutManager(getContext());
@@ -130,54 +130,54 @@ public class ChatFragment extends Fragment implements IChatView {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
-    public class Adapter extends RecyclerView.Adapter<ResultViewHolder> {
+    public class Adapter extends RecyclerView.Adapter<ChatViewHolder> {
 
-        private ArrayList<String> results = new ArrayList<>();
+        private ArrayList<String> chatList = new ArrayList<>();
 
-        public Adapter(ArrayList<String> method_results) {
-            results = method_results;
+        public Adapter(ArrayList<String> chat_list) {
+            chatList = chat_list;
         }
 
         @Override
-        public ResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ChatViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
             // create a new view
             ConstraintLayout v = (ConstraintLayout) LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.method_result_view, parent, false);
+                    .inflate(R.layout.chat_item_view, parent, false);
 
             //we need to create and return a result view holder
-            ResultViewHolder viewHolder = new ResultViewHolder(v);
+            ChatViewHolder viewHolder = new ChatViewHolder(v);
             return viewHolder;
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ResultViewHolder resultViewHolder, int i) {
+        public void onBindViewHolder(@NonNull ChatViewHolder chatViewHolder, int i) {
 
             // get what you want to bind and bind it.
-            String result = results.get(i);
-            resultViewHolder.bind(result);
+            String chat = chatList.get(i);
+            chatViewHolder.bind(chat);
         }
 
         @Override
         public int getItemCount() {
-            return results.size();
+            return chatList.size();
         }
     }
 
-    private class ResultViewHolder extends RecyclerView.ViewHolder {
+    private class ChatViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView method_result;
+        private TextView chat;
 
         // wire up the view holder
-        public ResultViewHolder(@NonNull View itemView) {
+        public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
-            method_result = (TextView) itemView.findViewById(R.id.method_result);
+            chat = (TextView) itemView.findViewById(R.id.chat_item);
         }
 
         // bind the view to the viewholder
         public void bind(String result) {
 
-            method_result.setText(result);
+            chat.setText(result);
         }
     }
 
