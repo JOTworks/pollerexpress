@@ -84,22 +84,30 @@ public class CommandFacade
         {
             //this maybe should be put into the service, but most of the logic has to deal with commands....
             List<DestinationCard> dlist = df.drawDestinationCards(p, 1) ;
-
             {
                 Class<?>[] types = {Player.class, dlist.getClass()};//we will see if this works...
                 Object[] params = {p, dlist};//TODO get the right name for this command
-                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "GameService", "drawDestinationCards", types, params);
+                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawDestinationCards", types, params);
                 CM.addCommand(drawDestinationCards, p);
             }
             //next create the command for all other players...
             {
                 Class<?>[] types = {Player.class, Integer.class};
                 Object[] params = {p, new Integer(3)};
-                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "GameService", "drawDestinationCards", types, params);
+                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawDestinationCards", types, params);
                 CM.addCommand(drawDestinationCards, info);
             }
 
         }
+
+        Class<?>[] types = {GameInfo.class};
+        Object[] params = {game.getGameInfo()};
+        Command command = new Command(CommandsExtensions.clientSide + "SetupService", "switchtoGameView", types, params);
+        CM.addCommand(command, game.getGameInfo());
+
+    }
+    public static void drawDestinationCards(Player p)
+    {
 
     }
     public static void discardDestinationCard(Player p, List<DestinationCard> card) throws CommandFailed, DatabaseException {
@@ -114,7 +122,7 @@ public class CommandFacade
         Class<?>[] types = {Player.class, card.getClass()};
         Object[] params = {p, card};
         //TODO fix command names.
-        Command cmd = new Command(CommandsExtensions.clientSide + "GameService", "discardDestinationCard", types, params);
+        Command cmd = new Command(CommandsExtensions.clientSide + "ClientGameService", "discardDestinationCards", types, params);
         CM.addCommand(cmd, df.getGameInfo(df.getPlayer(p.name).gameId));
     }
     /**
@@ -135,15 +143,7 @@ public class CommandFacade
 
         Class<?>[] types = {Chat.class, GameInfo.class};
         Object[] params = {chat, gameInfo};
-
-        Command chatCommand = new Command(CommandsExtensions.clientSide+"ClientGameService",
-                "chat",
-                types,
-                params);
-
-        CommandManager commandManager = CommandManager._instance();
-
-
-        commandManager.addCommand(chatCommand, gameInfo);
+        Command chatCommand = new Command(CommandsExtensions.clientSide+"ClientGameService", "chat", types, params);
+        CommandManager._instance().addCommand(chatCommand, gameInfo);
     }
 }

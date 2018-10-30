@@ -14,14 +14,15 @@ public class MethodBuilder {
         String[] Methods = inputMethods.split("\\;");
         Command[] Commands = new Command[Methods.length];
 
-        for(int i=0;i<Commands.length;i++){
+        for(int i=0;i<Commands.length;i++)
+        {
             Commands[i] = parseMethod(Methods[i],i);
         }
 
         return null;
     }
 
-    public static Command parseMethod(String inputMethod,int i) throws Exception {
+    public static Command parseMethod(String inputMethod, int i) throws Exception {
 
         String _className;
         String _methodName;
@@ -31,21 +32,26 @@ public class MethodBuilder {
         String[] section = inputMethod.split("!");
 
         //syntax checking
-        if(section.length<3){
+        if(section.length<3)
+        {
             throw new Exception("this is 0:"+section[0]);
            // throw new Exception("command "+i+" is missing a .'s");
-            }
+        }
+
         if(section.length>3)
             throw new Exception("command "+i+" has to many .'s");
+
         _className = section[0];
         _methodName = section[1];
 
-        if(section[2]!=null) {
+        if(section[2]!=null)
+        {
             String[] strParams = section[2].split("\\,");
             _paramTypes = new Class<?>[strParams.length];
             _paramValues = new Object[strParams.length];
 
-            for (int j = 0; j < strParams.length; j++) {
+            for (int j = 0; j < strParams.length; j++)
+            {
                 String[] paramSection = strParams[j].split("\\:");
 
                 if (paramSection.length != 2)
@@ -54,10 +60,13 @@ public class MethodBuilder {
                 _paramTypes[j] = Class.forName(paramSection[0]);
                 _paramValues[j] = paramSection[1];
             }
-        }else{
-            _paramTypes = null;
+        }
+        else
+        {
+            _paramTypes  = null;
             _paramValues = null;
         }
+
         return new Command(_className,_methodName,_paramTypes,_paramValues);
     }
 
