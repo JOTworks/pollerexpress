@@ -1,10 +1,13 @@
 package thePollerExpress.presenters.setup;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.models.requests.LoginRequest;
 
+import thePollerExpress.communication.PollerExpress;
+import thePollerExpress.models.ClientData;
 import thePollerExpress.views.setup.ILoginView;
 import thePollerExpress.facades.SetupFacade;
 
@@ -110,7 +113,6 @@ public class LoginPresenter implements ILoginPresenter {
                 loginView.displayError(errorResponse.getMessage());
             }
             else {
-
                 loginView.changeToSetupGameView();
             }
         }
@@ -133,7 +135,6 @@ public class LoginPresenter implements ILoginPresenter {
                 loginView.displayError(errorResponse.getMessage());
             }
             else {
-
                 loginView.changeToSetupGameView();
             }
         }

@@ -2,6 +2,7 @@ package com.shared.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Observable;
 
 /**
  * Abby
@@ -9,7 +10,8 @@ import java.util.ArrayList;
  * This class should be observed by the chat presenter
  * (and that's necessary for phase2).
  */
-public class ChatHistory implements Serializable {
+public class ChatHistory extends Observable implements Serializable
+{
 
     ArrayList<Chat> chats;
 
@@ -31,7 +33,13 @@ public class ChatHistory implements Serializable {
 
     public void addChat(Chat chat) {
 
+
         chats.add(chat);
+        synchronized (this)
+        {
+            this.setChanged();
+            notifyObservers(chat);
+        }
     }
 
     /**

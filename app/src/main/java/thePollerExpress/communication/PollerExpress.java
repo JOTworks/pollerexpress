@@ -1,5 +1,6 @@
 package thePollerExpress.communication;
 
+import android.app.Activity;
 import android.util.Log;
 
 import com.shared.models.Command;
@@ -24,11 +25,12 @@ public class PollerExpress
 
     private static boolean testing = false;
     private static int DELAY = 2000;
+    private static Activity main;
     Timer timer;
 
-    public PollerExpress()
+    public PollerExpress(Activity main)
     {
-
+        PollerExpress.main = main;
         timer = new Timer();
 
         timer.scheduleAtFixedRate(new TimerTask()
@@ -37,22 +39,12 @@ public class PollerExpress
             synchronized public void run()
             {
                 System.out.println(String.format("%s %d", "CHOO!", ClientData.getInstance().countObservers()));
-
-                PollResponse response = ClientCommunicator.instance().sendPoll();
-                if (testing)
+                if( ClientData.getInstance().getUser() == null )
                 {
-                    Class<?>[] types = {GameInfo.class};
-                    Object[] params = {new GameInfo("testin123", 4)};
-                    Command command = new Command("ClientSetupService", "createGame", types, params);
-                    try
-                    {
-                        command.execute();
-                    }
-                    catch (Exception e)
-                    {
-                        //do nothing
-                    }
+                    return;
                 }
+                PollResponse response = ClientCommunicator.instance().sendPoll();
+
                 if (response == null)
                 {
                     //client communicator didn't work, throw error or something? Idk how to do that though.
@@ -74,24 +66,31 @@ public class PollerExpress
     }
 
 
-    public static void executeCommands(Queue<Command> commands)
+    public static void executeCommands(final Queue<Command>  commands)
     {
-        while (!commands.isEmpty()) //queue, access in while loops, not, for loops;....
+        main.runOnUiThread(new Runnable()
         {
-            Log.d("PollerExpress", "something a response");
-            Command command = commands.poll();
+            public void run()
+            {
 
-            try
-            {
-                System.out.print("Ran " + command.getMethodName() + "\n");
-                command.execute();
+                while (!commands.isEmpty()) //queue, access in while loops, not, for loops;....
+                {
+                    Log.d("PollerExpress", "something a response");
+                    Command command = commands.poll();
+
+                    try
+                    {
+                        System.out.print("Ran " + command.getMethodName() + "\n");
+                        command.execute();
+                    }
+                    catch (CommandFailed commandFailed)
+                    {
+                        commandFailed.printStackTrace();
+                        //should probably just. start over at this point.
+                        //TODO THROW EPIC FAIL EXCEPTION
+                    }
+                }
             }
-            catch (CommandFailed commandFailed)
-            {
-                commandFailed.printStackTrace();
-                //should probably just. start over at this point.
-                //TODO THROW EPIC FAIL EXCEPTION
-            }
-        }
+        });
     }
 }
