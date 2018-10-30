@@ -29,13 +29,6 @@ import thePollerExpress.presenters.game.interfaces.IChatPresenter;
 import thePollerExpress.views.game.interfaces.IChatView;
 import thePollerExpress.views.setup.SetupGameFragment;
 
-/**
- * Abby
- * The class is responsible for finding client classes
- * and running methods. We are using it for testing purposes.
- * This class will have runtime dependencies but no
- * type dependencies because of reflection.
- */
 public class ChatFragment extends Fragment implements IChatView {
 
     Button sendChatButton;
@@ -43,6 +36,7 @@ public class ChatFragment extends Fragment implements IChatView {
     Button devViewButton;
     EditText chatMessage;
     ArrayList<String> results = new ArrayList<>();
+    ArrayList<String> chatList = new ArrayList();
     IChatPresenter CP = new ChatPresenter(this);
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;

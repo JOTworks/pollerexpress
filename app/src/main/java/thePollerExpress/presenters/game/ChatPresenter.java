@@ -43,7 +43,8 @@ public class ChatPresenter implements IChatPresenter, Observer {
         public ChatPresenter(IChatView chatView){
 
             this.chatView = chatView;
-            clientData = ClientData.getInstance();
+//            clientData = ClientData.getInstance();
+
             clientData.addObserver(this);
             CC = ClientCommunicator.instance();
         }
@@ -87,6 +88,6 @@ public class ChatPresenter implements IChatPresenter, Observer {
         {
             if( !(arg instanceof ArrayList) ) return;
 
-            //todo: actualy update the view
+            //todo: actually update the view
         }
 }
