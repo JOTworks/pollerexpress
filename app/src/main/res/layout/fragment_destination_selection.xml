@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/PollerWhite">
+
+
+        <TextView
+            android:id="@+id/destination_text_view_0"
+            android:layout_width="100dp"
+            android:layout_margin="5dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="56"
+            android:background="@drawable/destination_card"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="@color/PollerBackground"
+            android:textSize="16dp"/>
+        <TextView
+            android:id="@+id/destination_text_view_1"
+            android:layout_width="100dp"
+            android:layout_margin="5dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="56"
+            android:background="@drawable/destination_card"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="@color/PollerBackground"
+            android:textSize="16dp"/>
+        <TextView
+            android:id="@+id/destination_text_view_2"
+            android:layout_width="100dp"
+            android:layout_margin="5dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="houstan\nto (14)\namsterdam"
+            android:background="@drawable/destination_card"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:textSize="16dp"/>
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

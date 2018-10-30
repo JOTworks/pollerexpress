@@ -32,6 +32,7 @@ public class DestinationCard
     public City getCity1() { return _city1; }
     public City getCity2() { return _city2; }
     public int getPoints() { return _points; }
+    public String print() {return _city1.getName()+"\nto "+_points+"\n"+_city2;}
 
     @Override
     public boolean equals(Object o)
