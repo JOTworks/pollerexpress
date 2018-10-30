@@ -2,8 +2,10 @@ package com.shared.models.reponses;
 
 
 import com.shared.models.Command;
+import com.shared.models.interfaces.ICommand;
 
 import java.io.Serializable;
+import java.util.Queue;
 
 public class ErrorResponse implements Serializable
 {
@@ -11,16 +13,13 @@ public class ErrorResponse implements Serializable
 	private Exception exception;
 	private Command failed_command;
 
-	private ErrorResponse()
-	{
-
-	}
 
 	public ErrorResponse(String message, Exception exception, Command failed_command) {
 		this.message = message;
 		this.exception = exception;
 		this.failed_command = failed_command;
 	}
+
 
 	public String getMessage() {
 		return message;

@@ -74,7 +74,7 @@ public class PollerExpress
     }
 
 
-    void executeCommands(Queue<Command> commands)
+    public static void executeCommands(Queue<Command> commands)
     {
         while (!commands.isEmpty()) //queue, access in while loops, not, for loops;....
         {

@@ -27,7 +27,8 @@ public class CommandManager {
      * which we want because...because...because why? jack:I dont think we do want them */
 	private ArrayList<Command> chatCommands;
 	
-	private CommandManager() {
+	private CommandManager()
+    {
 		userCommands = new HashMap<String, Queue<Command>>();
 	}
 	
@@ -45,13 +46,14 @@ public class CommandManager {
      *             its screen with the other client screens.
      * @return
      */
-	public Queue<Command> getUserCommands(String user) {
+	public Queue<Command> getUserCommands(String user)
+    {
 
 	    if(userCommands.containsKey(user))
         {
             Queue<Command> kwayway = userCommands.get(user);
             userCommands.put(user, new LinkedList<>() );
-            System.out.print(String.format("Command Manager: %s returned queue %d\n", user, kwayway.size()));
+            //System.out.print(String.format("Command Manager: %s returned queue %d\n", user, kwayway.size()));
             return kwayway; // that's queue, to you
         }
         return new LinkedList<>();
@@ -135,7 +137,6 @@ public class CommandManager {
         for(Map.Entry<String, Queue<Command> > entry :userCommands.entrySet())
         {
             String key = entry.getKey();
-            System.out.print("added Command "+c.getMethodName() +" to user " + key + "\n");
             addCommand(c, entry.getKey());
         }
     }

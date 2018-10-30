@@ -3,12 +3,14 @@ package thePollerExpress.presenters.game;
 
 import android.os.AsyncTask;
 
+import com.shared.exceptions.CommandFailed;
 import com.shared.models.Chat;
 import com.shared.models.Command;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.shared.models.User;
+import com.shared.models.interfaces.ICommand;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.models.requests.LoginRequest;
 import com.shared.utilities.CommandsExtensions;
@@ -20,11 +22,13 @@ import java.util.Observer;
 import java.util.concurrent.TimeUnit;
 
 import thePollerExpress.communication.ClientCommunicator;
+import thePollerExpress.facades.GameFacade;
 import thePollerExpress.models.ClientData;
 import thePollerExpress.presenters.game.interfaces.IChatPresenter;
 import thePollerExpress.presenters.setup.GameSelectionPresenter;
 import thePollerExpress.presenters.setup.ILobbyPresenter;
 import thePollerExpress.presenters.setup.LoginPresenter;
+import thePollerExpress.utilities.AsyncRunner;
 import thePollerExpress.views.game.interfaces.IChatView;
 import thePollerExpress.views.setup.ILobbyView;
 
@@ -46,46 +50,24 @@ public class ChatPresenter implements IChatPresenter, Observer {
 
 
         @Override
-        public void PressedSendButton(String message) {
+        public void PressedSendButton(final String message) {
 
 
             //todo: this block should all be in a facade, not presenter, but not sure which one.
-            Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
-            Chat chatMessage = new Chat(message, timeStamp, clientData.getUser());
 
+            AsyncRunner commandRunner = new AsyncRunner(null);
 
-            ChatPresenter.ChatTask chatTask = new ChatPresenter.ChatTask();
-            chatTask.execute(chatMessage);
-            //also have to deal with pull response, i think Nate said he was refactoring that to get rid of code duplication
-
+            commandRunner.execute(new ICommand()
+            {
+                @Override
+                public Object execute() throws CommandFailed
+                {
+                    return new GameFacade().chat(message);
+                }
+            });
             chatView.displayMessage("chat sent");
         }
 
-    public class ChatTask extends AsyncTask<Chat, Void, ErrorResponse> {
-
-        @Override
-        protected ErrorResponse doInBackground(Chat... params) {
-
-            Chat chat = params[0];
-
-            GameInfo gameInfo = ClientData.getInstance().getGame().getGameInfo();
-            Class<?>[] types = {Chat.class, GameInfo.class};
-            Object[] values = {chat, gameInfo};
-            Command chatCommand = new Command(CommandsExtensions.serverSide +"CommandFacade","chat",types,values);
-
-            //todo:this should be in one of the facades
-           ClientCommunicator.instance().sendCommand(chatCommand);
-           return null;
-        }
-
-        @Override
-        protected void onPostExecute (ErrorResponse response) {
-
-            if(response != null) {
-                chatView.displayMessage("chat response was null");
-            }
-        }
-    }
         @Override
         public void PressedChatViewButton() {
             chatView.displayMessage("Already in Chat");

@@ -3,6 +3,8 @@ package thePollerExpress.utilities;
 import com.shared.models.interfaces.IDatabaseFacade;
 
 import thePollerExpress.views.IPollerExpressView;
+import thePollerExpress.views.game.interfaces.IGameView;
+import thePollerExpress.views.setup.ICreateGameView;
 
 public class ViewFactory
 {
@@ -12,7 +14,7 @@ public class ViewFactory
     {
         _ivf = idf;
     }
-
+    public static IGameView createGameView() {return _ivf.createGameView();}
     public static IPollerExpressView createLobbyView()
     {
         return _ivf.createLobbyView();

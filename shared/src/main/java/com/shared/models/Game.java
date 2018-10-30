@@ -90,6 +90,7 @@ public class Game extends Observable implements Serializable
         }
         synchronized(this)
         {
+            this.setChanged();
             notifyObservers(p);
         }
     }
@@ -104,6 +105,7 @@ public class Game extends Observable implements Serializable
                 _info.removePlayer();
                 synchronized(this)
                 {
+                    this.setChanged();
                     notifyObservers(p);
                 }
             }
