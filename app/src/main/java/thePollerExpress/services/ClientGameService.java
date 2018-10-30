@@ -52,7 +52,15 @@ class ClientGameService {
         }
         return true;
     }
+
     //todo: make it discard for players
+
+
+    public static boolean setAlertForStartGame() {
+        //todo: implement
+        //CD.getGame().
+        return true;
+    }
 
 
     public static boolean chat(Chat chat, GameInfo gameInfo)
