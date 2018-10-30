@@ -1,5 +1,8 @@
 package thePollerExpress.presenters.setup;
 
+import android.os.Debug;
+import android.util.Log;
+
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
@@ -19,11 +22,12 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
     private ILobbyView lobbyView;
     private ClientData clientData;
 
-    public LobbyPresenter(ILobbyView lobbyView){
+    public LobbyPresenter(ILobbyView lobbyView)
+    {
 
         this.lobbyView = lobbyView;
         clientData = ClientData.getInstance();
-        clientData.addObserver(this);
+        clientData.getGame().addObserver(this);
     }
 
 
@@ -55,8 +59,8 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
     }
 
     @Override
-    public void onBackArrowPressed() {
-
+    public void onBackArrowPressed()
+    {
         lobbyView.changeToSetupGameView();
     }
 
@@ -70,8 +74,10 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
     {
         if( !(arg instanceof Player) ) return;
         Player p = (Player) arg;
+        Log.d("LobbyPresenter", p.name);
         Game game = clientData.getGame();
         int dex = game.getPlayers().indexOf(p);
+        Log.d("LobbyPresenter", String.format("%d index of player %d", dex, game.getNumPlayers()));
         if(dex == -1)
         {
             lobbyView.playerLeft(dex);

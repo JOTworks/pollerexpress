@@ -3,6 +3,7 @@ package com.shared.models;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Abby
@@ -51,8 +52,23 @@ public class Chat implements Serializable {
     }
 
 
-    public boolean equals(Chat message2) {
-        return false;
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Chat chat = (Chat) o;
+
+        if(!(Objects.equals(timestamp, chat.timestamp))){
+            return false;
+        }
+        if(!(Objects.equals(message, chat.message))){
+            return false;
+        }
+        if(!(Objects.equals(messageSender, chat.messageSender))){
+            return false;
+        }
+        return true;
     }
 
     public ArrayList<Chat> sort(ArrayList<Chat> chats) {

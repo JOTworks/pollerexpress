@@ -3,9 +3,11 @@ package thePollerExpress.utilities;
 import android.os.AsyncTask;
 
 import com.shared.models.Command;
+import com.shared.models.PollResponse;
 import com.shared.models.interfaces.ICommand;
 import com.shared.models.reponses.ErrorResponse;
 
+import thePollerExpress.communication.PollerExpress;
 import thePollerExpress.views.IPollerExpressView;
 
 
@@ -14,44 +16,75 @@ import thePollerExpress.views.IPollerExpressView;
  * executing your command. If the nextView is set, then the view will change automatically upon
  * completion of the command
  */
-public class AsyncRunner extends AsyncTask<ICommand, Void, ErrorResponse> {
+public class AsyncRunner extends AsyncTask<ICommand, Void, PollResponse> {
 
     private IPollerExpressView currentView;
     private IPollerExpressView nextView;
 
 
-    public AsyncRunner(IPollerExpressView currentView) {
+    public AsyncRunner(IPollerExpressView currentView)
+    {
         this.currentView = currentView;
     }
 
     @Override
-    protected ErrorResponse doInBackground(ICommand... commands) {
+    protected PollResponse doInBackground(ICommand... commands)
+    {
 
-        ErrorResponse errorResponse;
-        try {
-            errorResponse = (ErrorResponse) commands[0].execute();
-        } catch (Exception e) {
+        PollResponse response;
+        try
+        {
+            Object theRet = commands[0].execute();
+            try
+            {
+                response = (PollResponse) theRet;
+            }
+            catch (Exception e)
+            {
+                ErrorResponse error = (ErrorResponse) theRet;
+                response = new PollResponse(null, error);
+            }
+
+        } catch (Exception e)
+        {
             e.printStackTrace();
-            errorResponse = new ErrorResponse("command failed", e, (Command) commands[0]); //TODO: Error response should depend on ICommand so we don't have to cast here
+            response = new PollResponse(null, new ErrorResponse(e.getMessage(), e, (Command) commands[0]) );
         }
 
-            return errorResponse;
+            return response;
     }
 
     @Override
-    protected void onPostExecute (ErrorResponse response) {
+    protected void onPostExecute (PollResponse response)
+    {
 
-        if(response != null) {
-            currentView.displayError("unable to join this game");
+        if(response == null)
+        {
+
         }
-        else if (nextView != null){
+        else if (response != null)
+        {
+            if (response.getError() != null)
+            {
+                currentView.displayError( response.getError().getMessage() );
+                return;
+            }
+
+            if(response.getCommands() != null)
+            {
+                PollerExpress.executeCommands(response.getCommands());
+            }
+        }
+
+        if (nextView != null)
+        {
             currentView.changeView(nextView);
         }
     }
 
-    public void setNextView(IPollerExpressView nextView) {
+    public void setNextView(IPollerExpressView nextView)
+    {
         this.nextView = nextView;
-        nextView = null; //reset nextView
     }
 
 }

@@ -27,7 +27,8 @@ import cs340.pollerexpress.R;
 import thePollerExpress.presenters.setup.ILobbyPresenter;
 import thePollerExpress.presenters.setup.LobbyPresenter;
 
-public class LobbyFragment extends Fragment implements ILobbyView {
+public class LobbyFragment extends Fragment implements ILobbyView,  IPollerExpressView
+{
 
     private ILobbyPresenter lobbyPresenter;
 
@@ -101,14 +102,6 @@ public class LobbyFragment extends Fragment implements ILobbyView {
         ft.commit();
         fm.popBackStack();
 
-        /* FragmentManager fm = getFragmentManager();
-        Fragment GameFragment = new GameFragment();
-
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, GameFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-        fm.popBackStack();*/
     }
 
     @Override
@@ -147,7 +140,11 @@ public class LobbyFragment extends Fragment implements ILobbyView {
     }
 
     @Override
-    public void changeView(IPollerExpressView view) {
-
+    public void changeView(IPollerExpressView view)
+    {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.right_side_fragment_container, (Fragment) view);
+        fragmentTransaction.commit();
     }
 }

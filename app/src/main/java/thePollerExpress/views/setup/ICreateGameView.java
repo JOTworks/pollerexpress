@@ -1,6 +1,9 @@
 package thePollerExpress.views.setup;
 
-public interface ICreateGameView {
+import thePollerExpress.views.IPollerExpressView;
+
+public interface ICreateGameView extends IPollerExpressView
+{
 
 //    void enableCancelButton(Boolean yn);
 //    void enableCreateButton(Boolean yn);

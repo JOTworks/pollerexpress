@@ -1,13 +1,17 @@
 package thePollerExpress.facades;
 
 import com.shared.exceptions.CommandFailed;
+import com.shared.models.Chat;
 import com.shared.models.Command;
 import com.shared.models.DestinationCard;
+import com.shared.models.GameInfo;
 import com.shared.models.PollResponse;
 import com.shared.models.User;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.utilities.CommandsExtensions;
 
+import java.sql.Timestamp;
+import java.util.List;
 import java.util.Queue;
 
 import thePollerExpress.communication.ClientCommunicator;
@@ -22,7 +26,7 @@ public class GameFacade {
     }
 
 
-    public ErrorResponse startGame(User user){
+    public PollResponse startGame(User user){
 
         ClientCommunicator CC = ClientCommunicator.instance();
 
@@ -32,19 +36,15 @@ public class GameFacade {
         PollResponse response = CC.sendCommand(startGame);
 
 
-        if(response == null) {
-            return new ErrorResponse("cannot connect to server",null,null);
-            //client communicator didn't work, throw error or something? Idk how to do that though.
-        } else if(response.getError()!=null){
-            return response.getError();
-        } else {
-            executeCommands(response.getCommands());
+        if(response == null)
+        {
+            return new PollResponse(null, new ErrorResponse("cannot connect to server",null,null) );
         }
 
-        return response.getError();
+        return response;
     }
 
-    public ErrorResponse discardDestCard(User user, DestinationCard destCard){
+    public PollResponse discardDestCard(User user, DestinationCard destCard){
 
         ClientCommunicator CC = ClientCommunicator.instance();
 
@@ -54,32 +54,40 @@ public class GameFacade {
         PollResponse response = CC.sendCommand(startGame);
 
 
-        if(response == null) {
-            return new ErrorResponse("cannot connect to server",null,null); //TODO: the communicator should populate the response with an error saying it could not connect (It might do that already in which case this line would be redundant
+        if(response == null)
+        {
+            return new PollResponse(null, new ErrorResponse("cannot connect to server", new Exception(), startGame) );
         } else if(response.getError()!=null){
-            return response.getError();
-        } else {
-            executeCommands(response.getCommands());
+            return response;
         }
 
-        return response.getError();
+        return response;
+    }
+
+    public PollResponse chat(String message)
+    {
+        Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
+        Chat chat = new Chat(message, timeStamp, ClientData.getInstance().getUser());
+        GameInfo gameInfo = ClientData.getInstance().getGame().getGameInfo();
+        Class<?>[] types = {Chat.class, GameInfo.class};
+        Object[] values = {chat, gameInfo};
+        Command chatCommand = new Command(CommandsExtensions.serverSide +"CommandFacade","chat",types,values);
+        return sendCommand( chatCommand );
     }
 
 
-    /**
-     * This method currently does not return any errors if there is a failure
-     * @param commands
-     */
-    private void executeCommands(Queue<Command> commands){
-        while(!commands.isEmpty())
+    private PollResponse sendCommand(Command command)
+    {
+        ClientCommunicator CC = ClientCommunicator.instance().instance();
+        PollResponse response = CC.sendCommand(command);
+        if(response == null)
         {
-            Command command = commands.poll();
-            try {
-                command.execute();
-            } catch (CommandFailed commandFailed) {
-                commandFailed.printStackTrace();
-            }
+            return new PollResponse(null, new ErrorResponse("cannot connect to server", new Exception(), command) );
+        } else if(response.getError()!=null){
+            return response;
         }
+
+        return response;
     }
 }
 

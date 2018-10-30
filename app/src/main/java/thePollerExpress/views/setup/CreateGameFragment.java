@@ -23,8 +23,10 @@ import java.util.Observer;
 import cs340.pollerexpress.R;
 import thePollerExpress.presenters.setup.CreateGamePresenter;
 import thePollerExpress.presenters.setup.ICreateGamePresenter;
+import thePollerExpress.views.IPollerExpressView;
 
-public class CreateGameFragment extends Fragment implements ICreateGameView {
+public class CreateGameFragment extends Fragment implements ICreateGameView
+{
 
     ICreateGamePresenter createGamePresenter;
 
@@ -152,7 +154,8 @@ public class CreateGameFragment extends Fragment implements ICreateGameView {
     }
 
     @Override
-    public void changeToLobbyView() {
+    public void changeToLobbyView()
+    {
 
         FragmentManager fragmentManager = getFragmentManager();
         //Fragment createGameFragment = fragmentManager.findFragmentById(R.id.fragment_create_game);
@@ -164,5 +167,15 @@ public class CreateGameFragment extends Fragment implements ICreateGameView {
 
 
 
+    }
+
+    @Override
+    public void changeView(IPollerExpressView view)
+    {
+        //changeToLobbyView();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.right_side_fragment_container, (Fragment) view);
+        fragmentTransaction.commit();//*/
     }
 }

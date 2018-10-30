@@ -117,47 +117,4 @@ public class GameSelectionPresenter implements IGameSelectionPresenter, Observer
             }
         }*/
     }
-
-    private class Request {
-
-        public User user;
-        public GameInfo gameInfo;
-
-        public Request(User user, GameInfo gameInfo) {
-            this.user = user;
-            this.gameInfo = gameInfo;
-        }
-
-        public User getUser() {
-            return user;
-        }
-
-        public GameInfo getGameInfo() {
-            return gameInfo;
-        }
-    }
-
-    public class JoinGameTask extends AsyncTask<Request, Void, ErrorResponse> {
-
-        @Override
-        protected ErrorResponse doInBackground(Request... params) {
-
-            Request request = params[0];
-            User user = request.getUser();
-            GameInfo gameInfo = request.getGameInfo();
-            return facade.joinGame(user, gameInfo);
-        }
-
-        @Override
-        protected void onPostExecute (ErrorResponse response) {
-
-            if(response != null) {
-                view.displayError("unable to join this game");
-            }
-            else {
-                view.changeToLobbyView();
-            }
-
-        }
-    }
 }

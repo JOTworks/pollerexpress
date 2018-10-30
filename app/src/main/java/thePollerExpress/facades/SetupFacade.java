@@ -82,7 +82,7 @@ public class SetupFacade {
      * @param userColor
      * @return res.getError, it will be null on succesful Login
      */
-    public ErrorResponse createGame(String name, int numPlayers, Color.PLAYER userColor) {
+    public PollResponse createGame(String name, int numPlayers, Color.PLAYER userColor) {
 
         GameInfo info = new GameInfo(name,numPlayers); //max players 1.... 111111
         ClientCommunicator CC = ClientCommunicator.instance();
@@ -95,13 +95,9 @@ public class SetupFacade {
 
         if(response == null) {
             //client communicator didn't work, throw error or something? Idk how to do that though.
-        } else if(response.getError() != null) {
-            return response.getError();
-        } else {
-            executeCommands(response.getCommands());
         }
 
-        return null;
+        return response;
     }
 
     /**
@@ -109,7 +105,7 @@ public class SetupFacade {
      * @param player, info
      * @return res.getError, it will be null on succesful register
      */
-    public ErrorResponse joinGame(Player player, GameInfo info){
+    public PollResponse joinGame(Player player, GameInfo info){
         ClientCommunicator CC = ClientCommunicator.instance();
         Class<?>[] types = {Player.class, GameInfo.class};
         Object[] params= {player, info};
@@ -118,14 +114,10 @@ public class SetupFacade {
         PollResponse response = CC.sendCommand(joinGameCommand);
 
         if(response == null) {
-            //client communicator didn't work, throw error or something? Idk how to do that though.
-        } else if(response.getError() != null) {
-            return response.getError();
-        } else {
-            executeCommands(response.getCommands());
+            response = new PollResponse(null, new ErrorResponse("Could not contact server", new Exception(),joinGameCommand) );
         }
 
-        return null;
+        return response;
     }
 
     /**
@@ -133,7 +125,7 @@ public class SetupFacade {
      * @param gameName
      * @return res.getError, it will be null on successful join
      */
-    public ErrorResponse startGame(String gameName){
+    public PollResponse startGame(String gameName){
         /**todo:
          *  check if i pass the correct params to the server side CommandFacade startgame()
          */
@@ -146,13 +138,10 @@ public class SetupFacade {
 
         if(response == null) {
             //client communicator didn't work, throw error or something? Idk how to do that though
-        } else if(response.getError() != null) {
-            return response.getError();
-        } else {
-            executeCommands(response.getCommands());
+            response = new PollResponse(null, new ErrorResponse("Could not contact server", new Exception(),joinGameCommand) );
         }
 
-        return null;
+        return response;
     }
 
     /**
@@ -160,7 +149,7 @@ public class SetupFacade {
      * @param
      * @return res.getError, it will be null on succesful join
      */
-    public ErrorResponse leaveGame(){
+    public PollResponse leaveGame(){
 
         ClientCommunicator CC = ClientCommunicator.instance();
         Class<?>[] types = {Player.class, GameInfo.class};
@@ -182,15 +171,5 @@ public class SetupFacade {
         return null;
     }
 
-    private void executeCommands(Queue<Command> commands){
-        while(!commands.isEmpty())
-        {
-            Command command = commands.poll();
-            try {
-                command.execute();
-            } catch (CommandFailed commandFailed) {
-                commandFailed.printStackTrace();
-            }
-        }
-    }
+
 }

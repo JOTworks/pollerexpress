@@ -2,11 +2,18 @@ package thePollerExpress.presenters.setup;
 
 import android.os.AsyncTask;
 
+import com.shared.exceptions.CommandFailed;
 import com.shared.models.Color;
+import com.shared.models.PollResponse;
+import com.shared.models.interfaces.ICommand;
 import com.shared.models.reponses.ErrorResponse;
 
 import java.util.Observable;
 
+import thePollerExpress.utilities.AsyncRunner;
+import thePollerExpress.utilities.RealViewFactory;
+import thePollerExpress.utilities.ViewFactory;
+import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.setup.ICreateGameView;
 import thePollerExpress.facades.SetupFacade;
 
@@ -15,7 +22,8 @@ import thePollerExpress.facades.SetupFacade;
  * Doesn't need to implement observer because the create
  * game view is not updated based on changed to models.
  */
-public class CreateGamePresenter implements ICreateGamePresenter {
+public class CreateGamePresenter implements ICreateGamePresenter
+{
 
     private ICreateGameView view;
     private SetupFacade facade;
@@ -23,7 +31,8 @@ public class CreateGamePresenter implements ICreateGamePresenter {
     private int numPlayers;
     private Color.PLAYER userColor;
 
-    public CreateGamePresenter(ICreateGameView view) {
+    public CreateGamePresenter(ICreateGameView view)
+    {
 
         this.view = view;
         facade = new SetupFacade();
@@ -57,12 +66,20 @@ public class CreateGamePresenter implements ICreateGamePresenter {
         numPlayers = Integer.parseInt(numOfPlayers);
         userColor = Color.PLAYER.valueOf(user_color);
 
-        if( gameName.length() > 0 && gameName.length() < 1000 ) {
+        if( gameName.length() > 0 && gameName.length() < 1000 )
+        {
 
-            CreateGameTask createGameTask = new CreateGameTask();
+            AsyncRunner createGameTask = new AsyncRunner(view);
+            createGameTask.setNextView(ViewFactory.createLobbyView());
 
-            Request request = new Request(gameName, numPlayers, userColor);
-            createGameTask.execute(request);
+            createGameTask.execute(new ICommand()
+            {
+                @Override
+                public Object execute() throws CommandFailed
+                {
+                    return facade.createGame(gameName, numPlayers, userColor);
+                }
+            });
         }
         else {
 
@@ -77,64 +94,13 @@ public class CreateGamePresenter implements ICreateGamePresenter {
     }
 
     @Override
-    public void onBackArrowClicked() {
+    public void onBackArrowClicked()
+    {
 
         // No game was actually created,
         // so no model data needs to be updated
         view.changeToSetupGameView();
     }
 
-    private class Request {
-        public String name;
-        public int num;
-        public Color.PLAYER color;
-
-        public Request(String name, int num, Color.PLAYER color) {
-
-            this.name = name;
-            this.num = num;
-            this.color = color;
-        }
-
-        public String getName() { return name; }
-        public int getNum() { return num; }
-
-        public Color.PLAYER getColor() {
-            return color;
-        }
-    }
-
-    public class CreateGameTask extends AsyncTask<Request, Void, ErrorResponse> {
-
-        @Override
-        protected ErrorResponse doInBackground(Request... params) {
-
-            Request request = params[0];
-            String name = request.getName();
-            int num = request.getNum();
-            Color.PLAYER userColor = request.getColor();
-
-            return facade.createGame(name, numPlayers, userColor);
-        }
-
-        @Override
-        protected void onPostExecute(ErrorResponse response) {
-
-            if( response != null ) {
-
-                view.displayError(response.getMessage());
-            }
-            else {
-
-                // if the game was successfully created,
-                // go back to the selection view.
-                view.changeToLobbyView();
-                //view.changeToSetupGameView();
-            }
-
-        }
-
-
-    }
 
 }

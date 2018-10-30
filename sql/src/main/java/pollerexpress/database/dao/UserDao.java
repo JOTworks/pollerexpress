@@ -17,7 +17,7 @@ public class UserDao {
     IDatabase _db;
     static final String WRITE = "insert into USERS(USER_NAME, PASSWORD, GAME_ID, DESTINATION_DISCARDS)\nvalues(?,?, ?, ?)";
     static final String LOGIN = "select USER_NAME, PASSWORD, GAME_ID \nfrom USERS \nwhere USER_NAME = ?";
-    public static final String GET_PLAYERS_IN_GAME = "USER_NAME, GAME_ID, DESTINATION_DISCARDS\nFROM USERS\nWHERE GAME_ID = ?";
+    public static final String GET_PLAYERS_IN_GAME = "SELECT USER_NAME, GAME_ID, DESTINATION_DISCARDS\nFROM USERS\nWHERE GAME_ID = ?";
 
     public UserDao(IDatabase db) {
         this._db = db;
@@ -63,7 +63,7 @@ public class UserDao {
 
     public Player[] getPlayersInGame(GameInfo info) throws DatabaseException {
         try {
-            PreparedStatement stmnt = this._db.getConnection().prepareStatement("USER_NAME, GAME_ID\nFROM USERS\nWHERE GAME_ID = ?");
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(GET_PLAYERS_IN_GAME);
             stmnt.setString(1, info.getId());
             ResultSet rs = stmnt.executeQuery();
             ArrayList players = new ArrayList();

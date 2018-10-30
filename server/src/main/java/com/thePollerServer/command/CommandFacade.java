@@ -33,7 +33,8 @@ public class CommandFacade
 
     private CommandFacade() { }
 
-    public static void joinGame(Player player, GameInfo info) throws CommandFailed, DatabaseException {
+    public static void joinGame(Player player, GameInfo info) throws CommandFailed, DatabaseException
+    {
         SetupService SS = new SetupService();
         SS.joinGame(player, info);
 

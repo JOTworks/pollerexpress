@@ -23,10 +23,10 @@ public class PollerExpress
 {
 
     private static boolean testing = false;
-	private static int DELAY = 2000;
-	Timer timer;
+    private static int DELAY = 2000;
+    Timer timer;
 
-	public PollerExpress()
+    public PollerExpress()
     {
 
         timer = new Timer();
@@ -36,47 +36,62 @@ public class PollerExpress
 
             synchronized public void run()
             {
-                System.out.println(String.format("%s %d","CHOO!", ClientData.getInstance().countObservers() ) );
+                System.out.println(String.format("%s %d", "CHOO!", ClientData.getInstance().countObservers()));
 
                 PollResponse response = ClientCommunicator.instance().sendPoll();
-                if(testing)
+                if (testing)
                 {
                     Class<?>[] types = {GameInfo.class};
                     Object[] params = {new GameInfo("testin123", 4)};
-                    Command command = new Command("ClientSetupService","createGame",types, params );
-                    try{
+                    Command command = new Command("ClientSetupService", "createGame", types, params);
+                    try
+                    {
                         command.execute();
                     }
-                    catch ( Exception e)
+                    catch (Exception e)
                     {
                         //do nothing
                     }
                 }
-                if(response == null) {
+                if (response == null)
+                {
                     //client communicator didn't work, throw error or something? Idk how to do that though.
                     Log.d("PollerExpress", "no response");
-                } else if(response.getError() != null) {
+                } else if (response.getError() != null)
+                {
                     //error handling, throw an error if necessary? Wait, where would that GO???
-                } else {
-                    Log.d("PollerExpress", "got a response");
+                } else
+                {
                     Queue<Command> commands = response.getCommands();
-                    while (!commands.isEmpty()) //queue, access in while loops, not, for loops;....
-                    {
-                        Log.d("PollerExpress", "something a response");
-                        Command command = commands.poll();
 
-                        try {
-                            System.out.print("Ran "+command.getMethodName()+"\n");
-                            command.execute();
-                        } catch (CommandFailed commandFailed) {
-                            commandFailed.printStackTrace();
-                            //should probably just. start over at this point.
-                            //THROW EPIC FAIL EXCEPTION
-                        }
-                    }
+                    Log.d("PollerExpress", String.format("Got a response of size %d", commands.size()));
+
+                    executeCommands(commands);
                 }
 
             }
-        }, DELAY,  DELAY );
+        }, DELAY, DELAY);
+    }
+
+
+    public static void executeCommands(Queue<Command> commands)
+    {
+        while (!commands.isEmpty()) //queue, access in while loops, not, for loops;....
+        {
+            Log.d("PollerExpress", "something a response");
+            Command command = commands.poll();
+
+            try
+            {
+                System.out.print("Ran " + command.getMethodName() + "\n");
+                command.execute();
+            }
+            catch (CommandFailed commandFailed)
+            {
+                commandFailed.printStackTrace();
+                //should probably just. start over at this point.
+                //TODO THROW EPIC FAIL EXCEPTION
+            }
+        }
     }
 }

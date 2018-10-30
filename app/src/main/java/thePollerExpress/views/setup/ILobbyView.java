@@ -4,7 +4,8 @@ import com.shared.models.Player;
 
 import thePollerExpress.views.IPollerExpressView;
 
-public interface ILobbyView extends IPollerExpressView {
+public interface ILobbyView extends IPollerExpressView
+{
 
 //    void attachPresenter(IGamePresenter gamePresenter);
 //    void setPlayers(player[] players);
