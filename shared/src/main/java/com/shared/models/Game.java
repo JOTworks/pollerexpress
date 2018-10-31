@@ -11,11 +11,16 @@ import java.util.Observable;
 public class Game extends Observable implements Serializable
 {
     GameInfo _info;
-
     private GameState gameState; //TODO: this is not accesable yet
-
-    // the chat history for the game
     ChatHistory chatHistory = new ChatHistory();
+    List<Player> _players;
+
+    //todo:make these private
+    public List<TrainCard> _faceUpCards;
+    public int DestinationCardDeck;
+    public int TrainCardDeck;
+
+
     public ChatHistory getChatHistory() {
         return chatHistory;
     }
@@ -26,9 +31,6 @@ public class Game extends Observable implements Serializable
     public void addChat(Chat chat) {
         chatHistory.addChat(chat);
     }
-
-    List<Player> _players;
-
 
     public Game(GameInfo info)
     {

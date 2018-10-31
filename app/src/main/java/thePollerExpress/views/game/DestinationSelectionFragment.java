@@ -15,8 +15,10 @@ import java.util.List;
 import cs340.pollerexpress.R;
 import thePollerExpress.models.ClientData;
 import thePollerExpress.presenters.game.DestinationSelectionPresenter;
+import thePollerExpress.views.IPollerExpressView;
+import thePollerExpress.views.game.interfaces.IDestinationSelectionView;
 
-public class DestinationSelectionFragment extends Fragment {
+public class DestinationSelectionFragment extends Fragment implements IDestinationSelectionView {
 
     DestinationSelectionPresenter destinationSelectionPresenter;
     TextView destinationTextView0;
@@ -39,15 +41,32 @@ public class DestinationSelectionFragment extends Fragment {
         destinationTextView1 = (TextView)v.findViewById(R.id.destination_text_view_1);
         destinationTextView2 = (TextView)v.findViewById(R.id.destination_text_view_2);
 
+
         List<DestinationCard> destCards = ClientData.getInstance().getUser().getDestCardHand().getDestinationCards();
-        if(destCards==null){
-            destinationTextView0.setText("destCard is null");
-        //}//else if(destCards.get(0)==null) {
-            //destinationTextView0.setText("Card 0 is null");
-        } else {
-            destinationTextView0.setText(destCards.toString());
-        }
+        renderCards(destCards);
+
         return v;
     }
 
+    @Override
+    public void renderCards(List<DestinationCard> cards) {
+        //todo: not done, in progreessssss
+        if(cards==null){
+            destinationTextView0.setText("destCard is null");
+            //}//else if(destCards.get(0)==null) {
+            //destinationTextView0.setText("Card 0 is null");
+        } else {
+            destinationTextView0.setText(cards.toString());
+        }
+    }
+
+    @Override
+    public void displayError(String errorMessage) {
+
+    }
+
+    @Override
+    public void changeView(IPollerExpressView view) {
+
+    }
 }
