@@ -100,6 +100,13 @@ public class CommandFacade
                 Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawDestinationCards", types, params);
                 CM.addCommand(drawDestinationCards, info);
             }
+            //create a second command for all other players...
+            {
+                Class<?>[] types = {};
+                Object[] params = {};
+                Command startGame = new Command(CommandsExtensions.clientSide + "ClientGameService", "startGame", types, params);
+                CM.addCommand(startGame, info);
+            }
 
         }
 
