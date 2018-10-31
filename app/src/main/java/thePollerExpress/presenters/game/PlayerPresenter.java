@@ -14,11 +14,13 @@ import thePollerExpress.views.game.interfaces.IPlayerView;
 public class PlayerPresenter implements IPlayerPresenter, Observer {
     IPlayerView playerView;
     ClientData clientData;
+    String playerName;
 
-    PlayerPresenter(IPlayerView playerView) {
+    public PlayerPresenter(IPlayerView playerView, String playerName) {
         this.playerView = playerView;
+        this.playerName = playerName;
         clientData = ClientData.getInstance();
-        clientData.getGame().getPlayers().get(0);
+        clientData.getGame().getPlayer(playerName);
     }
 
     public Player getPlayer() {
@@ -34,6 +36,11 @@ public class PlayerPresenter implements IPlayerPresenter, Observer {
         Game game = clientData.getGame();
         int dex = game.getPlayers().indexOf(p);
         Log.d("LobbyPresenter", String.format("%d index of player %d", dex, game.getNumPlayers()));
+        if(game.currentTurn.equals(playerName)) {
+            playerView.isTurn();
+        } else {
+            playerView.isNotTurn();
+        }
     }
 
     //
