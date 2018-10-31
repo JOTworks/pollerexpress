@@ -7,6 +7,7 @@ import com.shared.models.DestinationCard;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
+import com.shared.models.states.GameState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,16 @@ class ClientGameService {
         CD = ClientData.getInstance();
     }
 
+    /**
+     *  Set the game state for the state you will have going into the game
+     *  This will notify the observer and will cause every user to switch to the gameView
+     * @return true if the state was changed and false otherwise
+     */
+    public static boolean startGame() {
+        CD.getGame().setGameState(new GameState());
+        return false;
+    }
+
     public static boolean drawDestinationCards(Player player, List<DestinationCard> destinationCards)
     {
         if(!CD.getUser().equals(player)) return false;
@@ -43,6 +54,7 @@ class ClientGameService {
         return true;
     }
 
+
     public static boolean removeDestCardFromHand(Player player, List<DestinationCard> destinationCards)
     {
         for (DestinationCard card : destinationCards) {
@@ -51,6 +63,14 @@ class ClientGameService {
         return true;
     }
 
+    //todo: make it discard for players
+
+
+    public static boolean setAlertForStartGame() {
+        //todo: implement
+        //CD.getGame().
+        return true;
+    }
 
 
     public static boolean chat(Chat chat, GameInfo gameInfo)

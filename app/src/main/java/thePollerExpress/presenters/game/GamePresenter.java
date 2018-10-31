@@ -12,7 +12,7 @@ import thePollerExpress.views.game.interfaces.IGameView;
 public class GamePresenter implements IGamePresenter {
 
     private IGameView view;
-    private GameFacade facade;
+    private GameFacade facade = new GameFacade();
     ClientData CD = ClientData.getInstance();
 
     public GamePresenter(IGameView view) {
