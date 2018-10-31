@@ -32,7 +32,8 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
     }
 
     @Override
-    public void onDraw(Canvas canvas) {
+    public void onDraw(Canvas canvas)
+    {
         super.onDraw(canvas);
         Map map = ClientData.getInstance().map;
 
