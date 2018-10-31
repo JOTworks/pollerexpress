@@ -88,6 +88,11 @@ public class DeckBuilder {
         tcDao.insertIntoDefault(new TrainCard(RAINBOW));
     }
 
+    public void makeBank(GameInfo gi) throws DatabaseException {
+        this.makeDestinationDeck(gi);
+        this.makeTrainDeck(gi);
+    }
+
     public void makeDestinationDeck(GameInfo gi) throws DatabaseException {
         DestinationCardDao dcDao = _db.getDestinationCardDao();
 
@@ -115,11 +120,18 @@ public class DeckBuilder {
         //fill table
         ArrayList<TrainCard> defaultDeck = tcDao.getDefaultDeck();
         for(TrainCard card : defaultDeck) {
-            tcDao.insertCard(gi, card.getId(), 0, null);
+            tcDao.insertCard(gi, card.getId(), 0, null, 0);
         }
 
         //shuffle
         this.shuffleTrainDeck(gi);
+
+        //flip five face-up cards
+        tcDao.flipFaceUp(gi, 1);
+        tcDao.flipFaceUp(gi, 2);
+        tcDao.flipFaceUp(gi, 3);
+        tcDao.flipFaceUp(gi, 4);
+        tcDao.flipFaceUp(gi, 5);
     }
 
 
