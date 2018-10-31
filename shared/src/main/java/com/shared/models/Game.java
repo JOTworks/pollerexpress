@@ -11,27 +11,16 @@ import java.util.Observable;
 public class Game extends Observable implements Serializable
 {
     GameInfo _info;
-
     private GameState gameState; //TODO: this is not accesable yet
     private Map map;
     // the chat history for the game
     ChatHistory chatHistory = new ChatHistory();
-    public ChatHistory getChatHistory()
-    {
-        return chatHistory;
-    }
-    public void setChatHistory(ChatHistory chatHistory)
-    {
-        this.chatHistory = chatHistory;
-    }
-
-    public void addChat(Chat chat)
-    {
-        chatHistory.addChat(chat);
-    }
-
     List<Player> _players;
 
+    //todo:make these private
+    public List<TrainCard> _faceUpCards;
+    public int DestinationCardDeck;
+    public int TrainCardDeck;
 
     /**
      *
@@ -59,6 +48,21 @@ public class Game extends Observable implements Serializable
                                   Getters & Setters
      -----------------------------------------------------------------------
      */
+
+
+    public ChatHistory getChatHistory()
+    {
+        return chatHistory;
+    }
+    public void setChatHistory(ChatHistory chatHistory)
+    {
+        this.chatHistory = chatHistory;
+    }
+
+    public void addChat(Chat chat)
+    {
+        chatHistory.addChat(chat);
+    }
 
     /**
      * initialize or change the gameState object
