@@ -70,7 +70,7 @@ class ClientSetupService implements ISetupService {
 //        ArrayList<GameInfo> infoList = CD.getGameInfoList();
 //
 //        for(int i = 0; i<infoList.size(); i++){
-//            if(infoList.get(i).getId()==gameInfo.getId()) {
+//            if(infoList.get(i).getRotation()==gameInfo.getRotation()) {
 //                return true;
 //            }
 //        }

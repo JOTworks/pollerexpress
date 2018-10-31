@@ -116,7 +116,7 @@ public class HistoryFragment extends Fragment implements IChatView {
 
     public void changeToDevView(){
         FragmentManager fm = getFragmentManager();
-        //Fragment createGameFragment = fm.findFragmentById(R.id.fragment_create_game);
+        //Fragment createGameFragment = fm.findFragmentById(R.rotation.fragment_create_game);
         Fragment fragment = new MethodCallerFragment();
 
         FragmentTransaction ft = fm.beginTransaction();

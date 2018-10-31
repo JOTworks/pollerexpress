@@ -20,7 +20,7 @@ public class Database implements IDatabase
 
     /*
     * Abby
-    * -- Make a chat table with message, timestamp (unique id), sender, and game_id columns
+    * -- Make a chat table with message, timestamp (unique rotation), sender, and game_id columns
     * You can always find the game_id.
     * Ids will have hyphens and those have to have double quotes around them. This
     * gets tricky, so check with Morgan when you get stuck".

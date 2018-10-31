@@ -54,7 +54,7 @@ public class GameInfo implements Serializable
 
     /**
      * Getter for gameId
-     * @return the id of the game this game info is connected to.
+     * @return the rotation of the game this game info is connected to.
      */
     public String getId()
     {

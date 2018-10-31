@@ -40,11 +40,9 @@ public class ClientData extends Observable
 
         gameInfoList = new ArrayList<>();
 
-        map = Map.DEFAULT_MAP;
 
     }
 
-    public Map map;
     private User user = null;
     private Authtoken auth;
 
