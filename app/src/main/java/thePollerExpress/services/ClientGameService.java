@@ -36,7 +36,7 @@ class ClientGameService {
      */
     public static boolean startGame() {
         CD.getGame().setGameState(new GameState());
-        return false;
+        return true;
     }
 
     public static boolean drawDestinationCards(Player player, List<DestinationCard> destinationCards)

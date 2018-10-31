@@ -83,37 +83,33 @@ public class CommandFacade
         Game game = df.getGame(info);
         CommandManager CM = CommandManager._instance();
 
+        {
+            Class<?>[] types = {};
+            Object[] params = {};
+            Command startGame = new Command(CommandsExtensions.clientSide + "ClientGameService", "startGame", types, params);
+            CM.addCommand(startGame, info);
+        }
+
         for(Player p :game.getPlayers())
         {
             //this maybe should be put into the service, but most of the logic has to deal with commands....
-            List<DestinationCard> dlist = df.drawDestinationCards(p, 1) ;
-            {
-                Class<?>[] types = {Player.class, dlist.getClass()};//we will see if this works...
-                Object[] params = {p, dlist};//TODO get the right name for this command
-                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawDestinationCards", types, params);
-                CM.addCommand(drawDestinationCards, p);
-            }
-            //next create the command for all other players...
-            {
-                Class<?>[] types = {Player.class, Integer.class};
-                Object[] params = {p, new Integer(3)};
-                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawDestinationCards", types, params);
-                CM.addCommand(drawDestinationCards, info);
-            }
+//            List<DestinationCard> dlist = df.drawDestinationCards(p, 1) ;
+//            {
+//                Class<?>[] types = {Player.class, dlist.getClass()};//we will see if this works...
+//                Object[] params = {p, dlist};//TODO get the right name for this command
+//                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawDestinationCards", types, params);
+//                CM.addCommand(drawDestinationCards, p);
+//            }
+//            //next create the command for all other players...
+//            {
+//                Class<?>[] types = {Player.class, Integer.class};
+//                Object[] params = {p, new Integer(3)};
+//                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawDestinationCards", types, params);
+//                CM.addCommand(drawDestinationCards, info);
+//            }
             //create a second command for all other players...
-            {
-                Class<?>[] types = {};
-                Object[] params = {};
-                Command startGame = new Command(CommandsExtensions.clientSide + "ClientGameService", "startGame", types, params);
-                CM.addCommand(startGame, info);
-            }
-
         }
 
-        Class<?>[] types = {GameInfo.class};
-        Object[] params = {game.getGameInfo()};
-        Command command = new Command(CommandsExtensions.clientSide + "SetupService", "switchtoGameView", types, params);
-        CM.addCommand(command, game.getGameInfo());
 
     }
     public static void drawDestinationCards(Player p)

@@ -12,7 +12,7 @@ public class Game extends Observable implements Serializable
 {
     GameInfo _info;
 
-    private GameState gameState; //TODO: this is not accesable yet
+    private GameState gameState;
 
     // the chat history for the game
     ChatHistory chatHistory = new ChatHistory();
@@ -52,7 +52,11 @@ public class Game extends Observable implements Serializable
      */
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
-        notifyObservers(gameState);
+        synchronized(this)
+        {
+            this.setChanged();
+            notifyObservers(gameState);
+        }
     }
 
     /**
