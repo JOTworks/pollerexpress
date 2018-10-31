@@ -14,6 +14,7 @@ public class Player extends Observable implements Serializable
     public int destinationCardCount;
     public int trainCardCount;
     public List<Route> routes;
+    public int points;
 
     /**
      * Creates a new Player object
@@ -30,7 +31,7 @@ public class Player extends Observable implements Serializable
         destinationDiscardCount = 0;
         destinationCardCount = 0;
         trainCardCount = 0;
-
+        this.points = 0;
         this.routes = new ArrayList<>();
     }
 
@@ -49,7 +50,8 @@ public class Player extends Observable implements Serializable
     {
         return name;
     }
-
+    public int getPoints(){return points;}
+    public void setPoints(int points){this.points = points;}
     public String getGameId()
     {
         return gameId;

@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import pollerexpress.database.dao.TrainCardDao;
 import pollerexpress.database.utilities.DeckBuilder;
@@ -74,7 +75,9 @@ public class TestTrainCardDao {
     public void testBuildGameDeck() {
         try {
             builder.makeTrainDeck(gi);
-            assertEquals(110, tcDao.getDeckSize(gi));
+            assertEquals(105, tcDao.getDeckSize(gi));
+//            assertEquals(5, tcDao.getFaceUp(gi).length);
+//            assertFalse(Arrays.asList(tcDao.getFaceUp(gi)).contains(null));
         } catch(Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
