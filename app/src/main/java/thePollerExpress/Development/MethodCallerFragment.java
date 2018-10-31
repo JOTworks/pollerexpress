@@ -22,6 +22,7 @@ import com.shared.models.GameInfo;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.regex.PatternSyntaxException;
 
 import cs340.pollerexpress.R;
 import thePollerExpress.Development.MethodBuilder;
@@ -84,7 +85,15 @@ public class MethodCallerFragment extends Fragment {
                     //results = methodCaller.execute(commandList);
 
                     //jack is getting rid of reflection for now, its hard, instead hardcodding funtions
-                    results = methodCaller.parse(methods.getText().toString());
+                    String method = methods.getText().toString();
+                    String[] splitArray;
+                    try {
+                        splitArray = method.split("\\s+");
+                    } catch (PatternSyntaxException ex) {
+                        splitArray = new String[1];
+                        splitArray[0] = method;
+                    }
+                    results = methodCaller.parse(splitArray[0],splitArray );
 
                     // set up the adapter, which needs a list
                     adapter = new Adapter(results);

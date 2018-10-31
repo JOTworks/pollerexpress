@@ -66,6 +66,7 @@ public class AsyncRunner extends AsyncTask<ICommand, Void, PollResponse> {
         {
             if (response.getError() != null)
             {
+                if(currentView == null) return;
                 currentView.displayError( response.getError().getMessage() );
                 return;
             }

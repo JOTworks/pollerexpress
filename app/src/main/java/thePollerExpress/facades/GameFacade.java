@@ -5,7 +5,9 @@ import com.shared.models.Chat;
 import com.shared.models.Command;
 import com.shared.models.DestinationCard;
 import com.shared.models.GameInfo;
+import com.shared.models.Player;
 import com.shared.models.PollResponse;
+import com.shared.models.Route;
 import com.shared.models.User;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.utilities.CommandsExtensions;
@@ -88,6 +90,14 @@ public class GameFacade {
         }
 
         return response;
+    }
+
+    public PollResponse claimRoute(Route r)
+    {
+        Class<?>[] types = {Player.class, Route.class};
+        Object[] values = {CData.getUser(), r};
+        Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","claimRoute",types,values);
+        return sendCommand(command);
     }
 }
 

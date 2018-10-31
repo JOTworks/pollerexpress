@@ -3,6 +3,7 @@ package com.thePollerServer.command;
 
 import com.shared.models.DestinationCard;
 import com.shared.models.Chat;
+import com.shared.models.Route;
 import com.shared.models.User;
 import com.shared.utilities.CommandsExtensions;
 import com.shared.exceptions.database.DatabaseException;
@@ -69,6 +70,27 @@ public class CommandFacade
         joinGame(player, info);
     }
 
+    /**
+     * TODO add list of train cards to arg.
+     * @param p player
+     * @param r route
+     * @throws DatabaseException
+     */
+    public static void claimRoute(Player p, Route r) throws DatabaseException
+    {
+        ///do nothing but
+        CommandManager CM = CommandManager._instance();
+        IDatabaseFacade df = Factory.createDatabaseFacade();
+
+        GameInfo info = df.getGameInfo(p.getGameId());
+        //TODO verify that a route can be cclaimed. in the future this will take a bunch of train cards
+
+        //its verified so...
+        Class<?>[] types = {Player.class, Route.class};
+        Object[] params = {p, r};
+        Command command = new Command(CommandsExtensions.clientSide + "ClientGameService", "claimRoute", types, params);
+        CM.addCommand(command, info);
+    }
     /**
      *
      * @param user
