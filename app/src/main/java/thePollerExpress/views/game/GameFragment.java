@@ -7,8 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import com.shared.models.Game;
+
 import cs340.pollerexpress.R;
 import thePollerExpress.Development.MethodCallerFragment;
+import thePollerExpress.models.ClientData;
 import thePollerExpress.presenters.game.GamePresenter;
 import thePollerExpress.presenters.game.interfaces.IGamePresenter;
 import thePollerExpress.views.IPollerExpressView;
@@ -49,12 +53,14 @@ public class GameFragment extends Fragment implements IGameView {
                 .add(R.id.chat_history_fragment_container, fragment)
                 .commit();
 
-
         fragment = new DestinationSelectionFragment();
         fm.beginTransaction()
                 .add(R.id.destination_fragment_container, fragment)
                 .commit();
 
+        ClientData CD = ClientData.getInstance();
+        Game game = CD.getGame();
+        fragment = PlayerFragment.newInstance(game.getPlayers().get(0).getName());
 
         gamePresenter.startGame();
 
