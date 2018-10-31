@@ -13,9 +13,9 @@ public class Game extends Observable implements Serializable
     GameInfo _info;
 
     private GameState gameState;
+    private Map map;
 
     // the chat history for the game
-
     ChatHistory chatHistory = new ChatHistory();
     List<Player> _players;
 
@@ -24,25 +24,24 @@ public class Game extends Observable implements Serializable
     public int DestinationCardDeck;
     public int TrainCardDeck;
 
-
-    public ChatHistory getChatHistory() {
-        return chatHistory;
-    }
-    public void setChatHistory(ChatHistory chatHistory) {
-        this.chatHistory = chatHistory;
-    }
-
-    public void addChat(Chat chat) {
-        chatHistory.addChat(chat);
-    }
-
+    /**
+     *
+     * @param info
+     */
     public Game(GameInfo info)
     {
+        map = new Map(Map.DEFAULT_MAP);
         _info = info;
     }
 
+    /**
+     *
+     * @param info
+     * @param players
+     */
     public Game(GameInfo info, Player[] players)
     {
+        map = Map.DEFAULT_MAP;
         _info = info;
         _players = new LinkedList<Player>(Arrays.asList(players) );
     }
@@ -51,6 +50,21 @@ public class Game extends Observable implements Serializable
                                   Getters & Setters
      -----------------------------------------------------------------------
      */
+
+
+    public ChatHistory getChatHistory()
+    {
+        return chatHistory;
+    }
+    public void setChatHistory(ChatHistory chatHistory)
+    {
+        this.chatHistory = chatHistory;
+    }
+
+    public void addChat(Chat chat)
+    {
+        chatHistory.addChat(chat);
+    }
 
     /**
      * initialize or change the gameState object
@@ -75,7 +89,7 @@ public class Game extends Observable implements Serializable
     }
     /**
      * Getter for gameId
-     * @return the id of the game this game info is connected to.
+     * @return the rotation of the game this game info is connected to.
      */
     public String getId()
     {
@@ -170,6 +184,10 @@ public class Game extends Observable implements Serializable
         return _players;
     }
 
+    public Map getMap()
+    {
+        return map;
+    }
     @Override
     public boolean equals(Object o)
     {

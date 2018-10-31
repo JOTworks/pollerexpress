@@ -2,11 +2,13 @@ package thePollerExpress.Development;
 
 import com.shared.exceptions.CommandFailed;
 import com.shared.models.Command;
+import com.shared.models.Player;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import thePollerExpress.models.ClientData;
+import thePollerExpress.services.ClientGameService;
 
 
 /**
@@ -41,9 +43,14 @@ public class MethodCaller {
                 result.add("getUserName\n" +
                         "getChatMessages\n" +
                         "getGameID\n" +
+                        "claimRoute\n" +
                         "---\n" +
                         "add commands to the methodCaller class\n" +
                         "in the parse funtion, as a case");
+                break;
+            case "claimRoute":
+                ClientGameService.claimRoute(CD.getUser(), 1);
+                //result.add( )
                 break;
             case "getChatMessages":
                 result = CD.getGame().getChatHistory().getChatsAsString();

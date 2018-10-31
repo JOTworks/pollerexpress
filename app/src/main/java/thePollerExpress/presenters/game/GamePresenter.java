@@ -21,7 +21,7 @@ public class GamePresenter implements IGamePresenter {
 
     @Override
     public void startGame() {
-
+/*
         AsyncRunner startGameTask = new AsyncRunner(view);
 
         startGameTask.execute(new ICommand()
@@ -31,7 +31,7 @@ public class GamePresenter implements IGamePresenter {
             {
                 return facade.startGame(CD.getUser());
             }
-        });
+        });*/
 
     }
 

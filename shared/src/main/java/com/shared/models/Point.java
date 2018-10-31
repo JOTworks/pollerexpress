@@ -1,6 +1,8 @@
 package com.shared.models;
 
-public class Point
+import java.io.Serializable;
+
+public class Point implements Serializable
 {
     float x;
     float y;

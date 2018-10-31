@@ -2,6 +2,9 @@ package thePollerExpress.presenters.game;
 
 import com.shared.models.Player;
 
-public interface IPlayerPresenter {
+import java.util.Observer;
+
+public interface IPlayerPresenter extends Observer
+{
     public Player getPlayer();
 }

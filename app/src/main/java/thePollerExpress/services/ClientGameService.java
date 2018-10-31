@@ -7,6 +7,7 @@ import com.shared.models.DestinationCard;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
+import com.shared.models.Route;
 import com.shared.models.states.GameState;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
 
 import thePollerExpress.models.ClientData;
 
-class ClientGameService {
+public class ClientGameService {
 
     private static final ClientGameService ourInstance = new ClientGameService();
 
@@ -84,4 +85,14 @@ class ClientGameService {
         return true;
     }
 
+    public static boolean claimRoute(Player p, int route)
+    {
+        claimRoute(p, (Route) CD.getGame().getMap().getRoutes().toArray()[route ]);
+        return true;
+    }
+    public static boolean claimRoute(Player p, Route r)
+    {
+        CD.getGame().getMap().claimRoute(p, r);
+        return true;
+    }
 }

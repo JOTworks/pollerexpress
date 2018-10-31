@@ -116,7 +116,7 @@ public class MethodCallerFragment extends Fragment {
             public void onClick(View v) {
 
                 FragmentManager fm = getFragmentManager();
-                //Fragment createGameFragment = fm.findFragmentById(R.id.fragment_create_game);
+                //Fragment createGameFragment = fm.findFragmentById(R.rotation.fragment_create_game);
                 Fragment fragment = new ChatFragment();
 
                 FragmentTransaction ft = fm.beginTransaction();

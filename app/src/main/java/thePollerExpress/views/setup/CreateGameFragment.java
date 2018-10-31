@@ -158,7 +158,7 @@ public class CreateGameFragment extends Fragment implements ICreateGameView
     {
 
         FragmentManager fragmentManager = getFragmentManager();
-        //Fragment createGameFragment = fragmentManager.findFragmentById(R.id.fragment_create_game);
+        //Fragment createGameFragment = fragmentManager.findFragmentById(R.rotation.fragment_create_game);
         Fragment fragment = new LobbyFragment();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
