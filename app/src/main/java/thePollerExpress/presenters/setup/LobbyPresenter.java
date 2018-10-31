@@ -6,6 +6,7 @@ import android.util.Log;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
+import com.shared.models.states.GameState;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -68,6 +69,11 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
     public void update(Observable o, Object arg)
     {
         if( !(arg instanceof Player) ) return;
+
+        else if (arg instanceof GameState) {
+            lobbyView.changeToGameView();
+        }
+
         Player p = (Player) arg;
         Log.d("LobbyPresenter", p.name);
         Game game = clientData.getGame();
