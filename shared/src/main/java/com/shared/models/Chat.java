@@ -37,17 +37,15 @@ public class Chat implements Serializable {
     }
 
     /**
-     * @return A string containing the message and the sender name
-     * on different lines.
+     * @return A string of the form "sender name: message"
      */
     public String toString() {
 
         StringBuilder chatDisplay = new StringBuilder();
 
-        /*I need to find a better way of displaying the time.*/
-        chatDisplay.append(message)
-                .append('\n')
-                .append(messageSender.getName());
+        chatDisplay.append(messageSender.getName())
+                .append(": ")
+                .append(message);
 
         return chatDisplay.toString();
     }
