@@ -6,6 +6,7 @@ import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.interfaces.ISetupService;
 import com.shared.models.Player;
+import com.shared.models.states.GameState;
 
 import java.util.ArrayList;
 
@@ -62,6 +63,9 @@ class ClientSetupService implements ISetupService {
             return true;
         }
 
+
+
+
 //    public static boolean startGame(GameInfo gameInfo){
 //        ArrayList<GameInfo> infoList = CD.getGameInfoList();
 //
@@ -85,7 +89,7 @@ class ClientSetupService implements ISetupService {
                 infoList.remove(gameInfo);
                 return true;
             }
-            System.out.println("!!!you tried to deate a game that doesnt exist");
+            System.out.println("!!!you tried to delete a game that doesnt exist");
             return false;
         }
         public boolean leaveGame (Player player, GameInfo info){

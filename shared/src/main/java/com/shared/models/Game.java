@@ -47,6 +47,15 @@ public class Game extends Observable implements Serializable
      */
 
     /**
+     * initialize or change the gameState object
+     * @param gameState
+     */
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+        notifyObservers(gameState);
+    }
+
+    /**
      *
      * @return Returns a non linked copy of the games info
      */
