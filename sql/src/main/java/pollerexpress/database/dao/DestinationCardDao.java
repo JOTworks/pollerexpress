@@ -141,6 +141,7 @@ public class DestinationCardDao {
     public DestinationCard drawCard(Player player) throws DatabaseException {
         //get card
         DestinationCard card = null;
+//        String TABLE_NAME = "\"DEFAULT_DESTINATION_DECK_" + player.getGameId() + "\"";
         String TABLE_NAME = "\"DESTINATION_DECK_" + player.getGameId() + "\"";
         String GET_TOP_CARD = SELECT_TOP_CARD.replace("<TABLE_NAME>",TABLE_NAME);
 

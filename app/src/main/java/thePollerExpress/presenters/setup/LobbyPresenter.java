@@ -68,24 +68,23 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
     @Override
     public void update(Observable o, Object arg)
     {
-        if( !(arg instanceof Player) ) return;
+        System.out.println("Entered LobbyPresenterUpdate with " + arg.getClass().toString()); //TODO: remove debug statement
 
-        else if (arg instanceof GameState) {
+        if (arg instanceof GameState) {
             lobbyView.changeToGameView();
         }
+        else if (arg instanceof Player) {
 
-        Player p = (Player) arg;
-        Log.d("LobbyPresenter", p.name);
-        Game game = clientData.getGame();
-        int dex = game.getPlayers().indexOf(p);
-        Log.d("LobbyPresenter", String.format("%d index of player %d", dex, game.getNumPlayers()));
-        if(dex == -1)
-        {
-            lobbyView.playerLeft(dex);
-        }
-        else
-        {
-            lobbyView.playerJoined(p);
+            Player p = (Player) arg;
+            Log.d("LobbyPresenter", p.name);
+            Game game = clientData.getGame();
+            int dex = game.getPlayers().indexOf(p);
+            Log.d("LobbyPresenter", String.format("%d index of player %d", dex, game.getNumPlayers()));
+            if (dex == -1) {
+                lobbyView.playerLeft(dex);
+            } else {
+                lobbyView.playerJoined(p);
+            }
         }
     }
 
@@ -93,5 +92,9 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
     public Game getGame()
     {
         return clientData.getGame();
+    }
+    public void onDestroy()
+    {
+        clientData.getGame().deleteObserver(this);
     }
 }
