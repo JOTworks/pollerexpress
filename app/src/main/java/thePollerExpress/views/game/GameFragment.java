@@ -67,19 +67,19 @@ public class GameFragment extends Fragment implements IGameView {
 
        /* fragment = new PlayerFragment();
         fm.beginTransaction()
-                .add(R.id.player_1, fragment)
+                .add(R.rotation.player_1, fragment)
                 .commit();
         fragment = new PlayerFragment();
         fm.beginTransaction()
-                .add(R.id.player_2, fragment)
+                .add(R.rotation.player_2, fragment)
                 .commit();
         fragment = new PlayerFragment();
         fm.beginTransaction()
-                .add(R.id.player_3, fragment)
+                .add(R.rotation.player_3, fragment)
                 .commit();
         fragment = new PlayerFragment();
         fm.beginTransaction()
-                .add(R.id.player_4, fragment)
+                .add(R.rotation.player_4, fragment)
                 .commit();*/
 
         return v;

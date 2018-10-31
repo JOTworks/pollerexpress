@@ -86,10 +86,15 @@ public class ClientCommunicator
                 {
 
                     response = Serializer.readData(http.getInputStream());
+
                 }
                 catch(ClassNotFoundException e)
                 {
                     return null;
+                }
+                finally
+                {
+                    http.getInputStream().close();
                 }
             }
             else {

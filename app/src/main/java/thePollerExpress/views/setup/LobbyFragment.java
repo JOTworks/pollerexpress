@@ -103,6 +103,8 @@ public class LobbyFragment extends Fragment implements ILobbyView,  IPollerExpre
         ft.commit();
         fm.popBackStack();
 
+        lobbyPresenter.onDestroy();
+
     }
 
     @Override
@@ -114,13 +116,15 @@ public class LobbyFragment extends Fragment implements ILobbyView,  IPollerExpre
     @Override
     public void changeToSetupGameView() {
         FragmentManager fm = getFragmentManager();
-        //Fragment createGameFragment = fm.findFragmentById(R.id.fragment_create_game);
+        //Fragment createGameFragment = fm.findFragmentById(R.rotation.fragment_create_game);
         Fragment fragment = new SetupGameFragment();
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragment_container, fragment);
         ft.commit();
         fm.popBackStack();
+
+        lobbyPresenter.onDestroy();
     }
 
     @Override
@@ -151,5 +155,21 @@ public class LobbyFragment extends Fragment implements ILobbyView,  IPollerExpre
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.right_side_fragment_container, (Fragment) view);
         fragmentTransaction.commit();
+
+        lobbyPresenter.onDestroy();
     }
+
+//    @Override
+//    public void onDetach()
+//    {
+//
+//        super.onDetach();
+//    }
+//
+//    @Override
+//    public void onDestroyView() {
+//        lobbyPresenter.onDestroy();
+//        super.onDestroyView();
+//    }
+
 }
