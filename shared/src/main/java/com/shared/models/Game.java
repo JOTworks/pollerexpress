@@ -35,6 +35,7 @@ public class Game extends Observable implements Serializable
         faceUpCards = new VisibleCards();
         DestinationCardDeck = DESTINATION_DECK_SIZE;
         TrainCardDeck = TRAIN_CARD_DECK_SIZE;
+        currentTurn = "";
     }
     /**
      *
