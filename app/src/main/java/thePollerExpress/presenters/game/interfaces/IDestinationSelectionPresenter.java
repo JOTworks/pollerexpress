@@ -5,4 +5,6 @@ import com.shared.models.DestinationCard;
 public interface IDestinationSelectionPresenter {
 
     void discardDestCard(DestinationCard card);
+
+    void discardButtonPressed();
 }

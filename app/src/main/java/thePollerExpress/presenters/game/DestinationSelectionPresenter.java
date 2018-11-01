@@ -51,6 +51,11 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
     }
 
     @Override
+    public void discardButtonPressed() {
+        view.displayError("discard Button Pressed!");
+    }
+
+    @Override
     public void update(Observable o, Object arg) {
         view.renderCards((List<DestinationCard>) arg);
     }
