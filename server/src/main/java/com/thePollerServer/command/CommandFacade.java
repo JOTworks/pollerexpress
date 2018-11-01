@@ -10,18 +10,15 @@ import com.shared.models.Command;
 import com.shared.exceptions.CommandFailed;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
-import com.shared.models.interfaces.IDatabaseFacade;
+import pollerexpress.database.IDatabaseFacade;
 import com.shared.models.Player;
 import com.thePollerServer.commandServices.GameService;
 import com.thePollerServer.commandServices.SetupService;
 import com.thePollerServer.utilities.Factory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import pollerexpress.database.Database;
-import pollerexpress.database.DatabaseFacade;
+import pollerexpress.database.utilities.DeckBuilder;
 
 public class CommandFacade
 {
@@ -70,6 +67,7 @@ public class CommandFacade
     }
 
     /**
+     * initializes the state for each player, draws cards, and initializes the bank. TODO: consider putting some of this into a service
      *
      * @param user
      * @throws CommandFailed
@@ -82,7 +80,10 @@ public class CommandFacade
         GameInfo info = df.getGameInfo(user.getGameId());
         Game game = df.getGame(info);
         CommandManager CM = CommandManager._instance();
+        DeckBuilder deckBuilder = new DeckBuilder(df.getDatabase());
+        deckBuilder.makeBank(info);
 
+        // set the game state for each person in the game TODO: give each player a different state
         {
             Class<?>[] types = {};
             Object[] params = {};
@@ -93,29 +94,28 @@ public class CommandFacade
         for(Player p :game.getPlayers())
         {
             //this maybe should be put into the service, but most of the logic has to deal with commands....
-//            List<DestinationCard> dlist = df.drawDestinationCards(p, 1) ;
-//            {
-//                Class<?>[] types = {Player.class, dlist.getClass()};//we will see if this works...
-//                Object[] params = {p, dlist};//TODO get the right name for this command
-//                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawDestinationCards", types, params);
-//                CM.addCommand(drawDestinationCards, p);
-//            }
-//            //next create the command for all other players...
-//            {
-//                Class<?>[] types = {Player.class, Integer.class};
-//                Object[] params = {p, new Integer(3)};
-//                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawDestinationCards", types, params);
-//                CM.addCommand(drawDestinationCards, info);
-//            }
-            //create a second command for all other players...
+            List<DestinationCard> dlist = df.drawDestinationCards(p, 1) ;
+            {
+                Class<?>[] types = {Player.class, List.class};//we will see if this works...
+                Object[] params = {p, dlist};
+                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawDestinationCards", types, params);
+                CM.addCommand(drawDestinationCards, p);
+            }
+            //next create the command for all other players...
+            {
+                Class<?>[] types = {Player.class, Integer.class};
+                Object[] params = {p, new Integer(3)};
+                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawDestinationCards", types, params);
+                CM.addCommand(drawDestinationCards, info);
+            }
         }
 
 
     }
-    public static void drawDestinationCards(Player p)
-    {
-
-    }
+//    public static void drawDestinationCards(Player p)
+//    {
+//
+//    }
     public static void discardDestinationCard(Player p, List<DestinationCard> card) throws CommandFailed, DatabaseException {
         GameService gm = new GameService();
         boolean discarded = gm.discardDestinationCards(p, card);

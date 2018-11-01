@@ -1,6 +1,6 @@
 package com.thePollerServer.server;
 
-import com.shared.models.interfaces.IDatabaseFacade;
+import pollerexpress.database.IDatabaseFacade;
 import com.thePollerServer.utilities.IDatabaseFactory;
 
 public class FakeLoginDatabaseFactory implements IDatabaseFactory

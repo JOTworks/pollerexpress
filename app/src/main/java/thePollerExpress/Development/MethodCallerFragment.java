@@ -27,6 +27,7 @@ import cs340.pollerexpress.R;
 import thePollerExpress.Development.MethodBuilder;
 import thePollerExpress.Development.MethodCaller;
 import thePollerExpress.communication.ClientCommunicator;
+import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.ChatFragment;
 import thePollerExpress.views.setup.SetupViewAdapters.GameSelectAdapter;
 
@@ -37,7 +38,7 @@ import thePollerExpress.views.setup.SetupViewAdapters.GameSelectAdapter;
  * This class will have runtime dependencies but no
  * type dependencies because of reflection.
  */
-public class MethodCallerFragment extends Fragment {
+public class MethodCallerFragment extends Fragment implements IPollerExpressView {
 
     Button runMethodsButton;
     Button chatViewButton;
@@ -135,6 +136,16 @@ public class MethodCallerFragment extends Fragment {
 //        recyclerView.setLayoutManager(layoutManager);
 
         return v;
+    }
+
+    @Override
+    public void displayError(String errorMessage) {
+
+    }
+
+    @Override
+    public void changeView(IPollerExpressView view) {
+
     }
 
     public class Adapter extends RecyclerView.Adapter<ResultViewHolder> {

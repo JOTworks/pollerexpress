@@ -7,7 +7,6 @@ import com.shared.models.Chat;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
-import com.shared.models.interfaces.IDatabaseFacade;
 import com.shared.models.reponses.LoginResponse;
 import com.shared.models.Player;
 import com.shared.models.User;
@@ -17,6 +16,7 @@ import java.util.List;
 
 import com.shared.exceptions.database.DataNotFoundException;
 import com.shared.exceptions.database.DatabaseException;
+
 public class DatabaseFacade implements IDatabaseFacade
 {
     Database db;
@@ -340,6 +340,10 @@ public class DatabaseFacade implements IDatabaseFacade
                 db.close(false);
             }
         }
+    }
+
+    public IDatabase getDatabase() {
+        return db;
     }
 
 }

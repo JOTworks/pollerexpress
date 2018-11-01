@@ -2,13 +2,17 @@ package thePollerExpress.Development;
 
 import com.shared.exceptions.CommandFailed;
 import com.shared.models.Command;
+import com.shared.models.Game;
 import com.shared.models.Player;
+import com.shared.models.interfaces.ICommand;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import thePollerExpress.facades.GameFacade;
 import thePollerExpress.models.ClientData;
 import thePollerExpress.services.ClientGameService;
+import thePollerExpress.utilities.AsyncRunner;
 
 
 /**
@@ -57,6 +61,19 @@ public class MethodCaller {
                 break;
             case "getUserName":
                 result.add(CD.getUser().getName());
+                break;
+            case "startGame":
+                AsyncRunner startGameTask = new AsyncRunner(fragment);
+
+                startGameTask.execute(new ICommand()
+                {
+                    @Override
+                    public Object execute() throws CommandFailed
+                    {
+                        return new GameFacade().startGame(ClientData.getInstance().getUser());
+                    }
+                });
+
                 break;
             case "getGameID":
                 if(CD.getGame()!=null)

@@ -7,17 +7,15 @@ import com.shared.models.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Point;
 import com.shared.models.TrainCard;
-import com.shared.models.interfaces.IDatabaseFacade;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.UUID;
 
 import pollerexpress.database.dao.DestinationCardDao;
-import pollerexpress.database.dao.IDatabase;
+import pollerexpress.database.IDatabase;
 import pollerexpress.database.dao.TrainCardDao;
 
 import static com.shared.models.Color.TRAIN.*;

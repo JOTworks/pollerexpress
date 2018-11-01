@@ -8,7 +8,7 @@ import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.shared.models.User;
-import com.shared.models.interfaces.IDatabaseFacade;
+import pollerexpress.database.IDatabaseFacade;
 import com.shared.models.reponses.LoginResponse;
 
 import java.util.List;
