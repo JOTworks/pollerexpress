@@ -44,9 +44,15 @@ public class MethodCaller {
                         "getChatMessages\n" +
                         "getGameID\n" +
                         "claimRoute\n" +
+                        "setTurn\n" +
                         "---\n" +
                         "add commands to the methodCaller class\n" +
                         "in the parse funtion, as a case");
+                break;
+            case "setTurn":
+                CD.getGame().setTurn("jackson");
+                CD.getGame().setGameState(null);
+                //result.add( )
                 break;
             case "claimRoute":
                 ClientGameService.claimRoute(CD.getUser(), 1);

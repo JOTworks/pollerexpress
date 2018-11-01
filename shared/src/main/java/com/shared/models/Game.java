@@ -52,7 +52,14 @@ public class Game extends Observable implements Serializable
      -----------------------------------------------------------------------
      */
 
-
+    public void setTurn(String name){
+        this.currentTurn = name;
+        synchronized(this)
+        {
+            this.setChanged();
+            notifyObservers(name);
+        }
+    }
     public ChatHistory getChatHistory()
     {
         return chatHistory;
@@ -76,6 +83,7 @@ public class Game extends Observable implements Serializable
         synchronized(this)
         {
             this.setChanged();
+
             notifyObservers(gameState);
         }
     }
