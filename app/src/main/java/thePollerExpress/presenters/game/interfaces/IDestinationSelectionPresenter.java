@@ -9,4 +9,5 @@ public interface IDestinationSelectionPresenter {
     void discardDestCards(List<DestinationCard> cards);
 
     void discardButtonPressed(List<Boolean> selected);
+    List<DestinationCard> get();
 }
