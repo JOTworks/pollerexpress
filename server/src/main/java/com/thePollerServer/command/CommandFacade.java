@@ -116,18 +116,17 @@ public class CommandFacade
 //    {
 //
 //    }
-    public static void discardDestinationCard(Player p, List<DestinationCard> card) throws CommandFailed, DatabaseException {
+    public static void discardDestinationCard(Player p, List<DestinationCard> cards) throws CommandFailed, DatabaseException {
         GameService gm = new GameService();
-        boolean discarded = gm.discardDestinationCards(p, card);
+        boolean discarded = gm.discardDestinationCards(p, cards);
         if (!discarded) {
             throw new CommandFailed("discardDestinationCard");
         }
         IDatabaseFacade df = Factory.createDatabaseFacade();
         CommandManager CM = CommandManager._instance();
 
-        Class<?>[] types = {Player.class, card.getClass()};
-        Object[] params = {p, card};
-        //TODO fix command names.
+        Class<?>[] types = {Player.class, List.class};
+        Object[] params = {p, cards};
         Command cmd = new Command(CommandsExtensions.clientSide + "ClientGameService", "discardDestinationCards", types, params);
         CM.addCommand(cmd, df.getGameInfo(df.getPlayer(p.name).gameId));
     }

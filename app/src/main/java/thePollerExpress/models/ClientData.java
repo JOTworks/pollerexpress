@@ -214,6 +214,14 @@ public class ClientData extends Observable
     }
 
     public void addDestCardToHand(DestinationCard card) {
+        this.user.getDestCardHand().addToHand(card);
+    }
 
+    public void addDestCardToOptions(DestinationCard card) {
+        this.user.getDestCardOptions().addToOptions(card);
+    }
+
+    public void removeDestCardFromOptions(DestinationCard card) {
+        this.user.getDestCardOptions().removeFromOptions(card);
     }
 }

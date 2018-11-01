@@ -1,9 +1,12 @@
 package thePollerExpress.Development;
 
 import com.shared.exceptions.CommandFailed;
+import com.shared.models.City;
 import com.shared.models.Command;
+import com.shared.models.DestinationCard;
 import com.shared.models.Game;
 import com.shared.models.Player;
+import com.shared.models.Point;
 import com.shared.models.interfaces.ICommand;
 
 import java.lang.reflect.Method;
@@ -73,6 +76,19 @@ public class MethodCaller {
                         return new GameFacade().startGame(ClientData.getInstance().getUser());
                     }
                 });
+
+//            case "discardCard":
+//                AsyncRunner discardCardTask = new AsyncRunner(fragment);
+//
+//                startGameTask.execute(new ICommand()
+//                {
+//                    @Override
+//                    public Object execute() throws CommandFailed
+//                    {
+//                        return new GameFacade().discardDestCard(ClientData.getInstance().getUser(),
+//                                new DestinationCard(new City("name", new Point(50)), "North Pole", 50));
+//                    }
+//                });
 
                 break;
             case "getGameID":
