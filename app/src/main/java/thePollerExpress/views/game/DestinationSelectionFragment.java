@@ -18,12 +18,13 @@ import java.util.List;
 import cs340.pollerexpress.R;
 import thePollerExpress.models.ClientData;
 import thePollerExpress.presenters.game.DestinationSelectionPresenter;
+import thePollerExpress.presenters.game.interfaces.IDestinationSelectionPresenter;
 import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.interfaces.IDestinationSelectionView;
 
 public class DestinationSelectionFragment extends Fragment implements IDestinationSelectionView, IPollerExpressView{
 
-    DestinationSelectionPresenter destinationSelectionPresenter;
+    IDestinationSelectionPresenter destinationSelectionPresenter;
     TextView destinationTextView0;
     TextView destinationTextView1;
     TextView destinationTextView2;
@@ -31,7 +32,7 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        destinationSelectionPresenter = new DestinationSelectionPresenter(this);
     }
 
     @Override
@@ -49,7 +50,6 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
             @Override
             public void onClick(View v) {
                 destinationSelectionPresenter.discardButtonPressed();
-                Toast.makeText(getContext(), "It's working!", Toast.LENGTH_LONG).show(); //TODO: remove toast
             }
         });
 
