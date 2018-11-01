@@ -3,6 +3,7 @@ package thePollerExpress.presenters.game;
 import com.shared.models.cardsHandsDecks.TrainCard;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -30,7 +31,7 @@ public class TrainCardHandPresenter implements ITrainCardHandPresenter, Observer
     @Override
     public void update(Observable o, Object arg) {
 
-        if( !(arg instanceof TrainCard) ) return;
+        //if( !(arg instanceof TrainCard) ) return;
 
         /*
         * I want to give the view a list of strings,
@@ -38,7 +39,11 @@ public class TrainCardHandPresenter implements ITrainCardHandPresenter, Observer
         * color train card I have.
         * */
 
-        ArrayList<String> trainCardHand = clientData.getUser().getTrainCardHand().getCardsAsStrings();
-        handView.displayHand(trainCardHand);
+        handView.displayHand();
+    }
+
+    @Override
+    public List<TrainCard> get() {
+        return clientData.getUser().getTrainCardHand().getList();
     }
 }

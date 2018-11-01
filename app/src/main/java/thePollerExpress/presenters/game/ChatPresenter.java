@@ -1,6 +1,5 @@
 package thePollerExpress.presenters.game;
 
-
 import com.shared.exceptions.CommandFailed;
 import com.shared.models.Chat;
 
@@ -71,9 +70,9 @@ public class ChatPresenter implements IChatPresenter, Observer {
             if( !(arg instanceof Chat) ) return;
 
             // get all of the chats
-            //ArrayList<String> chats = clientData.getGame().getChatHistory().getChatsAsString();
+            // ArrayList<String> chats = clientData.getGame().getChatHistory().getChatsAsString();
 
-            //display the chats
+            // display the chats
             String message = ((Chat) arg).toString();
             chatView.displayChats(message);
         }

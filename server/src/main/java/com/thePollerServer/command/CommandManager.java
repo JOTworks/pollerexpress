@@ -9,23 +9,10 @@ import com.thePollerServer.utilities.Factory;
 
 import java.util.*;
 
-/**
-<<<<<<< HEAD
- *
-=======
- * What does CommandManager do?
->>>>>>> origin/serverChatBranch
- */
 public class CommandManager {
 
 	private static CommandManager _instance;
 	private HashMap<String, Queue<Command>> userCommands;
-
-    /**
-     * Abby
-     * This is a list of all the chatCommands
-     * which we want because...because...because why? jack:I dont think we do want them */
-	private ArrayList<Command> chatCommands;
 	
 	private CommandManager()
     {

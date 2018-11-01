@@ -2,6 +2,7 @@ package thePollerExpress.communication;
 
 
 import com.shared.models.Command;
+import com.shared.models.User;
 import com.shared.utilities.Serializer;
 import com.shared.models.requests.LoginRequest;
 import com.shared.models.reponses.LoginResponse;
@@ -111,6 +112,7 @@ public class ClientCommunicator
         }
         return response;
     }
+
 }
 
 

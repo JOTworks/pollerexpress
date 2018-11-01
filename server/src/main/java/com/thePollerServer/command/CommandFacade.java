@@ -1,6 +1,5 @@
 package com.thePollerServer.command;
 
-
 import com.shared.models.Color;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Chat;
@@ -137,7 +136,8 @@ public class CommandFacade
                 Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawDestinationCards", types, params);
                 CM.addCommand(drawDestinationCards, p);
             }
-            //next create the command for all other players...
+
+            // next create the command for all other players...
             {
                 Class<?>[] types = {Player.class, Integer.class};
                 Object[] params = {p, new Integer(3)};
@@ -145,6 +145,8 @@ public class CommandFacade
                 CM.addCommand(drawDestinationCards, info);
             }
 
+            /* This is meant to call the first train cards.
+            * This is in the StartGame method. */
             List<TrainCard> tList = df.drawTrainCards(p, 4);
             {
                 Class<?>[] types = { tList.getClass()};//we will see if this works...drawFirstTrainCards
@@ -162,10 +164,7 @@ public class CommandFacade
         }
 
     }
-//    public static void drawDestinationCards(Player p)
-//    {discardDestinationCards
-//
-//    }
+
     public static void discardDestinationCards(Player p, List<DestinationCard> cards) throws CommandFailed, DatabaseException
     {
         GameService gm = new GameService();
@@ -181,6 +180,7 @@ public class CommandFacade
         Command cmd = new Command(CommandsExtensions.clientSide + "ClientCardService", "discardDestinationCards", types, params);
         CM.addCommand(cmd, df.getGameInfo(df.getPlayer(p.name).gameId));
     }
+
     /**
      * Abby
      * (DONE) The ExecuteHandler will call this method.
@@ -204,6 +204,12 @@ public class CommandFacade
     }
 
 
+    /**
+     *
+     * @param p
+     * @param i
+     * @throws DatabaseException
+     */
     public static void drawVisible(Player p, Integer i) throws DatabaseException
     {
         try

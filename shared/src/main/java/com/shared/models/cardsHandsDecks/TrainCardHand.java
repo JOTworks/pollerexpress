@@ -13,7 +13,11 @@ public class TrainCardHand extends Observable implements Serializable
 
     public void setTrainCards(List<TrainCard> trainCards)
     {
-        this.trainCards = trainCards;
+        for(TrainCard card : trainCards) {
+
+            this.trainCards.add(card);
+        }
+
         synchronized (this)
         {
             this.setChanged();
@@ -22,7 +26,9 @@ public class TrainCardHand extends Observable implements Serializable
     }
 
     public void addToHand(TrainCard card) {
+
         trainCards.add(card);
+
         synchronized (this)
         {
             this.setChanged();
@@ -31,7 +37,9 @@ public class TrainCardHand extends Observable implements Serializable
     }
 
     public void removeFromHand(TrainCard card) {
+
         trainCards.remove(card);
+
         synchronized (this)
         {
             this.setChanged();
@@ -49,5 +57,9 @@ public class TrainCardHand extends Observable implements Serializable
         }
 
         return trainCardStrings;
+    }
+
+    public List<TrainCard> getList() {
+        return trainCards;
     }
 }
