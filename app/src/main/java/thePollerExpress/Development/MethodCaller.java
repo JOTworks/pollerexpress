@@ -176,34 +176,39 @@ public class MethodCaller {
     }
 
     private void runDemo() {
-        ArrayList<String> result = new ArrayList<String>();
-        Player demoPlayer = CD.getGame().getPlayer("jackson");
+        try {
+            ArrayList<String> result = new ArrayList<String>();
+            Player demoPlayer = CD.getGame().getPlayer("jackson");
 
 
-        fragment.toast("Beginning tour. CHOO CHOO!");
-        // test claiming a route
-        fragment.toast("Our first stop is claiming a route!");
-        claimRoute(result, new String[] {"unused var", "1"});
-        fragment.toast(result.toString());
+            fragment.toast("Beginning tour. CHOO CHOO!");
+            // test claiming a route
+            fragment.toast("Our first stop is claiming a route!");
+            claimRoute(result, new String[]{"unused var", "1"});
+            fragment.toast(result.toString());
 
 
-        // face up deck cards can change
-        fragment.toast("let's modify the face up deck card!s");
-        // hand of current player can change
-        fragment.toast("let's modify the hand of the current player!");
+            // face up deck cards can change
+            fragment.toast("let's modify the face up deck cards!");
 
-        // players points can be changed
-        fragment.toast("let's modify the players points!");
-        demoPlayer.setPoints(9001);
+            // hand of current player can change
+            fragment.toast("let's modify the hand of the current player!");
 
-        // players trains remaining can be changed
-        fragment.toast("let's modify the players remaining trains!");
-        demoPlayer.setTrainCount(10);
+            // players points can be changed
+            Thread.sleep(3000);
+            fragment.toast("let's modify the players points!");
+            demoPlayer.setPoints(9001);
 
-        // turn indicator can be changed
-        fragment.toast("let's modify the turn indicator!");
+            // players trains remaining can be changed
+            Thread.sleep(3000);
+            fragment.toast("let's modify the players remaining trains!");
+            demoPlayer.setTrainCount(10);
 
-
+            // turn indicator can be changed
+            Thread.sleep(3000);
+            fragment.toast("let's modify the turn indicator!");
+            CD.getGame().setTurn("Nate");
+        } catch (Exception e) {}
 
     }
 
