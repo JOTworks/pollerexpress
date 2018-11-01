@@ -116,25 +116,9 @@ public class GameFragment extends Fragment implements IGameView {
 
 
 
-
-
-
-       /* fragment = new PlayerFragment();
-        fm.beginTransaction()
-                .add(R.rotation.player_1, fragment)
-                .commit();
-        fragment = new PlayerFragment();
-        fm.beginTransaction()
-                .add(R.rotation.player_2, fragment)
-                .commit();
-        fragment = new PlayerFragment();
-        fm.beginTransaction()
-                .add(R.rotation.player_3, fragment)
-                .commit();
-        fragment = new PlayerFragment();
-        fm.beginTransaction()
-                .add(R.rotation.player_4, fragment)
-                .commit();*/
+        ClientData.getInstance().getGame().getVisibleCards().updateObservables();
+        ClientData.getInstance().getUser().getDestCardOptions().updateObservables();
+        ClientData.getInstance().getGame().updateObservables();
 
         return v;
     }
