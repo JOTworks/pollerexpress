@@ -34,7 +34,6 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
     boolean selected2 = true;
     Button discardButton;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +43,7 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_destination_selection, container, false);
 
@@ -60,6 +60,7 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
                     destinationButton0.setTextColor(0xff000000);
             }
         });
+
         destinationButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +71,7 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
                     destinationButton1.setTextColor(0xff000000);
             }
         });
+
         destinationButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
