@@ -10,4 +10,5 @@ public interface IDestinationSelectionPresenter {
 
     void discardButtonPressed(List<Boolean> selected);
 
+    List<DestinationCard> get();
 }
