@@ -11,6 +11,7 @@
         android:background="@color/PollerWhite">
 
         <TextView
+
             android:id="@+id/bank_0"
             android:layout_width="120dp"
             android:layout_margin="5dp"
@@ -51,6 +52,7 @@
             android:textColor="@color/PollerBackground"
             android:textSize="30dp"/>
         <TextView
+
             android:id="@+id/bank_4"
             android:layout_width="120dp"
             android:layout_margin="5dp"
@@ -61,6 +63,7 @@
             android:textColor="@color/PollerBackground"
             android:textSize="30dp"/>
         <TextView
+            android:id="@+id/train_card_deck"
             android:layout_width="120dp"
             android:layout_margin="5dp"
             android:layout_height="60dp"
@@ -72,6 +75,7 @@
             android:textColor="@color/PollerBackground"
             android:textSize="40dp"/>
         <TextView
+            android:id="@+id/destination_card_deck"
             android:layout_width="120dp"
             android:layout_margin="5dp"
             android:layout_height="60dp"

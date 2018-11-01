@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.shared.models.TrainCard;
 
 import cs340.pollerexpress.R;
@@ -19,10 +18,15 @@ import thePollerExpress.views.game.interfaces.IBankView;
 public class BankFragment extends Fragment implements IBankView
 {
 
+    TextView trainCardDeck;
+    TextView destinationCardDeck;
+
+    BankPresenter bankPresenter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        bankPresenter = new BankPresenter(this);
     }
     private TextView mVisible[];
 
@@ -34,7 +38,6 @@ public class BankFragment extends Fragment implements IBankView
         presenter= new BankPresenter(this);
         mVisible = new TextView[5];//TODO remove magic
         View v = inflater.inflate(R.layout.fragment_bank, container, false);
-
         mVisible[0] = v.findViewById(R.id.bank_0);
         mVisible[1] = v.findViewById(R.id.bank_1);
         mVisible[2] = v.findViewById(R.id.bank_2);
