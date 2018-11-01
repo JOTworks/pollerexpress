@@ -47,6 +47,7 @@ public class MethodCaller {
                         "getChatMessages\n" +
                         "getGameID\n" +
                         "claimRoute [int i]\n" +
+                        "drawVisible [int i]\n" +
                         "getRoutes\n" +
 
                         "---\n" +
@@ -93,6 +94,24 @@ public class MethodCaller {
                     }
                 }
                 break;
+            case "drawVisible":
+                if (args.length != 2)
+                {
+                    result.add("USAGE: drawVisible index");
+                    break;
+                }
+                {
+                    final Integer index = Integer.valueOf(args[1]);
+                    asyncCommand(new ICommand()
+                    {
+                        @Override
+                        public Object execute() throws CommandFailed
+                        {
+                            return new GameFacade().drawVisibleCard(index);
+                        }
+                    });
+                }
+        break;
             case "getChatMessages":
                 result = CD.getGame().getChatHistory().getChatsAsString();
                 break;

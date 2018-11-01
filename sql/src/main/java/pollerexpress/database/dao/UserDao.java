@@ -1,6 +1,7 @@
 
 package pollerexpress.database.dao;
 
+import com.shared.models.Color;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.shared.models.User;
@@ -17,7 +18,7 @@ public class UserDao {
     IDatabase _db;
     static final String WRITE = "insert into USERS(USER_NAME, PASSWORD, GAME_ID, DESTINATION_DISCARDS, TRAIN_CARS, POINTS)\nvalues(?,?,?,?,?,?)";
     static final String LOGIN = "select USER_NAME, PASSWORD, GAME_ID \nfrom USERS \nwhere USER_NAME = ?";
-    public static final String GET_PLAYERS_IN_GAME = "SELECT USER_NAME, GAME_ID, DESTINATION_DISCARDS, TRAIN_CARS, POINTS\nFROM USERS\nWHERE GAME_ID = ?";
+    public static final String GET_PLAYERS_IN_GAME = "SELECT USER_NAME, GAME_ID, DESTINATION_DISCARDS, TRAIN_CARS, POINTS, COLOR\nFROM USERS\nWHERE GAME_ID = ?";
 
     public UserDao(IDatabase db) {
         this._db = db;
@@ -72,6 +73,7 @@ public class UserDao {
             //TODO get destination card handsize.
             while(rs.next()) {
                 Player p = new Player(rs.getString("USER_NAME"), rs.getString("GAME_ID"));
+                p.setColor(Color.convertIndexToColor(rs.getInt("COLOR") ));
                 players.add(p);
             }
 
