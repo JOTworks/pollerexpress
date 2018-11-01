@@ -48,6 +48,8 @@ public class MethodCaller {
                         "getGameID\n" +
                         "claimRoute [int i]\n" +
                         "drawVisible [int i]\n" +
+                        "setPlayerPoints p points" +
+                        "setPlayerTrains p trains" +
                         "getRoutes\n" +
 
                         "---\n" +

@@ -223,9 +223,8 @@ public class Database implements IDatabase
             db.deleteTables();
             db.createTables();
 
-            db.close(true);
-
             db.deckBuilder.makeDefaultDecks();
+            db.close(true);
         }
         catch (Exception e)
         {

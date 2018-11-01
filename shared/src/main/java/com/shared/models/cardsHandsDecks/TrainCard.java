@@ -1,4 +1,6 @@
-package com.shared.models;
+package com.shared.models.cardsHandsDecks;
+
+import com.shared.models.Color;
 
 import java.io.Serializable;
 import java.util.Objects;

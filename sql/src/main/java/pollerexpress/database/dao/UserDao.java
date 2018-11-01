@@ -45,8 +45,10 @@ public class UserDao {
         write(u.name, u.password);
     }
 
-    public User read(String name) throws DataNotFoundException {
-        try {
+    public User read(String name) throws DataNotFoundException
+    {
+        try
+        {
             PreparedStatement stmnt = this._db.getConnection().prepareStatement("select USER_NAME, PASSWORD, GAME_ID \nfrom USERS \nwhere USER_NAME = ?");
             stmnt.setString(1, name);
             ResultSet rs = stmnt.executeQuery();
@@ -64,14 +66,16 @@ public class UserDao {
 
 
 
-    public Player[] getPlayersInGame(GameInfo info) throws DatabaseException {
+    public Player[] getPlayersInGame(GameInfo info) throws DatabaseException
+    {
         try {
             PreparedStatement stmnt = this._db.getConnection().prepareStatement(GET_PLAYERS_IN_GAME);
             stmnt.setString(1, info.getId());
             ResultSet rs = stmnt.executeQuery();
             ArrayList players = new ArrayList();
             //TODO get destination card handsize.
-            while(rs.next()) {
+            while(rs.next())
+            {
                 Player p = new Player(rs.getString("USER_NAME"), rs.getString("GAME_ID"));
                 p.setColor(Color.convertIndexToColor(rs.getInt("COLOR") ));
                 players.add(p);
@@ -79,7 +83,8 @@ public class UserDao {
 
             rs.close();
             return (Player[])players.toArray(new Player[players.size()]);
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             throw new DatabaseException(e.getMessage());
         }
     }
@@ -215,6 +220,23 @@ public class UserDao {
         {
             PreparedStatement stmnt = this._db.getConnection().prepareStatement(SET_PLAYER_POINTS);
             stmnt.setInt(1, points);
+            stmnt.setString(2, player.getName());
+            stmnt.executeUpdate();
+        }
+        catch(SQLException e)
+        {
+            throw new DatabaseException(e.getMessage());
+        }
+    }
+
+    public static final String SET_COLOR= "UPDATE USERS SET COLOR = ?\n" +
+            "WHERE USER_NAME = ?";
+    public void setColor(Player player, int color) throws DatabaseException
+    {
+        try
+        {
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SET_COLOR);
+            stmnt.setInt(1, color);
             stmnt.setString(2, player.getName());
             stmnt.executeUpdate();
         }

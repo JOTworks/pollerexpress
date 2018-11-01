@@ -11,8 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.shared.models.DestinationCard;
-import com.shared.models.User;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,4 +137,5 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
         fragmentTransaction.replace(R.id.destination_fragment_container, (Fragment) view);
         fragmentTransaction.commit();
     }
+
 }

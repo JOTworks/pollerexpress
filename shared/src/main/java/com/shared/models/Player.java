@@ -36,6 +36,7 @@ public class Player extends Observable implements Serializable
         this.points = 0;
         this.trainCount = 0;
         this.routes = new ArrayList<>();
+        this.color = Color.PLAYER.BLACK;
     }
 
     public Player(String name, String gameId)
@@ -56,14 +57,30 @@ public class Player extends Observable implements Serializable
     public int getTrainCount(){return trainCount;}
     public void setTrainCount(int trainCount) {this.trainCount = trainCount;}
     public int getPoints(){return points;}
-    public void setPoints(int points){this.points = points;}
+    public void setPoints(int points)
+    {
+        this.points = points;
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers();
+        }
+    }
     public String getGameId()
     {
         return gameId;
     }
     public void setGameID(String gameId){ this.gameId = gameId;}
     public Color.PLAYER getColor(){return this.color; }
-    public void setColor(Color.PLAYER color){this.color = color;}
+    public void setColor(Color.PLAYER color)
+    {
+        this.color = color;
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers(color);
+        }
+    }
     public int getDestinationCardCount()
     {
         return destinationCardCount;

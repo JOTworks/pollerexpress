@@ -4,7 +4,7 @@ import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Color;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
-import com.shared.models.TrainCard;
+import com.shared.models.cardsHandsDecks.TrainCard;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

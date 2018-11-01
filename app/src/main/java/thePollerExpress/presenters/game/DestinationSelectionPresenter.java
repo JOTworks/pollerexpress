@@ -1,13 +1,9 @@
 package thePollerExpress.presenters.game;
 
 import com.shared.exceptions.CommandFailed;
-import com.shared.models.Command;
-import com.shared.models.DestinationCard;
-import com.shared.models.User;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.interfaces.ICommand;
-import com.shared.utilities.CommandsExtensions;
 
-import java.io.ObjectInput;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -15,11 +11,9 @@ import java.util.Observer;
 import thePollerExpress.facades.GameFacade;
 import thePollerExpress.models.ClientData;
 import thePollerExpress.presenters.game.interfaces.IDestinationSelectionPresenter;
-import thePollerExpress.presenters.game.interfaces.IGamePresenter;
 import thePollerExpress.utilities.AsyncRunner;
 import thePollerExpress.utilities.ViewFactory;
 import thePollerExpress.views.game.interfaces.IDestinationSelectionView;
-import thePollerExpress.views.game.interfaces.IGameView;
 
 /**
  * Abby

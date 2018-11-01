@@ -1,12 +1,12 @@
 package com.thePollerServer.command;
 
 
-import com.shared.models.DestinationCard;
+import com.shared.models.Color;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Chat;
 import com.shared.models.Route;
-import com.shared.models.TrainCard;
+import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.User;
-import com.shared.models.VisibleCards;
 import com.shared.utilities.CommandsExtensions;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
@@ -22,8 +22,6 @@ import com.thePollerServer.utilities.Factory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import pollerexpress.database.utilities.DeckBuilder;
 
 public class CommandFacade
 {
@@ -107,6 +105,7 @@ public class CommandFacade
         Game game = df.getGame(info);
         CommandManager CM = CommandManager._instance();
         df.makeBank(info);
+        setColor(user, user.getColor());
 
         // set the game state for each person in the game TODO: give each player a different state
         {
@@ -117,12 +116,21 @@ public class CommandFacade
         }
 
 
+        {
+            Class<?>[] types = {game.getPlayers().getClass()};
+            Object[] params = {game.getPlayers()};
+            Command colors = new Command(CommandsExtensions.clientSide + "ClientSetupService", "setPlayerColors", types, params);
+            CM.addCommand(colors, info);
+        }
+
         for(Player p :game.getPlayers())
         {
+
+
             //this maybe should be put into the service, but most of the logic has to deal with commands....
             List<DestinationCard> dlist = df.drawDestinationCards(p, 1) ;
             {
-                Class<?>[] types = {Player.class, List.class};//we will see if this works...
+                Class<?>[] types = {Player.class, dlist.getClass()};//we will see if this works...
                 Object[] params = {p, dlist};
                 Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawDestinationCards", types, params);
                 CM.addCommand(drawDestinationCards, p);
@@ -134,12 +142,21 @@ public class CommandFacade
                 Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawDestinationCards", types, params);
                 CM.addCommand(drawDestinationCards, info);
             }
+
+            List<TrainCard> tList = df.drawTrainCards(p, 4);
             {
-                Class<?>[] types = {game.getPlayers().getClass()};
-                Object[] params = {game.getPlayers()};
-                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientSetupService", "setPlayerColors", types, params);
-                CM.addCommand(drawDestinationCards, info);
+                Class<?>[] types = {Player.class, tList.getClass()};//we will see if this works...
+                Object[] params = {p, tList};
+                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawTrainCards", types, params);
+                CM.addCommand(drawDestinationCards, p);
             }
+            {
+                Class<?>[] types = {Player.class, Integer.class};//we will see if this works...
+                Object[] params = {p, new Integer(4)};
+                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawTrainCards", types, params);
+                CM.addCommand(drawDestinationCards, p);
+            }
+
         }
 
     }
@@ -178,7 +195,6 @@ public class CommandFacade
         gameService.chat(chat, gameInfo);
 
         // rebuild the command and give it to the CommandManager
-
         Class<?>[] types = {Chat.class, GameInfo.class};
         Object[] params = {chat, gameInfo};
         Command chatCommand = new Command(CommandsExtensions.clientSide+"ClientGameService", "chat", types, params);
@@ -196,12 +212,17 @@ public class CommandFacade
             Object[] params = {p, result.card, Integer.valueOf(result.drawsLeft),result.visible  };
             Command command = new Command(CommandsExtensions.clientSide+"ClientGameService", "drawVisibleCard", types, params);
             CommandManager._instance().addCommand(command, result.info);
-
         }
         finally
         {
 
         }
+    }
+
+    public static void setColor(Player p, Color.PLAYER color)
+    {
+        IDatabaseFacade df = Factory.createDatabaseFacade();
+        df.setColor(p, Color.getIndex(color));
     }
 
 }
