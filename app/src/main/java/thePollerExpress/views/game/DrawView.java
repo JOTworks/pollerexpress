@@ -130,7 +130,7 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
         if(route.getOwner() != null)
         {
             Paint oPaint = new Paint();; //(route.getOwner().gameId.hashCode() & 0x000000FFFFFFFF )|
-            oPaint.setColor(  ( route.getOwner().hashCode() | 0xFF000000 ));//TODO set color based off of color property, but this way is fun too..
+            oPaint.setColor(  ( getPlayerColor(route.getOwner().getColor())));//TODO set color based off of color property, but this way is fun too..
             oPaint.setStrokeWidth((float) (car_width *1.25) );
             oPaint.setStyle(Paint.Style.STROKE);
             canvas.drawPath(path, oPaint);
@@ -175,6 +175,23 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
         canvas.drawPath(path, outline);
         canvas.drawPath(path, paint);
 
+    }
+
+
+    private int getPlayerColor(com.shared.models.Color.PLAYER color)
+    {
+        switch (color)
+        {
+            case GREEN:
+                return getContext().getResources().getInteger(R.integer.GREEN);
+            case BLACK:
+                return getContext().getResources().getInteger(R.integer.BLACK);
+            case BLUE:
+                return getContext().getResources().getInteger(R.integer.BLUE);
+            case RED:
+                return getContext().getResources().getInteger(R.integer.RED);
+        }
+        return 0xFFFFFFFF;
     }
     private int getRouteColor(com.shared.models.Color.TRAIN color)
     {

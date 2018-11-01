@@ -10,6 +10,7 @@ import static com.shared.models.Color.PLAYER.YELLOW;
 
 public class Color implements Serializable
 {
+
     public enum PLAYER {
         RED, BLUE, GREEN, YELLOW, BLACK
     }
@@ -17,10 +18,23 @@ public class Color implements Serializable
     public enum TRAIN {
         PURPLE, WHITE, BLUE, YELLOW, ORANGE, BLACK, RED, GREEN, RAINBOW
     }
+    private static PLAYER colors[] = {RED, BLUE, GREEN, YELLOW, BLACK};
+
     public static PLAYER convertIndexToColor(int dex)
     {
-        PLAYER colors[] = {RED, BLUE, GREEN, YELLOW, BLACK};
         return colors[dex % colors.length];
 
+    }
+
+    public static int getIndex(PLAYER c)
+    {
+        for(int i = 0; i < colors.length; ++i)
+        {
+            if(colors[i].equals(c))
+            {
+                return i;
+            }
+        }
+        return 0;
     }
 }
