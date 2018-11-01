@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.shared.models.cardsHandsDecks.TrainCard;
+
+import java.util.List;
 
 import cs340.pollerexpress.R;
 import thePollerExpress.presenters.game.TrainCardHandPresenter;
@@ -29,7 +31,7 @@ public class TrainCardHandFragment extends Fragment implements ITrainCardHandVie
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     ITrainCardHandPresenter presenter = new TrainCardHandPresenter(this);
-
+    Adapter mAdapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,17 +50,19 @@ public class TrainCardHandFragment extends Fragment implements ITrainCardHandVie
 
         cardView = (TextView) recyclerView.findViewById(R.id.train_card_item);
 
-
-        /*
-        * What will we do when we have 4 real cards
-        * from the server at the beginning of the game? */
-        ArrayList<String> colorList = new ArrayList<>();
-        colorList.add("blue");
-        colorList.add("yellow");
-        colorList.add("pink");
-        colorList.add("orange");
-
-        displayHand(colorList);
+        List<TrainCard> cardList = presenter.get();
+        mAdapter = new Adapter(cardList);
+        recyclerView.setAdapter(mAdapter);
+        layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+// hard coded for testing purposes
+//        ArrayList<String> colorList = new ArrayList<>();
+//        colorList.add("blue");
+//        colorList.add("yellow");
+//        colorList.add("pink");
+//        colorList.add("orange");
+//
+//        displayHand(colorList);
 
         return v;
     }
@@ -67,20 +71,15 @@ public class TrainCardHandFragment extends Fragment implements ITrainCardHandVie
      * updates the recycler view
      * @param arrayList new strings to display.
      */
-    public void displayHand(ArrayList<String> arrayList) {
+    public void displayHand() {
 
-        ArrayList<String> cardList = arrayList;
-        Adapter adapter = new Adapter(cardList);
-        recyclerView.setAdapter(adapter);
-        layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
+        mAdapter.notifyDataSetChanged();
     }
 
     public class Adapter extends RecyclerView.Adapter<CardViewHolder> {
+        List<TrainCard> cardList;
 
-        ArrayList<String> cardList;
-
-        public Adapter(ArrayList<String> list) {
+        public Adapter(List<TrainCard> list) {
             cardList = list;
         }
 
@@ -98,7 +97,7 @@ public class TrainCardHandFragment extends Fragment implements ITrainCardHandVie
         @Override
         public void onBindViewHolder(@NonNull CardViewHolder cardViewHolder, int i) {
 
-            String trainCardStr = cardList.get(i);
+            String trainCardStr = cardList.get(i).getColorAsString();
             cardViewHolder.bind(trainCardStr);
         }
 

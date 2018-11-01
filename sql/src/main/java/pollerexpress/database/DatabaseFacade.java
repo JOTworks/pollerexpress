@@ -187,14 +187,6 @@ public class DatabaseFacade implements IDatabaseFacade
     @Override
     public void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
 
-        /*
-        * Would we need a chat DAO?
-        * YES
-        * Would I need to modify the Database class's
-        * createTable method so that it created a table of chats?
-        * YES
-        */
-
         try
         {
             db.open();
@@ -411,6 +403,13 @@ public class DatabaseFacade implements IDatabaseFacade
         return true;
     }
 
+    /**
+     * Draws a given number of train cards for a given player
+     * @param p the player for whom the cars are drawn
+     * @param number the number of cards to draw
+     * @return the list of drawn cards
+     * @throws DatabaseException
+     */
     @Override
     public List<TrainCard> drawTrainCards(Player p, int number) throws DatabaseException
     {
