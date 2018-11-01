@@ -31,6 +31,8 @@ public class ClientData extends Observable
         return ourInstance;
     }
 
+    private final String UPDATE_ALL_STRING = "updateAll";
+
     private ClientData() {
 
         gameInfoList = new ArrayList<>();
@@ -218,5 +220,20 @@ public class ClientData extends Observable
 
     public void removeDestCardFromOptions(DestinationCard card) {
         this.user.getDestCardOptions().removeFromOptions(card);
+    }
+
+    public void updateAll() {
+        game.updateObservables();
+        game.getVisibleCards().updateObservables();
+        user.getTrainCardHand().updateObservables();
+        user.getDestCardHand().updateObservables();
+        user.getDestCardOptions().updateObservables();
+
+
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers(UPDATE_ALL_STRING);
+        }
     }
 }

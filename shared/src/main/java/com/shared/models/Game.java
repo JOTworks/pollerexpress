@@ -12,6 +12,8 @@ import java.util.Observable;
 
 public class Game extends Observable implements Serializable
 {
+    private final String UPDATE_ALL_STRING = "updateAll";
+
     GameInfo _info;
     public static final int DESTINATION_DECK_SIZE = 30;
     public static final int TRAIN_CARD_DECK_SIZE = 105;
@@ -175,6 +177,10 @@ public class Game extends Observable implements Serializable
         //TODO: Throw an error
     }
 
+    public GameState getGameState() {
+        return gameState;
+    }
+
     @Deprecated
     public int getPlayerDex(Player p)
     {
@@ -277,5 +283,13 @@ public class Game extends Observable implements Serializable
     public int hashCode()
     {
         return _info.hashCode();
+    }
+
+    public void updateObservables() {
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers(UPDATE_ALL_STRING);
+        }
     }
 }

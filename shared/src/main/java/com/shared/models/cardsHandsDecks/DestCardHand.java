@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-public class DestCardHand extends Observable implements Serializable {
+public class DestCardHand extends Hand implements Serializable {
     private List<DestinationCard> destCards;
 
     public DestCardHand()

@@ -1,7 +1,3 @@
 package com.shared.models.states;
 
-public class GameState {
-    public String temporaryFakeStateVar;
-
-
-}
+public class GameState { }

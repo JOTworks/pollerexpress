@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-public class TrainCardHand extends Observable implements Serializable
+public class TrainCardHand extends Hand implements Serializable
 {
     private List<TrainCard> trainCards = new ArrayList<>();
 

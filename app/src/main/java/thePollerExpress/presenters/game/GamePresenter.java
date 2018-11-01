@@ -17,6 +17,7 @@ public class GamePresenter implements IGamePresenter {
 
     public GamePresenter(IGameView view) {
         this.view = view;
+        CD.updateAll();
     }
 
 
