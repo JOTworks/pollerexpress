@@ -1,16 +1,12 @@
 package thePollerExpress.Development;
 
 import com.shared.exceptions.CommandFailed;
-import com.shared.models.City;
 import com.shared.models.Command;
-import com.shared.models.DestinationCard;
-import com.shared.models.Game;
-import com.shared.models.Player;
-import com.shared.models.Point;
-import com.shared.models.interfaces.ICommand;
 
-import java.lang.reflect.Method;
+import com.shared.models.Route;
+import com.shared.models.interfaces.ICommand;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import thePollerExpress.facades.GameFacade;
 import thePollerExpress.models.ClientData;
@@ -42,7 +38,7 @@ public class MethodCaller {
     }
 
 
-    public ArrayList<String> parse(String s) {
+    public ArrayList<String> parse(String s, String args[]) {
         ArrayList<String> result = new ArrayList<String>();
         ClientData CD = ClientData.getInstance();
         switch (s) {
@@ -50,14 +46,52 @@ public class MethodCaller {
                 result.add("getUserName\n" +
                         "getChatMessages\n" +
                         "getGameID\n" +
-                        "claimRoute\n" +
+                        "claimRoute [int i]\n" +
+                        "getRoutes\n" +
+
                         "---\n" +
                         "add commands to the methodCaller class\n" +
                         "in the parse funtion, as a case");
                 break;
-            case "claimRoute":
-                ClientGameService.claimRoute(CD.getUser(), 1);
+            case "jack":
+                CD.getGame().setTurn("jackson");
                 //result.add( )
+                break;
+            case "claimRoute":
+            {
+                if (args.length != 2)
+                {
+                    result.add("USAGE: claimRoute routenumber");
+                    break;
+                }
+                final Route r = ClientGameService.claimRoute(CD.getUser(), Integer.valueOf(args[1]));
+                if (r == null) break;
+
+                asyncCommand(new ICommand()
+                {
+                    @Override
+                    public Object execute() throws CommandFailed
+                    {
+                        return new GameFacade().claimRoute(r);
+                    }
+                });
+
+                result.add(String.format("Claimed a %s", r.toString()));
+                }
+                break;
+
+            case "getRoutes":
+                for(Route r :CD.getGame().getMap().getRoutes())
+                {
+                    if(r.getOwner() != null)
+                    {
+                        result.add(Objects.toString(r.getOwner() ));
+                    }
+                    else
+                    {
+                        result.add("null");
+                    }
+                }
                 break;
             case "getChatMessages":
                 result = CD.getGame().getChatHistory().getChatsAsString();
@@ -102,5 +136,10 @@ public class MethodCaller {
                 result.add("that didn't match any commands");
         }
         return result;
+    }
+    private void asyncCommand(ICommand c)
+    {
+        AsyncRunner runner = new AsyncRunner(null);
+        runner.execute(c);
     }
 }

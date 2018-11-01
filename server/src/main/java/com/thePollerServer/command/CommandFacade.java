@@ -3,7 +3,10 @@ package com.thePollerServer.command;
 
 import com.shared.models.DestinationCard;
 import com.shared.models.Chat;
+import com.shared.models.Route;
+import com.shared.models.TrainCard;
 import com.shared.models.User;
+import com.shared.models.VisibleCards;
 import com.shared.utilities.CommandsExtensions;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
@@ -67,6 +70,27 @@ public class CommandFacade
     }
 
     /**
+     * * TODO add list of train cards to arg.
+     * @param p player
+     * @param r route
+     * @throws DatabaseException
+     */
+    public static void claimRoute(Player p, Route r) throws DatabaseException
+    {
+        ///do nothing but
+        CommandManager CM = CommandManager._instance();
+        IDatabaseFacade df = Factory.createDatabaseFacade();
+
+        GameInfo info = df.getGameInfo(p.getGameId());
+        //TODO verify that a route can be cclaimed. in the future this will take a bunch of train cards
+
+        //its verified so...
+        Class<?>[] types = {Player.class, Route.class};
+        Object[] params = {p, r};
+        Command command = new Command(CommandsExtensions.clientSide + "ClientGameService", "claimRoute", types, params);
+        CM.addCommand(command, info);
+    }
+    /**
      * initializes the state for each player, draws cards, and initializes the bank. TODO: consider putting some of this into a service
      *
      * @param user
@@ -80,13 +104,12 @@ public class CommandFacade
         GameInfo info = df.getGameInfo(user.getGameId());
         Game game = df.getGame(info);
         CommandManager CM = CommandManager._instance();
-        DeckBuilder deckBuilder = new DeckBuilder(df.getDatabase());
-        deckBuilder.makeBank(info);
+        df.makeBank(info);
 
         // set the game state for each person in the game TODO: give each player a different state
         {
-            Class<?>[] types = {};
-            Object[] params = {};
+            Class<?>[] types = {TrainCard[].class};
+            Object[] params = { df.getVisible(info) };
             Command startGame = new Command(CommandsExtensions.clientSide + "ClientGameService", "startGame", types, params);
             CM.addCommand(startGame, info);
         }
@@ -138,7 +161,8 @@ public class CommandFacade
      * @param chat
      * @param gameInfo
      */
-    public static void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
+    public static void chat(Chat chat, GameInfo gameInfo) throws DatabaseException
+    {
 
         // send the chat along to the database
         GameService gameService = new GameService();
@@ -151,4 +175,5 @@ public class CommandFacade
         Command chatCommand = new Command(CommandsExtensions.clientSide+"ClientGameService", "chat", types, params);
         CommandManager._instance().addCommand(chatCommand, gameInfo);
     }
+
 }

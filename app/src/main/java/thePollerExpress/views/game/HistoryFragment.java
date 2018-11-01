@@ -25,6 +25,7 @@ import thePollerExpress.presenters.game.ChatPresenter;
 import thePollerExpress.presenters.game.interfaces.IChatPresenter;
 import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.interfaces.IChatView;
+import thePollerExpress.views.game.interfaces.IHistoryView;
 
 /**
  * Abby
@@ -33,14 +34,15 @@ import thePollerExpress.views.game.interfaces.IChatView;
  * This class will have runtime dependencies but no
  * type dependencies because of reflection.
  */
-public class HistoryFragment extends Fragment implements IChatView {
+public class HistoryFragment extends Fragment implements IHistoryView
+{
 
     Button sendChatButton;
     Button chatViewButton;
     Button devViewButton;
     EditText chatMessage;
     ArrayList<String> results = new ArrayList<>();
-    IChatPresenter CP = new ChatPresenter(this);
+    IChatPresenter CP = null;//new ChatPresenter(this);
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     Adapter adapter;

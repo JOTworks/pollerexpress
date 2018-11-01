@@ -8,6 +8,8 @@ import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.shared.models.Route;
+import com.shared.models.TrainCard;
+import com.shared.models.VisibleCards;
 import com.shared.models.states.GameState;
 
 import java.util.ArrayList;
@@ -35,11 +37,20 @@ public class ClientGameService {
      *  This will notify the observer and will cause every user to switch to the gameView
      * @return true if the state was changed and false otherwise
      */
-    public static boolean startGame() {
+    public static boolean startGame(TrainCard[] cards)
+    {
+
+        CD.getGame().getVisibleCards().set(cards);
         CD.getGame().setGameState(new GameState());
         return true;
     }
 
+    /**
+     *
+     * @param player
+     * @param destinationCards
+     * @return
+     */
     public static boolean drawDestinationCards(Player player, List<DestinationCard> destinationCards)
     {
         if(!CD.getUser().equals(player)) return false;
@@ -48,10 +59,17 @@ public class ClientGameService {
         }
         return true;
     }
+
+    /**
+     *
+     * @param player
+     * @param cardNumber
+     * @return
+     */
     public static boolean drawDestinationCards(Player player, Integer cardNumber)
     {
         Player real = CD.getGame().getPlayer(player);
-        real.setDestinationCardCount(real.getDestinationDiscardCount() + cardNumber.intValue());
+        CD.getGame().drawDestinationCards(player, cardNumber);
         return true;
     }
 
@@ -90,13 +108,15 @@ public class ClientGameService {
         return true;
     }
 
-    public static boolean claimRoute(Player p, int route)
+    public static Route claimRoute(Player p, int route)
     {
-        claimRoute(p, (Route) CD.getGame().getMap().getRoutes().toArray()[route ]);
-        return true;
+        Route r = (Route)CD.getGame().getMap().getRoutes().toArray()[route];
+        //claimRoute(p, r );
+        return r;
     }
     public static boolean claimRoute(Player p, Route r)
     {
+        Log.d("ClaimRoute", p.getName() + " " +r.toString());
         CD.getGame().getMap().claimRoute(p, r);
         return true;
     }

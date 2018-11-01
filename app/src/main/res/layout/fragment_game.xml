@@ -35,30 +35,30 @@
                 android:layout_height="100dp"
                 android:orientation="horizontal">
 
-                <fragment
+                <FrameLayout
                     android:layout_marginLeft="5dp"
                     android:layout_width="255dp"
                     android:layout_height="100dp"
-                    android:id="@+id/Player1"
-                    android:name="thePollerExpress.views.game.PlayerFragment"></fragment>
-                <fragment
+                    android:id="@+id/player1_fragment_container"
+                    />
+                <FrameLayout
                     android:layout_marginLeft="5dp"
                     android:layout_width="255dp"
                     android:layout_height="100dp"
-                    android:id="@+id/Player2"
-                    android:name="thePollerExpress.views.game.PlayerFragment"></fragment>
-                <fragment
+                    android:id="@+id/player2_fragment_container"
+                    />
+                <FrameLayout
                     android:layout_marginLeft="5dp"
                     android:layout_width="255dp"
                     android:layout_height="100dp"
-                    android:id="@+id/Player3"
-                    android:name="thePollerExpress.views.game.PlayerFragment"></fragment>
-                <fragment
+                    android:id="@+id/player3_fragment_container"
+                    />
+                <FrameLayout
                     android:layout_marginLeft="5dp"
                     android:layout_width="255dp"
                     android:layout_height="100dp"
-                    android:id="@+id/Player4"
-                    android:name="thePollerExpress.views.game.PlayerFragment"></fragment>
+                    android:id="@+id/player4_fragment_container"
+                    />
 
 
 

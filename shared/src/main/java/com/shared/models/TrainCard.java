@@ -1,9 +1,12 @@
 package com.shared.models;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
-public class TrainCard {
+public class TrainCard implements Serializable
+
+{
     String _id;
     Color.TRAIN _color;
 

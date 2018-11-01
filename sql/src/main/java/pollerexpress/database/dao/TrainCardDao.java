@@ -11,8 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import pollerexpress.database.IDatabase;
-
 public class TrainCardDao {
     private IDatabase _db;
     public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS <TABLE_NAME>\n(`CARD_ID` TEXT NOT NULL PRIMARY KEY, `POSITION` INT, `PLAYER` TEXT, `FACE_UP` INT)";
@@ -36,7 +34,6 @@ public class TrainCardDao {
         String TABLE_NAME = "\"TRAIN_DECK_" + gi.getId() + "\"";
         String CREATE_DECK = CREATE_TABLE.replace("<TABLE_NAME>",TABLE_NAME);
 
-        _db.open();
 
         try{
             PreparedStatement stmnt = _db.getConnection().prepareStatement(CREATE_DECK);
@@ -46,14 +43,14 @@ public class TrainCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+        //_db.close(true);
     }
 
     public void deleteDeck(GameInfo gi) throws DatabaseException {
         String TABLE_NAME = "\"TRAIN_DECK_" + gi.getId() + "\"";
         String DELETE_DECK = DROP_TABLE.replace("<TABLE_NAME>",TABLE_NAME);
 
-        _db.open();
+       // _db.open();
 
         try{
             PreparedStatement stmnt = _db.getConnection().prepareStatement(DELETE_DECK);
@@ -63,14 +60,14 @@ public class TrainCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+       // _db.close(true);
     }
 
     public void insertCard(GameInfo gi, String cardId, int position, String player, int faceUpIndex) throws DatabaseException {
         String TABLE_NAME = "\"TRAIN_DECK_" + gi.getId() + "\"";
         String INSERT = INSERT_CARD.replace("<TABLE_NAME>",TABLE_NAME);
 
-        _db.open();
+        //_db.open();
 
         try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(INSERT);
@@ -84,7 +81,7 @@ public class TrainCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+        //_db.close(true);
     }
 
     public void updateCard(GameInfo gi, String card, int position, String player) {
@@ -102,7 +99,6 @@ public class TrainCardDao {
         String UPDATE_DECK = UPDATE_CARD.replace("<TABLE_NAME>", TABLE_NAME);
         TrainCard card = null;
 
-        _db.open();
 
         try{
             //get card
@@ -128,7 +124,6 @@ public class TrainCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
         return card;
     }
 
@@ -145,9 +140,9 @@ public class TrainCardDao {
         String UPDATE_DECK = UPDATE_CARD.replace("<TABLE_NAME>", TABLE_NAME);
         TrainCard card = null;
 
-        _db.open();
 
-        try{
+        try
+        {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(SELECT_BY_INDEX);
             stmnt.setInt(1, index); //add 1 because the index in the db isn't 0-indexed
             ResultSet rs = stmnt.executeQuery();
@@ -173,7 +168,6 @@ public class TrainCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
 
         this.flipFaceUp(player.getGameId(), index);
 
@@ -195,7 +189,6 @@ public class TrainCardDao {
 
         String cardId = null;
 
-        _db.open();
 
         try {
             //get card
@@ -221,7 +214,6 @@ public class TrainCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
     }
 
     public ArrayList<TrainCard> getHand(Player player) throws DatabaseException {
@@ -229,7 +221,7 @@ public class TrainCardDao {
         String GET_HAND = SELECT_HAND.replace("<TABLE_NAME>",TABLE_NAME);
         ArrayList<TrainCard> hand = new ArrayList<>();
 
-        _db.open();
+
 
         try{
             PreparedStatement stmnt = _db.getConnection().prepareStatement(GET_HAND);
@@ -244,7 +236,7 @@ public class TrainCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+
         return hand;
     }
 
@@ -253,7 +245,7 @@ public class TrainCardDao {
         String SELECT_BY_INDEX = SELECT_FACE_UP_INDEX.replace("<TABLE_NAME>",TABLE_NAME);
         TrainCard[] faceUp = new TrainCard[5];
 
-        _db.open();
+
 
         try{
             for(int i = 0; i < 5; i++) {
@@ -271,7 +263,7 @@ public class TrainCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+
 
         return faceUp;
     }
@@ -280,7 +272,7 @@ public class TrainCardDao {
         String TABLE_NAME = "\"TRAIN_DECK_" + player.getGameId() + "\"";
         String UPDATE = UPDATE_CARD.replace("<TABLE_NAME>",TABLE_NAME);
 
-        _db.open();
+
 
         try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(UPDATE);
@@ -294,7 +286,7 @@ public class TrainCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+
     }
 
     public int getDeckSize(GameInfo gi) throws DatabaseException {
@@ -302,7 +294,7 @@ public class TrainCardDao {
         String GET_COUNT = COUNT_GAME_DECK.replace("<TABLE_NAME>",TABLE_NAME);
         int count = 0;
 
-        _db.open();
+
 
         try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(GET_COUNT);
@@ -317,7 +309,7 @@ public class TrainCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+
         return count;
     }
 
@@ -326,7 +318,7 @@ public class TrainCardDao {
         String GET_DISCARD = SELECT_DISCARD.replace("<TABLE_NAME>",TABLE_NAME);
         ArrayList<String> discardPile = new ArrayList<>();
 
-        _db.open();
+
 
         try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(GET_DISCARD);
@@ -340,7 +332,7 @@ public class TrainCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+
         return discardPile;
     }
 
@@ -351,7 +343,7 @@ public class TrainCardDao {
     */
 
     public void insertIntoDefault(TrainCard card) throws DatabaseException {
-        _db.open();
+
 
         try{
             PreparedStatement stmnt = _db.getConnection().prepareStatement(INSERT_DEFAULT_CARD);
@@ -363,12 +355,11 @@ public class TrainCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+
     }
 
     public ArrayList<TrainCard> getDefaultDeck() throws DatabaseException {
         ArrayList<TrainCard> deck = new ArrayList<>();
-        _db.open();
 
         try{
             PreparedStatement stmnt = _db.getConnection().prepareStatement(SELECT_ALL_DEFAULT);
@@ -382,7 +373,6 @@ public class TrainCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
         return deck;
     }
 }

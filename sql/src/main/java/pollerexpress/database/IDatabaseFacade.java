@@ -7,10 +7,13 @@ import com.shared.models.Chat;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
+import com.shared.models.TrainCard;
 import com.shared.models.User;
 import com.shared.models.reponses.LoginResponse;
 
 import java.util.List;
+
+import pollerexpress.database.dao.IDatabase;
 
 public interface IDatabaseFacade
 {
@@ -24,7 +27,6 @@ public interface IDatabaseFacade
     Player getPlayer(String user) throws DatabaseException;
     GameInfo getGameInfo(String id) throws DatabaseException;
     Player[] getPlayersInGame(GameInfo info) throws DatabaseException;
-    IDatabase getDatabase();
 
 
     /**
@@ -48,8 +50,18 @@ public interface IDatabaseFacade
      * @return
      */
     int getPlayerDiscards(Player player) throws DatabaseException;
+    void makeBank(GameInfo game) throws DatabaseException;
 
     // Abby
     void chat(Chat chat, GameInfo gameInfo) throws DatabaseException;
+
+    /**
+     * gets all the cards in the visible spread.
+     * @param info
+     * @return
+     * @throws DatabaseException
+     */
+    public TrainCard[] getVisible(GameInfo info) throws DatabaseException;
+
 }
 

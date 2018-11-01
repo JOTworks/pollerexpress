@@ -7,4 +7,15 @@
     <color name="PollerGray">#56566f</color>
     <color name="PollerWhite">#c7c7c7</color>
     <color name="garishPink">#ff00e9</color>
+
+    <integer name="PURPLE">0xFFEF70EF</integer>
+    <integer name="WHITE" >0xFFFFFFFF</integer>
+    <integer name="BLUE"  >0xFF2020FF</integer>
+    <integer name="YELLOW">0xFFD9FF09</integer>
+    <integer name="ORANGE">0xFFD9D999</integer>
+    <integer name="BLACK" >0xFF000000</integer>
+    <integer name="RED"   >0xFFFF3333</integer>
+    <integer name="GREEN" >0xFF209F20</integer>
+    <integer name="GREY"  >0xFF797979</integer>
+
 </resources>
