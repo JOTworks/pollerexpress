@@ -30,7 +30,12 @@ public class DestCardOptions extends Observable implements Serializable { //TODO
             notifyObservers(card);
         }
     }
-
+    public void doNothing() {
+        synchronized (this)
+        {
+            notifyObservers();
+        }
+    }
     public void removeFromOptions(DestinationCard card) {
         destCards.remove(card); //TODO: make sure that will recognize which one to toss
         synchronized (this)
