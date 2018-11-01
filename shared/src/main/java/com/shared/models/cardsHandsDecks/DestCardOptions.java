@@ -19,6 +19,7 @@ public class DestCardOptions extends Observable implements Serializable { //TODO
         this.destCards = destinationCards;
         synchronized (this)
         {
+            setChanged();
             notifyObservers(destinationCards);
         }
     }
@@ -27,12 +28,14 @@ public class DestCardOptions extends Observable implements Serializable { //TODO
         destCards.add(card);
         synchronized (this)
         {
+            setChanged();
             notifyObservers(card);
         }
     }
     public void doNothing() {
         synchronized (this)
         {
+            setChanged();
             notifyObservers();
         }
     }
@@ -40,6 +43,7 @@ public class DestCardOptions extends Observable implements Serializable { //TODO
         destCards.remove(card); //TODO: make sure that will recognize which one to toss
         synchronized (this)
         {
+            setChanged();
             notifyObservers(card);
         }
     }
