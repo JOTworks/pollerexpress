@@ -1,6 +1,5 @@
 package com.thePollerServer.command;
 
-
 import com.shared.models.Color;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Chat;
@@ -181,6 +180,7 @@ public class CommandFacade
         Command cmd = new Command(CommandsExtensions.clientSide + "ClientCardService", "discardDestinationCards", types, params);
         CM.addCommand(cmd, df.getGameInfo(df.getPlayer(p.name).gameId));
     }
+
     /**
      * Abby
      * (DONE) The ExecuteHandler will call this method.
