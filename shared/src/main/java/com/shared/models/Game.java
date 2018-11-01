@@ -260,6 +260,20 @@ public class Game extends Observable implements Serializable
             this.notifyObservers();
         }
     }
+
+    public void drawTrainCards(Player player, int numberOfCards)
+    {
+        //TODO add check...
+        this.TrainCardDeck -= numberOfCards;
+        player.setTrainCardCount(player.trainCardCount + numberOfCards);
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers();
+        }
+    }
+
+
     @Override
     public int hashCode()
     {
