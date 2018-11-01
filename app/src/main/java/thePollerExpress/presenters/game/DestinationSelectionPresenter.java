@@ -17,6 +17,7 @@ import thePollerExpress.models.ClientData;
 import thePollerExpress.presenters.game.interfaces.IDestinationSelectionPresenter;
 import thePollerExpress.presenters.game.interfaces.IGamePresenter;
 import thePollerExpress.utilities.AsyncRunner;
+import thePollerExpress.utilities.ViewFactory;
 import thePollerExpress.views.game.interfaces.IDestinationSelectionView;
 import thePollerExpress.views.game.interfaces.IGameView;
 
@@ -35,10 +36,10 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
     }
 
     @Override
-    public void discardDestCard(final DestinationCard card) {
-        //update = false;
+    public void discardDestCard(final DestinationCard card) { //TODO: will have to be modified to handle discarding two cards
         AsyncRunner discardDestCardTask = new AsyncRunner(view);
 
+        discardDestCardTask.setNextView(ViewFactory.createDestinationHandView());
         discardDestCardTask.execute(new ICommand()
         {
             @Override
@@ -47,7 +48,6 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
                 return facade.discardDestCard(CD.getUser(), card);
             }
         });
-        //update = true;
     }
 
     @Override

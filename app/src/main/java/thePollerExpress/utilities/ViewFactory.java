@@ -18,6 +18,10 @@ public class ViewFactory
     {
         return _ivf.createLobbyView();
     }
+    public static IPollerExpressView createDestinationHandView()
+    {
+        return _ivf.createDestinationHandView();
+    }
     public static IMapView createMapView()
     {
         return _ivf.createMapView();
