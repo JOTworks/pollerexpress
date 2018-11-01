@@ -15,6 +15,7 @@ public class User extends Player implements Serializable
         this.password = password;
         destCardHand = new DestCardHand();
         trainCardHand = new TrainCardHand();
+        destCardOptions = new DestCardOptions();
     }
     public User(String name, String password, String gameId)
     {
