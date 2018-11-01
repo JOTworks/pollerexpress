@@ -52,7 +52,7 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
 
     @Override
     public void discardButtonPressed() {
-        view.renderCards(ClientData.getInstance().getUser().getDestCardOptions().getDestinationCards());
+
         view.displayError("discard Button Pressed!");
     }
 
