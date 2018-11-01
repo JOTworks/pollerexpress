@@ -134,28 +134,28 @@ public class CommandFacade
             {
                 Class<?>[] types = {Player.class, dlist.getClass()};//we will see if this works...
                 Object[] params = {p, dlist};
-                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawDestinationCards", types, params);
+                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawDestinationCards", types, params);
                 CM.addCommand(drawDestinationCards, p);
             }
             //next create the command for all other players...
             {
                 Class<?>[] types = {Player.class, Integer.class};
                 Object[] params = {p, new Integer(3)};
-                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawDestinationCards", types, params);
+                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawDestinationCards", types, params);
                 CM.addCommand(drawDestinationCards, info);
             }
 
             List<TrainCard> tList = df.drawTrainCards(p, 4);
             {
-                Class<?>[] types = {Player.class, tList.getClass()};//we will see if this works...
-                Object[] params = {p, tList};
-                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawTrainCards", types, params);
+                Class<?>[] types = { tList.getClass()};//we will see if this works...drawFirstTrainCards
+                Object[] params = {tList};
+                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawFirstTrainCards", types, params);
                 CM.addCommand(drawDestinationCards, p);
             }
             {
                 Class<?>[] types = {Player.class, Integer.class};//we will see if this works...
                 Object[] params = {p, new Integer(4)};
-                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawTrainCards", types, params);
+                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawFirstTrainCards", types, params);
                 CM.addCommand(drawDestinationCards, p);
             }
 
@@ -178,7 +178,7 @@ public class CommandFacade
 
         Class<?>[] types = {Player.class, List.class};
         Object[] params = {p, cards};
-        Command cmd = new Command(CommandsExtensions.clientSide + "ClientGameService", "discardDestinationCards", types, params);
+        Command cmd = new Command(CommandsExtensions.clientSide + "ClientCardService", "discardDestinationCards", types, params);
         CM.addCommand(cmd, df.getGameInfo(df.getPlayer(p.name).gameId));
     }
     /**
@@ -212,7 +212,7 @@ public class CommandFacade
 
             Class<?>[] types = {Player.class, TrainCard.class, Integer.class, TrainCard[].class};
             Object[] params = {p, result.card, Integer.valueOf(result.drawsLeft),result.visible  };
-            Command command = new Command(CommandsExtensions.clientSide+"ClientGameService", "drawVisibleCard", types, params);
+            Command command = new Command(CommandsExtensions.clientSide+"ClientCardService", "drawVisibleCard", types, params);
             CommandManager._instance().addCommand(command, result.info);
         }
         finally

@@ -10,6 +10,7 @@ import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.states.GameState;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import thePollerExpress.models.ClientData;
@@ -31,7 +32,7 @@ public class ClientCardService {
 
 
 
-    public static boolean drawFirstTrainCards(List<TrainCard> trainCards)
+    public static boolean drawFirstTrainCards(ArrayList<TrainCard> trainCards)
     {
             CD.getUser().getTrainCardHand().setTrainCards(trainCards);
         return true;
@@ -43,7 +44,7 @@ public class ClientCardService {
      * @param numberOfCards
      * @return
      */
-    public static boolean drawFirstTrainCards(Player player, int numberOfCards)
+    public static boolean drawFirstTrainCards(Player player, Integer numberOfCards)
     {
         CD.getGame().drawTrainCards(player, numberOfCards);
         return true;
@@ -59,7 +60,7 @@ public class ClientCardService {
      * @param destinationCards
      * @return
      */
-    public static boolean drawDestinationCards(Player player, List<DestinationCard> destinationCards)
+    public static boolean drawDestinationCards(Player player, ArrayList<DestinationCard> destinationCards)
     {
         if(!CD.getUser().equals(player)) return false;
         for (DestinationCard card : destinationCards) {
