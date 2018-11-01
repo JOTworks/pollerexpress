@@ -2,6 +2,7 @@ package thePollerExpress.utilities;
 
 
 import thePollerExpress.views.IPollerExpressView;
+import thePollerExpress.views.game.DestinationHandFragment;
 import thePollerExpress.views.game.GameFragment;
 import thePollerExpress.views.game.MapView;
 import thePollerExpress.views.game.interfaces.IGameView;
@@ -15,6 +16,13 @@ public class RealViewFactory implements IViewFactory
     {
         return new LobbyFragment();
     }
+
+    @Override
+    public IPollerExpressView createDestinationHandView()
+    {
+        return new DestinationHandFragment();
+    }
+
     @Override
     public IGameView createGameView()
     {
