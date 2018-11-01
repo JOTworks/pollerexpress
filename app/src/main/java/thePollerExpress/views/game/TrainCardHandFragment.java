@@ -48,6 +48,10 @@ public class TrainCardHandFragment extends Fragment implements ITrainCardHandVie
 
         cardView = (TextView) recyclerView.findViewById(R.id.train_card_item);
 
+
+        /*
+        * What will we do when we have 4 real cards
+        * from the server at the beginning of the game? */
         ArrayList<String> colorList = new ArrayList<>();
         colorList.add("blue");
         colorList.add("yellow");
