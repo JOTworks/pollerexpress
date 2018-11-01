@@ -34,11 +34,11 @@ public class PlayerPresenter implements IPlayerPresenter, Observer {
             playerView.renderPlayer(clientData.getGame().getPlayer(playerName));
         }
 
-       // if(clientData.getGame().currentTurn.equals(playerName)){
-        //    playerView.isTurn();
-        //}else{
-        //    playerView.isNotTurn();
-        //}
+        if(clientData.getGame().currentTurn.equals(playerName)){
+            playerView.isTurn();
+        }else{
+            playerView.isNotTurn();
+        }
     }
 
 }
