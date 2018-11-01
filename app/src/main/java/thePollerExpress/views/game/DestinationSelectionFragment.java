@@ -8,8 +8,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.shared.models.DestinationCard;
 
 import java.util.List;
@@ -20,13 +21,13 @@ import thePollerExpress.presenters.game.DestinationSelectionPresenter;
 import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.interfaces.IDestinationSelectionView;
 
-public class DestinationSelectionFragment extends Fragment implements IDestinationSelectionView {
+public class DestinationSelectionFragment extends Fragment implements IDestinationSelectionView, IPollerExpressView{
 
     DestinationSelectionPresenter destinationSelectionPresenter;
     TextView destinationTextView0;
     TextView destinationTextView1;
     TextView destinationTextView2;
-
+    Button discardButton;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +43,15 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
         destinationTextView0 = (TextView)v.findViewById(R.id.destination_text_view_0);
         destinationTextView1 = (TextView)v.findViewById(R.id.destination_text_view_1);
         destinationTextView2 = (TextView)v.findViewById(R.id.destination_text_view_2);
+        discardButton = (Button)v.findViewById(R.id.destination_discard_button);
 
+        discardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                destinationSelectionPresenter.discardButtonPressed();
+                Toast.makeText(getContext(), "It's working!", Toast.LENGTH_LONG).show(); //TODO: remove toast
+            }
+        });
 
         List<DestinationCard> destCards = ClientData.getInstance().getUser().getDestCardHand().getDestinationCards();
         renderCards(destCards);
@@ -64,7 +73,7 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
 
     @Override
     public void displayError(String errorMessage) {
-
+        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show(); //TODO: remove toast
     }
 
     @Override
