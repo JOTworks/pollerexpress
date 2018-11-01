@@ -113,6 +113,11 @@ class ClientSetupService implements ISetupService {
             return true;
         }
 
+    /**
+     * update colors of the players on the local bit
+     * @param players
+     * @return
+     */
     public static Boolean setPlayerColors(List<Player> players) {
         for (Player player : players) {
             CD.getGame().getPlayer(player)
