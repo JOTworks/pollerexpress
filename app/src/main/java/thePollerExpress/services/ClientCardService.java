@@ -30,6 +30,7 @@ public class ClientCardService {
     }
 
 
+    //----------------------------------Train Card methods------------------------------------------
 
     public static boolean drawFirstTrainCards(List<TrainCard> trainCards)
     {
@@ -49,6 +50,20 @@ public class ClientCardService {
         return true;
     }
 
+    public static boolean drawTrainCard(TrainCard trainCard)
+    {
+        CD.getUser().getTrainCardHand().addToHand(trainCard);
+        return true;
+    }
+
+    public static boolean drawTrainCard(Player player)
+    {
+        CD.getGame().drawTrainCard(player);
+        return true;
+    }
+
+
+    //------------------------------Destination Card methods----------------------------------------
 
 
     /**
