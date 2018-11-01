@@ -46,7 +46,7 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
 
         destinationTextView0 = (TextView)v.findViewById(R.id.destination_text_view_0);
         destinationTextView1 = (TextView)v.findViewById(R.id.destination_text_view_1);
-        destinationTextView2 = (TextView)v.findViewById(R.id.destgination_text_view_2);
+        destinationTextView2 = (TextView)v.findViewById(R.id.destination_text_view_2);
         discardButton = (Button)v.findViewById(R.id.destination_discard_button);
         viewButton = (Button)v.findViewById(R.id.destination_view_button);
         viewButton.setOnClickListener(new View.OnClickListener() {
