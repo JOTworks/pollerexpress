@@ -7,17 +7,15 @@ import com.shared.models.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Point;
 import com.shared.models.TrainCard;
-import com.shared.models.interfaces.IDatabaseFacade;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.UUID;
 
 import pollerexpress.database.dao.DestinationCardDao;
-import pollerexpress.database.dao.IDatabase;
+import pollerexpress.database.IDatabase;
 import pollerexpress.database.dao.TrainCardDao;
 
 import static com.shared.models.Color.TRAIN.*;
@@ -88,6 +86,15 @@ public class DeckBuilder {
         tcDao.insertIntoDefault(new TrainCard(RAINBOW));
     }
 
+    public void makeBank(GameInfo gi) throws DatabaseException {
+        this.makeDestinationDeck(gi);
+        this.makeTrainDeck(gi);
+    }
+
+    public void destroyBank(GameInfo gi) throws DatabaseException {
+        //TODO: implement when we make it so people can actually finish the game
+    }
+
     public void makeDestinationDeck(GameInfo gi) throws DatabaseException {
         DestinationCardDao dcDao = _db.getDestinationCardDao();
 
@@ -115,11 +122,18 @@ public class DeckBuilder {
         //fill table
         ArrayList<TrainCard> defaultDeck = tcDao.getDefaultDeck();
         for(TrainCard card : defaultDeck) {
-            tcDao.insertCard(gi, card.getId(), 0, null);
+            tcDao.insertCard(gi, card.getId(), 0, null, 0);
         }
 
         //shuffle
         this.shuffleTrainDeck(gi);
+
+        //flip five face-up cards
+        tcDao.flipFaceUp(gi, 1);
+        tcDao.flipFaceUp(gi, 2);
+        tcDao.flipFaceUp(gi, 3);
+        tcDao.flipFaceUp(gi, 4);
+        tcDao.flipFaceUp(gi, 5);
     }
 
 

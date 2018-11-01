@@ -12,31 +12,37 @@ public class Game extends Observable implements Serializable
 {
     GameInfo _info;
 
-    private GameState gameState; //TODO: this is not accesable yet
+    private GameState gameState;
+    private Map map;
 
     // the chat history for the game
     ChatHistory chatHistory = new ChatHistory();
-    public ChatHistory getChatHistory() {
-        return chatHistory;
-    }
-    public void setChatHistory(ChatHistory chatHistory) {
-        this.chatHistory = chatHistory;
-    }
-
-    public void addChat(Chat chat) {
-        chatHistory.addChat(chat);
-    }
-
     List<Player> _players;
 
+    //todo:make these private
+    public String currentTurn; //right now is players name
+    public List<TrainCard> _faceUpCards;
+    public int DestinationCardDeck;
+    public int TrainCardDeck;
 
+    /**
+     *
+     * @param info
+     */
     public Game(GameInfo info)
     {
+        map = new Map(Map.DEFAULT_MAP);
         _info = info;
     }
 
+    /**
+     *
+     * @param info
+     * @param players
+     */
     public Game(GameInfo info, Player[] players)
     {
+        map = Map.DEFAULT_MAP;
         _info = info;
         _players = new LinkedList<Player>(Arrays.asList(players) );
     }
@@ -46,13 +52,40 @@ public class Game extends Observable implements Serializable
      -----------------------------------------------------------------------
      */
 
+    public void setTurn(String name){
+        this.currentTurn = name;
+        synchronized(this)
+        {
+            this.setChanged();
+            notifyObservers(name);
+        }
+    }
+    public ChatHistory getChatHistory()
+    {
+        return chatHistory;
+    }
+    public void setChatHistory(ChatHistory chatHistory)
+    {
+        this.chatHistory = chatHistory;
+    }
+
+    public void addChat(Chat chat)
+    {
+        chatHistory.addChat(chat);
+    }
+
     /**
      * initialize or change the gameState object
      * @param gameState
      */
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
-        notifyObservers(gameState);
+        synchronized(this)
+        {
+            this.setChanged();
+
+            notifyObservers(gameState);
+        }
     }
 
     /**
@@ -65,7 +98,7 @@ public class Game extends Observable implements Serializable
     }
     /**
      * Getter for gameId
-     * @return the id of the game this game info is connected to.
+     * @return the rotation of the game this game info is connected to.
      */
     public String getId()
     {
@@ -150,6 +183,16 @@ public class Game extends Observable implements Serializable
     {
         return _players.get( _players.indexOf(p) );
     }
+    public Player getPlayer(String name)
+    {
+        for (Player p: _players
+             ) {
+            if(p.getName().equals(name)){
+                return p;
+            }
+        }
+        return null;
+    }
 
     public void setPlayers(List<Player> players)
     {
@@ -160,6 +203,10 @@ public class Game extends Observable implements Serializable
         return _players;
     }
 
+    public Map getMap()
+    {
+        return map;
+    }
     @Override
     public boolean equals(Object o)
     {

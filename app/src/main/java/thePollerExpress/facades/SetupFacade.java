@@ -66,10 +66,9 @@ public class SetupFacade {
 
         //update model if no errors
         ClientData CData = ClientData.getInstance();
-        CData.setUser(new User(loginReq.getUsername(), loginReq.getPassword()));
+        CData.setUser( new User(loginReq.getUsername(), "" ) );
         CData.setAuth(response.getAuthToken());
         CData.setGameInfoList(response.getAvailableGames());
-
         return response.getError();
     }
 

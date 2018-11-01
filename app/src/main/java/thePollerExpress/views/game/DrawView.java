@@ -14,12 +14,15 @@ import com.shared.models.City;
 import com.shared.models.Map;
 import com.shared.models.Route;
 
-
+import cs340.pollerexpress.R;
 import thePollerExpress.models.ClientData;
+import thePollerExpress.presenters.game.interfaces.IMapPresenter;
 
 public class DrawView extends android.support.v7.widget.AppCompatImageView
 {
-    public DrawView(Context context) {
+    //IMapPresenter presenter;
+    public DrawView(Context context)
+    {
         super(context);
     }
 
@@ -32,9 +35,11 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
     }
 
     @Override
-    public void onDraw(Canvas canvas) {
+    public void onDraw(Canvas canvas)
+    {
+
         super.onDraw(canvas);
-        Map map = ClientData.getInstance().map;
+        Map map = ClientData.getInstance().getGame().getMap();// presenter.getMap();
 
         for(Route route: map.getRoutes())
         {
@@ -53,6 +58,7 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
      * @param canvas
      */
     private final int cities_color = Color.argb(255,255,0,0);
+    private final int cities_exterior =  Color.argb(255, 100, 100, 100);
     private void drawCity(City city, Canvas canvas)
     {
         float x = city.getPoint().getX();
@@ -61,7 +67,7 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
 
         Paint outerPaint= new Paint();
         outerPaint.setStyle(Paint.Style.FILL);
-        outerPaint.setColor(  Color.argb(255, 100, 100, 100));
+        outerPaint.setColor(cities_exterior );
         canvas.drawCircle(x,y,30,outerPaint);
 
         Paint innerPaint= new Paint();
@@ -72,15 +78,27 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
         float textSize = 50;
         float cityNameOffsetX = 30;
         float cityNameOffsetY = 0;
+        {
+            Paint cityName = new Paint();
+            cityName.setColor(cities_color & 0xFF7F7F7F);
+            cityName.setTextSize(textSize);
+            cityName.setStrokeWidth(4);
+            cityName.setStyle(Paint.Style.STROKE);
+            cityName.setFakeBoldText(true);
+
+            canvas.drawText(city.getName(), x + cityNameOffsetX, y + cityNameOffsetY, cityName);
+        }
         Paint cityName = new Paint();
-        cityName.setColor(cities_color);
+        cityName.setColor(0xFFFF0000);
         cityName.setTextSize(textSize);
         cityName.setFakeBoldText(true);
+
         canvas.drawText(city.getName(), x + cityNameOffsetX,  y + cityNameOffsetY, cityName );
     }
 
     private final float max_car_size = 70;
     private final float min_gap_size = 20;
+    private final float car_width = 20;
     private void drawRoute(Route route, Canvas canvas)
     {
         Path path;
@@ -100,8 +118,8 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
         float b1 = a/size;//a0
 
 
-        float anchor2_x = (x2 + x1)/2 +route.id*5 * a1;
-        float anchor2_y = (y2 + y1)/2 +route.id*5 *b1;
+        float anchor2_x = (x2 + x1)/2 +route.rotation *5 * a1;
+        float anchor2_y = (y2 + y1)/2 +route.rotation *5 *b1;
 
         path = new Path();
         path.moveTo(x1, y1);
@@ -111,23 +129,24 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
         //draw the owner line
         if(route.getOwner() != null)
         {
-            Paint oPaint = new Paint();
-            oPaint.setColor(0xFFDE1324);//TODO get color based on ownership.
-            oPaint.setStrokeWidth(25);
+            Paint oPaint = new Paint();; //(route.getOwner().gameId.hashCode() & 0x000000FFFFFFFF )|
+            oPaint.setColor(  ( route.getOwner().hashCode() | 0xFF000000 ));//TODO set color based off of color property, but this way is fun too..
+            oPaint.setStrokeWidth((float) (car_width *1.25) );
             oPaint.setStyle(Paint.Style.STROKE);
             canvas.drawPath(path, oPaint);
         }
 
         //draw the dashedline of path length
-        Log.d("DrawView", String.valueOf(route.id) );
+        Log.d("DrawView", String.valueOf(route.rotation) );
         Paint paint = new Paint();
-        paint.setColor(0xFFFFFFFF);
+        paint.setColor( getRouteColor( route.getColor() ) );
         paint.setAntiAlias(true);
         paint.setStrokeCap(Paint.Cap.SQUARE);
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(20); //the width you want
-        PathMeasure measure = new PathMeasure(path,false );//no idea what this does...
+        paint.setStrokeWidth(car_width); //the width you want
+
+        PathMeasure measure = new PathMeasure(path,false );
         float length = measure.getLength();
         float segSize = length/route.getDistance();
         float[] dash = new float[route.getDistance() * 2 +2];
@@ -144,7 +163,49 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
 
         paint.setPathEffect(new DashPathEffect(dash, 0));
 
+        Paint outline = new Paint();
+        outline.setColor(  getRouteColor( route.getColor() ) & 0xFFAFAFAF );
+        outline.setAntiAlias(true);
+        outline.setStrokeCap(Paint.Cap.SQUARE);
+        outline.setStrokeJoin(Paint.Join.ROUND);
+        outline.setStyle(Paint.Style.STROKE);
+        outline.setStrokeWidth( (float) (car_width * 1.5) );
+        outline.setPathEffect(new DashPathEffect(dash, 0));
+
+        canvas.drawPath(path, outline);
         canvas.drawPath(path, paint);
+
+    }
+    private int getRouteColor(com.shared.models.Color.TRAIN color)
+    {
+       /* System.out.print(String.format("%h", R.integer.PURPLE));
+        System.out.print(String.format("%h", R.integer.WHITE));
+        System.out.print(String.format("%h", R.integer.YELLOW));
+        System.out.print(String.format("%h", R.integer.ORANGE));
+        System.out.print(String.format("%h", R.integer.RED));*/
+        switch(color)
+        {
+            case PURPLE:
+                return getContext().getResources().getInteger(R.integer.PURPLE);
+            case WHITE:
+                return getContext().getResources().getInteger(R.integer.WHITE);
+            case BLUE:
+                return getContext().getResources().getInteger(R.integer.BLUE);
+            case YELLOW:
+                return getContext().getResources().getInteger(R.integer.YELLOW);
+            case ORANGE:
+                return getContext().getResources().getInteger(R.integer.ORANGE);
+            case BLACK:
+                return getContext().getResources().getInteger(R.integer.BLACK);
+            case RED:
+                return getContext().getResources().getInteger(R.integer.RED);
+            case GREEN:
+                return getContext().getResources().getInteger(R.integer.GREEN);
+            default:
+                System.out.println("On grey");
+                return getContext().getResources().getInteger(R.integer.GREY);
+
+        }
     }
     private float tangent(float x1, float y1, float x2, float y2)
     {

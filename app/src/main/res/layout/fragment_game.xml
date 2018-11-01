@@ -35,30 +35,30 @@
                 android:layout_height="100dp"
                 android:orientation="horizontal">
 
-                <fragment
+                <FrameLayout
                     android:layout_marginLeft="5dp"
                     android:layout_width="255dp"
                     android:layout_height="100dp"
-                    android:id="@+id/Player1"
-                    android:name="thePollerExpress.views.game.PlayerFragment"></fragment>
-                <fragment
+                    android:id="@+id/player1_fragment_container"
+                    />
+                <FrameLayout
                     android:layout_marginLeft="5dp"
                     android:layout_width="255dp"
                     android:layout_height="100dp"
-                    android:id="@+id/Player2"
-                    android:name="thePollerExpress.views.game.PlayerFragment"></fragment>
-                <fragment
+                    android:id="@+id/player2_fragment_container"
+                    />
+                <FrameLayout
                     android:layout_marginLeft="5dp"
                     android:layout_width="255dp"
                     android:layout_height="100dp"
-                    android:id="@+id/Player3"
-                    android:name="thePollerExpress.views.game.PlayerFragment"></fragment>
-                <fragment
+                    android:id="@+id/player3_fragment_container"
+                    />
+                <FrameLayout
                     android:layout_marginLeft="5dp"
                     android:layout_width="255dp"
                     android:layout_height="100dp"
-                    android:id="@+id/Player4"
-                    android:name="thePollerExpress.views.game.PlayerFragment"></fragment>
+                    android:id="@+id/player4_fragment_container"
+                    />
 
 
 
@@ -80,84 +80,12 @@
                     android:name="thePollerExpress.views.game.MapView"></fragment>
 
                 <!--bank-->
-                <LinearLayout
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                <fragment
                     android:layout_margin="5dp"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:background="@color/PollerWhite">
-
-                    <TextView
-                        android:layout_width="120dp"
-                        android:layout_margin="5dp"
-                        android:layout_height="60dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/rainbow_train_car"
-                        android:textAlignment="center"
-                        android:textColor="@color/PollerBackground"
-                        android:textSize="30dp"/>
-                    <TextView
-                        android:layout_width="120dp"
-                        android:layout_margin="5dp"
-                        android:layout_height="60dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/rainbow_train_car"
-                        android:textAlignment="center"
-                        android:textColor="@color/PollerBackground"
-                        android:textSize="30dp"/>
-                    <TextView
-                        android:layout_width="120dp"
-                        android:layout_margin="5dp"
-                        android:layout_height="60dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/rainbow_train_car"
-                        android:textAlignment="center"
-                        android:textColor="@color/PollerBackground"
-                        android:textSize="30dp"/>
-                    <TextView
-                        android:layout_width="120dp"
-                        android:layout_margin="5dp"
-                        android:layout_height="60dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/rainbow_train_car"
-                        android:textAlignment="center"
-                        android:textColor="@color/PollerBackground"
-                        android:textSize="30dp"/>
-                    <TextView
-                        android:layout_width="120dp"
-                        android:layout_margin="5dp"
-                        android:layout_height="60dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/rainbow_train_car"
-                        android:textAlignment="center"
-                        android:textColor="@color/PollerBackground"
-                        android:textSize="30dp"/>
-                    <TextView
-                        android:layout_width="120dp"
-                        android:layout_margin="5dp"
-                        android:layout_height="60dp"
-                        android:layout_weight="1"
-                        android:text="56"
-                        android:background="@drawable/destination_card"
-                        android:textAlignment="center"
-                        android:gravity="center"
-                        android:textColor="@color/PollerBackground"
-                        android:textSize="40dp"/>
-                    <TextView
-                        android:layout_width="120dp"
-                        android:layout_margin="5dp"
-                        android:layout_height="60dp"
-                        android:layout_weight="1"
-                        android:text="34"
-                        android:background="@drawable/destination_card"
-                        android:textAlignment="center"
-                        android:gravity="center"
-                        android:textColor="@color/PollerBackground"
-                        android:textSize="40dp"/>
-
-
-                </LinearLayout>
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/bank"
+                    android:name="thePollerExpress.views.game.BankFragment"></fragment>
 
 
             </LinearLayout>

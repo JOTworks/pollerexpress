@@ -7,6 +7,7 @@ import com.shared.models.DestinationCard;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
+import com.shared.models.Route;
 import com.shared.models.states.GameState;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
 
 import thePollerExpress.models.ClientData;
 
-class ClientGameService {
+public class ClientGameService {
 
     private static final ClientGameService ourInstance = new ClientGameService();
 
@@ -34,9 +35,10 @@ class ClientGameService {
      *  This will notify the observer and will cause every user to switch to the gameView
      * @return true if the state was changed and false otherwise
      */
-    public static boolean startGame() {
+    public static boolean startGame()
+    {
         CD.getGame().setGameState(new GameState());
-        return false;
+        return true;
     }
 
     public static boolean drawDestinationCards(Player player, List<DestinationCard> destinationCards)
@@ -84,4 +86,16 @@ class ClientGameService {
         return true;
     }
 
+    public static Route claimRoute(Player p, int route)
+    {
+        Route r = (Route)CD.getGame().getMap().getRoutes().toArray()[route];
+        //claimRoute(p, r );
+        return r;
+    }
+    public static boolean claimRoute(Player p, Route r)
+    {
+        Log.d("ClaimRoute", p.getName() + " " +r.toString());
+        CD.getGame().getMap().claimRoute(p, r);
+        return true;
+    }
 }

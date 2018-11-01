@@ -1,10 +1,9 @@
 package thePollerExpress.utilities;
 
-import com.shared.models.interfaces.IDatabaseFacade;
 
 import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.interfaces.IGameView;
-import thePollerExpress.views.setup.ICreateGameView;
+import thePollerExpress.views.game.interfaces.IMapView;
 
 public class ViewFactory
 {
@@ -18,5 +17,9 @@ public class ViewFactory
     public static IPollerExpressView createLobbyView()
     {
         return _ivf.createLobbyView();
+    }
+    public static IMapView createMapView()
+    {
+        return _ivf.createMapView();
     }
 }

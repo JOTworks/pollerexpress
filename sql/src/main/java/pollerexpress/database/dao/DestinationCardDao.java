@@ -1,24 +1,18 @@
 package pollerexpress.database.dao;
 
-import com.shared.exceptions.database.DataNotFoundException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.City;
 import com.shared.models.DestinationCard;
-import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.shared.models.Point;
-import com.shared.models.User;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.print.attribute.standard.Destination;
-import javax.xml.crypto.Data;
+import pollerexpress.database.IDatabase;
 
 public class DestinationCardDao {
     private IDatabase _db;
@@ -141,6 +135,7 @@ public class DestinationCardDao {
     public DestinationCard drawCard(Player player) throws DatabaseException {
         //get card
         DestinationCard card = null;
+//        String TABLE_NAME = "\"DEFAULT_DESTINATION_DECK_" + player.getGameId() + "\"";
         String TABLE_NAME = "\"DESTINATION_DECK_" + player.getGameId() + "\"";
         String GET_TOP_CARD = SELECT_TOP_CARD.replace("<TABLE_NAME>",TABLE_NAME);
 

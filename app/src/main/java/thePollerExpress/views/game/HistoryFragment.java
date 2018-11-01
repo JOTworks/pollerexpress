@@ -25,15 +25,16 @@ import thePollerExpress.presenters.game.ChatPresenter;
 import thePollerExpress.presenters.game.interfaces.IChatPresenter;
 import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.interfaces.IChatView;
+import thePollerExpress.views.game.interfaces.IHistoryView;
 
-public class HistoryFragment extends Fragment implements IChatView {
-
+public class HistoryFragment extends Fragment implements IHistoryView
+{
     Button sendChatButton;
     Button chatViewButton;
     Button devViewButton;
     EditText chatMessage;
     ArrayList<String> results = new ArrayList<>();
-    IChatPresenter CP = new ChatPresenter(this);
+    IChatPresenter CP = null;//new ChatPresenter(this);
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     Adapter adapter;
@@ -109,7 +110,7 @@ public class HistoryFragment extends Fragment implements IChatView {
 
     public void changeToDevView(){
         FragmentManager fm = getFragmentManager();
-        //Fragment createGameFragment = fm.findFragmentById(R.id.fragment_create_game);
+        //Fragment createGameFragment = fm.findFragmentById(R.rotation.fragment_create_game);
         Fragment fragment = new MethodCallerFragment();
 
         FragmentTransaction ft = fm.beginTransaction();

@@ -1,9 +1,10 @@
 package com.shared.models;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
-public class DestinationCard
+public class DestinationCard implements Serializable
 {
     private String _id;
     private City _city1;

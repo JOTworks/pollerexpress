@@ -40,7 +40,7 @@ public class ClientCommunicator
 
     public LoginResponse sendLoginRequest(String requestType, LoginRequest request)
     {
-        return (LoginResponse)sendRequest(request, requestType);
+        return (LoginResponse) sendRequest(request, requestType);
     }
 
     public PollResponse sendCommand(Command command)
@@ -86,10 +86,15 @@ public class ClientCommunicator
                 {
 
                     response = Serializer.readData(http.getInputStream());
+
                 }
                 catch(ClassNotFoundException e)
                 {
                     return null;
+                }
+                finally
+                {
+                    http.getInputStream().close();
                 }
             }
             else {

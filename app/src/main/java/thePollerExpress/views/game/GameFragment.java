@@ -7,8 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import com.shared.models.Game;
+import com.shared.models.Player;
+
+import java.util.List;
+
 import cs340.pollerexpress.R;
 import thePollerExpress.Development.MethodCallerFragment;
+import thePollerExpress.models.ClientData;
 import thePollerExpress.presenters.game.GamePresenter;
 import thePollerExpress.presenters.game.interfaces.IGamePresenter;
 import thePollerExpress.views.IPollerExpressView;
@@ -21,7 +28,7 @@ public class GameFragment extends Fragment implements IGameView {
     @Override
     public void displayError(String errorMessage) {
 
-        //todo: fill out
+        // todo: fill out
     }
 
     @Override
@@ -49,16 +56,37 @@ public class GameFragment extends Fragment implements IGameView {
                 .add(R.id.chat_history_fragment_container, fragment)
                 .commit();
 
-
         fragment = new DestinationSelectionFragment();
         fm.beginTransaction()
                 .add(R.id.destination_fragment_container, fragment)
                 .commit();
 
+
         // Abby
         fragment = new TrainCardHandFragment();
         fm.beginTransaction()
                 .add(R.id.train_card_hand_fragment_container, fragment)
+
+        ClientData CD = ClientData.getInstance();
+        Game game = CD.getGame();
+
+        List<Player> Players = game.getPlayers();
+
+        fragment = PlayerFragment.newInstance(game.getPlayers().get(0).getName());
+        fm.beginTransaction()
+                .add(R.id.player1_fragment_container, fragment)
+                .commit();
+        fragment = PlayerFragment.newInstance(game.getPlayers().get(0).getName());
+        fm.beginTransaction()
+                .add(R.id.player2_fragment_container, fragment)
+                .commit();
+        fragment = PlayerFragment.newInstance(game.getPlayers().get(0).getName());
+        fm.beginTransaction()
+                .add(R.id.player3_fragment_container, fragment)
+                .commit();
+        fragment = PlayerFragment.newInstance(game.getPlayers().get(0).getName());
+        fm.beginTransaction()
+                .add(R.id.player4_fragment_container, fragment)
                 .commit();
 
         gamePresenter.startGame();
@@ -66,19 +94,19 @@ public class GameFragment extends Fragment implements IGameView {
 
        /* fragment = new PlayerFragment();
         fm.beginTransaction()
-                .add(R.id.player_1, fragment)
+                .add(R.rotation.player_1, fragment)
                 .commit();
         fragment = new PlayerFragment();
         fm.beginTransaction()
-                .add(R.id.player_2, fragment)
+                .add(R.rotation.player_2, fragment)
                 .commit();
         fragment = new PlayerFragment();
         fm.beginTransaction()
-                .add(R.id.player_3, fragment)
+                .add(R.rotation.player_3, fragment)
                 .commit();
         fragment = new PlayerFragment();
         fm.beginTransaction()
-                .add(R.id.player_4, fragment)
+                .add(R.rotation.player_4, fragment)
                 .commit();*/
 
         return v;

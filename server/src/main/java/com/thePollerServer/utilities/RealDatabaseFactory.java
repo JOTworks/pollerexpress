@@ -1,6 +1,6 @@
 package com.thePollerServer.utilities;
 
-import com.shared.models.interfaces.IDatabaseFacade;
+import pollerexpress.database.IDatabaseFacade;
 
 import pollerexpress.database.DatabaseFacade;
 

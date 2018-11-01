@@ -1,57 +1,60 @@
 package com.shared.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Observable;
 
-public class Route extends Observable
+public class Route extends Observable implements Serializable
 {
     List<City> cities;
     int distance;
     Player owner;
-    public int id;//used for double routes.
-    //TODO save a color
-
+    Color.TRAIN color;
+    public int rotation;//used for double routes.
     /**
-     * produces a copy of the route r..
-     * @param r
-     */
-    public Route(Route r)
-    {
-        this.id = r.id;
-        cities = r.cities;
-        this.distance = r.distance;
-    }
-
-    /**
-     *The main route constructor
+     *Constructs basic gray routes
      * @param dest
      * @param target
      * @param distance
      */
     public Route(City dest, City target, int distance)
     {
-        this.id = 0;
+        this.rotation = 0;
         cities = new ArrayList<>();
         cities.add (dest);
         cities.add(target);
         this.distance = distance;
         dest.addRoute(this);
         target.addRoute(this);
+        this.color= Color.TRAIN.RAINBOW;
     }
 
     /**
-     *The main route constructor
+     * The main route constructor
      * @param dest
      * @param target
      * @param distance
+     * @param rot rotation for route
+     * @param color
      */
-    public Route(City dest, City target, int distance, int id)
+    public Route(City dest, City target, int distance, int rot, Color.TRAIN color)
+    {
+        this(dest, target, distance, rot);
+        this.color = color;
+    }
+
+    /**
+     *Constructs curved gray routes
+     * @param dest
+     * @param target
+     * @param rot rotation for route
+     * @param distance
+     */
+    public Route(City dest, City target, int distance, int rot)
     {
         this(dest, target, distance);
-        this.id = id;
+        this.rotation = rot;
     }
 
     public City getDestination(City me)
@@ -99,9 +102,21 @@ public class Route extends Observable
         this.owner = player;
         synchronized (this)
         {
+            setChanged();
             notifyObservers(player);
         }
     }
+
+    public int getRotation()
+    {
+        return rotation;
+    }
+
+    public Color.TRAIN getColor()
+    {
+        return color;
+    }
+
     public Player getOwner()
     {
         return owner;
@@ -113,12 +128,20 @@ public class Route extends Observable
         if (this == o) return true;
         if (!(o instanceof Route)) return false;
         Route route = (Route) o;
-        return route.hashCode() == this.hashCode();
+
+        if(this.cities.get(0).equals(route.cities.get(0)))
+        {
+            return this.cities.get(1).equals(route.cities.get(1));
+        }
+        else
+        {
+            return this.cities.get(0).equals(route.cities.get(1)) && this.cities.get(1).equals(route.cities.get(0)) ;
+        }
     }
 
     @Override
     public int hashCode()
     {
-        return (cities.get(0)).hashCode() + cities.get(1).hashCode() +id;
+        return (cities.get(0)).hashCode() + cities.get(1).hashCode() + rotation;
     }
 }

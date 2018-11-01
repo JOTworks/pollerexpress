@@ -14,6 +14,9 @@ public class Player extends Observable implements Serializable
     public int destinationCardCount;
     public int trainCardCount;
     public List<Route> routes;
+    public int points;
+    public int trainCount;
+    public Color color;
 
     /**
      * Creates a new Player object
@@ -30,7 +33,8 @@ public class Player extends Observable implements Serializable
         destinationDiscardCount = 0;
         destinationCardCount = 0;
         trainCardCount = 0;
-
+        this.points = 0;
+        this.trainCount = 0;
         this.routes = new ArrayList<>();
     }
 
@@ -49,13 +53,17 @@ public class Player extends Observable implements Serializable
     {
         return name;
     }
-
+    public int getTrainCount(){return trainCount;}
+    public void setTrainCount(int trainCount) {this.trainCount = trainCount;}
+    public int getPoints(){return points;}
+    public void setPoints(int points){this.points = points;}
     public String getGameId()
     {
         return gameId;
     }
     public void setGameID(String gameId){ this.gameId = gameId;}
-
+    public Color getColor(){return this.color; }
+    public void setColor(Color color){this.color = color;}
     public int getDestinationCardCount()
     {
         return destinationCardCount;
@@ -139,7 +147,7 @@ public class Player extends Observable implements Serializable
     @Override
     public int hashCode()
     {
-        return Objects.hash(name);
+        return name.hashCode();
     }
 
     @Override

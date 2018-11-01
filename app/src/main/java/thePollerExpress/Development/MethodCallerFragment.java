@@ -22,11 +22,13 @@ import com.shared.models.GameInfo;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.regex.PatternSyntaxException;
 
 import cs340.pollerexpress.R;
 import thePollerExpress.Development.MethodBuilder;
 import thePollerExpress.Development.MethodCaller;
 import thePollerExpress.communication.ClientCommunicator;
+import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.ChatFragment;
 import thePollerExpress.views.setup.SetupViewAdapters.GameSelectAdapter;
 
@@ -37,7 +39,7 @@ import thePollerExpress.views.setup.SetupViewAdapters.GameSelectAdapter;
  * This class will have runtime dependencies but no
  * type dependencies because of reflection.
  */
-public class MethodCallerFragment extends Fragment {
+public class MethodCallerFragment extends Fragment implements IPollerExpressView {
 
     Button runMethodsButton;
     Button chatViewButton;
@@ -84,7 +86,15 @@ public class MethodCallerFragment extends Fragment {
                     //results = methodCaller.execute(commandList);
 
                     //jack is getting rid of reflection for now, its hard, instead hardcodding funtions
-                    results = methodCaller.parse(methods.getText().toString());
+                    String method = methods.getText().toString();
+                    String[] splitArray;
+                    try {
+                        splitArray = method.split("\\s+");
+                    } catch (PatternSyntaxException ex) {
+                        splitArray = new String[1];
+                        splitArray[0] = method;
+                    }
+                    results = methodCaller.parse(splitArray[0],splitArray );
 
                     // set up the adapter, which needs a list
                     adapter = new Adapter(results);
@@ -116,7 +126,7 @@ public class MethodCallerFragment extends Fragment {
             public void onClick(View v) {
 
                 FragmentManager fm = getFragmentManager();
-                //Fragment createGameFragment = fm.findFragmentById(R.id.fragment_create_game);
+                //Fragment createGameFragment = fm.findFragmentById(R.rotation.fragment_create_game);
                 Fragment fragment = new ChatFragment();
 
                 FragmentTransaction ft = fm.beginTransaction();
@@ -135,6 +145,16 @@ public class MethodCallerFragment extends Fragment {
 //        recyclerView.setLayoutManager(layoutManager);
 
         return v;
+    }
+
+    @Override
+    public void displayError(String errorMessage) {
+
+    }
+
+    @Override
+    public void changeView(IPollerExpressView view) {
+
     }
 
     public class Adapter extends RecyclerView.Adapter<ResultViewHolder> {
