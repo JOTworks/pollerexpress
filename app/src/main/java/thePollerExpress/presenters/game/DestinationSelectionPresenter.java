@@ -61,7 +61,6 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
         }else {
             discardDestCard(cards);
         }
-        view.displayError("discard Button Pressed!");
     }
 
     @Override
