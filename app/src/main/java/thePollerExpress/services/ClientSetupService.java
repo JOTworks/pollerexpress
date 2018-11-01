@@ -128,5 +128,9 @@ class ClientSetupService implements ISetupService {
         return true;
     }
 
-
+    public static void setPlayerPoints(Player p, int i)
+    {
+        CD.getGame().getPlayer(p).setPoints(i);
     }
+
+}

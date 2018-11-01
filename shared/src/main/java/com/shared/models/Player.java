@@ -57,7 +57,15 @@ public class Player extends Observable implements Serializable
     public int getTrainCount(){return trainCount;}
     public void setTrainCount(int trainCount) {this.trainCount = trainCount;}
     public int getPoints(){return points;}
-    public void setPoints(int points){this.points = points;}
+    public void setPoints(int points)
+    {
+        this.points = points;
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers();
+        }
+    }
     public String getGameId()
     {
         return gameId;
