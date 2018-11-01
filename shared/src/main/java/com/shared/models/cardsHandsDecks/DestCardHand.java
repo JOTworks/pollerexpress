@@ -1,14 +1,14 @@
-package com.shared.models;
+package com.shared.models.cardsHandsDecks;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-public class DestCardOptions extends Observable implements Serializable { //TODO: there should really be inheritance with card choices, hands, etc.
+public class DestCardHand extends Observable implements Serializable {
     private List<DestinationCard> destCards;
 
-    public DestCardOptions()
+    public DestCardHand()
     {
         destCards = new ArrayList<>();
     }
@@ -23,7 +23,7 @@ public class DestCardOptions extends Observable implements Serializable { //TODO
         }
     }
 
-    public void addToOptions(DestinationCard card) {
+    public void addToHand(DestinationCard card) {
         destCards.add(card);
         synchronized (this)
         {
@@ -31,7 +31,7 @@ public class DestCardOptions extends Observable implements Serializable { //TODO
         }
     }
 
-    public void removeFromOptions(DestinationCard card) {
+    public void removeFromHand(DestinationCard card) {
         destCards.remove(card); //TODO: make sure that will recognize which one to toss
         synchronized (this)
         {

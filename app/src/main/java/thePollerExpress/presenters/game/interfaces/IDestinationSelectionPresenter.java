@@ -1,6 +1,6 @@
 package thePollerExpress.presenters.game.interfaces;
 
-import com.shared.models.DestinationCard;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 
 public interface IDestinationSelectionPresenter {
 

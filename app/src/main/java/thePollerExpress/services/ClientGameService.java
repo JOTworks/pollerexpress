@@ -3,16 +3,13 @@ package thePollerExpress.services;
 import android.util.Log;
 
 import com.shared.models.Chat;
-import com.shared.models.DestinationCard;
-import com.shared.models.Game;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.shared.models.Route;
-import com.shared.models.TrainCard;
-import com.shared.models.VisibleCards;
+import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.states.GameState;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import thePollerExpress.models.ClientData;
@@ -45,7 +42,21 @@ public class ClientGameService {
         return true;
     }
 
+    public static boolean drawFirstTrainCards(Player player, List<TrainCard> trainCards)
+    {
+            CD.getUser().getTrainCardHand().setTrainCards(trainCards);
+        return true;
+    }
+
+//    public static boolean drawFirstTrainCards(Player player, integer numberOfCards)
+//    {
+//        CD.getUser().getTrainCardHand().setTrainCards();
+//        return true;
+//    }
+
     /**
+     * Skips drawing the cards if the user is not equal to the player in question.
+     * This avoids sending all the players extra destination cards
      *
      * @param player
      * @param destinationCards
@@ -90,11 +101,7 @@ public class ClientGameService {
     //todo: make it discard for players
 
 
-    public static boolean setAlertForStartGame() {
-        //todo: implement
-        //CD.getGame().
-        return true;
-    }
+
 
 
     public static boolean chat(Chat chat, GameInfo gameInfo)

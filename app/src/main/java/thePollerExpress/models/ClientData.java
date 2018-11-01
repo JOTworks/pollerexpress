@@ -1,19 +1,14 @@
 package thePollerExpress.models;
 
-import android.util.Log;
-
 import com.shared.models.Authtoken;
-import com.shared.models.ChatHistory;
 
-import com.shared.models.DestinationCard;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
-import com.shared.models.Map;
 import com.shared.models.Player;
 import com.shared.models.User;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Observable;
 

@@ -1,7 +1,7 @@
 package thePollerExpress.presenters.game;
 
 import com.shared.models.Game;
-import com.shared.models.VisibleCards;
+import com.shared.models.cardsHandsDecks.VisibleCards;
 
 import java.util.Observable;
 import thePollerExpress.models.ClientData;

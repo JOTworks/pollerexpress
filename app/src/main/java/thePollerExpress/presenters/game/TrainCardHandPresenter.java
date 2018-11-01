@@ -1,7 +1,6 @@
 package thePollerExpress.presenters.game;
 
-import com.shared.models.TrainCard;
-import com.shared.models.TrainCardHand;
+import com.shared.models.cardsHandsDecks.TrainCard;
 
 import java.util.ArrayList;
 import java.util.Observable;

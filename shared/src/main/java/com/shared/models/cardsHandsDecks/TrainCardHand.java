@@ -1,6 +1,6 @@
-package com.shared.models;
+package com.shared.models.cardsHandsDecks;
 
-import com.shared.models.TrainCard;
+import com.shared.models.cardsHandsDecks.TrainCard;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class TrainCardHand extends Observable implements Serializable {
     }
 
     public void removeFromHand(TrainCard card) {
-        trainCards.remove(card); //TODO: make sure that will recognize which one to toss
+        trainCards.remove(card);
         synchronized (this)
         {
             notifyObservers(card);

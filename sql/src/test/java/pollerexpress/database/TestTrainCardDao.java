@@ -2,7 +2,7 @@ package pollerexpress.database;
 
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
-import com.shared.models.TrainCard;
+import com.shared.models.cardsHandsDecks.TrainCard;
 
 import org.junit.After;
 import org.junit.Before;

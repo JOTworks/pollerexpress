@@ -1,9 +1,8 @@
 package thePollerExpress.facades;
 
-import com.shared.exceptions.CommandFailed;
 import com.shared.models.Chat;
 import com.shared.models.Command;
-import com.shared.models.DestinationCard;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.shared.models.PollResponse;
@@ -13,8 +12,6 @@ import com.shared.models.reponses.ErrorResponse;
 import com.shared.utilities.CommandsExtensions;
 
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Queue;
 
 import thePollerExpress.communication.ClientCommunicator;
 import thePollerExpress.models.ClientData;

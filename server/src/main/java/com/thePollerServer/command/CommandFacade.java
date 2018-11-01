@@ -1,12 +1,11 @@
 package com.thePollerServer.command;
 
 
-import com.shared.models.DestinationCard;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Chat;
 import com.shared.models.Route;
-import com.shared.models.TrainCard;
+import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.User;
-import com.shared.models.VisibleCards;
 import com.shared.utilities.CommandsExtensions;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
@@ -20,8 +19,6 @@ import com.thePollerServer.commandServices.SetupService;
 import com.thePollerServer.utilities.Factory;
 
 import java.util.List;
-
-import pollerexpress.database.utilities.DeckBuilder;
 
 public class CommandFacade
 {
