@@ -54,9 +54,8 @@ public class MethodCaller {
                         "add commands to the methodCaller class\n" +
                         "in the parse funtion, as a case");
                 break;
-            case "setTurn":
+            case "jack":
                 CD.getGame().setTurn("jackson");
-                CD.getGame().setGameState(null);
                 //result.add( )
                 break;
             case "claimRoute":

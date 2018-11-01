@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.shared.models.Game;
+import com.shared.models.Player;
+
+import java.util.List;
 
 import cs340.pollerexpress.R;
 import thePollerExpress.Development.MethodCallerFragment;
@@ -60,7 +63,25 @@ public class GameFragment extends Fragment implements IGameView {
 
         ClientData CD = ClientData.getInstance();
         Game game = CD.getGame();
+
+        List<Player> Players = game.getPlayers();
+
         fragment = PlayerFragment.newInstance(game.getPlayers().get(0).getName());
+        fm.beginTransaction()
+                .add(R.id.player1_fragment_container, fragment)
+                .commit();
+        fragment = PlayerFragment.newInstance(game.getPlayers().get(0).getName());
+        fm.beginTransaction()
+                .add(R.id.player2_fragment_container, fragment)
+                .commit();
+        fragment = PlayerFragment.newInstance(game.getPlayers().get(0).getName());
+        fm.beginTransaction()
+                .add(R.id.player3_fragment_container, fragment)
+                .commit();
+        fragment = PlayerFragment.newInstance(game.getPlayers().get(0).getName());
+        fm.beginTransaction()
+                .add(R.id.player4_fragment_container, fragment)
+                .commit();
 
         gamePresenter.startGame();
 
