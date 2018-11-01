@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.shared.models.DestinationCard;
+import com.shared.models.User;
 
 import java.util.List;
 
@@ -52,9 +53,6 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
                 destinationSelectionPresenter.discardButtonPressed();
             }
         });
-
-        List<DestinationCard> destCards = ClientData.getInstance().getUser().getDestCardHand().getDestinationCards();
-        renderCards(destCards);
 
         return v;
     }

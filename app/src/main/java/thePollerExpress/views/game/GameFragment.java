@@ -49,6 +49,8 @@ public class GameFragment extends Fragment implements IGameView {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_game, container, false);
 
+        gamePresenter.startGame();
+
         FragmentManager fm = getFragmentManager();
 
         Fragment fragment = new MethodCallerFragment();
@@ -116,7 +118,7 @@ public class GameFragment extends Fragment implements IGameView {
 
 
 
-        gamePresenter.startGame();
+
 
 
        /* fragment = new PlayerFragment();
