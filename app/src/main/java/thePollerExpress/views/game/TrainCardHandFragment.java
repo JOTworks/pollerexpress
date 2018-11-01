@@ -55,21 +55,12 @@ public class TrainCardHandFragment extends Fragment implements ITrainCardHandVie
         recyclerView.setAdapter(mAdapter);
         layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
-// hard coded for testing purposes
-//        ArrayList<String> colorList = new ArrayList<>();
-//        colorList.add("blue");
-//        colorList.add("yellow");
-//        colorList.add("pink");
-//        colorList.add("orange");
-//
-//        displayHand(colorList);
 
         return v;
     }
 
     /**
      * updates the recycler view
-     * @param arrayList new strings to display.
      */
     public void displayHand() {
 
