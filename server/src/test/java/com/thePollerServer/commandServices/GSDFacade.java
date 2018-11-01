@@ -9,6 +9,8 @@ import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.shared.models.User;
 import pollerexpress.database.IDatabaseFacade;
+
+import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.reponses.LoginResponse;
 
 import java.util.List;
@@ -102,8 +104,38 @@ public class GSDFacade implements IDatabaseFacade
     }
 
     @Override
+    public void makeBank(GameInfo game) throws DatabaseException {
+
+    }
+
+    @Override
     public void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
         // no implementation necessary
+    }
+
+    @Override
+    public TrainCard[] getVisible(GameInfo info) throws DatabaseException {
+        return new TrainCard[0];
+    }
+
+    @Override
+    public TrainCard getVisible(Player p, int i) throws DatabaseException {
+        return null;
+    }
+
+    @Override
+    public TrainCard drawVisible(Player p, int i) throws DatabaseException {
+        return null;
+    }
+
+    @Override
+    public void setColor(Player p, int i) {
+
+    }
+
+    @Override
+    public List<TrainCard> drawTrainCards(Player p, int number) throws DatabaseException {
+        return null;
     }
 
 }

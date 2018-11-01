@@ -132,19 +132,20 @@ public class CommandFacade
 
             /* This is meant to call the first train cards.
             * This is in the StartGame method. */
-            List<TrainCard> tList = df.drawTrainCards(p, 4);
-            {
-                Class<?>[] types = { tList.getClass()};//we will see if this works...drawFirstTrainCards
-                Object[] params = {tList};
-                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawFirstTrainCards", types, params);
-                CM.addCommand(drawDestinationCards, p);
-            }
-            {
-                Class<?>[] types = {Player.class, Integer.class};//we will see if this works...
-                Object[] params = {p, new Integer(4)};
-                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawFirstTrainCards", types, params);
-                CM.addCommand(drawDestinationCards, p);
-            }
+            CommandFacade.drawTrainCards(p, 4);
+//            List<TrainCard> tList = df.drawTrainCards(p, 4);
+//            {
+//                Class<?>[] types = { tList.getClass()};//we will see if this works...drawFirstTrainCards
+//                Object[] params = {tList};
+//                Command drawFirstTrainCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawFirstTrainCards", types, params);
+//                CM.addCommand(drawFirstTrainCards, p);
+//            }
+//            {
+//                Class<?>[] types = {Player.class, Integer.class};//we will see if this works...
+//                Object[] params = {p, new Integer(4)};
+//                Command drawFirstTrainCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawFirstTrainCards", types, params);
+//                CM.addCommand(drawFirstTrainCards, p);
+//            }
 
 
             //this maybe should be put into the service, but most of the logic has to deal with commands....
@@ -237,4 +238,37 @@ public class CommandFacade
         df.setColor(p, Color.getIndex(color));
     }
 
+
+    public static void drawTrainCards(Player p, int number) throws DatabaseException
+    {
+        IDatabaseFacade df = Factory.createDatabaseFacade();
+        CommandManager CM = CommandManager._instance();
+
+        Game game = df.getGame(df.getGameInfo(p.getGameId()));
+        List<TrainCard> tList = df.drawTrainCards(p, number);
+
+        //give command to actual player
+        for(TrainCard card : tList)
+        {
+            Class<?>[] types = {card.getClass()};
+            Object[] params = {card};
+            Command drawTrainCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawTrainCard", types, params);
+            CM.addCommand(drawTrainCards, p);
+        }
+
+        //give altered command to everyone else in the game
+        for(Player player : game.getPlayers())
+        {
+            if(!p.equals(player))
+            {
+                for(TrainCard card : tList)
+                {
+                    Class<?>[] types = {player.getClass()};
+                    Object[] params = {player};
+                    Command drawTrainCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawTrainCard", types, params);
+                    CM.addCommand(drawTrainCards, p);
+                }
+            }
+        }
+    }
 }
