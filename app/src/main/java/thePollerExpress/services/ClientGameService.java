@@ -55,7 +55,7 @@ public class ClientGameService {
     {
         if(!CD.getUser().equals(player)) return false;
         for (DestinationCard card : destinationCards) {
-            CD.addDestCardToHand(card);
+            CD.addDestCardToOptions(card);
         }
         return true;
     }
@@ -74,11 +74,16 @@ public class ClientGameService {
     }
 
 
-    public static boolean removeDestCardFromHand(Player player, List<DestinationCard> destinationCards)
+    public static boolean removeDestCardFromOptions(Player player, List<DestinationCard> destinationCards)
     {
         for (DestinationCard card : destinationCards) {
-            CD.addDestCardToHand(card);
+            CD.removeDestCardFromOptions(card);
         }
+
+        //TODO: take adding to the hand logic out and put it in another method. Violating single responsibility and have a misleading method name
+
+        for (DestinationCard card : CD.getUser().getDestCardOptions().getDestinationCards())
+            CD.addDestCardToHand(card);
         return true;
     }
 

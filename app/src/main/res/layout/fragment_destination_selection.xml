@@ -49,6 +49,12 @@
             android:gravity="center"
             android:textColor="#000000"
             android:textSize="16dp"/>
-
+        <Button
+            android:id="@+id/destination_discard_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="OK"
+            android:background="@color/colorPrimary"
+            />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

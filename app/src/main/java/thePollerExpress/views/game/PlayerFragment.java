@@ -45,10 +45,10 @@ public class PlayerFragment extends Fragment implements IPlayerView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Bundle args = getArguments();
-        //String playerName = args.getString("playerName", "Nameless");
-        //playerPresenter = new PlayerPresenter(this,playerName);
-        playerPresenter = new PlayerPresenter(this,"saragate name");
+        Bundle args = getArguments();
+        String playerName = args.getString("playerName", "Nameless");
+        playerPresenter = new PlayerPresenter(this,playerName);
+        //playerPresenter = new PlayerPresenter(this,"saragate name");
     }
 
     @Override
@@ -62,6 +62,8 @@ public class PlayerFragment extends Fragment implements IPlayerView {
         playerTrains = (TextView) v.findViewById(R.id.player_trains);
         playerTrainCards = (TextView) v.findViewById(R.id.player_train_cards);
         playerDestinationCards = (TextView) v.findViewById(R.id.player_destination_cards);
+        //this line isnt needed when observer works correctly i think
+        renderPlayer(playerPresenter.getPlayer());
         isTurn();
         return v;
     }

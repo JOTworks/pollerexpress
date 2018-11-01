@@ -9,6 +9,7 @@ import com.shared.models.Player;
 import com.shared.models.states.GameState;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import thePollerExpress.models.ClientData;
 
@@ -111,6 +112,14 @@ class ClientSetupService implements ISetupService {
             CD.setGame(null);
             return true;
         }
+
+    public static Boolean setPlayerColors(List<Player> players) {
+        for (Player player : players) {
+            CD.getGame().getPlayer(player)
+                    .setColor(player.getColor());
+        }
+        return true;
+    }
 
 
     }
