@@ -116,7 +116,7 @@ public class ClientCardService {
     public static boolean discardDestinationCards(Player player, Integer numberOfCards)
     {
         Player real = CD.getGame().getPlayer(player);
-        CD.getGame().discardDestinationCards(player, numberOfCards);
+        CD.getGame().discardDestinationCards(real, numberOfCards);
         return true;
     }
 
