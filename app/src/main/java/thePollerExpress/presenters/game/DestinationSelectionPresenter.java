@@ -30,9 +30,6 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
         CD.getUser().getDestCardOptions().addObserver(this);
     }
 
-    public void discardDestCard(List<DestinationCard> cards){
-        //just so it still builds
-    }
     @Override
     public void discardDestCards(final List<DestinationCard> cards) {
         AsyncRunner discardDestCardTask = new AsyncRunner(view);
@@ -59,7 +56,7 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
         if(cards.size()>CD.getUser().getDestinationDiscardCount()){
             view.displayError("You can only discard "+CD.getUser().getDestinationDiscardCount()+" card");
         }else {
-            discardDestCard(cards);
+            discardDestCards(cards);
         }
     }
 
