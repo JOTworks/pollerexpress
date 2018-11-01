@@ -193,30 +193,25 @@ public class MethodCaller {
             // test claiming a route
             fragment.toast("Our first stop is claiming a route!");
             claimRoute(result, new String[]{"unused var", "1"});
-            Thread.sleep(3000);
             fragment.toast(result.toString());
 
 
             // face up deck cards can change
             fragment.toast("let's modify the face up deck cards!");
-            Thread.sleep(3000);
 
             // hand of current player can change
             fragment.toast("let's modify the hand of the current player!");
             //CD.getUser().getTrainCardHand().removeFromHand();
 
             // players points can be changed
-            Thread.sleep(3000);
             fragment.toast("let's modify the players points!");
             demoPlayer.setPoints(900);
 
             // players trains remaining can be changed
-            Thread.sleep(3000);
             fragment.toast("let's modify the players remaining trains!");
             demoPlayer.setTrainCount(10);
 
             // turn indicator can be changed
-            Thread.sleep(3000);
             fragment.toast("let's modify the turn indicator!");
             CD.getGame().setTurn("Nate");
         } catch (Exception e) {}
