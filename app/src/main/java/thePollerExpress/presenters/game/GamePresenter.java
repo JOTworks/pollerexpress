@@ -19,21 +19,6 @@ public class GamePresenter implements IGamePresenter {
         this.view = view;
     }
 
-    @Override
-    public void startGame() {
-
-        AsyncRunner startGameTask = new AsyncRunner(view);
-
-        startGameTask.execute(new ICommand()
-        {
-            @Override
-            public Object execute() throws CommandFailed
-            {
-                return facade.startGame(CD.getUser());
-            }
-        });
-
-    }
 
 
 }
