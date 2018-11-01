@@ -128,22 +128,7 @@ public class CommandFacade
         {
 
 
-            //this maybe should be put into the service, but most of the logic has to deal with commands....
-            List<DestinationCard> dlist = df.drawDestinationCards(p, 1) ;
-            {
-                Class<?>[] types = {Player.class, dlist.getClass()};//we will see if this works...
-                Object[] params = {p, dlist};
-                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawDestinationCards", types, params);
-                CM.addCommand(drawDestinationCards, p);
-            }
 
-            // next create the command for all other players...
-            {
-                Class<?>[] types = {Player.class, Integer.class};
-                Object[] params = {p, new Integer(3)};
-                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawDestinationCards", types, params);
-                CM.addCommand(drawDestinationCards, info);
-            }
 
             /* This is meant to call the first train cards.
             * This is in the StartGame method. */
@@ -161,7 +146,26 @@ public class CommandFacade
                 CM.addCommand(drawDestinationCards, p);
             }
 
+
+            //this maybe should be put into the service, but most of the logic has to deal with commands....
+            List<DestinationCard> dlist = df.drawDestinationCards(p, 1) ;
+            {
+                Class<?>[] types = {Player.class, dlist.getClass()};//we will see if this works...
+                Object[] params = {p, dlist};
+                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawDestinationCards", types, params);
+                CM.addCommand(drawDestinationCards, p);
+            }
+
+            // next create the command for all other players...
+            {
+                Class<?>[] types = {Player.class, Integer.class};
+                Object[] params = {p, new Integer(3)};
+                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawDestinationCards", types, params);
+                CM.addCommand(drawDestinationCards, info);
+            }
         }
+
+
 
     }
 
