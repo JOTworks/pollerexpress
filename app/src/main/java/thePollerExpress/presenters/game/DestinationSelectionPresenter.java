@@ -16,9 +16,6 @@ import thePollerExpress.utilities.AsyncRunner;
 import thePollerExpress.utilities.ViewFactory;
 import thePollerExpress.views.game.interfaces.IDestinationSelectionView;
 
-/**
- * Abby
- */
 public class DestinationSelectionPresenter implements IDestinationSelectionPresenter, Observer {
 
     private IDestinationSelectionView view;

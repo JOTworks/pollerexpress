@@ -1,14 +1,12 @@
 package thePollerExpress.presenters.game;
 
-import android.util.Log;
-
-import com.shared.models.Game;
 import com.shared.models.Player;
 
 import java.util.Observable;
 import java.util.Observer;
 
 import thePollerExpress.models.ClientData;
+import thePollerExpress.presenters.game.interfaces.IPlayerPresenter;
 import thePollerExpress.views.game.interfaces.IPlayerView;
 
 public class PlayerPresenter implements IPlayerPresenter, Observer {
