@@ -20,6 +20,7 @@ public class PlayerPresenter implements IPlayerPresenter, Observer {
         this.playerView = playerView;
         this.playerName = playerName;
         clientData = ClientData.getInstance();
+        clientData.getGame().getPlayer(playerName).addObserver(this);
     }
 
     public Player getPlayer() {
@@ -29,7 +30,7 @@ public class PlayerPresenter implements IPlayerPresenter, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        playerView.renderPlayer(clientData.getGame().getPlayer(playerName));
     }
 
     //
