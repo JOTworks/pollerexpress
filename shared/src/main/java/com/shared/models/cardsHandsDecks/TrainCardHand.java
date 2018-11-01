@@ -16,6 +16,7 @@ public class TrainCardHand extends Observable implements Serializable
         this.trainCards = trainCards;
         synchronized (this)
         {
+            this.setChanged();
             notifyObservers(trainCards);
         }
     }
@@ -24,6 +25,7 @@ public class TrainCardHand extends Observable implements Serializable
         trainCards.add(card);
         synchronized (this)
         {
+            this.setChanged();
             notifyObservers(card);
         }
     }
@@ -32,6 +34,7 @@ public class TrainCardHand extends Observable implements Serializable
         trainCards.remove(card);
         synchronized (this)
         {
+            this.setChanged();
             notifyObservers(card);
         }
     }
