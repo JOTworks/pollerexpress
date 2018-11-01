@@ -7,6 +7,8 @@ import java.util.Observable;
 
 public class VisibleCards extends Observable implements Serializable
 {
+    private final String UPDATE_ALL_STRING = "updateAll";
+
     private TrainCard cards[];
     public VisibleCards()
     {
@@ -29,6 +31,14 @@ public class VisibleCards extends Observable implements Serializable
     public TrainCard get(int i)
     {
         return cards[i];
+    }
+
+    public void updateObservables() {
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers(UPDATE_ALL_STRING);
+        }
     }
 }
                                  

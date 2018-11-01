@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-public class DestCardOptions extends Observable implements Serializable { //TODO: there should really be inheritance with card choices, hands, etc.
+public class DestCardOptions extends Hand implements Serializable { //TODO: there should really be inheritance with card choices, hands, etc.
     private List<DestinationCard> destCards;
 
     public DestCardOptions()

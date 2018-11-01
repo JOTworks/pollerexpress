@@ -35,6 +35,10 @@ public class BankPresenter implements IBankPresenter
         {
             view.update();
         }
+        else if(o instanceof String)
+        {
+            view.update();
+        }
     }
 
     @Override
