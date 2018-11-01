@@ -42,67 +42,6 @@ public class ClientGameService {
         return true;
     }
 
-    public static boolean drawFirstTrainCards(Player player, List<TrainCard> trainCards)
-    {
-            CD.getUser().getTrainCardHand().setTrainCards(trainCards);
-        return true;
-    }
-
-//    public static boolean drawFirstTrainCards(Player player, integer numberOfCards)
-//    {
-//        CD.getUser().getTrainCardHand().setTrainCards();
-//        return true;
-//    }
-
-    /**
-     * Skips drawing the cards if the user is not equal to the player in question.
-     * This avoids sending all the players extra destination cards
-     *
-     * @param player
-     * @param destinationCards
-     * @return
-     */
-    public static boolean drawDestinationCards(Player player, List<DestinationCard> destinationCards)
-    {
-        if(!CD.getUser().equals(player)) return false;
-        for (DestinationCard card : destinationCards) {
-            CD.addDestCardToOptions(card);
-        }
-        return true;
-    }
-
-    /**
-     *
-     * @param player
-     * @param cardNumber
-     * @return
-     */
-    public static boolean drawDestinationCards(Player player, Integer cardNumber)
-    {
-        Player real = CD.getGame().getPlayer(player);
-        CD.getGame().drawDestinationCards(player, cardNumber);
-        return true;
-    }
-
-
-    public static boolean removeDestCardFromOptions(Player player, List<DestinationCard> destinationCards)
-    {
-        for (DestinationCard card : destinationCards) {
-            CD.removeDestCardFromOptions(card);
-        }
-
-        //TODO: take adding to the hand logic out and put it in another method. Violating single responsibility and have a misleading method name
-
-        for (DestinationCard card : CD.getUser().getDestCardOptions().getDestinationCards())
-            CD.addDestCardToHand(card);
-        return true;
-    }
-
-    //todo: make it discard for players
-
-
-
-
 
     public static boolean chat(Chat chat, GameInfo gameInfo)
     {
@@ -128,15 +67,4 @@ public class ClientGameService {
         return true;
     }
 
-
-    public static boolean drawVisibleCard(Player p, TrainCard card, Integer drawsLeft, TrainCard visible[])
-    {
-        if(p.equals(CD.getUser()))
-        {
-            CD.getUser().getTrainCardHand().addToHand(card);
-        }
-        CD.getGame().drawTrainCard(p);
-        CD.getGame().getVisibleCards().set(visible);
-        return true;
-    }
 }
