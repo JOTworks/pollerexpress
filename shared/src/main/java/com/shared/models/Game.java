@@ -100,7 +100,6 @@ public class Game extends Observable implements Serializable
         synchronized(this)
         {
             this.setChanged();
-
             notifyObservers(gameState);
         }
     }

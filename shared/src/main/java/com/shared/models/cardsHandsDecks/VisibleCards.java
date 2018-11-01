@@ -31,3 +31,4 @@ public class VisibleCards extends Observable implements Serializable
         return cards[i];
     }
 }
+                                 
