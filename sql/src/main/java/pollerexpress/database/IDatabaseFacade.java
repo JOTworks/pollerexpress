@@ -67,5 +67,10 @@ public interface IDatabaseFacade
     TrainCard getVisible(Player p, int i) throws DatabaseException;
     TrainCard drawVisible(Player p, int i) throws DatabaseException;
 
+    void setColor(Player p, int i);// throws DatabaseException;
+
+    List<TrainCard> drawTrainCards(Player p, int number) throws DatabaseException;
+
+
 }
 

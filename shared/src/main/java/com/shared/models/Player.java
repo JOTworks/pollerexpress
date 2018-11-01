@@ -63,7 +63,15 @@ public class Player extends Observable implements Serializable
     }
     public void setGameID(String gameId){ this.gameId = gameId;}
     public Color.PLAYER getColor(){return this.color; }
-    public void setColor(Color.PLAYER color){this.color = color;}
+    public void setColor(Color.PLAYER color)
+    {
+        this.color = color;
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers(color);
+        }
+    }
     public int getDestinationCardCount()
     {
         return destinationCardCount;

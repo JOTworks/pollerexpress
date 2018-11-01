@@ -113,7 +113,7 @@ class ClientSetupService implements ISetupService {
             return true;
         }
 
-    public static Boolean setPlayerColors(List<Player> players) {
+    public static Boolean setPlayerColors(ArrayList<Player> players) {
         for (Player player : players) {
             CD.getGame().getPlayer(player)
                     .setColor(player.getColor());

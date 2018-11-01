@@ -413,4 +413,46 @@ public class DatabaseFacade implements IDatabaseFacade
         return true;
     }
 
+    @Override
+    public List<TrainCard> drawTrainCards(Player p, int number) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            List<TrainCard> cards = new ArrayList<>();
+            while (number > 0)
+            {
+                cards.add(db.getTrainCardDao().drawCard(p));
+                number -= 1;
+            }
+
+            db.close(true);
+            return cards;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public void setColor(Player p, int i)
+    {
+
+        try
+        {
+            db.open();
+            db.getUserDao().setColor(p, i);
+            db.close(true);
+        }
+        catch (DatabaseException e)
+        {
+
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+
+    }
 }
