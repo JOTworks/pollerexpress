@@ -3,6 +3,7 @@ package com.shared.models;
 import com.shared.models.states.GameState;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,19 +22,28 @@ public class Game extends Observable implements Serializable
 
     //todo:make these private
     public String currentTurn; //right now is players name
-    public List<TrainCard> _faceUpCards;
+    public VisibleCards faceUpCards;
     public int DestinationCardDeck;
     public int TrainCardDeck;
 
+    private Game()
+    {
+        faceUpCards = new VisibleCards();
+        DestinationCardDeck = 0;
+        TrainCardDeck = 0;
+    }
     /**
      *
      * @param info
      */
     public Game(GameInfo info)
     {
+        this();
         map = new Map(Map.DEFAULT_MAP);
         _info = info;
+        _players = new ArrayList<>();
     }
+
 
     /**
      *
@@ -42,6 +52,7 @@ public class Game extends Observable implements Serializable
      */
     public Game(GameInfo info, Player[] players)
     {
+        this();
         map = Map.DEFAULT_MAP;
         _info = info;
         _players = new LinkedList<Player>(Arrays.asList(players) );
@@ -67,6 +78,10 @@ public class Game extends Observable implements Serializable
         chatHistory.addChat(chat);
     }
 
+    public VisibleCards getVisibleCards()
+    {
+        return faceUpCards;
+    }
     /**
      * initialize or change the gameState object
      * @param gameState

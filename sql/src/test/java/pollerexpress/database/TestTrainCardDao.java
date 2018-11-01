@@ -36,9 +36,10 @@ public class TestTrainCardDao {
             db.deleteTables();
             db.createTables();
 
-            db.close(true);
 
             builder.makeDefaultDecks();
+            db.close(true);
+
 
         } catch(Exception e) {
             System.out.println(e.getMessage());
@@ -50,11 +51,16 @@ public class TestTrainCardDao {
     @After
     public void down() {
         try {
+            db.open();
             tcDao.deleteDeck(gi);
         } catch(Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
             fail();
+        }
+        finally
+        {
+            db.close(false);
         }
     }
 
@@ -62,6 +68,7 @@ public class TestTrainCardDao {
     public void testBuildDefaultDeck() {
         //test the the default Train Deck was filled properly in the database, or that it even exists.
         try {
+            db.open();
             ArrayList<TrainCard> deck = tcDao.getDefaultDeck();
             assertEquals(110, deck.size());
         } catch(Exception e) {
@@ -69,11 +76,16 @@ public class TestTrainCardDao {
             e.printStackTrace();
             fail();
         }
+        finally
+        {
+            db.close(false);
+        }
     }
 
     @Test
     public void testBuildGameDeck() {
         try {
+            db.open();
             builder.makeTrainDeck(gi);
             assertEquals(105, tcDao.getDeckSize(gi));
             assertEquals(5, tcDao.getFaceUp(gi).length);
@@ -83,11 +95,16 @@ public class TestTrainCardDao {
             e.printStackTrace();
             fail();
         }
+        finally
+        {
+            db.close(false);
+        }
     }
 
     @Test
     public void testDrawCard() {
        try {
+           db.open();
             //make deck and get starting deck size for comparison
             builder.makeTrainDeck(gi);
             int deckSize = tcDao.getDeckSize(gi);
@@ -106,12 +123,17 @@ public class TestTrainCardDao {
             e.printStackTrace();
             fail();
         }
+       finally
+       {
+           db.close(false);
+       }
     }
 
     @Test
     public void testGetPlayerHand() {
         try{
             //make game deck
+            db.open();
             builder.makeTrainDeck(gi);
 
             //draw three cards
@@ -134,12 +156,17 @@ public class TestTrainCardDao {
             e.printStackTrace();
             fail();
         }
+        finally
+        {
+            db.close(false);
+        }
     }
 
     @Test
     public void testDiscard() {
         try {
             //make game deck
+            db.open();
             builder.makeTrainDeck(gi);
 
             //draw a card
@@ -162,12 +189,17 @@ public class TestTrainCardDao {
             e.printStackTrace();
             fail();
         }
+        finally
+        {
+            db.close(false);
+        }
     }
 
     @Test
     public void testFaceUp() {
         try {
             //make game deck
+            db.open();
             builder.makeTrainDeck(gi);
 
             //there should be five faceup cards
@@ -191,11 +223,16 @@ public class TestTrainCardDao {
             e.printStackTrace();
             fail();
         }
+        finally
+        {
+            db.close(false);
+        }
     }
 
     @Test
     public void testShuffle() {
         try {
+            db.open();
             //make game deck
             builder.makeTrainDeck(gi);
 
@@ -247,6 +284,10 @@ public class TestTrainCardDao {
             System.out.println(e.getMessage());
             e.printStackTrace();
             fail();
+        }
+        finally
+        {
+            db.close(false);
         }
     }
 }

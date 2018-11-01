@@ -1,4 +1,4 @@
-package pollerexpress.database;
+package pollerexpress.database.dao;
 
 import com.shared.exceptions.database.DatabaseException;
 
@@ -9,9 +9,5 @@ import pollerexpress.database.dao.TrainCardDao;
 
 public interface IDatabase
 {
-    void open() throws DatabaseException;
-    void close(boolean commit);
     Connection getConnection();
-    DestinationCardDao getDestinationCardDao();
-    TrainCardDao getTrainCardDao();
 }
