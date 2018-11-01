@@ -1,4 +1,4 @@
-package com.shared.models.interfaces;
+package pollerexpress.database;
 
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Authtoken;
@@ -24,6 +24,7 @@ public interface IDatabaseFacade
     Player getPlayer(String user) throws DatabaseException;
     GameInfo getGameInfo(String id) throws DatabaseException;
     Player[] getPlayersInGame(GameInfo info) throws DatabaseException;
+    IDatabase getDatabase();
 
 
     /**

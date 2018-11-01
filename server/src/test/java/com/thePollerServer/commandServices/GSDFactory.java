@@ -1,6 +1,6 @@
 package com.thePollerServer.commandServices;
 
-import com.shared.models.interfaces.IDatabaseFacade;
+import pollerexpress.database.IDatabaseFacade;
 import com.thePollerServer.utilities.IDatabaseFactory;
 
 public class GSDFactory implements IDatabaseFactory
