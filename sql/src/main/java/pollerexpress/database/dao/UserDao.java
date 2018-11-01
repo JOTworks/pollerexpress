@@ -17,9 +17,9 @@ import pollerexpress.database.IDatabase;
 
 public class UserDao {
     IDatabase _db;
-    static final String WRITE = "insert into USERS(USER_NAME, PASSWORD, GAME_ID, DESTINATION_DISCARDS)\nvalues(?,?, ?, ?)";
+    static final String WRITE = "insert into USERS(USER_NAME, PASSWORD, GAME_ID, DESTINATION_DISCARDS, TRAIN_CARS, POINTS)\nvalues(?,?,?,?,?,?)";
     static final String LOGIN = "select USER_NAME, PASSWORD, GAME_ID \nfrom USERS \nwhere USER_NAME = ?";
-    public static final String GET_PLAYERS_IN_GAME = "SELECT USER_NAME, GAME_ID, DESTINATION_DISCARDS\nFROM USERS\nWHERE GAME_ID = ?";
+    public static final String GET_PLAYERS_IN_GAME = "SELECT USER_NAME, GAME_ID, DESTINATION_DISCARDS, TRAIN_CARS, POINTS\nFROM USERS\nWHERE GAME_ID = ?";
 
     public UserDao(IDatabase db) {
         this._db = db;
@@ -31,7 +31,9 @@ public class UserDao {
             stmnt.setString(1, name);
             stmnt.setString(2, password);
             stmnt.setString(3, "");
-            stmnt.setInt(4,0);
+            stmnt.setInt(4, 0);
+            stmnt.setInt(5, 0);
+            stmnt.setInt(6, 0);
             stmnt.executeUpdate();
             stmnt.close();
         } catch (SQLException e) {
@@ -87,7 +89,6 @@ public class UserDao {
                                                     "WHERE USER_NAME = ?";
     public int getPlayersDiscards(Player player) throws DatabaseException
     {
-     ;
         try
         {
             PreparedStatement stmnt = this._db.getConnection().prepareStatement(GET_PLAYER_DISCARDS);
@@ -110,7 +111,6 @@ public class UserDao {
         {
             throw new DatabaseException(e.getMessage());
         }
-
     }
 
 
@@ -118,7 +118,6 @@ public class UserDao {
             "WHERE USER_NAME = ?";
     public void setPlayersDiscards(Player player, int discards) throws DatabaseException
     {
-        ;
         try
         {
             PreparedStatement stmnt = this._db.getConnection().prepareStatement(SET_PLAYER_DISCARDS);
@@ -130,6 +129,98 @@ public class UserDao {
         {
             throw new DatabaseException(e.getMessage());
         }
+    }
 
+
+    public static final String GET_PLAYER_TRAIN_CARS= "SELECT USER_NAME, TRAIN_CARS\n" +
+            "FROM USERS\n" +
+            "WHERE USER_NAME = ?";
+    public int getPlayerTrainCars(Player player) throws DatabaseException
+    {
+        try
+        {
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(GET_PLAYER_TRAIN_CARS);
+            stmnt.setString(1, player.getName());
+            ResultSet rs = stmnt.executeQuery();
+            if(rs.next())
+            {
+                try
+                {
+                    return rs.getInt("TRAIN_CARS");
+                }
+                finally
+                {
+                    rs.close();
+                }
+            }
+            throw new DataNotFoundException("USERS", player.getName());
+        }
+        catch(SQLException e)
+        {
+            throw new DatabaseException(e.getMessage());
+        }
+    }
+
+    public static final String SET_PLAYER_TRAIN_CARS = "UPDATE USERS SET TRAIN_CARS = ?\n" +
+            "WHERE USER_NAME = ?";
+    public void setPlayerTrainCars(Player player, int trainCars) throws DatabaseException
+    {
+        try
+        {
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SET_PLAYER_TRAIN_CARS);
+            stmnt.setInt(1, trainCars);
+            stmnt.setString(2, player.getName());
+            stmnt.executeUpdate();
+        }
+        catch(SQLException e)
+        {
+            throw new DatabaseException(e.getMessage());
+        }
+    }
+
+    public static final String GET_PLAYER_POINTS= "SELECT USER_NAME, POINTS\n" +
+            "FROM USERS\n" +
+            "WHERE USER_NAME = ?";
+    public int getPlayerPoints(Player player) throws DatabaseException
+    {
+        try
+        {
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(GET_PLAYER_POINTS);
+            stmnt.setString(1, player.getName());
+            ResultSet rs = stmnt.executeQuery();
+            if(rs.next())
+            {
+                try
+                {
+                    return rs.getInt("POINTS");
+                }
+                finally
+                {
+                    rs.close();
+                }
+            }
+            throw new DataNotFoundException("USERS", player.getName());
+        }
+        catch(SQLException e)
+        {
+            throw new DatabaseException(e.getMessage());
+        }
+    }
+
+    public static final String SET_PLAYER_POINTS = "UPDATE USERS SET POINTS = ?\n" +
+            "WHERE USER_NAME = ?";
+    public void setPlayerPoints(Player player, int points) throws DatabaseException
+    {
+        try
+        {
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SET_PLAYER_POINTS);
+            stmnt.setInt(1, points);
+            stmnt.setString(2, player.getName());
+            stmnt.executeUpdate();
+        }
+        catch(SQLException e)
+        {
+            throw new DatabaseException(e.getMessage());
+        }
     }
 }

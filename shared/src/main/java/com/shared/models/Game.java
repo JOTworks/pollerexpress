@@ -20,6 +20,7 @@ public class Game extends Observable implements Serializable
     List<Player> _players;
 
     //todo:make these private
+    public String currentTurn; //right now is players name
     public List<TrainCard> _faceUpCards;
     public int DestinationCardDeck;
     public int TrainCardDeck;
@@ -173,6 +174,16 @@ public class Game extends Observable implements Serializable
     public Player getPlayer(Player p)
     {
         return _players.get( _players.indexOf(p) );
+    }
+    public Player getPlayer(String name)
+    {
+        for (Player p: _players
+             ) {
+            if(p.getName().equals(name)){
+                return p;
+            }
+        }
+        return null;
     }
 
     public void setPlayers(List<Player> players)

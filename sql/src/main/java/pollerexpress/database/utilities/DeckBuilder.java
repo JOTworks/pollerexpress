@@ -91,6 +91,10 @@ public class DeckBuilder {
         this.makeTrainDeck(gi);
     }
 
+    public void destroyBank(GameInfo gi) throws DatabaseException {
+        //TODO: implement when we make it so people can actually finish the game
+    }
+
     public void makeDestinationDeck(GameInfo gi) throws DatabaseException {
         DestinationCardDao dcDao = _db.getDestinationCardDao();
 

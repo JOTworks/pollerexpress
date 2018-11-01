@@ -6,4 +6,5 @@
     <color name="PollerBackground">#141527</color>
     <color name="PollerGray">#56566f</color>
     <color name="PollerWhite">#c7c7c7</color>
+    <color name="garishPink">#ff00e9</color>
 </resources>

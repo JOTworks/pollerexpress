@@ -76,8 +76,8 @@ public class TestTrainCardDao {
         try {
             builder.makeTrainDeck(gi);
             assertEquals(105, tcDao.getDeckSize(gi));
-//            assertEquals(5, tcDao.getFaceUp(gi).length);
-//            assertFalse(Arrays.asList(tcDao.getFaceUp(gi)).contains(null));
+            assertEquals(5, tcDao.getFaceUp(gi).length);
+            assertFalse(Arrays.asList(tcDao.getFaceUp(gi)).contains(null));
         } catch(Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -157,6 +157,35 @@ public class TestTrainCardDao {
             assertEquals(handSize - 1, tcDao.getHand(p).size());
             assertEquals(deckSize, tcDao.getDeckSize(gi));
 
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
+    public void testFaceUp() {
+        try {
+            //make game deck
+            builder.makeTrainDeck(gi);
+
+            //there should be five faceup cards
+            assertEquals(5, tcDao.getFaceUp(gi).length);
+            assertFalse(Arrays.asList(tcDao.getFaceUp(gi)).contains(null));
+            int deckSize = tcDao.getDeckSize(gi);
+
+            //get a faceup card
+            TrainCard card = tcDao.drawFaceUp(p,3);
+
+            //should return null if you try for an index lower than 1 or higher than 5
+
+            //there should STILL be five faceup cards, but the deck should be one less and the one you have shouldn't be in it, but should be in the player's hand.
+            assertEquals(5, tcDao.getFaceUp(gi).length);
+            assertFalse(Arrays.asList(tcDao.getFaceUp(gi)).contains(null));
+            assertEquals(deckSize - 1, tcDao.getDeckSize(gi));
+            assertFalse(Arrays.asList(tcDao.getFaceUp(gi)).contains(card));
+            assertTrue(tcDao.getHand(p).contains(card));
         } catch(Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

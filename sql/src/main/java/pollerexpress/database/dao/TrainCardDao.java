@@ -132,9 +132,56 @@ public class TrainCardDao {
         return card;
     }
 
+    /**
+     *
+     * @param player
+     * @param index - between 1 and 5. DO NOT use 0.
+     * @return
+     * @throws DatabaseException
+     */
     public TrainCard drawFaceUp(Player player, int index) throws DatabaseException {
-        //implement
-        return null;
+        String TABLE_NAME = "\"TRAIN_DECK_" + player.getGameId() + "\"";
+        String SELECT_BY_INDEX = SELECT_FACE_UP_INDEX.replace("<TABLE_NAME>",TABLE_NAME);
+        String UPDATE_DECK = UPDATE_CARD.replace("<TABLE_NAME>", TABLE_NAME);
+        TrainCard card = null;
+
+        _db.open();
+
+        try{
+            PreparedStatement stmnt = _db.getConnection().prepareStatement(SELECT_BY_INDEX);
+            stmnt.setInt(1, index); //add 1 because the index in the db isn't 0-indexed
+            ResultSet rs = stmnt.executeQuery();
+            if(rs.next()) {
+                card = new TrainCard(rs.getString("CARD_ID"), Color.TRAIN.valueOf(rs.getString("COLOR")));
+            }
+            rs.close();
+            stmnt.close();
+
+            if(card != null) {
+                //set card to player's hand
+                stmnt = _db.getConnection().prepareStatement(UPDATE_DECK);
+                stmnt.setInt(1, 0);
+                stmnt.setString(2, player.getName());
+                stmnt.setInt(3, 0);
+                stmnt.setString(4, card.getId());
+                stmnt.execute();
+                stmnt.close();
+            } else {
+                throw new DatabaseException("Index out of bounds or empty face up bank.");
+            }
+        } catch(SQLException e) {
+            throw new DatabaseException(e.getMessage());
+        }
+
+        _db.close(true);
+
+        this.flipFaceUp(player.getGameId(), index);
+
+        if(card == null) {
+            throw new DatabaseException("Index out of bounds or empty face up bank.");
+        }
+
+        return card;
     }
 
     public void flipFaceUp(GameInfo gi, int index) throws DatabaseException {
@@ -206,13 +253,25 @@ public class TrainCardDao {
         String SELECT_BY_INDEX = SELECT_FACE_UP_INDEX.replace("<TABLE_NAME>",TABLE_NAME);
         TrainCard[] faceUp = new TrainCard[5];
 
+        _db.open();
+
         try{
             for(int i = 0; i < 5; i++) {
                 PreparedStatement stmnt = _db.getConnection().prepareStatement(SELECT_BY_INDEX);
+                stmnt.setInt(1, i+1); //add 1 because the index in the db isn't 0-indexed
+                ResultSet rs = stmnt.executeQuery();
+                if(rs.next()) {
+                    TrainCard card = new TrainCard(rs.getString("CARD_ID"), Color.TRAIN.valueOf(rs.getString("COLOR")));
+                    faceUp[i] = card;
+                }
+                rs.close();
+                stmnt.close();
             }
         } catch(SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
+
+        _db.close(true);
 
         return faceUp;
     }
