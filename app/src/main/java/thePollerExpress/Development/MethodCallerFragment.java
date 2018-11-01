@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shared.models.Command;
 import com.shared.models.GameInfo;
@@ -207,4 +208,9 @@ public class MethodCallerFragment extends Fragment implements IPollerExpressView
             method_result.setText(result);
         }
     }
+
+    public void toast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    }
+
 }

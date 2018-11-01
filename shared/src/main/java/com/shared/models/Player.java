@@ -55,7 +55,13 @@ public class Player extends Observable implements Serializable
         return name;
     }
     public int getTrainCount(){return trainCount;}
-    public void setTrainCount(int trainCount) {this.trainCount = trainCount;}
+    public void setTrainCount(int trainCount) {
+        this.trainCount = trainCount;
+        {
+            this.setChanged();
+            this.notifyObservers();
+        }
+    }
     public int getPoints(){return points;}
     public void setPoints(int points)
     {
