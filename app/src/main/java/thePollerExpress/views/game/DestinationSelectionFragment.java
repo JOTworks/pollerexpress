@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cs340.pollerexpress.R;
@@ -25,9 +26,12 @@ import thePollerExpress.views.game.interfaces.IDestinationSelectionView;
 public class DestinationSelectionFragment extends Fragment implements IDestinationSelectionView, IPollerExpressView{
 
     IDestinationSelectionPresenter destinationSelectionPresenter;
-    TextView destinationTextView0;
-    TextView destinationTextView1;
-    TextView destinationTextView2;
+    Button destinationButton0;
+    boolean selected0 = true;
+    Button destinationButton1;
+    boolean selected1 = true;
+    Button destinationButton2;
+    boolean selected2 = true;
     Button discardButton;
     Button viewButton;
 
@@ -43,9 +47,44 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_destination_selection, container, false);
 
-        destinationTextView0 = (TextView)v.findViewById(R.id.destination_text_view_0);
-        destinationTextView1 = (TextView)v.findViewById(R.id.destination_text_view_1);
-        destinationTextView2 = (TextView)v.findViewById(R.id.destination_text_view_2);
+        destinationButton0 = (Button)v.findViewById(R.id.destination_text_view_0);
+        destinationButton1 = (Button)v.findViewById(R.id.destination_text_view_1);
+        destinationButton2 = (Button)v.findViewById(R.id.destination_text_view_2);
+        destinationButton0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selected0 = !selected0;
+                if(selected0==false)
+                    destinationButton0.setTextColor(0xffff0000);
+                else
+                    destinationButton0.setTextColor(0xff000000);
+            }
+        });
+        destinationButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selected1 = !selected1;
+                if(selected1==false)
+                    destinationButton1.setTextColor(0xffff0000);
+                else
+                    destinationButton1.setTextColor(0xff000000);
+            }
+        });
+        destinationButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selected2 = !selected2;
+                if(selected2==false)
+                    destinationButton2.setTextColor(0xffff0000);
+                else
+                    destinationButton2.setTextColor(0xff000000);
+            }
+        });
+
+
+
+
+
         discardButton = (Button)v.findViewById(R.id.destination_discard_button);
         viewButton = (Button)v.findViewById(R.id.destination_view_button);
         viewButton.setOnClickListener(new View.OnClickListener() {
@@ -54,11 +93,14 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
                 renderCards(ClientData.getInstance().getUser().getDestCardOptions().getDestinationCards());
             }
         });
-
         discardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                destinationSelectionPresenter.discardButtonPressed();
+                List<Boolean> selected = new ArrayList<>();
+                selected.add(selected0);
+                selected.add(selected1);
+                selected.add(selected2);
+                destinationSelectionPresenter.discardButtonPressed(selected);
             }
         });
 
@@ -69,16 +111,16 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
     public void renderCards(List<DestinationCard> cards) {
         //todo: not done, in progreessssss
         if(cards==null){
-            destinationTextView0.setText("destCard is null");
+            destinationButton0.setText("destCard is null");
             //}//else if(destCards.get(0)==null) {
             //destinationTextView0.setText("Card 0 is null");
         } else {
             if(cards.size()==3) {
-                destinationTextView0.setText(cards.get(0).print());
-                destinationTextView1.setText(cards.get(1).print());
-                destinationTextView2.setText(cards.get(2).print());
+                destinationButton0.setText(cards.get(0).print());
+                destinationButton1.setText(cards.get(1).print());
+                destinationButton2.setText(cards.get(2).print());
             } else{
-                destinationTextView0.setText("there are not 3 cards");
+                destinationButton0.setText("there are not 3 cards");
             }
         }
     }
