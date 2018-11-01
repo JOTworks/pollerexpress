@@ -50,7 +50,7 @@ public class GameFacade {
 
         Class<?>[] types = {User.class, List.class};
         Object[] params= {user, destCards};
-        Command startGame = new Command(CommandsExtensions.serverSide+ "CommandFacade","discardDestCard",types,params);
+        Command startGame = new Command(CommandsExtensions.serverSide+ "CommandFacade","discardDestCards",types,params);
         PollResponse response = CC.sendCommand(startGame);
 
 
