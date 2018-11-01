@@ -21,6 +21,7 @@ import com.shared.models.Player;
 import thePollerExpress.Development.MethodCallerFragment;
 import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.GameFragment;
+import thePollerExpress.views.game.interfaces.IGameView;
 import thePollerExpress.views.setup.SetupViewAdapters.PlayerAdapter;
 
 
@@ -153,7 +154,10 @@ public class LobbyFragment extends Fragment implements ILobbyView,  IPollerExpre
     {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.right_side_fragment_container, (Fragment) view);
+//        if (view instanceof IGameView)
+//            fragmentTransaction.replace(R.id.fragment_container, (Fragment) view);
+//        else
+//            fragmentTransaction.replace(R.id.right_side_fragment_container, (Fragment) view);
         fragmentTransaction.commit();
 
         lobbyPresenter.onDestroy();
