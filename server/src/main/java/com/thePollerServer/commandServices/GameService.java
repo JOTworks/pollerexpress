@@ -5,7 +5,7 @@ import com.shared.models.Chat;
 import com.shared.models.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
-import com.shared.models.interfaces.IDatabaseFacade;
+import pollerexpress.database.IDatabaseFacade;
 import com.thePollerServer.utilities.Factory;
 
 import java.util.List;

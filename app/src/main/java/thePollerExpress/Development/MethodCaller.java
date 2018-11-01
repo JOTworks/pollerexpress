@@ -2,11 +2,10 @@ package thePollerExpress.Development;
 
 import com.shared.exceptions.CommandFailed;
 import com.shared.models.Command;
+import com.shared.models.Game;
 import com.shared.models.Player;
 import com.shared.models.Route;
 import com.shared.models.interfaces.ICommand;
-
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -48,7 +47,8 @@ public class MethodCaller {
                 result.add("getUserName\n" +
                         "getChatMessages\n" +
                         "getGameID\n" +
-                        "claimRoute\n" +
+                        "claimRoute [int i]\n" +
+                        "getRoutes\n" +
                         "---\n" +
                         "add commands to the methodCaller class\n" +
                         "in the parse funtion, as a case");
@@ -57,7 +57,7 @@ public class MethodCaller {
             {
                 if (args.length != 2)
                 {
-                    result.add("USAGE: claimRoute routnumber");
+                    result.add("USAGE: claimRoute routenumber");
                     break;
                 }
                 final Route r = ClientGameService.claimRoute(CD.getUser(), Integer.valueOf(args[1]));
@@ -94,6 +94,19 @@ public class MethodCaller {
                 break;
             case "getUserName":
                 result.add(CD.getUser().getName());
+                break;
+            case "startGame":
+                AsyncRunner startGameTask = new AsyncRunner(fragment);
+
+                startGameTask.execute(new ICommand()
+                {
+                    @Override
+                    public Object execute() throws CommandFailed
+                    {
+                        return new GameFacade().startGame(ClientData.getInstance().getUser());
+                    }
+                });
+
                 break;
             case "getGameID":
                 if(CD.getGame()!=null)

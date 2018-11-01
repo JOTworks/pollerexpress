@@ -1,7 +1,7 @@
 package com.thePollerServer.services;
 
 import com.shared.exceptions.database.DatabaseException;
-import com.shared.models.interfaces.IDatabaseFacade;
+import pollerexpress.database.IDatabaseFacade;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.models.requests.LoginRequest;
 import com.shared.models.reponses.LoginResponse;

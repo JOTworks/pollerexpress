@@ -1,6 +1,7 @@
 package thePollerExpress.utilities;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.shared.models.Command;
 import com.shared.models.PollResponse;
@@ -71,10 +72,14 @@ public class AsyncRunner extends AsyncTask<ICommand, Void, PollResponse> {
                 return;
             }
 
+
             if(response.getCommands() != null)
             {
+                Log.d("tag1", "commands recieved");
                 PollerExpress.executeCommands(response.getCommands());
             }
+            else
+                Log.d("tag2", "NO commands recieved");
         }
 
         if (nextView != null)
