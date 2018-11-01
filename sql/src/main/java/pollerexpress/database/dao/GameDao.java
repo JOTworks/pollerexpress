@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import com.shared.exceptions.database.DataAlreadyInDatabaseException;
@@ -265,14 +266,29 @@ public class GameDao {
             stmnt.setString(1, info.getId());
             ResultSet rs = stmnt.executeQuery();
 
-
+            HashSet<Player> set_p = new HashSet<>();
+            HashSet<Color.PLAYER> integers = new HashSet<>();
             int i = 0;
             while(rs.next()) {
                 Player p = new Player(rs.getString("USER_NAME"), rs.getString("GAME_ID"));
                 int temp = rs.getInt("COLOR");
-                if(temp == 0) temp = 1;
+                if(temp == 0) set_p.add(p);
+                else integers.add( Color.convertIndexToColor(temp) );
                 p.setColor(Color.convertIndexToColor(temp));
                 players.add(p);
+            }
+
+            for(Player p: set_p)
+            {
+                for(int j = 0; j < 5; ++ j)
+                {
+                    Color.PLAYER c = Color.convertIndexToColor(j);
+                    if(!integers.contains(c))
+                    {
+                        p.setColor(c);
+                    }
+                    continue;
+                }
             }
 
             rs.close();
