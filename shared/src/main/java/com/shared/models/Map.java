@@ -146,10 +146,14 @@ public class Map implements Serializable
     }
     public void claimRoute(Player p, Route route)
     {
-        if( routes.containsKey( route.hashCode() ) )
+        System.out.print("Entering claim route");
+        if( routes.containsKey( route ) )
         {
+            System.out.print(" Claimed a route");
             Route real = routes.get(route);
+            real.setOwner(p);
         }
+        System.out.print(" leaving \n");
     }
 
 }

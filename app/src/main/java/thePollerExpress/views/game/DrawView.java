@@ -14,11 +14,15 @@ import com.shared.models.City;
 import com.shared.models.Map;
 import com.shared.models.Route;
 
+import cs340.pollerexpress.R;
 import thePollerExpress.models.ClientData;
+import thePollerExpress.presenters.game.interfaces.IMapPresenter;
 
 public class DrawView extends android.support.v7.widget.AppCompatImageView
 {
-    public DrawView(Context context) {
+    //IMapPresenter presenter;
+    public DrawView(Context context)
+    {
         super(context);
     }
 
@@ -33,8 +37,9 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
     @Override
     public void onDraw(Canvas canvas)
     {
+
         super.onDraw(canvas);
-        Map map = ClientData.getInstance().getGame().getMap();
+        Map map = ClientData.getInstance().getGame().getMap();// presenter.getMap();
 
         for(Route route: map.getRoutes())
         {
@@ -173,29 +178,34 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
     }
     private int getRouteColor(com.shared.models.Color.TRAIN color)
     {
+       /* System.out.print(String.format("%h", R.integer.PURPLE));
+        System.out.print(String.format("%h", R.integer.WHITE));
+        System.out.print(String.format("%h", R.integer.YELLOW));
+        System.out.print(String.format("%h", R.integer.ORANGE));
+        System.out.print(String.format("%h", R.integer.RED));*/
         switch(color)
         {
             case PURPLE:
-                return 0xFFEF70EF;
+                return getContext().getResources().getInteger(R.integer.PURPLE);
             case WHITE:
-                return 0xFFFFFFFF;
+                return getContext().getResources().getInteger(R.integer.WHITE);
             case BLUE:
-                return 0xFF3333FF;
+                return getContext().getResources().getInteger(R.integer.BLUE);
             case YELLOW:
-                return 0xFFD9FF09;
+                return getContext().getResources().getInteger(R.integer.YELLOW);
             case ORANGE:
-                return 0xFFD9D999;
+                return getContext().getResources().getInteger(R.integer.ORANGE);
             case BLACK:
-                return 0xFF000000;
+                return getContext().getResources().getInteger(R.integer.BLACK);
             case RED:
-                return 0xFFFF3333;
+                return getContext().getResources().getInteger(R.integer.RED);
             case GREEN:
-                return 0xFF209F20;
-            case RAINBOW:
-                return 0xFF797979;
+                return getContext().getResources().getInteger(R.integer.GREEN);
+            default:
+                System.out.println("On grey");
+                return getContext().getResources().getInteger(R.integer.GREY);
 
         }
-        return 0xFF999999;
     }
     private float tangent(float x1, float y1, float x2, float y2)
     {

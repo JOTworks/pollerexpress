@@ -7,6 +7,8 @@ import com.shared.models.Authtoken;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import pollerexpress.database.IDatabase;
+
 public class AuthtokenDao
 {
 

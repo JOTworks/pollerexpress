@@ -10,19 +10,16 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shared.models.Player;
 
 import cs340.pollerexpress.R;
-import thePollerExpress.Development.MethodCallerFragment;
+import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.presenters.game.IPlayerPresenter;
 import thePollerExpress.presenters.game.PlayerPresenter;
-import thePollerExpress.views.game.interfaces.IGameView;
 import thePollerExpress.views.game.interfaces.IPlayerView;
-import thePollerExpress.views.setup.GameSelectionFragment;
 
 public class PlayerFragment extends Fragment implements IPlayerView {
 
@@ -87,5 +84,15 @@ public class PlayerFragment extends Fragment implements IPlayerView {
     @Override
     public void isNotTurn() {
         playerBackground.setBackgroundColor(0x000000);
+    }
+
+    @Override
+    public void displayError(String errorMessage) {
+
+    }
+
+    @Override
+    public void changeView(IPollerExpressView view) {
+
     }
 }

@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 
 
+import com.shared.models.Route;
+
 import cs340.pollerexpress.R;
 import thePollerExpress.presenters.game.interfaces.IMapPresenter;
 import thePollerExpress.utilities.PresenterFactory;
@@ -23,6 +25,7 @@ public class MapView extends Fragment implements IMapView
     HorizontalScrollView hScroll;
     VScrollView vScroll;
     IMapPresenter presenter;
+    DrawView map;
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -38,6 +41,7 @@ public class MapView extends Fragment implements IMapView
         hScroll = (HorizontalScrollView) v.findViewById(R.id.scrollHorizontal);
         vScroll = (VScrollView) v.findViewById(R.id.scrollVertical);
         vScroll.sv = hScroll;
+        map = v.findViewById(R.id.map_imageView2);
         presenter = PresenterFactory.createIMapPresenter(this);
         return v;
     }
@@ -47,6 +51,7 @@ public class MapView extends Fragment implements IMapView
         super.onDestroy();
         Log.d("MapView", "onDestroy");
         //TODO tell my presenter to disconnect itself from what it is observing.
+        this.presenter.onDestroy();
     }
 
 
@@ -64,7 +69,7 @@ public class MapView extends Fragment implements IMapView
     @Override
     public void claimRoute()
     {
-
+        map.invalidate();
     }
 
 }

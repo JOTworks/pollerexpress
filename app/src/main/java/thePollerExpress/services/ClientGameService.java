@@ -35,7 +35,8 @@ public class ClientGameService {
      *  This will notify the observer and will cause every user to switch to the gameView
      * @return true if the state was changed and false otherwise
      */
-    public static boolean startGame() {
+    public static boolean startGame()
+    {
         CD.getGame().setGameState(new GameState());
         return true;
     }
@@ -85,13 +86,15 @@ public class ClientGameService {
         return true;
     }
 
-    public static boolean claimRoute(Player p, int route)
+    public static Route claimRoute(Player p, int route)
     {
-        claimRoute(p, (Route) CD.getGame().getMap().getRoutes().toArray()[route ]);
-        return true;
+        Route r = (Route)CD.getGame().getMap().getRoutes().toArray()[route];
+        //claimRoute(p, r );
+        return r;
     }
     public static boolean claimRoute(Player p, Route r)
     {
+        Log.d("ClaimRoute", p.getName() + " " +r.toString());
         CD.getGame().getMap().claimRoute(p, r);
         return true;
     }

@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import com.shared.exceptions.database.DataNotFoundException;
 import com.shared.exceptions.database.DatabaseException;
 
+import pollerexpress.database.IDatabase;
+
 public class UserDao {
     IDatabase _db;
     static final String WRITE = "insert into USERS(USER_NAME, PASSWORD, GAME_ID, DESTINATION_DISCARDS, TRAIN_CARS, POINTS)\nvalues(?,?,?,?,?,?)";

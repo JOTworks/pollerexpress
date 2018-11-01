@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import pollerexpress.database.IDatabase;
+
 public class ChatDao {
     IDatabase _db;
     public static final String INSERT = "INSERT INTO CHATS(`TIMESTAMP`, `GAME`, `PLAYER`, `MESSAGE`)\n VALUES (?,?,?,?)";

@@ -3,7 +3,7 @@ package com.thePollerServer.dataGeneration;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
-import com.shared.models.interfaces.IDatabaseFacade;
+import pollerexpress.database.IDatabaseFacade;
 import com.shared.models.User;
 import com.thePollerServer.utilities.Factory;
 
