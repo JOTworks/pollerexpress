@@ -55,7 +55,7 @@ public class MethodCaller {
                         "in the parse funtion, as a case");
                 break;
             case "jack":
-                CD.getGame().setTurn("jackson");
+                CD.getUser().getDestCardOptions().doNothing();
                 //result.add( )
                 break;
             case "claimRoute":

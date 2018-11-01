@@ -65,7 +65,13 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
             //}//else if(destCards.get(0)==null) {
             //destinationTextView0.setText("Card 0 is null");
         } else {
-            destinationTextView0.setText(cards.toString());
+            if(cards.size()==3) {
+                destinationTextView0.setText(cards.get(0).print());
+                destinationTextView1.setText(cards.get(1).print());
+                destinationTextView2.setText(cards.get(2).print());
+            } else{
+                destinationTextView0.setText("there are not 3 cards");
+            }
         }
     }
 
