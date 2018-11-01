@@ -98,7 +98,7 @@ public class ClientCardService {
     }
 
 
-    public static boolean removeDestCardFromOptions(Player player, List<DestinationCard> destinationCards)
+    public static boolean discardDestinationCards(Player player, List<DestinationCard> destinationCards)
     {
         for (DestinationCard card : destinationCards) {
             CD.removeDestCardFromOptions(card);

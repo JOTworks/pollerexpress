@@ -48,9 +48,9 @@ public class GameFacade {
 
         ClientCommunicator CC = ClientCommunicator.instance();
 
-        Class<?>[] types = {User.class, List.class};
+        Class<?>[] types = {Player.class, List.class};
         Object[] params= {user, destCards};
-        Command startGame = new Command(CommandsExtensions.serverSide+ "CommandFacade","discardDestCards",types,params);
+        Command startGame = new Command(CommandsExtensions.serverSide+ "CommandFacade","discardDestinationCards",types,params);
         PollResponse response = CC.sendCommand(startGame);
 
 

@@ -27,6 +27,7 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
 
     public DestinationSelectionPresenter(IDestinationSelectionView view) {
         this.view = view;
+        facade = new GameFacade();
         CD.getUser().getDestCardOptions().addObserver(this);
     }
 

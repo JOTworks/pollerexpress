@@ -33,7 +33,7 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
     Button destinationButton2;
     boolean selected2 = true;
     Button discardButton;
-    Button viewButton;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,13 +86,7 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
 
 
         discardButton = (Button)v.findViewById(R.id.destination_discard_button);
-        viewButton = (Button)v.findViewById(R.id.destination_view_button);
-        viewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                renderCards(ClientData.getInstance().getUser().getDestCardOptions().getDestinationCards());
-            }
-        });
+
         discardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

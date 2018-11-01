@@ -64,7 +64,6 @@ public class PlayerFragment extends Fragment implements IPlayerView {
         playerDestinationCards = (TextView) v.findViewById(R.id.player_destination_cards);
         //this line isnt needed when observer works correctly i think
         renderPlayer(playerPresenter.getPlayer());
-        isTurn();
         return v;
     }
 
