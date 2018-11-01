@@ -58,7 +58,13 @@ public class MethodCaller {
                 break;
             case "jack":
                 CD.getGame().getPlayers().get(0).setPoints(20);
+                CD.getGame().getPlayers().get(0).setTrainCount(30);
+                CD.getGame().getPlayers().get(0).setTrainCardCount(10);
+                CD.getGame().getPlayers().get(0).setDestinationCardCount(5);
                 result.add(Integer.toString(CD.getGame().getPlayers().get(0).getPoints()));
+                result.add(Integer.toString(CD.getGame().getPlayers().get(0).getTrainCount()));
+                result.add("10");
+                result.add("5)");
                 break;
             case "claimRoute":
             {
