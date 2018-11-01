@@ -28,7 +28,7 @@ public class GameFragment extends Fragment implements IGameView {
     @Override
     public void displayError(String errorMessage) {
 
-        //todo: fill out
+        // todo: fill out
     }
 
     @Override
@@ -61,27 +61,60 @@ public class GameFragment extends Fragment implements IGameView {
                 .add(R.id.destination_fragment_container, fragment)
                 .commit();
 
+        fragment = new TrainCardHandFragment();
+        fm.beginTransaction()
+                .add(R.id.train_card_hand_fragment_container, fragment)
+                .commit();
+
         ClientData CD = ClientData.getInstance();
         Game game = CD.getGame();
 
-        List<Player> Players = game.getPlayers();
+        //terrible for loop that i had to break out becasuse of the r.id.framentnames
+        List<Player> players = game.getPlayers();
+        String userName = CD.getUser().getName();
+        String playerName;
+        int itr = 0;
 
-        fragment = PlayerFragment.newInstance(game.getPlayers().get(0).getName());
-        fm.beginTransaction()
-                .add(R.id.player1_fragment_container, fragment)
-                .commit();
-        fragment = PlayerFragment.newInstance(game.getPlayers().get(0).getName());
-        fm.beginTransaction()
-                .add(R.id.player2_fragment_container, fragment)
-                .commit();
-        fragment = PlayerFragment.newInstance(game.getPlayers().get(0).getName());
-        fm.beginTransaction()
-                .add(R.id.player3_fragment_container, fragment)
-                .commit();
-        fragment = PlayerFragment.newInstance(game.getPlayers().get(0).getName());
-        fm.beginTransaction()
-                .add(R.id.player4_fragment_container, fragment)
-                .commit();
+//        //gets rid of user from players
+//        for (Player p:players) {
+//            if(userName.equals(p.getName()))
+//                players.remove(p);
+//        }
+
+        if (players.size() > itr) {
+            playerName = players.get(itr).getName();
+            fragment = PlayerFragment.newInstance(playerName);
+            fm.beginTransaction()
+                    .add(R.id.player1_fragment_container, fragment)
+                    .commit();
+            itr++;
+        }
+        if (players.size() > itr) {
+            playerName = players.get(itr).getName();
+            fragment = PlayerFragment.newInstance(playerName);
+            fm.beginTransaction()
+                    .add(R.id.player2_fragment_container, fragment)
+                    .commit();
+            itr++;
+        }
+        if (players.size() > itr) {
+            playerName = players.get(itr).getName();
+            fragment = PlayerFragment.newInstance(playerName);
+            fm.beginTransaction()
+                    .add(R.id.player3_fragment_container, fragment)
+                    .commit();
+            itr++;
+        }
+        if (players.size() > itr) {
+            playerName = players.get(itr).getName();
+            fragment = PlayerFragment.newInstance(playerName);
+            fm.beginTransaction()
+                    .add(R.id.player4_fragment_container, fragment)
+                    .commit();
+            itr++;
+        }
+
+
 
         gamePresenter.startGame();
 

@@ -5,8 +5,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class TrainCard implements Serializable
-
 {
+
     String _id;
     Color.TRAIN _color;
 
@@ -30,5 +30,10 @@ public class TrainCard implements Serializable
         if (o == null || getClass() != o.getClass()) return false;
         TrainCard card = (TrainCard) o;
         return Objects.equals(_id, card._id);
+    }
+
+    public String getColorAsString() {
+
+        return String.valueOf(_color);
     }
 }

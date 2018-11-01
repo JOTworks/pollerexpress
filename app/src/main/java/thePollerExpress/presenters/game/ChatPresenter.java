@@ -24,8 +24,6 @@ public class ChatPresenter implements IChatPresenter, Observer {
         private IChatView chatView;
         private ClientData clientData;
 
-
-
         public ChatPresenter(IChatView chatView)
         {
 
@@ -67,11 +65,6 @@ public class ChatPresenter implements IChatPresenter, Observer {
             chatView.changeToDevView();
         }
 
-        /*
-         * What needs to happen to the lobby when model data changes?
-         * When a player enters or leaves the game, the lobby view
-         * needs to be updated to reflect that.
-         * */
         @Override
         public void update(Observable o, Object arg)
         {
