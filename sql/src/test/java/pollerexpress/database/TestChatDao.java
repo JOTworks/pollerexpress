@@ -59,6 +59,7 @@ public class TestChatDao {
             Chat chat1 = new Chat("Blah blah blah", new Timestamp(time), p);
             Chat chat2 = new Chat("...", new Timestamp(time + 1), p);
             Chat chat3 = new Chat("Can I get uhhhhhhhhhhhhhh", new Timestamp(time + 2), p);
+            db.open();
             cDao.addChat(chat1);
             cDao.addChat(chat2);
             cDao.addChat(chat3);
@@ -75,6 +76,7 @@ public class TestChatDao {
             assertTrue(history.getChats().contains(chat1));
             assertTrue(history.getChats().contains(chat2));
             assertTrue(history.getChats().contains(chat3));
+            db.close(false);
         } catch(Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

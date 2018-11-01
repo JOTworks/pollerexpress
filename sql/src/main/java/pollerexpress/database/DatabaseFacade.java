@@ -4,6 +4,7 @@ import com.shared.models.Authtoken;
 
 import com.shared.models.DestinationCard;
 import com.shared.models.Chat;
+import com.shared.models.TrainCard;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
@@ -12,10 +13,14 @@ import com.shared.models.Player;
 import com.shared.models.User;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.shared.exceptions.database.DataNotFoundException;
 import com.shared.exceptions.database.DatabaseException;
+
+import pollerexpress.database.dao.IDatabase;
+import pollerexpress.database.utilities.DeckBuilder;
 
 public class DatabaseFacade implements IDatabaseFacade
 {
@@ -287,11 +292,9 @@ public class DatabaseFacade implements IDatabaseFacade
             {
                 cards.add( db.getDestinationCardDao().drawCard(player) );
             }
-            db.getUserDao();//TODO set the players discard to something.
+            db.getUserDao().setPlayersDiscards(player, canDiscard);//TODO set the players discard to something.
             db.close(true);
             return cards;
-        } catch(DatabaseException e) {
-            throw e;
         }
         finally
         {
@@ -342,8 +345,36 @@ public class DatabaseFacade implements IDatabaseFacade
         }
     }
 
-    public IDatabase getDatabase() {
-        return db;
+
+    @Override
+    public void makeBank(GameInfo info) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            DeckBuilder deckBuilder = new DeckBuilder(db);
+            deckBuilder.makeBank(info);
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public TrainCard[] getVisible(GameInfo info) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            TrainCard visible[] = db.getTrainCardDao().getFaceUp(info);
+            return visible;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
     }
 
 }

@@ -26,6 +26,7 @@ public class TestUserDao {
 
             db.deleteTables();
             db.createTables();
+            db.close(true);
 
         } catch(Exception e) {
             System.out.println(e.getMessage());
@@ -37,7 +38,7 @@ public class TestUserDao {
     @After
     public void down() {
         try{
-            db.close(true);
+            //db.close(true);
         } catch(Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -48,6 +49,7 @@ public class TestUserDao {
     @Test
     public void testPoints() {
         try {
+            db.open();
             uDao.write(u);
             //points should be 0 at start
             assertEquals(0,uDao.getPlayerPoints(u));
@@ -60,11 +62,16 @@ public class TestUserDao {
             e.printStackTrace();
             fail();
         }
+        finally
+        {
+            db.close(false);
+        }
     }
 
     @Test
     public void testTrainCars() {
         try {
+            db.open();
             uDao.write(u);
             //points should be 0 at start
             assertEquals(0,uDao.getPlayerTrainCars(u));
@@ -76,6 +83,10 @@ public class TestUserDao {
             System.out.println(e.getMessage());
             e.printStackTrace();
             fail();
+        }
+        finally
+        {
+            db.close(false);
         }
     }
 }
