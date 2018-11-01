@@ -35,30 +35,30 @@
                 android:layout_height="100dp"
                 android:orientation="horizontal">
 
-                <fragment
+                <FrameLayout
                     android:layout_marginLeft="5dp"
                     android:layout_width="255dp"
                     android:layout_height="100dp"
-                    android:id="@+id/Player1"
-                    android:name="thePollerExpress.views.game.PlayerFragment"></fragment>
-                <fragment
+                    android:id="@+id/player1_fragment_container"
+                    />
+                <FrameLayout
                     android:layout_marginLeft="5dp"
                     android:layout_width="255dp"
                     android:layout_height="100dp"
-                    android:id="@+id/Player2"
-                    android:name="thePollerExpress.views.game.PlayerFragment"></fragment>
-                <fragment
+                    android:id="@+id/player2_fragment_container"
+                    />
+                <FrameLayout
                     android:layout_marginLeft="5dp"
                     android:layout_width="255dp"
                     android:layout_height="100dp"
-                    android:id="@+id/Player3"
-                    android:name="thePollerExpress.views.game.PlayerFragment"></fragment>
-                <fragment
+                    android:id="@+id/player3_fragment_container"
+                    />
+                <FrameLayout
                     android:layout_marginLeft="5dp"
                     android:layout_width="255dp"
                     android:layout_height="100dp"
-                    android:id="@+id/Player4"
-                    android:name="thePollerExpress.views.game.PlayerFragment"></fragment>
+                    android:id="@+id/player4_fragment_container"
+                    />
 
 
 
@@ -100,16 +100,18 @@
                 <!--your train cards-->
                 <LinearLayout
                     android:layout_width="500dp"
-                    android:layout_height="fill_parent"
+                    android:layout_height="match_parent"
                     android:layout_margin="5dp"
-                    android:background="@color/PollerWhite">
+                    android:background="@color/PollerWhite"
+                    android:id="@+id/train_card_hand_fragment_container"
+                    android:orientation="horizontal">
                 </LinearLayout>
 
                 <!--your destination cards-->
                 <FrameLayout
                     android:layout_margin="5dp"
                     android:layout_width="380dp"
-                    android:layout_height="fill_parent"
+                    android:layout_height="match_parent"
                     android:id="@+id/destination_fragment_container"
                     />
                 <!--your info-->

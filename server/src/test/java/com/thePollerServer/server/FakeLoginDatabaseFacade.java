@@ -3,17 +3,16 @@ package com.thePollerServer.server;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Authtoken;
 import com.shared.models.Chat;
-import com.shared.models.DestinationCard;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
-import com.shared.models.interfaces.IDatabaseFacade;
+import pollerexpress.database.IDatabaseFacade;
+
+import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.reponses.LoginResponse;
 import com.shared.models.Player;
 import com.shared.models.User;
 
-import org.junit.runners.Parameterized;
-
-import java.util.Collection;
 import java.util.List;
 
 public class FakeLoginDatabaseFacade implements IDatabaseFacade
@@ -105,8 +104,38 @@ public class FakeLoginDatabaseFacade implements IDatabaseFacade
     }
 
     @Override
+    public void makeBank(GameInfo game) throws DatabaseException {
+
+    }
+
+    @Override
     public void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
         // no implementation necessary
+    }
+
+    @Override
+    public TrainCard[] getVisible(GameInfo info) throws DatabaseException {
+        return new TrainCard[0];
+    }
+
+    @Override
+    public TrainCard getVisible(Player p, int i) throws DatabaseException {
+        return null;
+    }
+
+    @Override
+    public TrainCard drawVisible(Player p, int i) throws DatabaseException {
+        return null;
+    }
+
+    @Override
+    public void setColor(Player p, int i) {
+
+    }
+
+    @Override
+    public List<TrainCard> drawTrainCards(Player p, int number) throws DatabaseException {
+        return null;
     }
 
 }

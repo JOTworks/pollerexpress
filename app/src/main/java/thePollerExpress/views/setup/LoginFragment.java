@@ -132,7 +132,7 @@ public class LoginFragment extends Fragment implements ILoginView {
     @Override
     public void changeToSetupGameView() {
         FragmentManager fm = getFragmentManager();
-        //Fragment createGameFragment = fm.findFragmentById(R.id.fragment_create_game);
+        //Fragment createGameFragment = fm.findFragmentById(R.rotation.fragment_create_game);
         Fragment fragment = new SetupGameFragment();
 
         FragmentTransaction ft = fm.beginTransaction();

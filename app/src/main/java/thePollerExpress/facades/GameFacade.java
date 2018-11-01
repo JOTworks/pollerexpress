@@ -1,18 +1,18 @@
 package thePollerExpress.facades;
 
-import com.shared.exceptions.CommandFailed;
 import com.shared.models.Chat;
 import com.shared.models.Command;
-import com.shared.models.DestinationCard;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
+import com.shared.models.Player;
 import com.shared.models.PollResponse;
+import com.shared.models.Route;
 import com.shared.models.User;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.utilities.CommandsExtensions;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Queue;
 
 import thePollerExpress.communication.ClientCommunicator;
 import thePollerExpress.models.ClientData;
@@ -44,13 +44,13 @@ public class GameFacade {
         return response;
     }
 
-    public PollResponse discardDestCard(User user, DestinationCard destCard){
+    public PollResponse discardDestCard(User user, List<DestinationCard> destCards){
 
         ClientCommunicator CC = ClientCommunicator.instance();
 
-        Class<?>[] types = {User.class, DestinationCard.class};
-        Object[] params= {user, destCard};
-        Command startGame = new Command(CommandsExtensions.serverSide+ "CommandFacade","discardDestCard",types,params);
+        Class<?>[] types = {Player.class, List.class};
+        Object[] params= {user, destCards};
+        Command startGame = new Command(CommandsExtensions.serverSide+ "CommandFacade","discardDestinationCards",types,params);
         PollResponse response = CC.sendCommand(startGame);
 
 
@@ -88,6 +88,22 @@ public class GameFacade {
         }
 
         return response;
+    }
+
+    public PollResponse claimRoute(Route r)
+    {
+        Class<?>[] types = {Player.class, Route.class};
+        Object[] values = {CData.getUser(), r};
+        Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","claimRoute",types,values);
+        return sendCommand(command);
+    }
+
+    public PollResponse drawVisibleCard(Integer integer)
+    {
+        Class<?>[] types = {Player.class, Integer.class};
+        Object[] values = {CData.getUser(), integer};
+        Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","drawVisible",types,values);
+        return sendCommand(command);
     }
 }
 

@@ -18,4 +18,5 @@ public interface ILobbyPresenter extends Observer
     void onBackArrowPressed();
 
     Game getGame();
+    void onDestroy();
 }

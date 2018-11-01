@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.shared.models.Chat;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cs340.pollerexpress.R;
 import thePollerExpress.Development.MethodCaller;
@@ -36,8 +37,8 @@ public class ChatFragment extends Fragment implements IChatView {
     Button chatViewButton;
     Button devViewButton;
     EditText chatMessage;
-    ArrayList<String> chatList = new ArrayList<>();
-    IChatPresenter CP = new ChatPresenter(this);
+    IChatPresenter CP;
+    ArrayList<String> chatList;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     Adapter adapter;
@@ -53,7 +54,7 @@ public class ChatFragment extends Fragment implements IChatView {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_chat, container, false);
-
+        CP = new ChatPresenter(this);
         // wire up the widgets
         chatMessage = (EditText) v.findViewById(R.id.chat_message);
         sendChatButton = (Button) v.findViewById(R.id.send_chat_button);
@@ -91,12 +92,21 @@ public class ChatFragment extends Fragment implements IChatView {
             }
         });
 
+
+        chatList = CP.getChat();
+        adapter = new Adapter(chatList);
+        recyclerView.setAdapter(adapter);
+
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+
         return v;
     }
 
     public void changeToDevView(){
         FragmentManager fm = getFragmentManager();
-        //Fragment createGameFragment = fm.findFragmentById(R.id.fragment_create_game);
+        //Fragment createGameFragment = fm.findFragmentById(R.rotation.fragment_create_game);
         Fragment fragment = new MethodCallerFragment();
 
         FragmentTransaction ft = fm.beginTransaction();
@@ -106,16 +116,14 @@ public class ChatFragment extends Fragment implements IChatView {
     }
 
     @Override
-    public void displayChats(ArrayList<String> messageList) {
+    public void displayChats(String message)
+    {
 
         // set up the adapter, which needs a list
 
-        chatList = messageList;
-        adapter = new Adapter(chatList);
-        recyclerView.setAdapter(adapter);
+        chatList.add(message);
+        adapter.notifyDataSetChanged();
 
-        layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
     }
 
     public void displayError(String message)
@@ -125,7 +133,7 @@ public class ChatFragment extends Fragment implements IChatView {
 
     public class Adapter extends RecyclerView.Adapter<ChatViewHolder> {
 
-        private ArrayList<String> chatList = new ArrayList<>();
+        private ArrayList<String> chatList;
 
         public Adapter(ArrayList<String> chat_list) {
             chatList = chat_list;
@@ -168,8 +176,8 @@ public class ChatFragment extends Fragment implements IChatView {
         }
 
         // bind the view to the viewholder
-        public void bind(String in_chat) {
-
+        public void bind(String in_chat)
+        {
             chat.setText(in_chat);
         }
     }

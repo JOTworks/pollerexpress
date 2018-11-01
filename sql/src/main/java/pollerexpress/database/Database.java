@@ -20,7 +20,7 @@ public class Database implements IDatabase
 
     /*
     * Abby
-    * -- Make a chat table with message, timestamp (unique id), sender, and game_id columns
+    * -- Make a chat table with message, timestamp (unique rotation), sender, and game_id columns
     * You can always find the game_id.
     * Ids will have hyphens and those have to have double quotes around them. This
     * gets tricky, so check with Morgan when you get stuck".
@@ -34,7 +34,8 @@ public class Database implements IDatabase
     public static final String DROP_DEFAULT_TRAIN_DECK = "drop table if exists DEFAULT_TRAIN_DECK";
     public static final String DROP_CHAT = "drop table if exists CHATS";
     public static final String USER_TABLE = "USERS";
-    public static final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS USERS\n ( `USER_NAME` TEXT NOT NULL UNIQUE, `PASSWORD` TEXT NOT NULL,  'GAME_ID' TEXT, 'DESTINATION_DISCARDS' INT, PRIMARY KEY(`USER_NAME`) )";
+    public static final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS USERS\n " +
+            "( `USER_NAME` TEXT NOT NULL UNIQUE, `PASSWORD` TEXT NOT NULL,  'GAME_ID' TEXT, 'DESTINATION_DISCARDS' INT, 'TRAIN_CARS' INT, 'POINTS' INT, 'COLOR' INT, PRIMARY KEY(`USER_NAME`) )";
     public static final String CREATE_AUTHTOKEN_TABLE = "CREATE TABLE IF NOT EXISTS AUTH_TOKENS\n ( `AUTH_ID` TEXT NOT NULL PRIMARY KEY UNIQUE, `USER_NAME` TEXT NOT NULL, FOREIGN KEY(`USER_NAME`) REFERENCES `USERS`(`USER_NAME`) )";
     public static final String CREATE_DEFAULT_DESTINATION_DECK_TABLE = "CREATE TABLE IF NOT EXISTS DEFAULT_DESTINATION_DECK\n (`CARD_ID` TEXT NOT NULL UNIQUE, `CITY_1` TEXT NOT NULL, `CITY_2` TEXT NOT NULL, `POINTS` INT, PRIMARY KEY(`CARD_ID`) )";
     public static final String CREATE_DEFAULT_TRAIN_DECK_TABLE = "CREATE TABLE IF NOT EXISTS DEFAULT_TRAIN_DECK\n (`CARD_ID` TEXT NOT NULL UNIQUE, `COLOR` TEXT, PRIMARY KEY(`CARD_ID`) )";
@@ -222,9 +223,8 @@ public class Database implements IDatabase
             db.deleteTables();
             db.createTables();
 
-            db.close(true);
-
             db.deckBuilder.makeDefaultDecks();
+            db.close(true);
         }
         catch (Exception e)
         {

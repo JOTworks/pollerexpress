@@ -1,24 +1,16 @@
 package pollerexpress.database.dao;
 
-import com.shared.exceptions.database.DataNotFoundException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.City;
-import com.shared.models.DestinationCard;
-import com.shared.models.Game;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.shared.models.Point;
-import com.shared.models.User;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.print.attribute.standard.Destination;
-import javax.xml.crypto.Data;
 
 public class DestinationCardDao {
     private IDatabase _db;
@@ -34,7 +26,8 @@ public class DestinationCardDao {
     public static final String SELECT_ALL_DEFAULT = "SELECT *\n FROM DEFAULT_DESTINATION_DECK";
     public static final String COUNT_GAME_DECK = "SELECT COUNT(*)\n FROM <TABLE_NAME> WHERE POSITION != 0";
 
-    public DestinationCardDao(IDatabase db) {
+    public DestinationCardDao(IDatabase db)
+    {
         this._db = db;
     }
 
@@ -42,7 +35,7 @@ public class DestinationCardDao {
         String TABLE_NAME = "\"DESTINATION_DECK_" + gi.getId() + "\"";
         String CREATE_DECK = CREATE_TABLE.replace("<TABLE_NAME>",TABLE_NAME);
 
-        _db.open();
+        //_db.open();
 
         try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(CREATE_DECK);
@@ -52,14 +45,14 @@ public class DestinationCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+        //_db.close(true);
     }
 
     public void deleteDeck(GameInfo gi) throws DatabaseException {
         String TABLE_NAME = "\"DESTINATION_DECK_" + gi.getId() + "\"";
         String DELETE_DECK = DROP_TABLE.replace("<TABLE_NAME>",TABLE_NAME);
 
-        _db.open();
+        //_db.open();
 
         try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(DELETE_DECK);
@@ -69,14 +62,14 @@ public class DestinationCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+        //_db.close(true);
     }
 
     public void insertCard(GameInfo gi, String cardId, int position, String player) throws DatabaseException {
         String TABLE_NAME = "\"DESTINATION_DECK_" + gi.getId() + "\"";
         String INSERT = INSERT_CARD.replace("<TABLE_NAME>",TABLE_NAME);
 
-        _db.open();
+        //_db.open();
 
         try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(INSERT);
@@ -89,13 +82,13 @@ public class DestinationCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+        //_db.close(true);
     }
 
     public void updateCard(GameInfo gi, String card, int position, String player) throws DatabaseException {
         String TABLE_NAME = "\"DESTINATION_DECK_" + gi.getId() + "\"";
         String UPDATE = UPDATE_CARD.replace("<TABLE_NAME>",TABLE_NAME);
-        _db.open();
+        //_db.open();
 
         try{
             PreparedStatement stmnt = _db.getConnection().prepareStatement(UPDATE);
@@ -108,12 +101,12 @@ public class DestinationCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+        //_db.close(true);
     }
 
     public DestinationCard getCard(String id) throws DatabaseException {
         DestinationCard card = null;
-        _db.open();
+        //_db.open();
 
         try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(SELECT_CARD);
@@ -128,7 +121,7 @@ public class DestinationCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+        //_db.close(true);
         return card;
     }
 
@@ -141,10 +134,11 @@ public class DestinationCardDao {
     public DestinationCard drawCard(Player player) throws DatabaseException {
         //get card
         DestinationCard card = null;
+//        String TABLE_NAME = "\"DEFAULT_DESTINATION_DECK_" + player.getGameId() + "\"";
         String TABLE_NAME = "\"DESTINATION_DECK_" + player.getGameId() + "\"";
         String GET_TOP_CARD = SELECT_TOP_CARD.replace("<TABLE_NAME>",TABLE_NAME);
 
-        _db.open();
+        //_db.open();
 
         try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(GET_TOP_CARD);
@@ -173,7 +167,7 @@ public class DestinationCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+        //_db.close(true);//why would we commit if there was/wasn't an exception...
         return card;
     }
 
@@ -182,7 +176,7 @@ public class DestinationCardDao {
         String GET_HAND = SELECT_HAND.replace("<TABLE_NAME>",TABLE_NAME);
         ArrayList<DestinationCard> hand = new ArrayList<>();
 
-        _db.open();
+        //_db.open();
 
         try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(GET_HAND);
@@ -200,7 +194,7 @@ public class DestinationCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+        //_db.close(true);
         return hand;
     }
 
@@ -208,7 +202,7 @@ public class DestinationCardDao {
         String TABLE_NAME = "\"DESTINATION_DECK_" + player.getGameId() + "\"";
         String UPDATE = UPDATE_CARD.replace("<TABLE_NAME>",TABLE_NAME);
 
-        _db.open();
+        //_db.open();
 
         try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(UPDATE);
@@ -221,7 +215,7 @@ public class DestinationCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+        //_db.close(true);
     }
 
     public int getDeckSize(GameInfo gi) throws DatabaseException {
@@ -229,7 +223,7 @@ public class DestinationCardDao {
         String GET_COUNT = COUNT_GAME_DECK.replace("<TABLE_NAME>",TABLE_NAME);
         int count = 0;
 
-        _db.open();
+        //_db.open();
 
         try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(GET_COUNT);
@@ -244,7 +238,7 @@ public class DestinationCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+        //_db.close(true);
         return count;
     }
 
@@ -253,7 +247,7 @@ public class DestinationCardDao {
         String GET_DISCARD = SELECT_DISCARD.replace("<TABLE_NAME>",TABLE_NAME);
         ArrayList<String> discardPile = new ArrayList<>();
 
-        _db.open();
+        //_db.open();
 
         try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(GET_DISCARD);
@@ -267,7 +261,7 @@ public class DestinationCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+        //_db.close(true);
         return discardPile;
     }
 
@@ -278,7 +272,7 @@ public class DestinationCardDao {
      */
 
     public void insertIntoDefault(DestinationCard card) throws DatabaseException {
-        _db.open();
+        //_db.open();
 
         try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(INSERT_DEFAULT_CARD);
@@ -292,12 +286,12 @@ public class DestinationCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+        //_db.close(true);
     }
 
     public ArrayList<DestinationCard> getDefaultDeck() throws DatabaseException {
         ArrayList<DestinationCard> deck = new ArrayList<>();
-        _db.open();
+        //_db.open();
 
         try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(SELECT_ALL_DEFAULT);
@@ -316,7 +310,7 @@ public class DestinationCardDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
+        //_db.close(true);
         return deck;
     }
 }

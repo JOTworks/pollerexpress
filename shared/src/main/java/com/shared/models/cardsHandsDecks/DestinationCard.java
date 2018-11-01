@@ -1,9 +1,12 @@
-package com.shared.models;
+package com.shared.models.cardsHandsDecks;
 
+import com.shared.models.City;
+
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
-public class DestinationCard
+public class DestinationCard implements Serializable
 {
     private String _id;
     private City _city1;
@@ -42,4 +45,6 @@ public class DestinationCard
         DestinationCard card = (DestinationCard) o;
         return Objects.equals(_id, card._id);
     }
+
+
 }

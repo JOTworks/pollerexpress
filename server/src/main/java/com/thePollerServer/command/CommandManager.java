@@ -3,29 +3,16 @@ package com.thePollerServer.command;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
 import com.shared.models.GameInfo;
-import com.shared.models.interfaces.IDatabaseFacade;
+import pollerexpress.database.IDatabaseFacade;
 import com.shared.models.Player;
 import com.thePollerServer.utilities.Factory;
 
 import java.util.*;
 
-/**
-<<<<<<< HEAD
- *
-=======
- * What does CommandManager do?
->>>>>>> origin/serverChatBranch
- */
 public class CommandManager {
 
 	private static CommandManager _instance;
 	private HashMap<String, Queue<Command>> userCommands;
-
-    /**
-     * Abby
-     * This is a list of all the chatCommands
-     * which we want because...because...because why? jack:I dont think we do want them */
-	private ArrayList<Command> chatCommands;
 	
 	private CommandManager()
     {

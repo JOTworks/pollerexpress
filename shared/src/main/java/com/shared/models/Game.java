@@ -1,8 +1,10 @@
 package com.shared.models;
 
+import com.shared.models.cardsHandsDecks.VisibleCards;
 import com.shared.models.states.GameState;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,35 +12,53 @@ import java.util.Observable;
 
 public class Game extends Observable implements Serializable
 {
+    private final String UPDATE_ALL_STRING = "updateAll";
+
     GameInfo _info;
-    private GameState gameState; //TODO: this is not accesable yet
+    public static final int DESTINATION_DECK_SIZE = 30;
+    public static final int TRAIN_CARD_DECK_SIZE = 105;
+    private GameState gameState;
+    private Map map;
+
+    // the chat history for the game
     ChatHistory chatHistory = new ChatHistory();
     List<Player> _players;
 
     //todo:make these private
-    public List<TrainCard> _faceUpCards;
+    public String currentTurn; //right now is players name
+    public VisibleCards faceUpCards;
     public int DestinationCardDeck;
     public int TrainCardDeck;
 
-
-    public ChatHistory getChatHistory() {
-        return chatHistory;
+    private Game()
+    {
+        faceUpCards = new VisibleCards();
+        DestinationCardDeck = DESTINATION_DECK_SIZE;
+        TrainCardDeck = TRAIN_CARD_DECK_SIZE;
+        currentTurn = "";
     }
-    public void setChatHistory(ChatHistory chatHistory) {
-        this.chatHistory = chatHistory;
-    }
-
-    public void addChat(Chat chat) {
-        chatHistory.addChat(chat);
-    }
-
+    /**
+     *
+     * @param info
+     */
     public Game(GameInfo info)
     {
+        this();
+        map = new Map(Map.DEFAULT_MAP);
         _info = info;
+        _players = new ArrayList<>();
     }
 
+
+    /**
+     *
+     * @param info
+     * @param players
+     */
     public Game(GameInfo info, Player[] players)
     {
+        this();
+        map = Map.DEFAULT_MAP;
         _info = info;
         _players = new LinkedList<Player>(Arrays.asList(players) );
     }
@@ -48,13 +68,43 @@ public class Game extends Observable implements Serializable
      -----------------------------------------------------------------------
      */
 
+    public void setTurn(String name){
+        this.currentTurn = name;
+        synchronized(this)
+        {
+            this.setChanged();
+            notifyObservers(name);
+        }
+    }
+    public ChatHistory getChatHistory()
+    {
+        return chatHistory;
+    }
+    public void setChatHistory(ChatHistory chatHistory)
+    {
+        this.chatHistory = chatHistory;
+    }
+
+    public void addChat(Chat chat)
+    {
+        chatHistory.addChat(chat);
+    }
+
+    public VisibleCards getVisibleCards()
+    {
+        return faceUpCards;
+    }
     /**
      * initialize or change the gameState object
      * @param gameState
      */
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
-        notifyObservers(gameState);
+        synchronized(this)
+        {
+            this.setChanged();
+            notifyObservers(gameState);
+        }
     }
 
     /**
@@ -67,7 +117,7 @@ public class Game extends Observable implements Serializable
     }
     /**
      * Getter for gameId
-     * @return the id of the game this game info is connected to.
+     * @return the rotation of the game this game info is connected to.
      */
     public String getId()
     {
@@ -128,6 +178,10 @@ public class Game extends Observable implements Serializable
         //TODO: Throw an error
     }
 
+    public GameState getGameState() {
+        return gameState;
+    }
+
     @Deprecated
     public int getPlayerDex(Player p)
     {
@@ -152,6 +206,16 @@ public class Game extends Observable implements Serializable
     {
         return _players.get( _players.indexOf(p) );
     }
+    public Player getPlayer(String name)
+    {
+        for (Player p: _players
+             ) {
+            if(p.getName().equals(name)){
+                return p;
+            }
+        }
+        return null;
+    }
 
     public void setPlayers(List<Player> players)
     {
@@ -162,6 +226,10 @@ public class Game extends Observable implements Serializable
         return _players;
     }
 
+    public Map getMap()
+    {
+        return map;
+    }
     @Override
     public boolean equals(Object o)
     {
@@ -174,9 +242,67 @@ public class Game extends Observable implements Serializable
         return _info.equals( game.getGameInfo() );
     }
 
+    public void drawDestinationCards(Player player, int number)
+    {
+        //TODO add check...
+        this.DestinationCardDeck -= number;
+        getPlayer(player).setDestinationCardCount(getPlayer(player).destinationCardCount + number);//TODO use getter
+
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers(number);
+        }
+    }
+
+    public void discardDestinationCards(Player player, int number)
+    {
+        //TODO add check...
+        getPlayer(player).setDestinationCardCount(getPlayer(player).destinationCardCount - number);//TODO use getter
+
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers(number);
+        }
+    }
+
+    public void drawTrainCard(Player player)
+    {
+        //TODO add check...
+        this.TrainCardDeck -= 1;
+        getPlayer(player).setTrainCardCount(getPlayer(player).trainCardCount + 1);
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers();
+        }
+    }
+
+    public void drawTrainCards(Player player, int numberOfCards)
+    {
+        //TODO add check...
+        this.TrainCardDeck -= numberOfCards;
+        getPlayer(player).setTrainCardCount(player.trainCardCount + numberOfCards);
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers();
+        }
+    }
+
+
     @Override
     public int hashCode()
     {
         return _info.hashCode();
+    }
+
+    public void updateObservables() {
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers(UPDATE_ALL_STRING);
+        }
     }
 }

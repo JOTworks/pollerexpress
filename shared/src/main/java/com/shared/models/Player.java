@@ -14,6 +14,9 @@ public class Player extends Observable implements Serializable
     public int destinationCardCount;
     public int trainCardCount;
     public List<Route> routes;
+    public int points;
+    public int trainCount;
+    public Color.PLAYER color;
 
     /**
      * Creates a new Player object
@@ -27,11 +30,13 @@ public class Player extends Observable implements Serializable
     {
         this.name = name;
         this.gameId = "";
-        destinationDiscardCount = 0;
+        destinationDiscardCount = 1;
         destinationCardCount = 0;
         trainCardCount = 0;
-
+        this.points = 0;
+        this.trainCount = 0;
         this.routes = new ArrayList<>();
+        this.color = Color.PLAYER.BLACK;
     }
 
     public Player(String name, String gameId)
@@ -49,13 +54,39 @@ public class Player extends Observable implements Serializable
     {
         return name;
     }
-
+    public int getTrainCount(){return trainCount;}
+    public void setTrainCount(int trainCount) {
+        this.trainCount = trainCount;
+        {
+            this.setChanged();
+            this.notifyObservers();
+        }
+    }
+    public int getPoints(){return points;}
+    public void setPoints(int points)
+    {
+        this.points = points;
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers();
+        }
+    }
     public String getGameId()
     {
         return gameId;
     }
     public void setGameID(String gameId){ this.gameId = gameId;}
-
+    public Color.PLAYER getColor(){return this.color; }
+    public void setColor(Color.PLAYER color)
+    {
+        this.color = color;
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers(color);
+        }
+    }
     public int getDestinationCardCount()
     {
         return destinationCardCount;
@@ -96,6 +127,7 @@ public class Player extends Observable implements Serializable
         this.trainCardCount = trainCardCount;
         synchronized (this)
         {
+            this.setChanged();
             this.notifyObservers();
         }
     }
@@ -139,7 +171,7 @@ public class Player extends Observable implements Serializable
     @Override
     public int hashCode()
     {
-        return Objects.hash(name);
+        return name.hashCode();
     }
 
     @Override

@@ -3,14 +3,19 @@ package thePollerExpress.presenters.setup;
 import android.os.Debug;
 import android.util.Log;
 
+import com.shared.exceptions.CommandFailed;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
+import com.shared.models.interfaces.ICommand;
 import com.shared.models.states.GameState;
 
 import java.util.Observable;
 import java.util.Observer;
 
+import thePollerExpress.facades.GameFacade;
+import thePollerExpress.utilities.AsyncRunner;
+import thePollerExpress.utilities.ViewFactory;
 import thePollerExpress.views.setup.ILobbyView;
 import thePollerExpress.models.ClientData;
 
@@ -21,11 +26,11 @@ import thePollerExpress.models.ClientData;
 public class LobbyPresenter implements ILobbyPresenter, Observer {
 
     private ILobbyView lobbyView;
+    private GameFacade facade = new GameFacade();
     private ClientData clientData;
 
     public LobbyPresenter(ILobbyView lobbyView)
     {
-
         this.lobbyView = lobbyView;
         clientData = ClientData.getInstance();
         clientData.getGame().addObserver(this);
@@ -48,10 +53,25 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
             {
                 lobbyView.displayMessage("Not enough people");
             } else {
-
-                lobbyView.changeToGameView();
+                startGame();
             }
         }
+    }
+
+    public void startGame() {
+
+        AsyncRunner startGameTask = new AsyncRunner(lobbyView);
+
+//        startGameTask.setNextView(ViewFactory.createGameView());
+        startGameTask.execute(new ICommand()
+        {
+            @Override
+            public Object execute() throws CommandFailed
+            {
+                return facade.startGame(clientData.getUser());
+            }
+        });
+
     }
 
     @Override
@@ -68,24 +88,23 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
     @Override
     public void update(Observable o, Object arg)
     {
-        if( !(arg instanceof Player) ) return;
+        System.out.println("Entered LobbyPresenterUpdate with " + arg.getClass().toString()); //TODO: remove debug statement
 
-        else if (arg instanceof GameState) {
+        if (arg instanceof GameState) {
             lobbyView.changeToGameView();
         }
+        else if (arg instanceof Player) {
 
-        Player p = (Player) arg;
-        Log.d("LobbyPresenter", p.name);
-        Game game = clientData.getGame();
-        int dex = game.getPlayers().indexOf(p);
-        Log.d("LobbyPresenter", String.format("%d index of player %d", dex, game.getNumPlayers()));
-        if(dex == -1)
-        {
-            lobbyView.playerLeft(dex);
-        }
-        else
-        {
-            lobbyView.playerJoined(p);
+            Player p = (Player) arg;
+            Log.d("LobbyPresenter", p.name);
+            Game game = clientData.getGame();
+            int dex = game.getPlayers().indexOf(p);
+            Log.d("LobbyPresenter", String.format("%d index of player %d", dex, game.getNumPlayers()));
+            if (dex == -1) {
+                lobbyView.playerLeft(dex);
+            } else {
+                lobbyView.playerJoined(p);
+            }
         }
     }
 
@@ -93,5 +112,9 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
     public Game getGame()
     {
         return clientData.getGame();
+    }
+    public void onDestroy()
+    {
+        clientData.getGame().deleteObserver(this);
     }
 }

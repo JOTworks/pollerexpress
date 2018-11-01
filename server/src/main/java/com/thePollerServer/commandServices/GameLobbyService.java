@@ -4,7 +4,7 @@ import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
 import com.shared.exceptions.CommandFailed;
 import com.shared.models.GameInfo;
-import com.shared.models.interfaces.IDatabaseFacade;
+import pollerexpress.database.IDatabaseFacade;
 import com.shared.models.Player;
 import com.thePollerServer.utilities.Factory;
 

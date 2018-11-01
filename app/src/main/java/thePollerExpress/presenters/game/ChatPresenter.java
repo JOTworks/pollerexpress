@@ -1,6 +1,5 @@
 package thePollerExpress.presenters.game;
 
-
 import com.shared.exceptions.CommandFailed;
 import com.shared.models.Chat;
 
@@ -8,6 +7,7 @@ import com.shared.models.interfaces.ICommand;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -22,8 +22,6 @@ public class ChatPresenter implements IChatPresenter, Observer {
 
         private IChatView chatView;
         private ClientData clientData;
-
-
 
         public ChatPresenter(IChatView chatView)
         {
@@ -50,6 +48,11 @@ public class ChatPresenter implements IChatPresenter, Observer {
             });
             chatView.displayError("chat sent");
         }
+        @Override
+        public ArrayList<String> getChat()
+        {
+            return clientData.getGame().getChatHistory().getChatsAsString();
+        }
 
         @Override
         public void PressedChatViewButton() {
@@ -61,20 +64,16 @@ public class ChatPresenter implements IChatPresenter, Observer {
             chatView.changeToDevView();
         }
 
-        /*
-         * What needs to happen to the lobby when model data changes?
-         * When a player enters or leaves the game, the lobby view
-         * needs to be updated to reflect that.
-         * */
         @Override
         public void update(Observable o, Object arg)
         {
             if( !(arg instanceof Chat) ) return;
 
             // get all of the chats
-            ArrayList<String> chats = clientData.getGame().getChatHistory().getChatsAsString();
+            // ArrayList<String> chats = clientData.getGame().getChatHistory().getChatsAsString();
 
-            //display the chats
-            chatView.displayChats(chats);
+            // display the chats
+            String message = ((Chat) arg).toString();
+            chatView.displayChats(message);
         }
 }

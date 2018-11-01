@@ -2,6 +2,7 @@ package thePollerExpress.communication;
 
 
 import com.shared.models.Command;
+import com.shared.models.User;
 import com.shared.utilities.Serializer;
 import com.shared.models.requests.LoginRequest;
 import com.shared.models.reponses.LoginResponse;
@@ -40,7 +41,7 @@ public class ClientCommunicator
 
     public LoginResponse sendLoginRequest(String requestType, LoginRequest request)
     {
-        return (LoginResponse)sendRequest(request, requestType);
+        return (LoginResponse) sendRequest(request, requestType);
     }
 
     public PollResponse sendCommand(Command command)
@@ -86,10 +87,15 @@ public class ClientCommunicator
                 {
 
                     response = Serializer.readData(http.getInputStream());
+
                 }
                 catch(ClassNotFoundException e)
                 {
                     return null;
+                }
+                finally
+                {
+                    http.getInputStream().close();
                 }
             }
             else {
@@ -106,6 +112,7 @@ public class ClientCommunicator
         }
         return response;
     }
+
 }
 
 

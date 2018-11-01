@@ -1,19 +1,14 @@
 package thePollerExpress.models;
 
-import android.util.Log;
-
 import com.shared.models.Authtoken;
-import com.shared.models.ChatHistory;
 
-import com.shared.models.DestinationCard;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
-import com.shared.models.Map;
 import com.shared.models.Player;
 import com.shared.models.User;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Observable;
 
@@ -36,15 +31,15 @@ public class ClientData extends Observable
         return ourInstance;
     }
 
+    private final String UPDATE_ALL_STRING = "updateAll";
+
     private ClientData() {
 
         gameInfoList = new ArrayList<>();
 
-        map = Map.DEFAULT_MAP;
 
     }
 
-    public Map map;
     private User user = null;
     private Authtoken auth;
 
@@ -216,6 +211,29 @@ public class ClientData extends Observable
     }
 
     public void addDestCardToHand(DestinationCard card) {
+        this.user.getDestCardHand().addToHand(card);
+    }
 
+    public void addDestCardToOptions(DestinationCard card) {
+        this.user.getDestCardOptions().addToOptions(card);
+    }
+
+    public void removeDestCardFromOptions(DestinationCard card) {
+        this.user.getDestCardOptions().removeFromOptions(card);
+    }
+
+    public void updateAll() {
+        game.updateObservables();
+        game.getVisibleCards().updateObservables();
+        user.getTrainCardHand().updateObservables();
+        user.getDestCardHand().updateObservables();
+        user.getDestCardOptions().updateObservables();
+
+
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers(UPDATE_ALL_STRING);
+        }
     }
 }

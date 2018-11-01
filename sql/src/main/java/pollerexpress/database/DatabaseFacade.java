@@ -2,12 +2,12 @@ package pollerexpress.database;
 
 import com.shared.models.Authtoken;
 
-import com.shared.models.DestinationCard;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Chat;
+import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
-import com.shared.models.interfaces.IDatabaseFacade;
 import com.shared.models.reponses.LoginResponse;
 import com.shared.models.Player;
 import com.shared.models.User;
@@ -17,6 +17,9 @@ import java.util.List;
 
 import com.shared.exceptions.database.DataNotFoundException;
 import com.shared.exceptions.database.DatabaseException;
+
+import pollerexpress.database.utilities.DeckBuilder;
+
 public class DatabaseFacade implements IDatabaseFacade
 {
     Database db;
@@ -184,14 +187,6 @@ public class DatabaseFacade implements IDatabaseFacade
     @Override
     public void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
 
-        /*
-        * Would we need a chat DAO?
-        * YES
-        * Would I need to modify the Database class's
-        * createTable method so that it created a table of chats?
-        * YES
-        */
-
         try
         {
             db.open();
@@ -287,11 +282,9 @@ public class DatabaseFacade implements IDatabaseFacade
             {
                 cards.add( db.getDestinationCardDao().drawCard(player) );
             }
-            db.getUserDao();//TODO set the players discard to something.
+            db.getUserDao().setPlayersDiscards(player, canDiscard);//TODO set the players discard to something.
             db.close(true);
             return cards;
-        } catch(DatabaseException e) {
-            throw e;
         }
         finally
         {
@@ -342,4 +335,121 @@ public class DatabaseFacade implements IDatabaseFacade
         }
     }
 
+
+    @Override
+    public void makeBank(GameInfo info) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            DeckBuilder deckBuilder = new DeckBuilder(db);
+            deckBuilder.makeBank(info);
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public TrainCard[] getVisible(GameInfo info) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            TrainCard visible[] = db.getTrainCardDao().getFaceUp(info);
+            return visible;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public TrainCard getVisible(Player p, int i) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            GameInfo info = db.getGameDao().read( p.getGameId() ).getGameInfo();
+            TrainCard visible = db.getTrainCardDao().getFaceUp(info)[i];
+            return visible;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+    @Override
+    public TrainCard drawVisible(Player p, int i) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            TrainCard visible = db.getTrainCardDao().drawFaceUp(p, i);
+            db.close(true);
+            return visible;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    public boolean isInThisGame(Player p, GameInfo game)
+    {
+        return true;
+    }
+
+    /**
+     * Draws a given number of train cards for a given player
+     * @param p the player for whom the cars are drawn
+     * @param number the number of cards to draw
+     * @return the list of drawn cards
+     * @throws DatabaseException
+     */
+    @Override
+    public List<TrainCard> drawTrainCards(Player p, int number) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            List<TrainCard> cards = new ArrayList<>();
+            while (number > 0)
+            {
+                cards.add(db.getTrainCardDao().drawCard(p));
+                number -= 1;
+            }
+
+            db.close(true);
+            return cards;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public void setColor(Player p, int i)
+    {
+
+        try
+        {
+            db.open();
+            db.getUserDao().setColor(p, i);
+            db.close(true);
+        }
+        catch (DatabaseException e)
+        {
+
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+
+    }
 }

@@ -13,5 +13,5 @@ public interface IChatView extends IPollerExpressView
 
     public void displayError(String message);
     public void changeToDevView();
-    public void displayChats(ArrayList<String> messageList);
+    public void displayChats(String message);
 }

@@ -1,13 +1,10 @@
 package thePollerExpress.presenters.game;
 
 import com.shared.exceptions.CommandFailed;
-import com.shared.models.Command;
-import com.shared.models.DestinationCard;
-import com.shared.models.User;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.interfaces.ICommand;
-import com.shared.utilities.CommandsExtensions;
 
-import java.io.ObjectInput;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -15,14 +12,10 @@ import java.util.Observer;
 import thePollerExpress.facades.GameFacade;
 import thePollerExpress.models.ClientData;
 import thePollerExpress.presenters.game.interfaces.IDestinationSelectionPresenter;
-import thePollerExpress.presenters.game.interfaces.IGamePresenter;
 import thePollerExpress.utilities.AsyncRunner;
+import thePollerExpress.utilities.ViewFactory;
 import thePollerExpress.views.game.interfaces.IDestinationSelectionView;
-import thePollerExpress.views.game.interfaces.IGameView;
 
-/**
- * Abby
- */
 public class DestinationSelectionPresenter implements IDestinationSelectionPresenter, Observer {
 
     private IDestinationSelectionView view;
@@ -31,28 +24,43 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
 
     public DestinationSelectionPresenter(IDestinationSelectionView view) {
         this.view = view;
-        CD.getUser().getDestCardHand().addObserver(this);
-
+        facade = new GameFacade();
+        CD.getUser().getDestCardOptions().addObserver(this);
     }
 
     @Override
-    public void discardDestCard(final DestinationCard card) {
-        //update = false;
+    public void discardDestCards(final List<DestinationCard> cards) {
         AsyncRunner discardDestCardTask = new AsyncRunner(view);
 
+        discardDestCardTask.setNextView(ViewFactory.createDestinationHandView());
         discardDestCardTask.execute(new ICommand()
         {
             @Override
             public Object execute() throws CommandFailed
             {
-                return facade.discardDestCard(CD.getUser(), card);
+                return facade.discardDestCard(CD.getUser(), cards);
             }
         });
-        //update = true;
+    }
+
+    @Override
+    public void discardButtonPressed(List<Boolean> selected) {
+        List cards = new ArrayList();
+        for(int i=0;i<selected.size();i++){
+            if(!selected.get(i)){
+                cards.add(CD.getUser().getDestCardOptions().getDestinationCards().get(i));
+            }
+        }
+        if(cards.size()>CD.getUser().getDestinationDiscardCount()){
+            view.displayError("You can only discard "+CD.getUser().getDestinationDiscardCount()+" card");
+        }else {
+            discardDestCards(cards);
+        }
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        view.renderCards((List<DestinationCard>) arg);
+        view.displayError("updated");
+        view.renderCards(ClientData.getInstance().getUser().getDestCardOptions().getDestinationCards());
     }
 }

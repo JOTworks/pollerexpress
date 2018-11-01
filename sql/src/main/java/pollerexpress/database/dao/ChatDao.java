@@ -21,7 +21,6 @@ public class ChatDao {
 
     public ChatHistory getChatHistory(GameInfo gi) throws DatabaseException {
         ChatHistory history = new ChatHistory();
-        _db.open();
 
         try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(SELECT_BY_GAME);
@@ -36,14 +35,14 @@ public class ChatDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
         return history;
     }
 
     public void addChat(Chat chat) throws DatabaseException {
-        _db.open();
 
-        try{
+
+        try
+        {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(INSERT);
             stmnt.setTimestamp(1, chat.getTimestamp());
             stmnt.setString(2, chat.getMessageSender().getGameId());
@@ -55,6 +54,5 @@ public class ChatDao {
             throw new DatabaseException(e.getMessage());
         }
 
-        _db.close(true);
     }
 }

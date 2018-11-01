@@ -9,6 +9,7 @@ import com.shared.models.Player;
 import com.shared.models.states.GameState;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import thePollerExpress.models.ClientData;
 
@@ -60,6 +61,14 @@ class ClientSetupService implements ISetupService {
         public static boolean loadGame (Game game)
         {
             CD.setGame(game);
+            List<Player> players = game.getPlayers();
+            for(int i = 0; i < players.size(); ++i)
+            {
+                if(players.get(i).equals(CD.getUser()))
+                {
+                    players.set(i, CD.getUser());
+                }
+            }
             return true;
         }
 
@@ -70,7 +79,7 @@ class ClientSetupService implements ISetupService {
 //        ArrayList<GameInfo> infoList = CD.getGameInfoList();
 //
 //        for(int i = 0; i<infoList.size(); i++){
-//            if(infoList.get(i).getId()==gameInfo.getId()) {
+//            if(infoList.get(i).getRotation()==gameInfo.getRotation()) {
 //                return true;
 //            }
 //        }
@@ -113,4 +122,22 @@ class ClientSetupService implements ISetupService {
         }
 
 
+    /**
+     * update colors of the players on the local bit
+     * @param players
+     * @return
+     */
+
+    public static Boolean setPlayerColors(ArrayList<Player> players) {
+        for (Player player : players) {
+            CD.getGame().getPlayer(player).setColor(player.getColor());
+        }
+        return true;
     }
+
+    public static void setPlayerPoints(Player p, int i)
+    {
+        CD.getGame().getPlayer(p).setPoints(i);
+    }
+
+}

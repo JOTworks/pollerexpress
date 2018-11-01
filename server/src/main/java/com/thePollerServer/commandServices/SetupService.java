@@ -4,9 +4,11 @@ import com.shared.exceptions.database.DatabaseException;
 import com.shared.exceptions.CommandFailed;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
-import com.shared.models.interfaces.IDatabaseFacade;
+import pollerexpress.database.IDatabaseFacade;
 import com.shared.models.Player;
 import com.thePollerServer.utilities.Factory;
+
+import java.util.List;
 
 
 public class SetupService
@@ -26,7 +28,7 @@ public class SetupService
 
     public static void createGame(Player player, GameInfo info) throws CommandFailed
     {
-        //when it creates a game it must ensure that the games id is unique... so it shouldn't depend on being able to send the information back...
+        //when it creates a game it must ensure that the games rotation is unique... so it shouldn't depend on being able to send the information back...
         //also what do i do when a command fails..
 
         //do this...

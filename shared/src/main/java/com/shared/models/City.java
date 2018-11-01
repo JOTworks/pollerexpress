@@ -1,21 +1,29 @@
 package com.shared.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class City
+public class City implements Serializable
 {
     String name;
     Point point;
 
     List<Route> routes;
 
+    public City(City toCopy)
+    {
+        this(toCopy.name, toCopy.point);
+        //how to do this....
+    }
+
     /**
      * returns a city
      * @param name
      * @param p
      */
+
     public City(String name, Point p)
     {
 

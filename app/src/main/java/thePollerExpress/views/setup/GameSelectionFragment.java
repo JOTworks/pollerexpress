@@ -93,7 +93,7 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
         //ClientData.getInstance().deleteObserver(gameSelectionPresenter);
         Log.d("GameSelect", "change o CreateGameView");
         FragmentManager fm = getFragmentManager();
-        //Fragment createGameFragment = fm.findFragmentById(R.id.fragment_create_game);
+        //Fragment createGameFragment = fm.findFragmentById(R.rotation.fragment_create_game);
         Fragment createGameFragment = new CreateGameFragment();
 
         FragmentTransaction ft = fm.beginTransaction();
@@ -131,7 +131,7 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
         //ClientData.getInstance().deleteObserver(gameSelectionPresenter);//see what this does
         //Log.d("ChangeToLobbyView", "deleted an observer");
         FragmentManager fragmentManager = getFragmentManager();
-        //Fragment createGameFragment = fragmentManager.findFragmentById(R.id.fragment_create_game);
+        //Fragment createGameFragment = fragmentManager.findFragmentById(R.rotation.fragment_create_game);
         Fragment fragment = new LobbyFragment();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

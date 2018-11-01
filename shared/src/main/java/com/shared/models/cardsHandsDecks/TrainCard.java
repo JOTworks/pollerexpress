@@ -1,9 +1,14 @@
-package com.shared.models;
+package com.shared.models.cardsHandsDecks;
 
+import com.shared.models.Color;
+
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
-public class TrainCard {
+public class TrainCard implements Serializable
+{
+
     String _id;
     Color.TRAIN _color;
 
@@ -27,5 +32,10 @@ public class TrainCard {
         if (o == null || getClass() != o.getClass()) return false;
         TrainCard card = (TrainCard) o;
         return Objects.equals(_id, card._id);
+    }
+
+    public String getColorAsString() {
+
+        return String.valueOf(_color);
     }
 }

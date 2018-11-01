@@ -7,8 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import com.shared.models.Game;
+import com.shared.models.Player;
+
+import java.util.List;
+
 import cs340.pollerexpress.R;
 import thePollerExpress.Development.MethodCallerFragment;
+import thePollerExpress.models.ClientData;
 import thePollerExpress.presenters.game.GamePresenter;
 import thePollerExpress.presenters.game.interfaces.IGamePresenter;
 import thePollerExpress.views.IPollerExpressView;
@@ -21,7 +28,7 @@ public class GameFragment extends Fragment implements IGameView {
     @Override
     public void displayError(String errorMessage) {
 
-        //todo: fill out
+        // todo: fill out
     }
 
     @Override
@@ -49,32 +56,69 @@ public class GameFragment extends Fragment implements IGameView {
                 .add(R.id.chat_history_fragment_container, fragment)
                 .commit();
 
-
         fragment = new DestinationSelectionFragment();
         fm.beginTransaction()
                 .add(R.id.destination_fragment_container, fragment)
                 .commit();
 
-
-        gamePresenter.startGame();
-
-
-       /* fragment = new PlayerFragment();
+        fragment = new TrainCardHandFragment();
         fm.beginTransaction()
-                .add(R.id.player_1, fragment)
+                .add(R.id.train_card_hand_fragment_container, fragment)
                 .commit();
-        fragment = new PlayerFragment();
-        fm.beginTransaction()
-                .add(R.id.player_2, fragment)
-                .commit();
-        fragment = new PlayerFragment();
-        fm.beginTransaction()
-                .add(R.id.player_3, fragment)
-                .commit();
-        fragment = new PlayerFragment();
-        fm.beginTransaction()
-                .add(R.id.player_4, fragment)
-                .commit();*/
+
+        ClientData CD = ClientData.getInstance();
+        Game game = CD.getGame();
+
+        //terrible for loop that i had to break out becasuse of the r.id.framentnames
+        List<Player> players = game.getPlayers();
+        String userName = CD.getUser().getName();
+        String playerName;
+        int itr = 0;
+
+//        //gets rid of user from players
+//        for (Player p:players) {
+//            if(userName.equals(p.getName()))
+//                players.remove(p);
+//        }
+
+        if (players.size() > itr) {
+            playerName = players.get(itr).getName();
+            fragment = PlayerFragment.newInstance(playerName);
+            fm.beginTransaction()
+                    .add(R.id.player1_fragment_container, fragment)
+                    .commit();
+            itr++;
+        }
+        if (players.size() > itr) {
+            playerName = players.get(itr).getName();
+            fragment = PlayerFragment.newInstance(playerName);
+            fm.beginTransaction()
+                    .add(R.id.player2_fragment_container, fragment)
+                    .commit();
+            itr++;
+        }
+        if (players.size() > itr) {
+            playerName = players.get(itr).getName();
+            fragment = PlayerFragment.newInstance(playerName);
+            fm.beginTransaction()
+                    .add(R.id.player3_fragment_container, fragment)
+                    .commit();
+            itr++;
+        }
+        if (players.size() > itr) {
+            playerName = players.get(itr).getName();
+            fragment = PlayerFragment.newInstance(playerName);
+            fm.beginTransaction()
+                    .add(R.id.player4_fragment_container, fragment)
+                    .commit();
+            itr++;
+        }
+
+
+
+        ClientData.getInstance().getGame().getVisibleCards().updateObservables();
+        ClientData.getInstance().getUser().getDestCardOptions().updateObservables();
+        ClientData.getInstance().getGame().updateObservables();
 
         return v;
     }

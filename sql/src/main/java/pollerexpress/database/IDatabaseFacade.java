@@ -1,12 +1,13 @@
-package com.shared.models.interfaces;
+package pollerexpress.database;
 
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Authtoken;
-import com.shared.models.DestinationCard;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Chat;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
+import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.User;
 import com.shared.models.reponses.LoginResponse;
 
@@ -47,8 +48,27 @@ public interface IDatabaseFacade
      * @return
      */
     int getPlayerDiscards(Player player) throws DatabaseException;
+    void makeBank(GameInfo game) throws DatabaseException;
 
     // Abby
     void chat(Chat chat, GameInfo gameInfo) throws DatabaseException;
+
+    /**
+     * gets all the cards in the visible spread.
+     * @param info
+     * @return
+     * @throws DatabaseException
+     */
+    public TrainCard[] getVisible(GameInfo info) throws DatabaseException;
+
+
+    TrainCard getVisible(Player p, int i) throws DatabaseException;
+    TrainCard drawVisible(Player p, int i) throws DatabaseException;
+
+    void setColor(Player p, int i);// throws DatabaseException;
+
+    List<TrainCard> drawTrainCards(Player p, int number) throws DatabaseException;
+
+
 }
 
