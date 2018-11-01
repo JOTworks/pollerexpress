@@ -43,6 +43,8 @@ public class BankFragment extends Fragment implements IBankView
         mVisible[2] = v.findViewById(R.id.bank_2);
         mVisible[3] = v.findViewById(R.id.bank_3);
         mVisible[4] = v.findViewById(R.id.bank_4);
+        trainCardDeck = v.findViewById(R.id.train_card_deck);
+        destinationCardDeck = v.findViewById(R.id.destination_card_deck);
         return v;
     }
 
@@ -58,6 +60,13 @@ public class BankFragment extends Fragment implements IBankView
             mVisible[i].setClickable(true);
             mVisible[i].setBackground(getFromCard(card));
         }
+    }
+
+    @Override
+    public void update()
+    {
+        trainCardDeck.setText( String.format("%d", presenter.getTrainDeckSize()) );
+        destinationCardDeck.setText(String.format("%d", presenter.getDestinationDeckSize()));
     }
 
     private Drawable getFromCard(TrainCard card)

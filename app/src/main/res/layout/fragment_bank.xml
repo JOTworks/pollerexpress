@@ -11,7 +11,6 @@
         android:background="@color/PollerWhite">
 
         <TextView
-
             android:id="@+id/bank_0"
             android:layout_width="120dp"
             android:layout_margin="5dp"
@@ -86,7 +85,5 @@
             android:gravity="center"
             android:textColor="@color/PollerBackground"
             android:textSize="40dp"/>
-
-
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

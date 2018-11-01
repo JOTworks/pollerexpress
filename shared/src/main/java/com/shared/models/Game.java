@@ -12,7 +12,8 @@ import java.util.Observable;
 public class Game extends Observable implements Serializable
 {
     GameInfo _info;
-
+    public static final int DESTINATION_DECK_SIZE = 30;
+    public static final int TRAIN_CARD_DECK_SIZE = 105;
     private GameState gameState;
     private Map map;
 
@@ -29,8 +30,8 @@ public class Game extends Observable implements Serializable
     private Game()
     {
         faceUpCards = new VisibleCards();
-        DestinationCardDeck = 0;
-        TrainCardDeck = 0;
+        DestinationCardDeck = DESTINATION_DECK_SIZE;
+        TrainCardDeck = TRAIN_CARD_DECK_SIZE;
     }
     /**
      *
@@ -234,6 +235,30 @@ public class Game extends Observable implements Serializable
         return _info.equals( game.getGameInfo() );
     }
 
+    public void drawDestinationCards(Player player, int number)
+    {
+        //TODO add check...
+        this.DestinationCardDeck -= number;
+        player.setDestinationCardCount(player.destinationCardCount + number);//TODO use getter
+
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers(number);
+        }
+    }
+
+    public void drawTrainCard(Player player)
+    {
+        //TODO add check...
+        this.TrainCardDeck -= 1;
+        player.setTrainCardCount(player.trainCardCount + 1);
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers();
+        }
+    }
     @Override
     public int hashCode()
     {

@@ -69,7 +69,7 @@ public class ClientGameService {
     public static boolean drawDestinationCards(Player player, Integer cardNumber)
     {
         Player real = CD.getGame().getPlayer(player);
-        real.setDestinationCardCount(real.getDestinationDiscardCount() + cardNumber.intValue());
+        CD.getGame().drawDestinationCards(player, cardNumber);
         return true;
     }
 

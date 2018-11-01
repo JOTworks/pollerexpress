@@ -33,10 +33,21 @@ public class BankPresenter implements IBankPresenter
         }
         else if(observable instanceof Game)
         {
-
+            view.update();
         }
     }
 
+    @Override
+    public int getDestinationDeckSize()
+    {
+        return CD.getGame().DestinationCardDeck;
+    }
+
+    @Override
+    public int getTrainDeckSize()
+    {
+        return CD.getGame().TrainCardDeck;
+    }
     public void onDestroy()
     {
         try
