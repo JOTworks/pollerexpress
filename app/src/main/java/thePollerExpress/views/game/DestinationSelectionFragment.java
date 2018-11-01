@@ -99,7 +99,7 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
                 destinationSelectionPresenter.discardButtonPressed(selected);
             }
         });
-
+        renderCards(destinationSelectionPresenter.get());
         return v;
     }
 
