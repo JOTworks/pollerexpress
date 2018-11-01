@@ -259,7 +259,7 @@ public class CommandFacade
         //give altered command to everyone else in the game
         for(Player player : game.getPlayers())
         {
-            if(!p.equals(player))
+            //if(!p.equals(player))
             {
                 for(TrainCard card : tList)
                 {
