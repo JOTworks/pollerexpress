@@ -255,6 +255,18 @@ public class Game extends Observable implements Serializable
         }
     }
 
+    public void discardDestinationCards(Player player, int number)
+    {
+        //TODO add check...
+        getPlayer(player).setDestinationCardCount(getPlayer(player).destinationCardCount - number);//TODO use getter
+
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers(number);
+        }
+    }
+
     public void drawTrainCard(Player player)
     {
         //TODO add check...
