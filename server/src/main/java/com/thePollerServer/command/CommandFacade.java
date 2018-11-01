@@ -163,7 +163,7 @@ public class CommandFacade
 
     }
 //    public static void drawDestinationCards(Player p)
-//    {
+//    {discardDestinationCards
 //
 //    }
     public static void discardDestinationCards(Player p, List<DestinationCard> cards) throws CommandFailed, DatabaseException

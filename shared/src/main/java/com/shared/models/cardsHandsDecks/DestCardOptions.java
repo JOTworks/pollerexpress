@@ -28,6 +28,7 @@ public class DestCardOptions extends Observable implements Serializable { //TODO
         destCards.add(card);
         synchronized (this)
         {
+
             this.setChanged();
             notifyObservers(card);
         }

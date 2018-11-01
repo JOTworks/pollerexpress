@@ -121,6 +121,7 @@ public class Player extends Observable implements Serializable
         this.trainCardCount = trainCardCount;
         synchronized (this)
         {
+            this.setChanged();
             this.notifyObservers();
         }
     }
