@@ -12,6 +12,7 @@ import com.shared.models.reponses.ErrorResponse;
 import com.shared.utilities.CommandsExtensions;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import thePollerExpress.communication.ClientCommunicator;
 import thePollerExpress.models.ClientData;
@@ -43,12 +44,12 @@ public class GameFacade {
         return response;
     }
 
-    public PollResponse discardDestCard(User user, DestinationCard destCard){
+    public PollResponse discardDestCard(User user, List<DestinationCard> destCards){
 
         ClientCommunicator CC = ClientCommunicator.instance();
 
-        Class<?>[] types = {User.class, DestinationCard.class};
-        Object[] params= {user, destCard};
+        Class<?>[] types = {User.class, List.class};
+        Object[] params= {user, destCards};
         Command startGame = new Command(CommandsExtensions.serverSide+ "CommandFacade","discardDestCard",types,params);
         PollResponse response = CC.sendCommand(startGame);
 

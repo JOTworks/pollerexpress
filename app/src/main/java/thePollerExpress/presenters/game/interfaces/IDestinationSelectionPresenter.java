@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IDestinationSelectionPresenter {
 
-    void discardDestCard(DestinationCard card);
+    void discardDestCards(List<DestinationCard> cards);
 
     void discardButtonPressed(List<Boolean> selected);
 }
