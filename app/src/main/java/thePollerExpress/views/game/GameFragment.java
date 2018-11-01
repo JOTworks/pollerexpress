@@ -55,6 +55,11 @@ public class GameFragment extends Fragment implements IGameView {
                 .add(R.id.destination_fragment_container, fragment)
                 .commit();
 
+        // Abby
+        fragment = new TrainCardHandFragment();
+        fm.beginTransaction()
+                .add(R.id.train_card_hand_fragment_container, fragment)
+                .commit();
 
         gamePresenter.startGame();
 

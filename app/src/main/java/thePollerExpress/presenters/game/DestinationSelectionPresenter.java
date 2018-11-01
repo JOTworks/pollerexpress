@@ -32,7 +32,6 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
     public DestinationSelectionPresenter(IDestinationSelectionView view) {
         this.view = view;
         CD.getUser().getDestCardHand().addObserver(this);
-
     }
 
     @Override

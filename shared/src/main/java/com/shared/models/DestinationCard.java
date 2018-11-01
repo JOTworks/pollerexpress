@@ -42,4 +42,6 @@ public class DestinationCard
         DestinationCard card = (DestinationCard) o;
         return Objects.equals(_id, card._id);
     }
+
+
 }
