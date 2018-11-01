@@ -23,7 +23,7 @@ public class PlayerPresenter implements IPlayerPresenter, Observer {
     }
 
     public Player getPlayer() {
-        //
+
         return ClientData.getInstance().getGame().getPlayer(playerName);
     }
 
@@ -37,5 +37,4 @@ public class PlayerPresenter implements IPlayerPresenter, Observer {
         }
     }
 
-    //
 }
