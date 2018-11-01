@@ -1,6 +1,7 @@
 
 package pollerexpress.database.dao;
 
+import com.shared.models.Color;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
@@ -260,7 +261,7 @@ public class GameDao {
     {
         try {
             List<Player> players = new ArrayList<>();
-            PreparedStatement stmnt = this._db.getConnection().prepareStatement("SELECT USER_NAME, GAME_ID\nFROM USERS\nWHERE GAME_ID = ?");
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement("SELECT USER_NAME, GAME_ID, COLOR\nFROM USERS\nWHERE GAME_ID = ?");
             stmnt.setString(1, info.getId());
             ResultSet rs = stmnt.executeQuery();
 
@@ -268,6 +269,9 @@ public class GameDao {
             int i = 0;
             while(rs.next()) {
                 Player p = new Player(rs.getString("USER_NAME"), rs.getString("GAME_ID"));
+                int temp = rs.getInt("COLOR");
+                if(temp == 0) temp = 1;
+                p.setColor(Color.convertIndexToColor(temp));
                 players.add(p);
             }
 
