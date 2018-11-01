@@ -4,6 +4,7 @@ import com.shared.exceptions.CommandFailed;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.interfaces.ICommand;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -29,6 +30,9 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
         CD.getUser().getDestCardOptions().addObserver(this);
     }
 
+    public void discardDestCard(List<DestinationCard> cards){
+        //just so it still builds
+    }
     @Override
     public void discardDestCard(final DestinationCard card) { //TODO: will have to be modified to handle discarding two cards
         AsyncRunner discardDestCardTask = new AsyncRunner(view);
@@ -46,8 +50,17 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
 
     @Override
     public void discardButtonPressed(List<Boolean> selected) {
-
-        //k implement whatever, this is the list of cards selected. true means we are keeping the card, false means we are discarding the card
+        List cards = new ArrayList();
+        for(int i=0;i<selected.size();i++){
+            if(!selected.get(i)){
+                cards.add(CD.getUser().getDestCardOptions().getDestinationCards().get(i));
+            }
+        }
+        if(cards.size()>CD.getUser().getDestinationDiscardCount()){
+            view.displayError("You can only discard "+CD.getUser().getDestinationDiscardCount()+" card");
+        }else {
+            discardDestCard(cards);
+        }
         view.displayError("discard Button Pressed!");
     }
 
