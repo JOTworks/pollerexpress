@@ -1,10 +1,12 @@
 package thePollerExpress.Development;
 
 import com.shared.exceptions.CommandFailed;
+import com.shared.models.Color;
 import com.shared.models.Command;
 
 import com.shared.models.Player;
 import com.shared.models.Route;
+import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.interfaces.ICommand;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -48,9 +50,11 @@ public class MethodCaller {
         ArrayList<String> result = new ArrayList<String>();
         switch (s) {
             case "help":
+                CD.updateAll();
                 result.add("getUserName\n" +
                         "getChatMessages\n" +
                         "getGameID\n" +
+                        "changeBank\n" +
                         "claimRoute [int i]\n" +
                         "drawVisible [int i]\n" +
                         "setPlayerPoints p points" +
@@ -62,6 +66,10 @@ public class MethodCaller {
                         "in the parse funtion, as a case");
                 break;
 
+            case "changeBank":
+                TrainCard[] cards = {new TrainCard(Color.TRAIN.YELLOW),new TrainCard(Color.TRAIN.YELLOW),new TrainCard(Color.TRAIN.YELLOW),new TrainCard(Color.TRAIN.YELLOW),new TrainCard(Color.TRAIN.RAINBOW)};
+                CD.getGame().getVisibleCards().set(cards);
+                break;
             case "turnJack":
                 CD.getGame().setTurn("jackson");
                 break;
