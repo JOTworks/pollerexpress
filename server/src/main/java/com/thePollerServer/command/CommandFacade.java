@@ -19,6 +19,8 @@ import com.thePollerServer.commandServices.GameService;
 import com.thePollerServer.commandServices.SetupService;
 import com.thePollerServer.utilities.Factory;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import pollerexpress.database.utilities.DeckBuilder;
@@ -114,6 +116,7 @@ public class CommandFacade
             CM.addCommand(startGame, info);
         }
 
+
         for(Player p :game.getPlayers())
         {
             //this maybe should be put into the service, but most of the logic has to deal with commands....
@@ -131,15 +134,21 @@ public class CommandFacade
                 Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientGameService", "drawDestinationCards", types, params);
                 CM.addCommand(drawDestinationCards, info);
             }
+            {
+                Class<?>[] types = {game.getPlayers().getClass()};
+                Object[] params = {game.getPlayers()};
+                Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientSetupService", "setPlayerColors", types, params);
+                CM.addCommand(drawDestinationCards, info);
+            }
         }
-
 
     }
 //    public static void drawDestinationCards(Player p)
 //    {
 //
 //    }
-    public static void discardDestinationCard(Player p, List<DestinationCard> card) throws CommandFailed, DatabaseException {
+    public static void discardDestinationCard(Player p, List<DestinationCard> card) throws CommandFailed, DatabaseException
+    {
         GameService gm = new GameService();
         boolean discarded = gm.discardDestinationCards(p, card);
         if (!discarded) {
@@ -175,6 +184,25 @@ public class CommandFacade
         Object[] params = {chat, gameInfo};
         Command chatCommand = new Command(CommandsExtensions.clientSide+"ClientGameService", "chat", types, params);
         CommandManager._instance().addCommand(chatCommand, gameInfo);
+    }
+
+
+    public static void drawVisible(Player p, Integer i) throws DatabaseException
+    {
+        try
+        {
+            GameService.Triple result = new GameService().drawVisible(p, i);
+
+            Class<?>[] types = {Player.class, TrainCard.class, Integer.class, TrainCard[].class};
+            Object[] params = {p, result.card, Integer.valueOf(result.drawsLeft),result.visible  };
+            Command command = new Command(CommandsExtensions.clientSide+"ClientGameService", "drawVisibleCard", types, params);
+            CommandManager._instance().addCommand(command, result.info);
+
+        }
+        finally
+        {
+
+        }
     }
 
 }

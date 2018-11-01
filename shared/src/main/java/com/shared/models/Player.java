@@ -16,7 +16,7 @@ public class Player extends Observable implements Serializable
     public List<Route> routes;
     public int points;
     public int trainCount;
-    public Color color;
+    public Color.PLAYER color;
 
     /**
      * Creates a new Player object
@@ -62,8 +62,8 @@ public class Player extends Observable implements Serializable
         return gameId;
     }
     public void setGameID(String gameId){ this.gameId = gameId;}
-    public Color getColor(){return this.color; }
-    public void setColor(Color color){this.color = color;}
+    public Color.PLAYER getColor(){return this.color; }
+    public void setColor(Color.PLAYER color){this.color = color;}
     public int getDestinationCardCount()
     {
         return destinationCardCount;

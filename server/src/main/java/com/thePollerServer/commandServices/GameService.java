@@ -3,9 +3,12 @@ package com.thePollerServer.commandServices;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Chat;
 import com.shared.models.DestinationCard;
+import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import pollerexpress.database.IDatabaseFacade;
+
+import com.shared.models.TrainCard;
 import com.thePollerServer.utilities.Factory;
 
 import java.util.List;
@@ -50,5 +53,33 @@ public class GameService
             return false;
         }
         return false;
+    }
+
+    /**
+     * the int is the remaining number of draws
+     */
+    public Triple drawVisible(Player player, int i) throws DatabaseException
+    {
+
+        Triple p = new Triple();
+        IDatabaseFacade df = Factory.createDatabaseFacade();
+        GameInfo info = df.getGameInfo(player.getGameId());
+        //TODO check if the player can draw.
+        TrainCard visible = df.getVisible(player,i);
+        //TODO check if the player can draw the visible card
+        df.drawVisible(player, i);
+        p.drawsLeft = 0;//Default
+        p.card = visible;
+        p.info = info;
+        p.visible = df.getVisible(info);
+        return p;
+    }
+
+    public class Triple
+    {
+        public TrainCard card;
+        public int drawsLeft;
+        public GameInfo info;
+        public TrainCard[] visible;
     }
 }

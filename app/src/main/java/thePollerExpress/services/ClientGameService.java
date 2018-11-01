@@ -115,4 +115,16 @@ public class ClientGameService {
         CD.getGame().getMap().claimRoute(p, r);
         return true;
     }
+
+
+    public static boolean drawVisibleCard(Player p, TrainCard card, Integer drawsLeft, TrainCard visible[])
+    {
+        if(p.equals(CD.getUser()))
+        {
+            CD.getUser().getTrainCardHand().addToHand(card);
+        }
+        CD.getGame().drawTrainCard(p);
+        CD.getGame().getVisibleCards().set(visible);
+        return true;
+    }
 }

@@ -3,11 +3,12 @@ package com.shared.models;
 import com.shared.models.TrainCard;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
 public class TrainCardHand extends Observable implements Serializable {
-    private List<TrainCard> trainCards;
+    private List<TrainCard> trainCards = new ArrayList<>();
 
     public void setTrainCards(List<TrainCard> trainCards)
     {
