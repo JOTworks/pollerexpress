@@ -21,7 +21,7 @@ import thePollerExpress.presenters.game.interfaces.ITrainCardHandPresenter;
 import thePollerExpress.views.game.interfaces.ITrainCardHandView;
 
 /**
- * This class is responsible or displaying the player's train card hand.
+ * This class is responsible or displaying a player's train card hand.
  * It is pretty much just a LR recycler view of images.
  * Or at least, that's what it will be by the end.
  */
@@ -55,24 +55,18 @@ public class TrainCardHandFragment extends Fragment implements ITrainCardHandVie
         recyclerView.setAdapter(mAdapter);
         layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
-// hard coded for testing purposes
-//        ArrayList<String> colorList = new ArrayList<>();
-//        colorList.add("blue");
-//        colorList.add("yellow");
-//        colorList.add("pink");
-//        colorList.add("orange");
-//
-//        displayHand(colorList);
 
         return v;
     }
 
     /**
      * updates the recycler view
-     * @param arrayList new strings to display.
      */
     public void displayHand() {
 
+        /*This line of code takes the place of making a new adapter.
+        * This is much more efficient than making a new adapter since
+        * every time the recycler view needs to be updated.*/
         mAdapter.notifyDataSetChanged();
     }
 

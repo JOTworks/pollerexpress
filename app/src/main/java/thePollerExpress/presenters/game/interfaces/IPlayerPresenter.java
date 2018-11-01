@@ -1,4 +1,4 @@
-package thePollerExpress.presenters.game;
+package thePollerExpress.presenters.game.interfaces;
 
 import com.shared.models.Player;
 

@@ -1,12 +1,8 @@
 package thePollerExpress.views.game;
 
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +13,7 @@ import com.shared.models.Player;
 
 import cs340.pollerexpress.R;
 import thePollerExpress.views.IPollerExpressView;
-import thePollerExpress.presenters.game.IPlayerPresenter;
+import thePollerExpress.presenters.game.interfaces.IPlayerPresenter;
 import thePollerExpress.presenters.game.PlayerPresenter;
 import thePollerExpress.views.game.interfaces.IPlayerView;
 

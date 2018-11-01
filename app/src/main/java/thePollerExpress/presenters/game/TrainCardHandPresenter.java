@@ -22,22 +22,10 @@ public class TrainCardHandPresenter implements ITrainCardHandPresenter, Observer
 
         // add this class as an observer of TrainCardHand.
         clientData.getUser().getTrainCardHand().addObserver(this);
-
-        // display the hand right away....not sure if this is going to work
-//        handView.displayHand(clientData.getUser().getTrainCardHand().getCardsAsStrings());
-//
     }
 
     @Override
     public void update(Observable o, Object arg) {
-
-        //if( !(arg instanceof TrainCard) ) return;
-
-        /*
-        * I want to give the view a list of strings,
-        * where each string tells me what
-        * color train card I have.
-        * */
 
         handView.displayHand();
     }
