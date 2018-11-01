@@ -109,6 +109,7 @@ public class CommandFacade
         Game game = df.getGame(info);
         CommandManager CM = CommandManager._instance();
         df.makeBank(info);
+        setColor(user, user.getColor());
 
         // set the game state for each person in the game TODO: give each player a different state
         {

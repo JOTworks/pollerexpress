@@ -61,6 +61,14 @@ class ClientSetupService implements ISetupService {
         public static boolean loadGame (Game game)
         {
             CD.setGame(game);
+            List<Player> players = game.getPlayers();
+            for(int i = 0; i < players.size(); ++i)
+            {
+                if(players.get(i).equals(CD.getUser()))
+                {
+                    players.set(i, CD.getUser());
+                }
+            }
             return true;
         }
 
@@ -115,8 +123,7 @@ class ClientSetupService implements ISetupService {
 
     public static Boolean setPlayerColors(ArrayList<Player> players) {
         for (Player player : players) {
-            CD.getGame().getPlayer(player)
-                    .setColor(player.getColor());
+            CD.getGame().getPlayer(player).setColor(player.getColor());
         }
         return true;
     }

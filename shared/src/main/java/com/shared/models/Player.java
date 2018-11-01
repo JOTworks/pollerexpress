@@ -36,6 +36,7 @@ public class Player extends Observable implements Serializable
         this.points = 0;
         this.trainCount = 0;
         this.routes = new ArrayList<>();
+        this.color = Color.PLAYER.BLACK;
     }
 
     public Player(String name, String gameId)
