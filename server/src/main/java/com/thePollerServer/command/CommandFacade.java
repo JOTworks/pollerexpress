@@ -166,7 +166,7 @@ public class CommandFacade
 //    {
 //
 //    }
-    public static void discardDestinationCard(Player p, List<DestinationCard> cards) throws CommandFailed, DatabaseException
+    public static void discardDestinationCards(Player p, List<DestinationCard> cards) throws CommandFailed, DatabaseException
     {
         GameService gm = new GameService();
         boolean discarded = gm.discardDestinationCards(p, cards);
