@@ -30,7 +30,7 @@ public class Player extends Observable implements Serializable
     {
         this.name = name;
         this.gameId = "";
-        destinationDiscardCount = 0;
+        destinationDiscardCount = 1;
         destinationCardCount = 0;
         trainCardCount = 0;
         this.points = 0;
