@@ -32,7 +32,7 @@ public class Color implements Serializable
         {
             if(colors[i].equals(c))
             {
-                return i;
+                return i+colors.length;
             }
         }
         return 0;

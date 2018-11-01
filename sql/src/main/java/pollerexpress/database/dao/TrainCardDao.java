@@ -130,11 +130,13 @@ public class TrainCardDao {
     /**
      *
      * @param player
-     * @param index - between 1 and 5. DO NOT use 0.
+     * @param i - between 0 - 4 for my sanity
      * @return
      * @throws DatabaseException
      */
-    public TrainCard drawFaceUp(Player player, int index) throws DatabaseException {
+    public TrainCard drawFaceUp(Player player, int i) throws DatabaseException
+    {
+        int index = i+1;
         String TABLE_NAME = "\"TRAIN_DECK_" + player.getGameId() + "\"";
         String SELECT_BY_INDEX = SELECT_FACE_UP_INDEX.replace("<TABLE_NAME>",TABLE_NAME);
         String UPDATE_DECK = UPDATE_CARD.replace("<TABLE_NAME>", TABLE_NAME);
