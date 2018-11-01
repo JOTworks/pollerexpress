@@ -51,8 +51,9 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
     }
 
     @Override
-    public void discardButtonPressed() {
+    public void discardButtonPressed(List<Boolean> selected) {
 
+        //k implement whatever, this is the list of cards selected. true means we are keeping the card, false means we are discarding the card
         view.displayError("discard Button Pressed!");
     }
 
