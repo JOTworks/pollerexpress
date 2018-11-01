@@ -1,53 +1,63 @@
 package thePollerExpress.presenters.game;
 
-import android.util.Log;
+import com.shared.models.Game;
+import com.shared.models.VisibleCards;
 
-import com.shared.models.Command;
-import com.shared.models.GameInfo;
-import com.shared.models.Player;
-import com.shared.models.User;
-import com.shared.utilities.CommandsExtensions;
-
-import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
-
-import thePollerExpress.facades.SetupFacade;
 import thePollerExpress.models.ClientData;
-import thePollerExpress.presenters.setup.IGameSelectionPresenter;
-import thePollerExpress.utilities.AsyncRunner;
-import thePollerExpress.utilities.ViewFactory;
-import thePollerExpress.views.game.BankFragment;
-import thePollerExpress.views.setup.IGameSelectionView;
+import thePollerExpress.presenters.game.interfaces.IBankPresenter;
+import thePollerExpress.views.game.interfaces.IBankView;
 
-/**
- * Abby
- * Responsible for implementing logic for game selection view
- */
-public class BankPresenter implements Observer {
+public class BankPresenter implements IBankPresenter
+{
 
-    private BankFragment view;
-    private SetupFacade facade;
-    ClientData clientData = ClientData.getInstance();
+    IBankView view;
+    ClientData CD;
 
-    public BankPresenter(BankFragment view) {
+    public BankPresenter(IBankView view)
+    {
         this.view = view;
-        Log.d("BankPresenter", "createdNew");
-        facade = new SetupFacade();
-        clientData.getGame().addObserver(this);
-
+        CD = ClientData.getInstance();
+        CD.getGame().getVisibleCards().addObserver(this);
+        CD.getGame().addObserver(this);
+    }
+    @Override
+    public void update(Observable observable, Object o)
+    {
+        if(observable instanceof VisibleCards)
+        {
+            for (int i = 0; i < 5; ++i)
+            {
+                view.update(i, CD.getGame().getVisibleCards().get(i));
+            }
+        }
+        else if(observable instanceof Game)
+        {
+            view.update();
+        }
     }
 
     @Override
-    public void update(Observable o, Object arg)
+    public int getDestinationDeckSize()
     {
-        System.out.println("!!!updated");
-        float fail = 2454/0;
+        return CD.getGame().DestinationCardDeck;
+    }
 
-        // get the list of existing games
-        Log.d("update", "ran update");
-        // refresh the list of games in the view
-        view.render();
-
+    @Override
+    public int getTrainDeckSize()
+    {
+        return CD.getGame().TrainCardDeck;
+    }
+    public void onDestroy()
+    {
+        try
+        {
+            CD.getGame().getVisibleCards().deleteObserver(this);
+            CD.getGame().deleteObserver(this);
+        }
+        catch (Exception e)
+        {
+            //TODO log the exception.
+        }
     }
 }

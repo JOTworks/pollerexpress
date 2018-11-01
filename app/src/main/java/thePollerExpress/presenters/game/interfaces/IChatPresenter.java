@@ -10,4 +10,5 @@ public interface IChatPresenter {
     public void PressedChatViewButton();
     public void PressedDevViewButton();
     ArrayList<String> getChat();
+
 }

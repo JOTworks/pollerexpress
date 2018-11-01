@@ -133,7 +133,7 @@ public class ChatFragment extends Fragment implements IChatView {
 
     public class Adapter extends RecyclerView.Adapter<ChatViewHolder> {
 
-        private ArrayList<String> chatList = new ArrayList<>();
+        private ArrayList<String> chatList;
 
         public Adapter(ArrayList<String> chat_list) {
             chatList = chat_list;

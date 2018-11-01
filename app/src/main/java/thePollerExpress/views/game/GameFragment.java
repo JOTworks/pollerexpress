@@ -28,7 +28,7 @@ public class GameFragment extends Fragment implements IGameView {
     @Override
     public void displayError(String errorMessage) {
 
-        //todo: fill out
+        // todo: fill out
     }
 
     @Override
@@ -59,6 +59,11 @@ public class GameFragment extends Fragment implements IGameView {
         fragment = new DestinationSelectionFragment();
         fm.beginTransaction()
                 .add(R.id.destination_fragment_container, fragment)
+                .commit();
+
+        fragment = new TrainCardHandFragment();
+        fm.beginTransaction()
+                .add(R.id.train_card_hand_fragment_container, fragment)
                 .commit();
 
         ClientData CD = ClientData.getInstance();

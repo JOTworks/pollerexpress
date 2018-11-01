@@ -27,16 +27,8 @@ import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.interfaces.IChatView;
 import thePollerExpress.views.game.interfaces.IHistoryView;
 
-/**
- * Abby
- * The class is responsible for finding client classes
- * and running methods. We are using it for testing purposes.
- * This class will have runtime dependencies but no
- * type dependencies because of reflection.
- */
 public class HistoryFragment extends Fragment implements IHistoryView
 {
-
     Button sendChatButton;
     Button chatViewButton;
     Button devViewButton;

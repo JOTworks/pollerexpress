@@ -8,6 +8,8 @@ import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.shared.models.Route;
+import com.shared.models.TrainCard;
+import com.shared.models.VisibleCards;
 import com.shared.models.states.GameState;
 
 import java.util.ArrayList;
@@ -35,33 +37,53 @@ public class ClientGameService {
      *  This will notify the observer and will cause every user to switch to the gameView
      * @return true if the state was changed and false otherwise
      */
-    public static boolean startGame()
+    public static boolean startGame(TrainCard[] cards)
     {
+
+        CD.getGame().getVisibleCards().set(cards);
         CD.getGame().setGameState(new GameState());
         return true;
     }
 
+    /**
+     *
+     * @param player
+     * @param destinationCards
+     * @return
+     */
     public static boolean drawDestinationCards(Player player, List<DestinationCard> destinationCards)
     {
         if(!CD.getUser().equals(player)) return false;
         for (DestinationCard card : destinationCards) {
-            CD.addDestCardToHand(card);
+            CD.addDestCardToOptions(card);
         }
         return true;
     }
+
+    /**
+     *
+     * @param player
+     * @param cardNumber
+     * @return
+     */
     public static boolean drawDestinationCards(Player player, Integer cardNumber)
     {
         Player real = CD.getGame().getPlayer(player);
-        real.setDestinationCardCount(real.getDestinationDiscardCount() + cardNumber.intValue());
+        CD.getGame().drawDestinationCards(player, cardNumber);
         return true;
     }
 
 
-    public static boolean removeDestCardFromHand(Player player, List<DestinationCard> destinationCards)
+    public static boolean removeDestCardFromOptions(Player player, List<DestinationCard> destinationCards)
     {
         for (DestinationCard card : destinationCards) {
-            CD.addDestCardToHand(card);
+            CD.removeDestCardFromOptions(card);
         }
+
+        //TODO: take adding to the hand logic out and put it in another method. Violating single responsibility and have a misleading method name
+
+        for (DestinationCard card : CD.getUser().getDestCardOptions().getDestinationCards())
+            CD.addDestCardToHand(card);
         return true;
     }
 

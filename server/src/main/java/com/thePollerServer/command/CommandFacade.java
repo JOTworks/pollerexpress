@@ -4,7 +4,9 @@ package com.thePollerServer.command;
 import com.shared.models.DestinationCard;
 import com.shared.models.Chat;
 import com.shared.models.Route;
+import com.shared.models.TrainCard;
 import com.shared.models.User;
+import com.shared.models.VisibleCards;
 import com.shared.utilities.CommandsExtensions;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
@@ -102,13 +104,12 @@ public class CommandFacade
         GameInfo info = df.getGameInfo(user.getGameId());
         Game game = df.getGame(info);
         CommandManager CM = CommandManager._instance();
-        DeckBuilder deckBuilder = new DeckBuilder(df.getDatabase());
-        deckBuilder.makeBank(info);
+        df.makeBank(info);
 
         // set the game state for each person in the game TODO: give each player a different state
         {
-            Class<?>[] types = {};
-            Object[] params = {};
+            Class<?>[] types = {TrainCard[].class};
+            Object[] params = { df.getVisible(info) };
             Command startGame = new Command(CommandsExtensions.clientSide + "ClientGameService", "startGame", types, params);
             CM.addCommand(startGame, info);
         }
@@ -138,18 +139,17 @@ public class CommandFacade
 //    {
 //
 //    }
-    public static void discardDestinationCard(Player p, List<DestinationCard> card) throws CommandFailed, DatabaseException {
+    public static void discardDestinationCard(Player p, List<DestinationCard> cards) throws CommandFailed, DatabaseException {
         GameService gm = new GameService();
-        boolean discarded = gm.discardDestinationCards(p, card);
+        boolean discarded = gm.discardDestinationCards(p, cards);
         if (!discarded) {
             throw new CommandFailed("discardDestinationCard");
         }
         IDatabaseFacade df = Factory.createDatabaseFacade();
         CommandManager CM = CommandManager._instance();
 
-        Class<?>[] types = {Player.class, card.getClass()};
-        Object[] params = {p, card};
-        //TODO fix command names.
+        Class<?>[] types = {Player.class, List.class};
+        Object[] params = {p, cards};
         Command cmd = new Command(CommandsExtensions.clientSide + "ClientGameService", "discardDestinationCards", types, params);
         CM.addCommand(cmd, df.getGameInfo(df.getPlayer(p.name).gameId));
     }
@@ -161,7 +161,8 @@ public class CommandFacade
      * @param chat
      * @param gameInfo
      */
-    public static void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
+    public static void chat(Chat chat, GameInfo gameInfo) throws DatabaseException
+    {
 
         // send the chat along to the database
         GameService gameService = new GameService();
@@ -174,4 +175,5 @@ public class CommandFacade
         Command chatCommand = new Command(CommandsExtensions.clientSide+"ClientGameService", "chat", types, params);
         CommandManager._instance().addCommand(chatCommand, gameInfo);
     }
+
 }

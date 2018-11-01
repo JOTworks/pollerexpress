@@ -35,9 +35,10 @@ public class TestDestinationCardDao {
             db.deleteTables();
             db.createTables();
 
-            db.close(true);
 
             builder.makeDefaultDecks();
+            db.close(true);
+
 
         } catch(Exception e) {
             System.out.println(e.getMessage());
@@ -48,8 +49,11 @@ public class TestDestinationCardDao {
 
     @After
     public void down() {
-        try {
+        try
+        {
+            db.open();
             dcDao.deleteDeck(gi);
+            db.close(true);
         } catch(Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -61,6 +65,7 @@ public class TestDestinationCardDao {
     public void testBuildDefaultDeck() {
         //test the the default Destination Deck was filled properly in the database, or that it even exists.
         try {
+            db.open();
             ArrayList<DestinationCard> deck = dcDao.getDefaultDeck();
             assertEquals(30, deck.size());
         } catch(Exception e) {
@@ -68,17 +73,26 @@ public class TestDestinationCardDao {
             e.printStackTrace();
             fail();
         }
+        finally
+        {
+            db.close(false);
+        }
     }
 
     @Test
     public void testBuildGameDeck() {
         try {
+            db.open();
             builder.makeDestinationDeck(gi);
             assertEquals(30, dcDao.getDeckSize(gi));
         } catch(Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
             fail();
+        }
+        finally
+        {
+            db.close(false);
         }
     }
 
@@ -88,6 +102,7 @@ public class TestDestinationCardDao {
 
         try {
             //make deck and get starting deck size for comparison
+            db.open();
             builder.makeDestinationDeck(gi);
             int deckSize = dcDao.getDeckSize(gi);
 
@@ -99,17 +114,21 @@ public class TestDestinationCardDao {
 
             //check deck size is 1 less than before.
             assertEquals(deckSize - 1, dcDao.getDeckSize(gi));
-
         } catch(Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
             fail();
+        }
+        finally
+        {
+            db.close(false);
         }
     }
 
     @Test
     public void testGetPlayerHand() {
         try{
+            db.open();
             //make game deck
             builder.makeDestinationDeck(gi);
 
@@ -133,11 +152,16 @@ public class TestDestinationCardDao {
             e.printStackTrace();
             fail();
         }
+        finally
+        {
+            db.close(false);
+        }
     }
 
     @Test
     public void testDiscard() {
         try {
+            db.open();
             //make game deck
             builder.makeDestinationDeck(gi);
 
@@ -161,11 +185,16 @@ public class TestDestinationCardDao {
             e.printStackTrace();
             fail();
         }
+        finally
+        {
+            db.close(true);
+        }
     }
 
     @Test
     public void testShuffle() {
         try {
+            db.open();
             //make game deck
             builder.makeDestinationDeck(gi);
 
@@ -217,6 +246,10 @@ public class TestDestinationCardDao {
             System.out.println(e.getMessage());
             e.printStackTrace();
             fail();
+        }
+        finally
+        {
+            db.close(false);
         }
     }
 }

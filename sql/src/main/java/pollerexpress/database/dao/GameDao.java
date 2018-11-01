@@ -16,8 +16,6 @@ import com.shared.exceptions.database.DataAlreadyInDatabaseException;
 import com.shared.exceptions.database.DataNotFoundException;
 import com.shared.exceptions.database.DatabaseException;
 
-import pollerexpress.database.IDatabase;
-
 public class GameDao {
     IDatabase _db;
     public static final String PARAMS = "GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS";

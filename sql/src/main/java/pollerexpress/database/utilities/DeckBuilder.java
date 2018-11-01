@@ -14,16 +14,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import pollerexpress.database.Database;
 import pollerexpress.database.dao.DestinationCardDao;
-import pollerexpress.database.IDatabase;
+import pollerexpress.database.dao.IDatabase;
 import pollerexpress.database.dao.TrainCardDao;
 
 import static com.shared.models.Color.TRAIN.*;
 
 public class DeckBuilder {
-    IDatabase _db;
+    Database _db;
 
-    public DeckBuilder(IDatabase db) {
+    public DeckBuilder(Database db) {
         this._db = db;
     }
 
@@ -37,35 +38,35 @@ public class DeckBuilder {
         City city = new City("North Pole", new Point(0.0,0.0));
         DestinationCard[] cards = {
                 new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
-                new DestinationCard(city, city, 1),
+                new DestinationCard(city, city, 2),
+                new DestinationCard(city, city, 3),
+                new DestinationCard(city, city, 4),
+                new DestinationCard(city, city, 5),
+                new DestinationCard(city, city, 6),
+                new DestinationCard(city, city, 7),
+                new DestinationCard(city, city, 8),
+                new DestinationCard(city, city, 9),
+                new DestinationCard(city, city, 10),
+                new DestinationCard(city, city, 11),
+                new DestinationCard(city, city, 12),
+                new DestinationCard(city, city, 13),
+                new DestinationCard(city, city, 14),
+                new DestinationCard(city, city, 15),
+                new DestinationCard(city, city, 16),
+                new DestinationCard(city, city, 17),
+                new DestinationCard(city, city, 18),
+                new DestinationCard(city, city, 19),
+                new DestinationCard(city, city, 3),
+                new DestinationCard(city, city, 4),
+                new DestinationCard(city, city, 5),
+                new DestinationCard(city, city, 6),
+                new DestinationCard(city, city, 7),
+                new DestinationCard(city, city, 8),
+                new DestinationCard(city, city, 9),
+                new DestinationCard(city, city, 10),
+                new DestinationCard(city, city, 12),
+                new DestinationCard(city, city, 13),
+                new DestinationCard(city, city, 14),
         };
         for(DestinationCard card : cards) {
             dcDao.insertIntoDefault(card);
@@ -156,7 +157,6 @@ public class DeckBuilder {
     private void shuffle(String tablename, ArrayList<String> discardPile) throws DatabaseException {
         String GET_TOP_POSITION = "SELECT POSITION\n FROM " + tablename + "\n ORDER BY POSITION DESC\n LIMIT 1";
         String UPDATE_CARD = "UPDATE " + tablename + "\n SET POSITION = ?, PLAYER = NULL\n WHERE CARD_ID = ?";
-        _db.open();
 
         Collections.shuffle(discardPile);
 
@@ -183,7 +183,5 @@ public class DeckBuilder {
         } catch(SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
-
-        _db.close(true);
     }
 }
