@@ -1,5 +1,6 @@
 package com.shared.models;
 
+import com.shared.models.cardsHandsDecks.VisibleCards;
 import com.shared.models.states.GameState;
 
 import java.io.Serializable;

@@ -1,5 +1,9 @@
 package com.shared.models;
 
+import com.shared.models.cardsHandsDecks.DestCardHand;
+import com.shared.models.cardsHandsDecks.DestCardOptions;
+import com.shared.models.cardsHandsDecks.TrainCardHand;
+
 import java.io.Serializable;
 
 public class User extends Player implements Serializable

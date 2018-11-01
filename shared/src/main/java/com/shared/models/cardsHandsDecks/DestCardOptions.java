@@ -1,4 +1,4 @@
-package com.shared.models;
+package com.shared.models.cardsHandsDecks;
 
 import java.io.Serializable;
 import java.util.ArrayList;

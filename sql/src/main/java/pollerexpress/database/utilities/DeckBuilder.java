@@ -3,10 +3,10 @@ package pollerexpress.database.utilities;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.City;
 import com.shared.models.Color;
-import com.shared.models.DestinationCard;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Point;
-import com.shared.models.TrainCard;
+import com.shared.models.cardsHandsDecks.TrainCard;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +16,6 @@ import java.util.Collections;
 
 import pollerexpress.database.Database;
 import pollerexpress.database.dao.DestinationCardDao;
-import pollerexpress.database.dao.IDatabase;
 import pollerexpress.database.dao.TrainCardDao;
 
 import static com.shared.models.Color.TRAIN.*;

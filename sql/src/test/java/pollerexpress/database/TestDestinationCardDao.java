@@ -1,6 +1,6 @@
 package pollerexpress.database;
 
-import com.shared.models.DestinationCard;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 
