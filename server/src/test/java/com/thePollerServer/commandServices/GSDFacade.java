@@ -3,7 +3,7 @@ package com.thePollerServer.commandServices;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Authtoken;
 import com.shared.models.Chat;
-import com.shared.models.DestinationCard;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;

@@ -2,7 +2,7 @@ package pollerexpress.database.dao;
 
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.City;
-import com.shared.models.DestinationCard;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.shared.models.Point;

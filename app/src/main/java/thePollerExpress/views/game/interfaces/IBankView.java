@@ -1,8 +1,6 @@
 package thePollerExpress.views.game.interfaces;
 
-import com.shared.models.TrainCard;
-
-import thePollerExpress.views.IPollerExpressView;
+import com.shared.models.cardsHandsDecks.TrainCard;
 
 public interface IBankView //extends IPollerExpressView
 {

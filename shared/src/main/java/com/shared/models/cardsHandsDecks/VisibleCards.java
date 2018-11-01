@@ -1,8 +1,8 @@
-package com.shared.models;
+package com.shared.models.cardsHandsDecks;
+
+import com.shared.models.cardsHandsDecks.TrainCard;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 
 public class VisibleCards extends Observable implements Serializable

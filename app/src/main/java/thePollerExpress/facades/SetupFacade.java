@@ -87,8 +87,11 @@ public class SetupFacade {
 
         GameInfo info = new GameInfo(name,numPlayers); //max players 1.... 111111
         ClientCommunicator CC = ClientCommunicator.instance();
+        User user = ClientData.getInstance().getUser();
+        user.setColor(userColor);
+
         Class<?>[] types = {Player.class, GameInfo.class};
-        Object[] params= {ClientData.getInstance().getUser(), info };
+        Object[] params= {user, info };
 
         Command createGameCommand = new Command(CommandsExtensions.serverSide +"CommandFacade","createGame",types,params);
 
