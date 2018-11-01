@@ -1,5 +1,6 @@
 package thePollerExpress.presenters.game;
 
+import com.shared.models.Map;
 import com.shared.models.Route;
 
 import java.util.Observable;
@@ -39,5 +40,12 @@ public class MapPresenter implements IMapPresenter
         {
             o.deleteObserver(this);
         }
+    }
+
+    @Override
+    public Map getMap()
+    {
+
+        return CD.getGame().getMap();
     }
 }
