@@ -30,7 +30,7 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
     }
 
     @Override
-    public void discardDestCard(final DestinationCard card) { //TODO: will have to be modified to handle discarding two cards
+    public void discardDestCards(final List<DestinationCard> cards) {
         AsyncRunner discardDestCardTask = new AsyncRunner(view);
 
         discardDestCardTask.setNextView(ViewFactory.createDestinationHandView());
@@ -39,7 +39,7 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
             @Override
             public Object execute() throws CommandFailed
             {
-                return facade.discardDestCard(CD.getUser(), card);
+                return facade.discardDestCard(CD.getUser(), cards);
             }
         });
     }
