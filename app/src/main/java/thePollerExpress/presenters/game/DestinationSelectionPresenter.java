@@ -26,7 +26,7 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
 
     public DestinationSelectionPresenter(IDestinationSelectionView view) {
         this.view = view;
-        CD.getUser().getDestCardHand().addObserver(this);
+        CD.getUser().getDestCardOptions().addObserver(this);
     }
 
     @Override
@@ -46,11 +46,13 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
 
     @Override
     public void discardButtonPressed() {
+
         view.displayError("discard Button Pressed!");
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        view.renderCards((List<DestinationCard>) arg);
+        view.displayError("updated");
+        view.renderCards(ClientData.getInstance().getUser().getDestCardOptions().getDestinationCards());
     }
 }

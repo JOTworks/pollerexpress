@@ -29,6 +29,8 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
     TextView destinationTextView1;
     TextView destinationTextView2;
     Button discardButton;
+    Button viewButton;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,13 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
         destinationTextView1 = (TextView)v.findViewById(R.id.destination_text_view_1);
         destinationTextView2 = (TextView)v.findViewById(R.id.destination_text_view_2);
         discardButton = (Button)v.findViewById(R.id.destination_discard_button);
+        viewButton = (Button)v.findViewById(R.id.destination_view_button);
+        viewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                renderCards(ClientData.getInstance().getUser().getDestCardOptions().getDestinationCards());
+            }
+        });
 
         discardButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,9 +61,6 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
                 destinationSelectionPresenter.discardButtonPressed();
             }
         });
-
-        List<DestinationCard> destCards = ClientData.getInstance().getUser().getDestCardHand().getDestinationCards();
-        renderCards(destCards);
 
         return v;
     }
@@ -67,7 +73,13 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
             //}//else if(destCards.get(0)==null) {
             //destinationTextView0.setText("Card 0 is null");
         } else {
-            destinationTextView0.setText(cards.toString());
+            if(cards.size()==3) {
+                destinationTextView0.setText(cards.get(0).print());
+                destinationTextView1.setText(cards.get(1).print());
+                destinationTextView2.setText(cards.get(2).print());
+            } else{
+                destinationTextView0.setText("there are not 3 cards");
+            }
         }
     }
 
@@ -83,4 +95,5 @@ public class DestinationSelectionFragment extends Fragment implements IDestinati
         fragmentTransaction.replace(R.id.destination_fragment_container, (Fragment) view);
         fragmentTransaction.commit();
     }
+
 }

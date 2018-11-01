@@ -96,6 +96,14 @@ public class GameFacade {
         Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","claimRoute",types,values);
         return sendCommand(command);
     }
+
+    public PollResponse drawVisibleCard(Integer integer)
+    {
+        Class<?>[] types = {Player.class, Integer.class};
+        Object[] values = {CData.getUser(), integer};
+        Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","drawVisible",types,values);
+        return sendCommand(command);
+    }
 }
 
 

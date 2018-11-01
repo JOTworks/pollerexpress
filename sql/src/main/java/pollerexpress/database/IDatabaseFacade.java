@@ -61,5 +61,9 @@ public interface IDatabaseFacade
      */
     public TrainCard[] getVisible(GameInfo info) throws DatabaseException;
 
+
+    TrainCard getVisible(Player p, int i) throws DatabaseException;
+    TrainCard drawVisible(Player p, int i) throws DatabaseException;
+
 }
 

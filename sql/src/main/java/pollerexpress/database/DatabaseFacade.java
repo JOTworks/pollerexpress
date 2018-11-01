@@ -375,4 +375,40 @@ public class DatabaseFacade implements IDatabaseFacade
         }
     }
 
+    @Override
+    public TrainCard getVisible(Player p, int i) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            GameInfo info = db.getGameDao().read( p.getGameId() ).getGameInfo();
+            TrainCard visible = db.getTrainCardDao().getFaceUp(info)[i];
+            return visible;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+    @Override
+    public TrainCard drawVisible(Player p, int i) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            TrainCard visible = db.getTrainCardDao().drawFaceUp(p, i);
+            db.close(true);
+            return visible;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    public boolean isInThisGame(Player p, GameInfo game)
+    {
+        return true;
+    }
+
 }
