@@ -21,16 +21,17 @@ import thePollerExpress.models.ClientData;
 import thePollerExpress.communication.PollerExpress;
 
 /**
- * Who was in charge of this class?
+ * Controls everthing before the actual start of the game
  * SetupFacade abstracts the Model from the Presenters, but also acts as the LoginSetupService
  * it will parse the responses and pass the list of commands to poller to execute,
- * the error to the presenter and update the model for login and register results
+ * pass the error to the presenter, and update the model from login and register results
  */
 public class SetupFacade {
 
     /**
-     *
-     * @return res.getError it will return null on succesful login
+     * see function loginOrResister for pre and post
+     * this function just abstracts the 2 ideas into 2 functions
+     * even though they are functionally the same
      */
     public ErrorResponse login(LoginRequest request){
 
@@ -38,18 +39,20 @@ public class SetupFacade {
     }
 
     /**
-     *
-     * @return res.getError, it will return null on succesful login
+     * see function loginOrResister for pre and post
+     * this function just abstracts the 2 ideas into 2 functions
+     * even though they are functionally the same
      */
     public ErrorResponse register(LoginRequest request){
         return loginOrRegister("register", request);
     }
 
     /**
-     * keeps the code from being duplicated, but lets the presenters call login or regester as
-     * sepereate functions.
      * @param requestType
+     * @param loginReq
      * @return res.getError, it will return null on succesful login
+     * @pre requestType must be string "register" or "login"
+     * @pre loginReq atributes password and username cannot be empty string
      */
     public  ErrorResponse loginOrRegister(String requestType, LoginRequest loginReq){
 
@@ -125,17 +128,15 @@ public class SetupFacade {
     }
 
     /**
-     *
-     * @param
-     * @return res.getError, it will be null on succesful join
-     */
+     * This Method was abandoned before it was operational will eventualy be implemented thus the commented out code
+     * It will give the client a way to logout a user without closing the app itself.
+     * /
     public PollResponse leaveGame(){
 
         ClientCommunicator CC = ClientCommunicator.instance();
         Class<?>[] types = {Player.class, GameInfo.class};
 
-
-        /*Object[] params= {ClientData.getInstance().getUser(), };
+        Object[] params= {ClientData.getInstance().getUser(), };
        Command joinGameCommand = new Command("CommandFacade","leaveGame",types,params);
 
        PollResponse response = CC.sendCommand(joinGameCommand);
@@ -147,9 +148,9 @@ public class SetupFacade {
         } else {
             executeCommands(response.getCommands());
         }
-        */
+
         return null;
     }
-
+    */
 
 }
