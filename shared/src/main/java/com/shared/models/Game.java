@@ -246,7 +246,7 @@ public class Game extends Observable implements Serializable
     {
         //TODO add check...
         this.DestinationCardDeck -= number;
-        getPlayer(player).setDestinationCardCount(player.destinationCardCount + number);//TODO use getter
+        getPlayer(player).setDestinationCardCount(getPlayer(player).destinationCardCount + number);//TODO use getter
 
         synchronized (this)
         {
