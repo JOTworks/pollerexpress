@@ -93,7 +93,7 @@ public class ClientCardService {
     public static boolean drawDestinationCards(Player player, Integer numberOfCards)
     {
         Player real = CD.getGame().getPlayer(player);
-        CD.getGame().drawDestinationCards(player, numberOfCards);
+        CD.getGame().drawDestinationCards(real, numberOfCards);
         return true;
     }
 
@@ -112,6 +112,13 @@ public class ClientCardService {
     }
 
     //todo: make it discard for players
+
+    public static boolean discardDestinationCards(Player player, Integer numberOfCards)
+    {
+        Player real = CD.getGame().getPlayer(player);
+        CD.getGame().discardDestinationCards(real, numberOfCards);
+        return true;
+    }
 
 
     public static boolean drawVisibleCard(Player p, TrainCard card, Integer drawsLeft, TrainCard visible[])

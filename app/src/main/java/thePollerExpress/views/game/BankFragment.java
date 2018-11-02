@@ -45,6 +45,7 @@ public class BankFragment extends Fragment implements IBankView
         mVisible[4] = v.findViewById(R.id.bank_4);
         trainCardDeck = v.findViewById(R.id.train_card_deck);
         destinationCardDeck = v.findViewById(R.id.destination_card_deck);
+        update();
         return v;
     }
 

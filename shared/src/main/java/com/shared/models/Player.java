@@ -34,7 +34,7 @@ public class Player extends Observable implements Serializable
         destinationCardCount = 0;
         trainCardCount = 0;
         this.points = 0;
-        this.trainCount = 0;
+        this.trainCount = 40;
         this.routes = new ArrayList<>();
         this.color = Color.PLAYER.BLACK;
     }

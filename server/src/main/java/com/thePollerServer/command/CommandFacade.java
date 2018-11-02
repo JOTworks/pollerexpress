@@ -180,10 +180,19 @@ public class CommandFacade
         IDatabaseFacade df = Factory.createDatabaseFacade();
         CommandManager CM = CommandManager._instance();
 
-        Class<?>[] types = {Player.class, List.class};
-        Object[] params = {p, cards};
-        Command cmd = new Command(CommandsExtensions.clientSide + "ClientCardService", "discardDestinationCards", types, params);
-        CM.addCommand(cmd, df.getGameInfo(df.getPlayer(p.name).gameId));
+        {
+            Class<?>[] types = {Player.class, List.class};
+            Object[] params = {p, cards};
+            Command cmd = new Command(CommandsExtensions.clientSide + "ClientCardService", "discardDestinationCards", types, params);
+            CM.addCommand(cmd, p);
+        }
+
+        {
+            Class<?>[] types = {Player.class, Integer.class};
+            Object[] params = {p, new Integer(cards.size())};
+            Command cmd = new Command(CommandsExtensions.clientSide + "ClientCardService", "discardDestinationCards", types, params);
+            CM.addCommand(cmd, df.getGameInfo(df.getPlayer(p.name).gameId));
+        }
     }
 
     /**
