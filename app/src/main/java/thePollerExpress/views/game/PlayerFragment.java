@@ -27,12 +27,16 @@ public class PlayerFragment extends Fragment implements IPlayerView {
     TextView playerDestinationCards;
 
     IPlayerPresenter playerPresenter;
+    boolean isTurn = false;
+    int isTurnColor;
+    int isNotTurnColor;
 
-    public static PlayerFragment newInstance(String playerName) {
+    public static PlayerFragment newInstance(Player p) {
         PlayerFragment f = new PlayerFragment();
         // Supply index input as an argument.
         Bundle args = new Bundle();
-        args.putString("playerName", playerName);
+        args.putString("playerName", p.getName());
+        args.putString("playerColor", p.getColor().toString());
         f.setArguments(args);
         return f;
     }
@@ -43,8 +47,30 @@ public class PlayerFragment extends Fragment implements IPlayerView {
 
         Bundle args = getArguments();
         String playerName = args.getString("playerName", "Nameless");
+        String tempColor = args.getString("playerColor", "pink");
+        tempColor = tempColor.toLowerCase();
+        switch(tempColor){
+            case "red":
+                isNotTurnColor = 0x88ff0000;
+                isTurnColor = 0xffff0000;
+                break;
+            case "green":
+                isNotTurnColor = 0x8800ff00;
+                isTurnColor = 0xff00ff00;
+                break;
+            case "blue":
+                isNotTurnColor = 0x880000ff;
+                isTurnColor = 0xff0000ff;
+                break;
+            default:
+                isNotTurnColor = 0x88ffffff;
+                isTurnColor = 0xffffffff;
+                break;
+
+        }
+
+
         playerPresenter = new PlayerPresenter(this,playerName);
-        //playerPresenter = new PlayerPresenter(this,"saragate name");
     }
 
     @Override
@@ -58,6 +84,8 @@ public class PlayerFragment extends Fragment implements IPlayerView {
         playerTrains = (TextView) v.findViewById(R.id.player_trains);
         playerTrainCards = (TextView) v.findViewById(R.id.player_train_cards);
         playerDestinationCards = (TextView) v.findViewById(R.id.player_destination_cards);
+
+
         //this line isnt needed when observer works correctly i think
         renderPlayer(playerPresenter.getPlayer());
         return v;
@@ -70,17 +98,18 @@ public class PlayerFragment extends Fragment implements IPlayerView {
         playerTrains.setText(Integer.toString(p.getTrainCount()));
         playerDestinationCards.setText(Integer.toString(p.getDestinationCardCount()));
         playerTrainCards.setText(Integer.toString(p.getTrainCardCount()));
+        if(isTurn){ playerBackground.setBackgroundColor(isTurnColor);}
+        else{ playerBackground.setBackgroundColor(isNotTurnColor);}
     }
 
     @Override
     public void isTurn() {
-        System.out.println("!!!isTurn");
-        playerBackground.setBackgroundColor(0xffff00d4);
+        isTurn = true;
     }
 
     @Override
     public void isNotTurn() {
-        playerBackground.setBackgroundColor(0x000000);
+        isTurn = false;
     }
 
     @Override

@@ -82,32 +82,28 @@ public class GameFragment extends Fragment implements IGameView {
 //        }
 
         if (players.size() > itr) {
-            playerName = players.get(itr).getName();
-            fragment = PlayerFragment.newInstance(playerName);
+            fragment = PlayerFragment.newInstance(players.get(itr));
             fm.beginTransaction()
                     .add(R.id.player1_fragment_container, fragment)
                     .commit();
             itr++;
         }
         if (players.size() > itr) {
-            playerName = players.get(itr).getName();
-            fragment = PlayerFragment.newInstance(playerName);
+            fragment = PlayerFragment.newInstance(players.get(itr));
             fm.beginTransaction()
                     .add(R.id.player2_fragment_container, fragment)
                     .commit();
             itr++;
         }
         if (players.size() > itr) {
-            playerName = players.get(itr).getName();
-            fragment = PlayerFragment.newInstance(playerName);
+            fragment = PlayerFragment.newInstance(players.get(itr));
             fm.beginTransaction()
                     .add(R.id.player3_fragment_container, fragment)
                     .commit();
             itr++;
         }
         if (players.size() > itr) {
-            playerName = players.get(itr).getName();
-            fragment = PlayerFragment.newInstance(playerName);
+            fragment = PlayerFragment.newInstance(players.get(itr));
             fm.beginTransaction()
                     .add(R.id.player4_fragment_container, fragment)
                     .commit();
