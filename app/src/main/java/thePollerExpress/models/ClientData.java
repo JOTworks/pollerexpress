@@ -32,8 +32,9 @@ public class ClientData extends Observable
     private ClientData() {
 
         gameInfoList = new ArrayList<>();
-
     }
+
+
 
     private User user = null;
     private Authtoken auth;
@@ -209,7 +210,6 @@ public class ClientData extends Observable
         user.getTrainCardHand().updateObservables();
         user.getDestCardHand().updateObservables();
         user.getDestCardOptions().updateObservables();
-
 
         synchronized (this)
         {
