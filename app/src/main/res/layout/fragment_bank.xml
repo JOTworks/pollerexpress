@@ -4,15 +4,24 @@
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="150dp"
+
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@color/PollerWhite">
+        android:background="@drawable/frame">
 
         <TextView
+            android:layout_width="100dp"
+            android:layout_margin="5dp"
+            android:layout_height="5dp"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textColor="@color/PollerBackground"
+            android:textSize="30dp"/>
+        <TextView
             android:id="@+id/bank_0"
-            android:layout_width="120dp"
+            android:layout_width="110dp"
             android:layout_margin="5dp"
             android:layout_height="60dp"
             android:layout_weight="1"
@@ -22,7 +31,7 @@
             android:textSize="30dp"/>
         <TextView
             android:id="@+id/bank_1"
-            android:layout_width="120dp"
+            android:layout_width="110dp"
             android:layout_margin="5dp"
             android:layout_height="60dp"
             android:layout_weight="1"
@@ -32,7 +41,7 @@
             android:textSize="30dp"/>
         <TextView
             android:id="@+id/bank_2"
-            android:layout_width="120dp"
+            android:layout_width="110dp"
             android:layout_margin="5dp"
             android:layout_height="60dp"
             android:layout_weight="1"
@@ -42,7 +51,7 @@
             android:textSize="30dp"/>
         <TextView
             android:id="@+id/bank_3"
-            android:layout_width="120dp"
+            android:layout_width="110dp"
             android:layout_margin="5dp"
             android:layout_height="60dp"
             android:layout_weight="1"
@@ -53,7 +62,7 @@
         <TextView
 
             android:id="@+id/bank_4"
-            android:layout_width="120dp"
+            android:layout_width="110dp"
             android:layout_margin="5dp"
             android:layout_height="60dp"
             android:layout_weight="1"
@@ -63,19 +72,19 @@
             android:textSize="30dp"/>
         <TextView
             android:id="@+id/train_card_deck"
-            android:layout_width="120dp"
+            android:layout_width="110dp"
             android:layout_margin="5dp"
             android:layout_height="60dp"
             android:layout_weight="1"
             android:text="56"
-            android:background="@drawable/destination_card"
+            android:background="@drawable/train_card"
             android:textAlignment="center"
             android:gravity="center"
             android:textColor="@color/PollerBackground"
             android:textSize="40dp"/>
         <TextView
             android:id="@+id/destination_card_deck"
-            android:layout_width="120dp"
+            android:layout_width="110dp"
             android:layout_margin="5dp"
             android:layout_height="60dp"
             android:layout_weight="1"
@@ -85,5 +94,13 @@
             android:gravity="center"
             android:textColor="@color/PollerBackground"
             android:textSize="40dp"/>
+        <TextView
+            android:layout_width="100dp"
+            android:layout_margin="5dp"
+            android:layout_height="10dp"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textColor="@color/PollerBackground"
+            android:textSize="30dp"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

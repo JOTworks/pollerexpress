@@ -18,10 +18,6 @@ import thePollerExpress.communication.PollerExpress;
  * This class is called "ClientData" rather than "User" in order
  * to easily distinguish it from the "User" class in the shared
  * module. Take "client" and "user" to mean the same thing.
- *
- * This class contains user information, including information
- * about all the games the user is a part of and the chat history
- * for each of those games.
  */
 public class ClientData extends Observable
 {
@@ -36,33 +32,22 @@ public class ClientData extends Observable
     private ClientData() {
 
         gameInfoList = new ArrayList<>();
-
-
     }
+
+
 
     private User user = null;
     private Authtoken auth;
 
-    /** Represents the user's currently active game.
-     * That is, either the game they are currently playing
-     * or the game they are in the process of joining.
-     */
     private Game game;
 
-
-    /** Information about each game the client is part of. */
+    /** This will be used to display
+     * the games the client can join
+     * when in the lobby. */
     private ArrayList<GameInfo> gameInfoList;
     private PollerExpress theTrain;
 
     //--------------------------------methods-------------------------------------------------------
-
-    /** Maps every gameInfo to its chat history */
-    /*i think unesseary becasue chat history is now in the game object
-    private HashMap<GameInfo, ChatHistory> gameInfoChatHistoryMap = new HashMap<>();
-
-    public HashMap<GameInfo, ChatHistory> getGameInfoChatHistoryMap() {
-        return gameInfoChatHistoryMap;
-    }*/
 
     public User getUser(){
         return user;
@@ -169,7 +154,6 @@ public class ClientData extends Observable
         }
     }
 
-    /*This method is a bit nondescript. What does it do?*/
     public void set(PollerExpress pe)
     {
         theTrain = pe;
@@ -177,14 +161,12 @@ public class ClientData extends Observable
 
 
     /**
-     * Adds information about a game to the
-     * client's list of information about the
-     * games the client is in.
+     * Adds information about a game
+     * so that it will be displayed in the lobby.
      * @param info information about a particular game
      */
     public void addGame(GameInfo info)
     {
-
         synchronized (this)
         {
             this.gameInfoList.add(info);
@@ -228,7 +210,6 @@ public class ClientData extends Observable
         user.getTrainCardHand().updateObservables();
         user.getDestCardHand().updateObservables();
         user.getDestCardOptions().updateObservables();
-
 
         synchronized (this)
         {

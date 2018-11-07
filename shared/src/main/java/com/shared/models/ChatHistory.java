@@ -34,6 +34,14 @@ public class ChatHistory extends Observable implements Serializable
         this.chats = chats;
     }
 
+    /**
+     * Adds a chat to the list of chats,
+     * sorts the chats, and
+     * alerts observers of the change.
+     * @post a chat was added to the list
+     * @post the observers of ChatHistory were notified of the change
+     * @param chat The chat to be added to the history
+     */
     public void addChat(Chat chat) {
 
         chats.add(chat);
@@ -46,7 +54,7 @@ public class ChatHistory extends Observable implements Serializable
     }
 
     /**
-     * This method sorts the chatsMessages by their timestamps,
+     * This method sorts the chats by their timestamps,
      * putting the earlier messages at the front of the list.
      * @pre chats is nonempty
      * @return a list of Chat objects, sorted by their timestamps
@@ -55,9 +63,10 @@ public class ChatHistory extends Observable implements Serializable
 
         Comparator<Chat> comparator = new Comparator<Chat>() {
 
-            /* a value less than 0 if this Chat object's timestamp object is before that of the
-            given argument; and a value greater than 0 if this Chat object's timestamp object is after
-            that of the given argument.*/
+            /* Returns a value less than 0 if this chat's timestamp
+            is before the timestamp of t1. Returns a value greater
+            than zero if chat's timestamp is after the timestamp of t1.
+            @pre the two chat objects do not have identical timestamps.*/
             @Override
             public int compare(Chat chat, Chat t1) {
                 Timestamp thisTimestamp = chat.getTimestamp();

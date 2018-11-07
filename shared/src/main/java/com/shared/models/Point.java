@@ -13,7 +13,7 @@ public class Point implements Serializable
         this.y = y;
     }
 
-    //todo: Jack added this to get rid off errors is ther anything wrong with accepting doubles and lossing info?
+    //todo: Jack added this to get rid of errors. Is there anything wrong with accepting doubles and losing info?
     public Point(double x, double y)
     {
         this.x = (float) x;
