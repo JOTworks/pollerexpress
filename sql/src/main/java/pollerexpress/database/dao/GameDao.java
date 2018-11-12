@@ -19,21 +19,32 @@ import com.shared.exceptions.database.DataNotFoundException;
 import com.shared.exceptions.database.DatabaseException;
 
 public class GameDao {
-    IDatabase _db;
+    IDatabase _db;//where the dao gets open connections from.
     public static final String PARAMS = "GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS";
     public static final String PARAMS_INSERT = "?,?,?,?";
     public static final String SELECT_ALL_GAME_INFO = "SELECT GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS\n FROM  GAMES";
     public static final String SELECT_GAME = " SELECT GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS \n FROM GAMES \n WHERE GAME_ID = ?";
     public static final String SELECT_ALL_JOINABLE_GAME_INFO = "SELECT GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS\n WHERE NOT MAX_PLAYERS = CURRENT_PLAYERS \n  FROM GAMES";
     public static final String CREATE_NEW_GAME = "INSERT INTO GAMES("+ PARAMS+") \nVALUES("+PARAMS_INSERT+")";
+    public static final String DELETE = "DELETE FROM GAMES WHERE GAME = ?";
+
+    /**
+     * creates a gamedao
+     * @pre db uses sql
+     * @post none
+     * @param db an sql database that implements getconnection.
+     */
     public GameDao(IDatabase db) {
         this._db = db;
     }
 
     /**
+     * Writes a game to the database
      * @pre Game not in database
+     * @pre the database can be read from
      * @post Game is now in database.
-     * @param game
+     * @param game game to be written
+     * @return nothing
      */
     public void write(Game game) throws DataAlreadyInDatabaseException
     {
@@ -53,7 +64,8 @@ public class GameDao {
     }
 
     /**
-     *
+     * Reads a game from the database
+     * @pre the database can be read from
      * @param id of an active games
      * @return an active game
      * @throws DataNotFoundException
@@ -93,16 +105,24 @@ public class GameDao {
         }
     }
 
+    /**
+     * Reads a game from the database
+     * @pre the database can be read from
+     * @post the database isn't changed
+     * @param info of an active games
+     * @return an active game
+     * @throws DataNotFoundException
+     */
     public Game read(GameInfo info) throws DataNotFoundException
     {
         return read(info.getId());
     }
 
     /**
-     * The list of games that can be joine on the server.
-     * @pre None
-     * @post does not modify the database.
-     * @return can return null
+     * The list of games that can be joined on the server.
+     * @pre the database can be read from
+     * @post the database is unchanged
+     * @return a list containing all the joinable games.
      */
     public ArrayList<GameInfo> getJoinableGames()
     {
@@ -126,10 +146,10 @@ public class GameDao {
     }
 
     /**
-     * The List of all games on ther server.
-     * @pre None
-     * @post does not modify the database.
-     * @return can return null
+     * The List of all games on the server.
+     * @pre the database can be read from
+     * @post the values in the database are unchanged
+     * @return can return an empty list
      */
     public ArrayList<GameInfo> getGames()
     {
@@ -157,10 +177,11 @@ public class GameDao {
         }
     }
 
-    public static final String DELETE = "DELETE FROM GAMES WHERE GAME = ?";
+
     /**
-     *
+     * @ore game is in the database
      * @param game
+     * @post game is not in the database
      */
     public void deleteGame(GameInfo game)
     {
@@ -195,6 +216,15 @@ public class GameDao {
     public static final String GAME_ADD = "UPDATE GAMES\n" +
             "SET CURRENT_PLAYERS = CURRENT_PLAYERS + 1 \n"+
             "WHERE GAME_ID = ? and CURRENT_PLAYERS < MAX_PLAYERS";
+
+    /**
+     * @pre user is an existing user in the game
+     * @pre the game is not full
+     * @post the user is now in the game
+     * @param user
+     * @param info
+     * @return user was able to join the game
+     */
     public boolean joinGame(Player user, GameInfo info)
     {
         try

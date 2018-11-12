@@ -12,22 +12,45 @@ import thePollerExpress.communication.PollerExpress;
 import thePollerExpress.views.IPollerExpressView;
 
 
-/**
- * if you would like to change views after executing a command, you must use setNextView before
- * executing your command. If the nextView is set, then the view will change automatically upon
- * completion of the command
- */
+/************************************************************************************************************
+ * AsyncRunner: created by Nate
+ *
+ * used to run asynctasks by the project.
+ *
+ * Can auto switch views after a success.
+ ***********************************************************************************************************/
 public class AsyncRunner extends AsyncTask<ICommand, Void, PollResponse> {
 
-    private IPollerExpressView currentView;
-    private IPollerExpressView nextView;
+    private IPollerExpressView currentView; //the view that is being used to run this asyntask
+    private IPollerExpressView nextView; //the view to switch to after a successful completion, can be null
 
 
+    /**
+     * @pre currentView is not null.
+     * @param currentView the view running this
+     */
     public AsyncRunner(IPollerExpressView currentView)
     {
         this.currentView = currentView;
     }
 
+    /**
+     * @pre none
+     * @post after execute is called, and runs successfully the view will switch
+     * @param nextView the view to swithc to
+     */
+    public void setNextView(IPollerExpressView nextView)
+    {
+        this.nextView = nextView;
+    }
+
+    /**
+     * Runs the tasks asynchronously
+     * @pre
+     * @post
+     * @param commands
+     * @return used internally
+     */
     @Override
     protected PollResponse doInBackground(ICommand... commands)
     {
@@ -88,9 +111,5 @@ public class AsyncRunner extends AsyncTask<ICommand, Void, PollResponse> {
         }
     }
 
-    public void setNextView(IPollerExpressView nextView)
-    {
-        this.nextView = nextView;
-    }
 
 }

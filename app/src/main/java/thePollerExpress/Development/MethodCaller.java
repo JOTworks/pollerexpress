@@ -65,16 +65,12 @@ public class MethodCaller {
                         "add commands to the methodCaller class\n" +
                         "in the parse funtion, as a case");
                 break;
-
-            case "changeBank":
-                TrainCard[] cards = {new TrainCard(Color.TRAIN.YELLOW),new TrainCard(Color.TRAIN.YELLOW),new TrainCard(Color.TRAIN.YELLOW),new TrainCard(Color.TRAIN.YELLOW),new TrainCard(Color.TRAIN.RAINBOW)};
-                CD.getGame().getVisibleCards().set(cards);
-                break;
-            case "turnJack":
-                CD.getGame().setTurn("jackson");
-                break;
-            case "turnAbby":
-                CD.getGame().setTurn("abby");
+            case "setTurn":
+                if(args.length != 2)
+                {
+                    result.add("USAGE: setTurn playerName");
+                }
+                CD.getGame().setTurn(args[1]);
                 break;
             case "jack":
                 CD.getGame().getPlayers().get(0).setPoints(20);
@@ -88,26 +84,6 @@ public class MethodCaller {
                 break;
             case "claimRoute":
                 claimRoute(result, args);
-//            {
-//                if (args.length != 2)
-//                {
-//                    result.add("USAGE: claimRoute routenumber");
-//                    break;
-//                }
-//                final Route r = ClientGameService.claimRoute(CD.getUser(), Integer.valueOf(args[1]));
-//                if (r == null) break;
-//
-//                asyncCommand(new ICommand()
-//                {
-//                    @Override
-//                    public Object execute() throws CommandFailed
-//                    {
-//                        return new GameFacade().claimRoute(r);
-//                    }
-//                });
-//
-//                result.add(String.format("Claimed a %s", r.toString()));
-//                }
                 break;
 
             case "getRoutes":

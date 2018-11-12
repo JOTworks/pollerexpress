@@ -27,12 +27,25 @@ import java.util.List;
  * */
 public class GameService
 {
+    /**
+     * preforms the service side logic
+     * @param chat
+     * @param gameInfo
+     * @throws DatabaseException
+     */
     public void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
         IDatabaseFacade df = Factory.createDatabaseFacade();
         //df.chat(chat, gameInfo);
     }
 
     //returns true if all
+
+    /**
+     *
+     * @param p
+     * @param discards
+     * @return
+     */
     public boolean discardDestinationCards(Player p, List<DestinationCard> discards)
     {
         int number = discards.size();
