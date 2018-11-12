@@ -19,7 +19,7 @@
     <string-array name="num_players_spinner_array">
         <!--todo:
         added 1 for testing perpusus, we need to take it out before we passoff-->
-
+        <item>1</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>

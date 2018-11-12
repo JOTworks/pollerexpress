@@ -15,14 +15,17 @@
         android:background="@color/PollerBackground"
         android:orientation="horizontal">
 
-     <FrameLayout
+        <FrameLayout
             android:id="@+id/chat_history_fragment_container"
             android:layout_width="250dp"
-            android:layout_height="fill_parent"
+            android:layout_height="710dp"
             android:background="@color/PollerWhite"
             />
 
-
+        <TextView
+            android:layout_width="10dp"
+            android:layout_height="fill_parent"
+            android:background="@color/colorPrimaryDark"/>
         <!--everything but chat/history-->
         <LinearLayout
             android:layout_width="fill_parent"
@@ -32,38 +35,37 @@
             <!--Other Players-->
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="100dp"
-                android:orientation="horizontal">
+                android:layout_height="90dp"
+                android:orientation="horizontal"
+                >
 
                 <FrameLayout
-                    android:layout_marginLeft="5dp"
                     android:layout_width="255dp"
-                    android:layout_height="100dp"
+                    android:layout_height="90dp"
                     android:id="@+id/player1_fragment_container"
                     />
                 <FrameLayout
-                    android:layout_marginLeft="5dp"
                     android:layout_width="255dp"
-                    android:layout_height="100dp"
+                    android:layout_height="90dp"
                     android:id="@+id/player2_fragment_container"
                     />
                 <FrameLayout
-                    android:layout_marginLeft="5dp"
                     android:layout_width="255dp"
-                    android:layout_height="100dp"
+                    android:layout_height="90dp"
                     android:id="@+id/player3_fragment_container"
                     />
                 <FrameLayout
-                    android:layout_marginLeft="5dp"
                     android:layout_width="255dp"
-                    android:layout_height="100dp"
+                    android:layout_height="90dp"
                     android:id="@+id/player4_fragment_container"
                     />
 
-
-
             </LinearLayout>
 
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="10dp"
+                android:background="@color/colorPrimaryDark"/>
             <!--board and bank-->
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -73,22 +75,29 @@
                 <!--gameBoard-->
 
                 <fragment
-                    android:layout_margin="5dp"
                     android:layout_width="860dp"
                     android:layout_height="match_parent"
                     android:id="@+id/map"
                     android:name="thePollerExpress.views.game.MapView"></fragment>
 
+                <TextView
+                    android:layout_width="10dp"
+                    android:layout_height="fill_parent"
+                    android:background="@color/colorPrimaryDark"/>
                 <!--bank-->
                 <fragment
-                    android:layout_margin="5dp"
-                    android:layout_width="150dp"
+                    android:layout_width="140dp"
                     android:layout_height="match_parent"
                     android:id="@+id/bank"
                     android:name="thePollerExpress.views.game.BankFragment"></fragment>
 
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="10dp"
+                android:background="@color/colorPrimaryDark"/>
 
             <!--your stuff-->
             <LinearLayout
@@ -99,87 +108,37 @@
 
                 <!--your train cards-->
                 <LinearLayout
-                    android:layout_width="500dp"
+                    android:layout_width="600dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
                     android:background="@color/PollerWhite"
                     android:id="@+id/train_card_hand_fragment_container"
                     android:orientation="horizontal">
                 </LinearLayout>
-
+                <TextView
+                    android:layout_width="10dp"
+                    android:layout_height="fill_parent"
+                    android:background="@color/colorPrimaryDark"/>
                 <!--your destination cards-->
                 <FrameLayout
-                    android:layout_margin="5dp"
-                    android:layout_width="380dp"
+                    android:layout_width="400dp"
                     android:layout_height="match_parent"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:background="@color/PollerWhite"
                     android:id="@+id/destination_fragment_container"
                     />
-                <!--your info-->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_margin="5dp"
-                    android:background="@color/PollerWhite">
-                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                        xmlns:tools="http://schemas.android.com/tools"
-                        android:layout_width="110dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        tools:context="thePollerExpress.views.MainActivity"
-                        android:background="@color/PollerWhite"
-                        android:layout_margin="5dp"
-                        android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Your Name"
-                            android:textColor="@color/PollerBackground"
-                            android:gravity="center"/>
-
-                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                            xmlns:tools="http://schemas.android.com/tools"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:gravity="center"
-                            tools:context="thePollerExpress.views.MainActivity"
-                            android:background="@color/PollerWhite"
-                            android:orientation="horizontal">
+             </LinearLayout>
 
 
-                            <TextView
-                                android:layout_width="20dp"
-                                android:layout_height="50dp"
-                                android:layout_weight="1"
-                                android:layout_margin="5dp"
-                                android:background="@drawable/polarexpress"
-                                android:text="10"
-                                android:textColor="@color/PollerWhite"
-                                android:textAlignment="center"/>
-                            <TextView
-                                android:layout_width="20dp"
-                                android:layout_height="50dp"
-                                android:layout_weight="1"
-                                android:layout_margin="5dp"
-                                android:background="@drawable/polarexpress"
-                                android:text="10"
-                                android:textColor="@color/PollerWhite"
-                                android:textAlignment="center"/>
+         </LinearLayout>
 
-
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-    </LinearLayout>
+     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
