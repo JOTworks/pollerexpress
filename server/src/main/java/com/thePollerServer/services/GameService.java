@@ -86,6 +86,8 @@ public class GameService
                 df.setGameState(newGameState);
                 break;
         }
+        // TODO: add more cases to be able to change states and switch turns
+        return;
     }
 
     private String getNextPlayer(Player p) {
@@ -96,7 +98,7 @@ public class GameService
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
-        Collections.sort(players); //TODO: determine if we have to keep sorting them every time.
+        Collections.sort(players);
         int i = players.indexOf(p);
         i += 1;
         if (i == players.size())
