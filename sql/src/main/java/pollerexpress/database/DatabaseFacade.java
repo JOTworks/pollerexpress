@@ -1,5 +1,6 @@
 package pollerexpress.database;
 
+import com.shared.exceptions.NotImplementedException;
 import com.shared.models.Authtoken;
 
 import com.shared.models.cardsHandsDecks.DestinationCard;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import com.shared.exceptions.database.DataNotFoundException;
 import com.shared.exceptions.database.DatabaseException;
+import com.shared.models.states.GameState;
 
 import pollerexpress.database.utilities.DeckBuilder;
 
@@ -430,6 +432,33 @@ public class DatabaseFacade implements IDatabaseFacade
         {
             if(db.isOpen()) db.close(false);
         }
+    }
+
+    @Override
+    public void setPreGameState(int numPlayers) {
+        throw new NotImplementedException("DatabaseFacade.setPreGameState");
+    }
+
+    @Override
+    public void setGameState(GameState gameState) {
+        throw new NotImplementedException("DatabaseFacade.setGameState");
+
+    }
+
+    @Override
+    public void setGameState(GameState.State state) {
+        throw new NotImplementedException("DatabaseFacade.setGameState");
+    }
+
+    @Override
+    public void updatePreGameState() {
+        throw new NotImplementedException("DatabaseFacade.updatePreGameState");
+    }
+
+    @Override
+    public GameState getGameState() {
+        throw new NotImplementedException("DatabaseFacade.getGameState");
+
     }
 
     @Override
