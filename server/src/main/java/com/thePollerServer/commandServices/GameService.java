@@ -41,7 +41,7 @@ public class GameService
     //returns true if all
 
     /**
-     *
+     * Checks if the player can discard then discards for them...
      * @param p
      * @param discards
      * @return
@@ -56,6 +56,7 @@ public class GameService
             if(number<= allowed)
             {
                 df.discardDestinationCard(p, discards);
+                //TODO update gamestate in relation to players that can discard...
                 return true;
             }
         }
@@ -80,7 +81,7 @@ public class GameService
         TrainCard visible = df.getVisible(player,i);
         //TODO check if the player can draw the visible card
         df.drawVisible(player, i);
-        p.drawsLeft = 0;//Default
+        p.drawsLeft = 0;//Defaulta
         p.card = visible;
         p.info = info;
         p.visible = df.getVisible(info);
