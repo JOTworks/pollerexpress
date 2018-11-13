@@ -11,12 +11,15 @@ public class Route extends Observable implements Serializable
     int distance;
     Player owner;
     Color.TRAIN color;
+
     public int rotation;//used for double routes.
+
     /**
-     *Constructs basic gray routes
+     * Constructs basic gray routes
      * @param dest
      * @param target
-     * @param distance
+     * @param distance the number of cards that must
+     *                 be placed on the route
      */
     public Route(City dest, City target, int distance)
     {
@@ -34,9 +37,11 @@ public class Route extends Observable implements Serializable
      * The main route constructor
      * @param dest
      * @param target
-     * @param distance
+     * @param distance the number of cards that must
+     *                 be placed on the route
      * @param rot rotation for route
-     * @param color
+     * @param color the color of cards the must
+     *              be placed on the route
      */
     public Route(City dest, City target, int distance, int rot, Color.TRAIN color)
     {
@@ -49,7 +54,8 @@ public class Route extends Observable implements Serializable
      * @param dest
      * @param target
      * @param rot rotation for route
-     * @param distance
+     * @param distance the number of cards that must
+     *                 be placed on the route
      */
     public Route(City dest, City target, int distance, int rot)
     {
@@ -57,13 +63,18 @@ public class Route extends Observable implements Serializable
         this.rotation = rot;
     }
 
-    public City getDestination(City me)
+    /**
+     * Given a city, gets the adjacent city on this route.
+     * @param myCity a city on the map
+     * @return the adjacent city on this route.
+     */
+    public City getDestination(City myCity)
     {
-        if(cities.get(0).equals(me))
+        if(cities.get(0).equals(myCity))
         {
             return cities.get(1);
         }
-        else if( cities.get(1).equals(me))
+        else if( cities.get(1).equals(myCity))
         {
             return cities.get(0);
         }
@@ -89,7 +100,9 @@ public class Route extends Observable implements Serializable
     }
 
     /**
-     * Ideally this would return an unmodificable list.
+     * Ideally this would return an unmodifiable list
+     * of the cities on this route. There will only
+     * ever be two.
      * @return a list
      */
     public List<City> getCities()
