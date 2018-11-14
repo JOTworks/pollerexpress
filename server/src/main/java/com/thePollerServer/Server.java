@@ -60,7 +60,8 @@ public class Server
         }
         else
         {
-            portNumber = "8080";
+            portNumber = "8080"; //address already in use?
+//            portNumber = "4200"; //app cannot connect to server
         }
         new Server().run(portNumber);
     }

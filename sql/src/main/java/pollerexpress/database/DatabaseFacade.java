@@ -22,6 +22,13 @@ import com.shared.models.states.GameState;
 
 import pollerexpress.database.utilities.DeckBuilder;
 
+import static com.shared.models.states.GameState.State.READY_FOR_GAME_START;
+import static com.shared.models.states.GameState.State.WAITING_FOR_FIVE_PLAYERS;
+import static com.shared.models.states.GameState.State.WAITING_FOR_FOUR_PLAYERS;
+import static com.shared.models.states.GameState.State.WAITING_FOR_ONE_PLAYER;
+import static com.shared.models.states.GameState.State.WAITING_FOR_THREE_PLAYERS;
+import static com.shared.models.states.GameState.State.WAITING_FOR_TWO_PLAYERS;
+
 public class DatabaseFacade implements IDatabaseFacade
 {
     Database db;
@@ -436,6 +443,30 @@ public class DatabaseFacade implements IDatabaseFacade
 
     @Override
     public void setPreGameState(int numPlayers) {
+
+        GameState.State state = READY_FOR_GAME_START;
+
+        switch(numPlayers) {
+
+            case 1 :
+                state = WAITING_FOR_ONE_PLAYER;
+                break;
+            case 2 :
+                state = WAITING_FOR_THREE_PLAYERS;
+                break;
+            case 3 :
+                state = WAITING_FOR_THREE_PLAYERS;
+                break;
+            case 4 :
+                state = WAITING_FOR_FOUR_PLAYERS;
+                break;
+            case 5 :
+                state = WAITING_FOR_FIVE_PLAYERS;
+                break;
+        }
+
+
+
         throw new NotImplementedException("DatabaseFacade.setPreGameState");
     }
 

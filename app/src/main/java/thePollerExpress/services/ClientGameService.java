@@ -38,7 +38,7 @@ public class ClientGameService {
     public static boolean startGame(TrainCard[] cards)
     {
 
-        CD.getGame().setGameState(new GameState(null, "preGameState"));
+        CD.getGame().setGameState(new GameState(null, GameState.State.READY_FOR_GAME_START));
         CD.getGame().getVisibleCards().set(cards);
 
         return true;
