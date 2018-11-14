@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Observable;
 
-public class Player extends Observable implements Serializable
+public class Player extends Observable implements Serializable, Comparable<Player>
 {
     public String name;
     public String gameId;
@@ -184,4 +184,8 @@ public class Player extends Observable implements Serializable
     }
 
 
+    @Override
+    public int compareTo(Player player) {
+        return name.compareTo(player.name);
+    }
 }

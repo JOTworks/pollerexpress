@@ -44,6 +44,47 @@ public class GameFacade {
         return response;
     }
 
+    public PollResponse chat(String message)
+    {
+        Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
+        Chat chat = new Chat(message, timeStamp, ClientData.getInstance().getUser());
+        GameInfo gameInfo = ClientData.getInstance().getGame().getGameInfo();
+        Class<?>[] types = {Chat.class, GameInfo.class};
+        Object[] values = {chat, gameInfo};
+        Command chatCommand = new Command(CommandsExtensions.serverSide +"CommandFacade","chat",types,values);
+        return sendCommand( chatCommand );
+    }
+
+    public PollResponse claimRoute(Route r)
+    {
+        Class<?>[] types = {Player.class, Route.class};
+        Object[] values = {CData.getUser(), r};
+        Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","claimRoute",types,values);
+        return sendCommand(command);
+    }
+
+    public PollResponse drawDestCards() {
+        Class<?>[] types = {Player.class};
+        Object[] values = {CData.getUser()};
+        Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","drawDestCards",types,values);
+        return sendCommand(command);
+    }
+
+    public PollResponse drawTrainCardFromDeck() {
+        Class<?>[] types = {Player.class};
+        Object[] values = {CData.getUser()};
+        Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","drawTrainCardFromDeck",types,values);
+        return sendCommand(command);
+    }
+
+    public PollResponse drawVisibleCard(Integer integer)
+    {
+        Class<?>[] types = {Player.class, Integer.class};
+        Object[] values = {CData.getUser(), integer};
+        Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","drawVisible",types,values);
+        return sendCommand(command);
+    }
+
     public PollResponse discardDestCard(User user, List<DestinationCard> destCards){
 
         ClientCommunicator CC = ClientCommunicator.instance();
@@ -64,18 +105,6 @@ public class GameFacade {
         return response;
     }
 
-    public PollResponse chat(String message)
-    {
-        Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
-        Chat chat = new Chat(message, timeStamp, ClientData.getInstance().getUser());
-        GameInfo gameInfo = ClientData.getInstance().getGame().getGameInfo();
-        Class<?>[] types = {Chat.class, GameInfo.class};
-        Object[] values = {chat, gameInfo};
-        Command chatCommand = new Command(CommandsExtensions.serverSide +"CommandFacade","chat",types,values);
-        return sendCommand( chatCommand );
-    }
-
-
     private PollResponse sendCommand(Command command)
     {
         ClientCommunicator CC = ClientCommunicator.instance().instance();
@@ -88,22 +117,6 @@ public class GameFacade {
         }
 
         return response;
-    }
-
-    public PollResponse claimRoute(Route r)
-    {
-        Class<?>[] types = {Player.class, Route.class};
-        Object[] values = {CData.getUser(), r};
-        Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","claimRoute",types,values);
-        return sendCommand(command);
-    }
-
-    public PollResponse drawVisibleCard(Integer integer)
-    {
-        Class<?>[] types = {Player.class, Integer.class};
-        Object[] values = {CData.getUser(), integer};
-        Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","drawVisible",types,values);
-        return sendCommand(command);
     }
 }
 

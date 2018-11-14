@@ -2,6 +2,7 @@ package thePollerExpress.services;
 
 import android.util.Log;
 
+import com.shared.exceptions.NotImplementedException;
 import com.shared.models.Chat;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
@@ -37,7 +38,7 @@ public class ClientGameService {
     public static boolean startGame(TrainCard[] cards)
     {
 
-        CD.getGame().setGameState(new GameState());
+        CD.getGame().setGameState(new GameState(null, "preGameState"));
         CD.getGame().getVisibleCards().set(cards);
 
         return true;
@@ -74,4 +75,15 @@ public class ClientGameService {
         return true;
     }
 
+    public static boolean setGameState(GameState gameState) {
+        CD.getGame().setGameState(gameState);
+        return true;
+    }
+
+    //----------------------------Unwritten methods-------------------------------------------------
+
+
+    public static boolean updateHistory(Player p /*aHistoryObject goes here*/) {
+        throw new NotImplementedException("ClientGameService.updateHistory()");
+    }
 }

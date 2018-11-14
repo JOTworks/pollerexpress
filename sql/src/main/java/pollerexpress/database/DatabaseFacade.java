@@ -1,5 +1,6 @@
 package pollerexpress.database;
 
+import com.shared.exceptions.NotImplementedException;
 import com.shared.models.Authtoken;
 
 import com.shared.models.cardsHandsDecks.DestinationCard;
@@ -17,8 +18,16 @@ import java.util.List;
 
 import com.shared.exceptions.database.DataNotFoundException;
 import com.shared.exceptions.database.DatabaseException;
+import com.shared.models.states.GameState;
 
 import pollerexpress.database.utilities.DeckBuilder;
+
+import static com.shared.models.states.GameState.State.READY_FOR_GAME_START;
+import static com.shared.models.states.GameState.State.WAITING_FOR_FIVE_PLAYERS;
+import static com.shared.models.states.GameState.State.WAITING_FOR_FOUR_PLAYERS;
+import static com.shared.models.states.GameState.State.WAITING_FOR_ONE_PLAYER;
+import static com.shared.models.states.GameState.State.WAITING_FOR_THREE_PLAYERS;
+import static com.shared.models.states.GameState.State.WAITING_FOR_TWO_PLAYERS;
 
 public class DatabaseFacade implements IDatabaseFacade
 {
@@ -430,6 +439,55 @@ public class DatabaseFacade implements IDatabaseFacade
         {
             if(db.isOpen()) db.close(false);
         }
+    }
+
+    @Override
+    public void setPreGameState(int numPlayers) {
+
+        GameState.State state = READY_FOR_GAME_START;
+
+        switch(numPlayers) {
+
+            case 1 :
+                state = WAITING_FOR_ONE_PLAYER;
+                break;
+            case 2 :
+                state = WAITING_FOR_THREE_PLAYERS;
+                break;
+            case 3 :
+                state = WAITING_FOR_THREE_PLAYERS;
+                break;
+            case 4 :
+                state = WAITING_FOR_FOUR_PLAYERS;
+                break;
+            case 5 :
+                state = WAITING_FOR_FIVE_PLAYERS;
+                break;
+        }
+
+        throw new NotImplementedException("DatabaseFacade.setPreGameState");
+    }
+
+    @Override
+    public void setGameState(GameState gameState) {
+        throw new NotImplementedException("DatabaseFacade.setGameState");
+
+    }
+
+    @Override
+    public void setGameState(GameState.State state) {
+        throw new NotImplementedException("DatabaseFacade.setGameState");
+    }
+
+    @Override
+    public void updatePreGameState() {
+        throw new NotImplementedException("DatabaseFacade.updatePreGameState");
+    }
+
+    @Override
+    public GameState getGameState() {
+        throw new NotImplementedException("DatabaseFacade.getGameState");
+
     }
 
     @Override

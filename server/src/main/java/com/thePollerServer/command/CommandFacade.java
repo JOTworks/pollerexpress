@@ -6,6 +6,7 @@ import com.shared.models.Chat;
 import com.shared.models.Route;
 import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.User;
+import com.shared.models.states.GameState;
 import com.shared.utilities.CommandsExtensions;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
@@ -14,12 +15,10 @@ import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import pollerexpress.database.IDatabaseFacade;
 import com.shared.models.Player;
-import com.thePollerServer.commandServices.GameService;
-import com.thePollerServer.commandServices.SetupService;
+import com.thePollerServer.services.GameService;
+import com.thePollerServer.services.SetupService;
 import com.thePollerServer.utilities.Factory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class CommandFacade
@@ -104,11 +103,12 @@ public class CommandFacade
 
         CommandManager CM = CommandManager._instance();
         df.makeBank(info);
+        df.setPreGameState(info.getNumPlayers());
         setColor(user, user.getColor());
 
         Game game = df.getGame(info);
 
-        // set the game state for each person in the game TODO: give each player a different state
+        // set the game state for each person in the game
         {
             Class<?>[] types = {TrainCard[].class};
             Object[] params = { df.getVisible(info) };
@@ -161,6 +161,8 @@ public class CommandFacade
     {
         GameService gm = new GameService();
         boolean discarded = gm.discardDestinationCards(p, cards);
+        // if it is a new player's turn, update the gameState to give control to the next player
+        gm.updateGameState(p);
         if (!discarded) {
             throw new CommandFailed("discardDestinationCard");
         }
@@ -178,6 +180,13 @@ public class CommandFacade
             Class<?>[] types = {Player.class, Integer.class};
             Object[] params = {p, new Integer(cards.size())};
             Command cmd = new Command(CommandsExtensions.clientSide + "ClientCardService", "discardDestinationCards", types, params);
+            CM.addCommand(cmd, df.getGameInfo(df.getPlayer(p.name).gameId));
+        }
+
+        {
+            Class<?>[] types = {Player.class, GameState.class};
+            Object[] params = {p, df.getGameState()};
+            Command cmd = new Command(CommandsExtensions.clientSide + "ClientGameService", "setGameState", types, params);
             CM.addCommand(cmd, df.getGameInfo(df.getPlayer(p.name).gameId));
         }
     }

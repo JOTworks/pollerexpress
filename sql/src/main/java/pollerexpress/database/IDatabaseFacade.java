@@ -10,6 +10,7 @@ import com.shared.models.Player;
 import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.User;
 import com.shared.models.reponses.LoginResponse;
+import com.shared.models.states.GameState;
 
 import java.util.List;
 
@@ -61,7 +62,6 @@ public interface IDatabaseFacade
      */
     public TrainCard[] getVisible(GameInfo info) throws DatabaseException;
 
-
     TrainCard getVisible(Player p, int i) throws DatabaseException;
     TrainCard drawVisible(Player p, int i) throws DatabaseException;
 
@@ -69,6 +69,42 @@ public interface IDatabaseFacade
 
     List<TrainCard> drawTrainCards(Player p, int number) throws DatabaseException;
 
+    /**
+     * sets the game state according to the number of players. The 'turn' value for game state is
+     * is not affected since this command comes before any player has a turn. The 'state' field is
+     * set to a value indicating how many players must still discard before the game can begin
+     *
+     * @param numPlayers the number of players in the game. This determines
+     *                   which Startstate is chosen.
+     *
+     *  The state options are found in the GameState object
+     */
+    void setPreGameState(int numPlayers);
 
+    /**
+     * update the database with a new value for the player and  game state.
+     * @param gameState
+     */
+    void setGameState(GameState gameState);
+
+    /**
+     * update the database with a new state for the player whose turn it is
+     * @param state
+     */
+    void setGameState(GameState.State state);
+
+    /**
+     * "decrements" the game state by changing it to a "lower" pre-game-state.
+     * e.g. from WAITING_ON_THREE_PLAYERS to WAITING_ON_TWO_PLAYERS
+     *
+     * @pre the game table must already contain a value for game state
+     */
+    void updatePreGameState();
+
+    /**
+     * return a game state object with the current game state
+     * @return
+     */
+    GameState getGameState();
 }
 
