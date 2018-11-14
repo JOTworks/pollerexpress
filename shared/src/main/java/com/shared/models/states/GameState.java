@@ -3,11 +3,13 @@ package com.shared.models.states;
 import java.io.Serializable;
 
 public class GameState implements Serializable {
+
     private String turn;
 
     private State state;
 
     public enum State {
+
         READY_FOR_GAME_START,
         WAITING_FOR_ONE_PLAYER,
         WAITING_FOR_TWO_PLAYERS,

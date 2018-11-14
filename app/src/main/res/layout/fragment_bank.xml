@@ -82,7 +82,19 @@
             android:gravity="center"
             android:textColor="@color/PollerBackground"
             android:textSize="40dp"/>
-        <TextView
+        <!--<TextView-->
+            <!--android:id="@+id/destination_card_deck"-->
+            <!--android:layout_width="110dp"-->
+            <!--android:layout_margin="5dp"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="34"-->
+            <!--android:background="@drawable/destination_card"-->
+            <!--android:textAlignment="center"-->
+            <!--android:gravity="center"-->
+            <!--android:textColor="@color/PollerBackground"-->
+            <!--android:textSize="40dp"/>-->
+        <Button
             android:id="@+id/destination_card_deck"
             android:layout_width="110dp"
             android:layout_margin="5dp"
