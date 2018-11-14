@@ -2,8 +2,21 @@ package com.shared.models.states;
 
 public class GameState {
 
-    String activePlayer;
-    SUBSTATE subState;
+    private String activePlayer;
+    private SUBSTATE subState;
+
+    public String getActivePlayer(){
+        return activePlayer;
+    }
+    public SUBSTATE getSubState(){
+        return subState;
+    }
+    public void setActivePlayer(String activePlayer){
+        this.activePlayer = activePlayer;
+    }
+    public void setSubState(SUBSTATE substate){
+        this.subState = substate;
+    }
 
    public enum SUBSTATE
    {
