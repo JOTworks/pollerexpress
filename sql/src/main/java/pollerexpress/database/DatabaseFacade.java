@@ -444,18 +444,6 @@ public class DatabaseFacade implements IDatabaseFacade
     @Override
     public void setPreGameState(int numPlayers) {
 
-
-        /**
-         * sets the game state according to the number of players. The 'turn' value for game state is
-         * is not affected since this command comes before any player has a turn. The 'state' field is
-         * set to a value indicating how many players must still discard before the game can begin
-         *
-         * @param numPlayers the number of players in the game. This determines
-         *                   which Startstate is chosen.
-         *
-         *  The state options are found in the GameState object
-         */
-
         GameState.State state = READY_FOR_GAME_START;
 
         switch(numPlayers) {
