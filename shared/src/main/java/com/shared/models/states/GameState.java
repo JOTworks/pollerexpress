@@ -2,10 +2,33 @@ package com.shared.models.states;
 
 public class GameState {
 
-    String activePlayer;
-    SUBSTATE subState;
+    private String activePlayer;
+    private SUBSTATE subState;
 
-   public enum SUBSTATE
+    public String getActivePlayer(){
+        return activePlayer;
+    }
+    public SUBSTATE getSubState(){
+        return subState;
+    }
+    public void setActivePlayer(String activePlayer){
+        this.activePlayer = activePlayer;
+    }
+    public void setSubState(SUBSTATE substate){
+        this.subState = substate;
+    }
+
+    public GameState() {
+        this.activePlayer = null;
+        this.subState = null;
+    }
+
+    public GameState(String activePlayer, SUBSTATE subState) {
+        this.activePlayer = activePlayer;
+        this.subState = subState;
+    }
+
+    public enum SUBSTATE
    {
        //before first turn states
        NEED_DISCARD_5, NEED_DISCARD_4, NEED_DISCARD_3, NEED_DISCARD_2, NEED_DISCARD_1,
@@ -13,11 +36,6 @@ public class GameState {
        DRAWN_ONE, TURN_BEGINNING, DRAWN_DEST,
        //after last turn state
        GAME_OVER
-   }
-
-   public GameState(String activePlayer, SUBSTATE subState) {
-       this.activePlayer = activePlayer;
-       this.subState = subState;
    }
 }
 
