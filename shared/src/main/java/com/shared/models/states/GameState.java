@@ -1,42 +1,51 @@
 package com.shared.models.states;
 
-public class GameState {
+import java.io.Serializable;
 
-    private String activePlayer;
-    private SUBSTATE subState;
+public class GameState implements Serializable {
+    private String turn;
 
-    public String getActivePlayer(){
-        return activePlayer;
-    }
-    public SUBSTATE getSubState(){
-        return subState;
-    }
-    public void setActivePlayer(String activePlayer){
-        this.activePlayer = activePlayer;
-    }
-    public void setSubState(SUBSTATE substate){
-        this.subState = substate;
+    private State state;
+
+    public enum State {
+        READY_FOR_GAME_START,
+        WAITING_FOR_ONE_PLAYER,
+        WAITING_FOR_TWO_PLAYERS,
+        WAITING_FOR_THREE_PLAYERS,
+        WAITING_FOR_FOUR_PLAYERS,
+        WAITING_FOR_FIVE_PLAYERS,
+
+        NO_ACTION_TAKEN,
+
+        //These are Jack's enumerations and he's okay with them being renamed.
+        //player turn states
+        DRAWN_ONE, DRAWN_DEST,
+        //after last turn state
+        GAME_OVER
     }
 
     public GameState() {
-        this.activePlayer = null;
-        this.subState = null;
     }
 
-    public GameState(String activePlayer, SUBSTATE subState) {
-        this.activePlayer = activePlayer;
-        this.subState = subState;
+    public GameState(String turn, State state) {
+        this.turn = turn;
+        this.state = state;
     }
 
-    public enum SUBSTATE
-   {
-       //before first turn states
-       NEED_DISCARD_5, NEED_DISCARD_4, NEED_DISCARD_3, NEED_DISCARD_2, NEED_DISCARD_1,
-       //player turn states
-       DRAWN_ONE, TURN_BEGINNING, DRAWN_DEST,
-       //after last turn state
-       GAME_OVER
-   }
+    public String getTurn() {
+        return turn;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setTurn(String turn) {
+        this.turn = turn;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
 }
-
 
