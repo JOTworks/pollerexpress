@@ -23,6 +23,11 @@ public class GameState {
         this.subState = null;
     }
 
+    public GameState(String activePlayer, SUBSTATE subState) {
+        this.activePlayer = activePlayer;
+        this.subState = subState;
+    }
+
     public enum SUBSTATE
    {
        //before first turn states
@@ -32,7 +37,6 @@ public class GameState {
        //after last turn state
        GAME_OVER
    }
-
 }
 
 
