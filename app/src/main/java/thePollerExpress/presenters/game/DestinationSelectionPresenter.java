@@ -38,7 +38,7 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
             @Override
             public Object execute() throws CommandFailed
             {
-                return facade.discardDestCard(CD.getUser(), cards);
+                return facade.discardDestCard(cards);
             }
         });
     }
