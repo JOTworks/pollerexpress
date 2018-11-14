@@ -18,7 +18,12 @@ public class GameState {
         this.subState = substate;
     }
 
-   public enum SUBSTATE
+    public GameState() {
+        this.activePlayer = null;
+        this.subState = null;
+    }
+
+    public enum SUBSTATE
    {
        //before first turn states
        NEED_DISCARD_5, NEED_DISCARD_4, NEED_DISCARD_3, NEED_DISCARD_2, NEED_DISCARD_1,
@@ -27,6 +32,7 @@ public class GameState {
        //after last turn state
        GAME_OVER
    }
+
 }
 
 
