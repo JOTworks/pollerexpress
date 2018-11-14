@@ -14,6 +14,11 @@ public class GameState {
        //after last turn state
        GAME_OVER
    }
+
+   public GameState(String activePlayer, SUBSTATE subState) {
+       this.activePlayer = activePlayer;
+       this.subState = subState;
+   }
 }
 
 
