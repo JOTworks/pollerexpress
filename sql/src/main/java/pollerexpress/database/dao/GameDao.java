@@ -79,8 +79,8 @@ public class GameDao {
                 //create the game
                 Game game = new Game(gi);//TODO load more data
                 game.setPlayers(players);
-                if(rs.getString("SUBSTATE") != null) {
-                    GameState state = new GameState(rs.getString("ACTIVE_PLAYER"), GameState.SUBSTATE.valueOf(rs.getString("SUBSTATE")));
+                if(rs.getString("SUBSTATE") != null && rs.getString("SUBSTATE").equals("")) {
+                    GameState state = new GameState(rs.getString("ACTIVE_PLAYER"), GameState.State.valueOf(rs.getString("SUBSTATE")));
                     game.setGameState(state);
                 }
 
@@ -282,7 +282,7 @@ public class GameDao {
     public static final String UPDATE_SUBSTATE = "UPDATE GAMES\n" +
             "SET SUBSTATE = ?\n" +
             "WHERE GAME_ID = ?";
-    public void updateSubState(GameState.SUBSTATE state, GameInfo gi) throws DatabaseException {
+    public void updateSubState(GameState.State state, GameInfo gi) throws DatabaseException {
         try
         {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(UPDATE_TURN);
