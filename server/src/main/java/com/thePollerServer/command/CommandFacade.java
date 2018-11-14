@@ -133,19 +133,6 @@ public class CommandFacade
             /* This is meant to call the first train cards.
             * This is in the StartGame method. */
             CommandFacade.drawTrainCards(p, 4);
-//            List<TrainCard> tList = df.drawTrainCards(p, 4);
-//            {
-//                Class<?>[] types = { tList.getClass()};//we will see if this works...drawFirstTrainCards
-//                Object[] params = {tList};
-//                Command drawFirstTrainCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawFirstTrainCards", types, params);
-//                CM.addCommand(drawFirstTrainCards, p);
-//            }
-//            {
-//                Class<?>[] types = {Player.class, Integer.class};//we will see if this works...
-//                Object[] params = {p, new Integer(4)};
-//                Command drawFirstTrainCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawFirstTrainCards", types, params);
-//                CM.addCommand(drawFirstTrainCards, p);
-//            }
 
 
             //this maybe should be put into the service, but most of the logic has to deal with commands....

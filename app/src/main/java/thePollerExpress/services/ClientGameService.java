@@ -44,6 +44,12 @@ public class ClientGameService {
         return true;
     }
 
+    public static boolean endGame()
+    {
+        CD.getGame().setGameState(new GameState());
+
+        return true;
+    }
 
     public static boolean chat(Chat chat, GameInfo gameInfo)
     {

@@ -15,7 +15,14 @@ public class GameState implements Serializable {
         WAITING_FOR_FOUR_PLAYERS,
         WAITING_FOR_FIVE_PLAYERS,
 
-        NO_ACTION_TAKEN
+
+        NO_ACTION_TAKEN,
+
+        //These are Jack's enumerations and he's okay with them being renamed.
+        //player turn states
+        DRAWN_ONE, DRAWN_DEST,
+        //after last turn state
+        GAME_OVER
     }
 
     public GameState() {
