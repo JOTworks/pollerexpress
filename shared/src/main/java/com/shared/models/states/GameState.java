@@ -23,7 +23,12 @@ public class GameState implements Serializable {
         //player turn states
         DRAWN_ONE, DRAWN_DEST,
         //after last turn state
-        GAME_OVER
+        GAME_OVER;
+
+        public State next() {
+            return values()[ordinal()+1];
+        }
+
     }
 
     public GameState() {

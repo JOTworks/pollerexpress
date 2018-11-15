@@ -441,55 +441,145 @@ public class DatabaseFacade implements IDatabaseFacade
         }
     }
 
+    /**
+     * (DONE!)
+     *
+     * sets the game state according to the number of players. The 'turn' value for game state is
+     * is not affected since this command comes before any player has a turn. The 'state' field is
+     * set to a value indicating how many players must still discard before the game can begin
+     *
+     * @param numPlayers the number of players in the game. This determines
+     *                   which Startstate is chosen.
+     *
+     *  The state options are found in the GameState object
+     */
     @Override
-    public void setPreGameState(int numPlayers) {
+    public void setPreGameState(int numPlayers, GameInfo gameInfo) throws DatabaseException
+    {
 
-        GameState.State state = READY_FOR_GAME_START;
+        try
+        {
+            GameState.State state = READY_FOR_GAME_START;
 
-        switch(numPlayers) {
+            switch(numPlayers) {
 
-            case 1 :
-                state = WAITING_FOR_ONE_PLAYER;
-                break;
-            case 2 :
-                state = WAITING_FOR_THREE_PLAYERS;
-                break;
-            case 3 :
-                state = WAITING_FOR_THREE_PLAYERS;
-                break;
-            case 4 :
-                state = WAITING_FOR_FOUR_PLAYERS;
-                break;
-            case 5 :
-                state = WAITING_FOR_FIVE_PLAYERS;
-                break;
+                case 1 :
+                    state = WAITING_FOR_ONE_PLAYER;
+                    break;
+                case 2 :
+                    state = WAITING_FOR_THREE_PLAYERS;
+                    break;
+                case 3 :
+                    state = WAITING_FOR_THREE_PLAYERS;
+                    break;
+                case 4 :
+                    state = WAITING_FOR_FOUR_PLAYERS;
+                    break;
+                case 5 :
+                    state = WAITING_FOR_FIVE_PLAYERS;
+                    break;
+            }
+
+            db.open();
+
+            db.getGameDao().updateSubState(state, gameInfo);
+
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
         }
 
+    }
 
+    /**
+     * (DONE!)
+     *
+     * "decrements" the game state by changing it to a "lower" pre-game-state.
+     * e.g. from WAITING_ON_THREE_PLAYERS to WAITING_ON_TWO_PLAYERS
+     *
+     * @pre the game table must already contain a value for game state
+     */
+    @Override
+    public void updatePreGameState(GameInfo gameInfo) throws DatabaseException {
 
-        throw new NotImplementedException("DatabaseFacade.setPreGameState");
+        try{
+
+            db.open();
+
+            GameState.State curState = db.getGameDao().getSubState();
+
+            db.getGameDao().updateSubState(curState.next(), gameInfo);
+
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    /**
+     * update the database with a new value for the player and game state.
+     * @param gameState
+     */
+    @Override
+    public void setGameState(GameState gameState, GameInfo gameInfo) throws DatabaseException {
+
+        try
+        {
+            db.open();
+
+            // getTurn() returns the name of the active player as a string.
+            // This is not problematic because player names are necessarily unique.
+            gameState.getTurn();
+
+            // update the database with a new game state
+            db.getGameDao().updateSubState(gameState.getState(), gameInfo);
+
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+
+    }
+
+    /**
+     * update the database with a new state for the player whose turn it is
+     * @param state
+     */
+    @Override
+    public void setGameState(GameState.State state, GameInfo gameInfo) throws DatabaseException {
+
+        try
+        {
+            db.open();
+
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+
     }
 
     @Override
-    public void setGameState(GameState gameState) {
-        throw new NotImplementedException("DatabaseFacade.setGameState");
+    public GameState getGameState(GameInfo gameInfo) throws DatabaseException {
 
-    }
+        try
+        {
+            db.open();
 
-    @Override
-    public void setGameState(GameState.State state) {
-        throw new NotImplementedException("DatabaseFacade.setGameState");
-    }
-
-    @Override
-    public void updatePreGameState() {
-        throw new NotImplementedException("DatabaseFacade.updatePreGameState");
-    }
-
-    @Override
-    public GameState getGameState() {
-        throw new NotImplementedException("DatabaseFacade.getGameState");
-
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
     }
 
     @Override

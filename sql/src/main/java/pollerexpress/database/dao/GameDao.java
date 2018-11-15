@@ -342,4 +342,26 @@ public class GameDao {
             throw new DatabaseException(e.getMessage());
         }
     }
+
+
+    /**
+     * Abby
+     * Untested
+     * @return The state of the game
+     * @throws DatabaseException
+     */
+    public GameState.State getSubState() throws DatabaseException {
+
+        try
+        {
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SELECT_ALL_GAME_INFO);
+            ResultSet rs = stmnt.executeQuery();
+
+            return GameState.State.valueOf(rs.getString("SUBSTATE"));
+
+        } catch (SQLException var4)
+        {
+            return null;
+        }
+    }
 }
