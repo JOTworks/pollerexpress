@@ -27,6 +27,8 @@ public class GameDao {
     public static final String SELECT_GAME = " SELECT *\n FROM GAMES \n WHERE GAME_ID = ?";
     public static final String SELECT_ALL_JOINABLE_GAME_INFO = "SELECT *\n WHERE NOT MAX_PLAYERS = CURRENT_PLAYERS \n  FROM GAMES";
     public static final String CREATE_NEW_GAME = "INSERT INTO GAMES("+ PARAMS+") \nVALUES("+PARAMS_INSERT+")";
+    private String turn;
+
     public GameDao(IDatabase db) {
         this._db = db;
     }
@@ -263,11 +265,11 @@ public class GameDao {
     public static final String UPDATE_TURN = "UPDATE GAMES\n" +
             "SET ACTIVE_PLAYER = ?\n" +
             "WHERE GAME_ID = ?";
-    public void updateTurn(Player player, GameInfo gi) throws DatabaseException {
+    public void updateTurn(String player_name, GameInfo gi) throws DatabaseException {
         try
         {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(UPDATE_TURN);
-            stmnt.setString(1,player.getName() );
+            stmnt.setString(1,player_name );
             stmnt.setString(2,gi.getId() );
             stmnt.execute();
             stmnt.close();
@@ -363,5 +365,9 @@ public class GameDao {
         {
             return null;
         }
+    }
+
+    public String getTurn() {
+        return turn;
     }
 }
