@@ -5,7 +5,7 @@ import com.shared.models.states.GameState;
 import thePollerExpress.facades.GameFacade;
 import thePollerExpress.models.ClientData;
 
-import static com.shared.models.states.GameState.SUBSTATE.*;
+import static com.shared.models.states.GameState.State.*;
 
 public class BankState {
 
@@ -22,11 +22,11 @@ public class BankState {
        return null;
     }
     public BankState changeState(GameState gameState){
-        if(gameState.getSubState()==null || !gameState.getActivePlayer().equals(CD.getUser().getName()))
+        if(gameState.getState()==null || !gameState.getTurn().equals(CD.getUser().getName()))
             return new BankStateInactive();
-        if(gameState.getSubState() == TURN_BEGINNING )
+        if(gameState.getState() == NO_ACTION_TAKEN )
             return new BankStateDrawn0();
-        if(gameState.getSubState() == DRAWN_ONE )
+        if(gameState.getState() == DRAWN_ONE )
             return new BankStateDrawn1();
 
         return new BankStateInactive();
