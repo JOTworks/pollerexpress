@@ -73,8 +73,7 @@ public class GameDao {
                 //first get the game info for the game.
                 GameInfo gi = new GameInfo(rs.getString("GAME_ID"), rs.getString("GAME_NAME"), rs.getInt("MAX_PLAYERS"), rs.getInt("CURRENT_PLAYERS") );
                 //get a list of players in the game.
-                rs.close();
-                stmnt.close();
+
                 List<Player> players = getPlayers(gi);
                 //create the game
                 Game game = new Game(gi);//TODO load more data
@@ -83,7 +82,8 @@ public class GameDao {
                     GameState state = new GameState(rs.getString("ACTIVE_PLAYER"), GameState.State.valueOf(rs.getString("SUBSTATE")));
                     game.setGameState(state);
                 }
-
+                rs.close();
+                stmnt.close();
                 return game;
             }
             rs.close();
@@ -92,11 +92,13 @@ public class GameDao {
         }
         catch (DatabaseException e)
         {
-            throw new DataNotFoundException(id, "GAMES");//TODO change error handling.
+            throw new DataNotFoundException(e.getMessage());
+            //throw new DataNotFoundException(id, "GAMES");//TODO change error handling.
         }
         catch(SQLException e)
         {
-            throw new DataNotFoundException(id, "GAMES");
+            throw new DataNotFoundException(e.getMessage());
+            //throw new DataNotFoundException(id, "GAMES");
         }
     }
 
