@@ -14,4 +14,6 @@ public class DataNotFoundException extends DatabaseException
         this.dataId = data;
         this.target = target;
     }
+
+    public DataNotFoundException(String message) { super(message); }
 }

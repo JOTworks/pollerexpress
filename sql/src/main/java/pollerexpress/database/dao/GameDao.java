@@ -73,17 +73,17 @@ public class GameDao {
                 //first get the game info for the game.
                 GameInfo gi = new GameInfo(rs.getString("GAME_ID"), rs.getString("GAME_NAME"), rs.getInt("MAX_PLAYERS"), rs.getInt("CURRENT_PLAYERS") );
                 //get a list of players in the game.
-                rs.close();
-                stmnt.close();
+
                 List<Player> players = getPlayers(gi);
                 //create the game
                 Game game = new Game(gi);//TODO load more data
                 game.setPlayers(players);
-                if(rs.getString("SUBSTATE") != null) {
-                    GameState state = new GameState(rs.getString("ACTIVE_PLAYER"), GameState.SUBSTATE.valueOf(rs.getString("SUBSTATE")));
+                if(rs.getString("SUBSTATE") != null && rs.getString("SUBSTATE").equals("")) {
+                    GameState state = new GameState(rs.getString("ACTIVE_PLAYER"), GameState.State.valueOf(rs.getString("SUBSTATE")));
                     game.setGameState(state);
                 }
-
+                rs.close();
+                stmnt.close();
                 return game;
             }
             rs.close();
@@ -92,11 +92,13 @@ public class GameDao {
         }
         catch (DatabaseException e)
         {
-            throw new DataNotFoundException(id, "GAMES");//TODO change error handling.
+            throw new DataNotFoundException(e.getMessage());
+            //throw new DataNotFoundException(id, "GAMES");//TODO change error handling.
         }
         catch(SQLException e)
         {
-            throw new DataNotFoundException(id, "GAMES");
+            throw new DataNotFoundException(e.getMessage());
+            //throw new DataNotFoundException(id, "GAMES");
         }
     }
 
@@ -282,7 +284,7 @@ public class GameDao {
     public static final String UPDATE_SUBSTATE = "UPDATE GAMES\n" +
             "SET SUBSTATE = ?\n" +
             "WHERE GAME_ID = ?";
-    public void updateSubState(GameState.SUBSTATE state, GameInfo gi) throws DatabaseException {
+    public void updateSubState(GameState.State state, GameInfo gi) throws DatabaseException {
         try
         {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(UPDATE_TURN);
