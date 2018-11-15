@@ -1,4 +1,4 @@
-package com.thePollerServer.commandServices;
+package com.thePollerServer.services;
 
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Chat;
@@ -8,8 +8,10 @@ import com.shared.models.Player;
 import pollerexpress.database.IDatabaseFacade;
 
 import com.shared.models.cardsHandsDecks.TrainCard;
+import com.shared.models.states.GameState;
 import com.thePollerServer.utilities.Factory;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -27,8 +29,10 @@ import java.util.List;
  * */
 public class GameService
 {
+    private IDatabaseFacade df = Factory.createDatabaseFacade();
+
+
     public void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
-        IDatabaseFacade df = Factory.createDatabaseFacade();
         //df.chat(chat, gameInfo);
     }
 
@@ -36,13 +40,13 @@ public class GameService
     public boolean discardDestinationCards(Player p, List<DestinationCard> discards)
     {
         int number = discards.size();
-        IDatabaseFacade df = Factory.createDatabaseFacade();
         try
         {
             int allowed = df.getPlayerDiscards(p);
             if(number<= allowed)
             {
                 df.discardDestinationCard(p, discards);
+                df.updatePreGameState();
                 return true;
             }
         }
@@ -61,7 +65,6 @@ public class GameService
     {
 
         Triple p = new Triple();
-        IDatabaseFacade df = Factory.createDatabaseFacade();
         GameInfo info = df.getGameInfo(player.getGameId());
         //TODO check if the player can draw.
         TrainCard visible = df.getVisible(player,i);
@@ -72,6 +75,35 @@ public class GameService
         p.info = info;
         p.visible = df.getVisible(info);
         return p;
+    }
+
+    public void updateGameState(Player p) {
+        GameState gameState = df.getGameState();
+
+        switch (gameState.getState()) {
+            case READY_FOR_GAME_START:
+                GameState newGameState = new GameState(getNextPlayer(p), GameState.State.NO_ACTION_TAKEN);
+                df.setGameState(newGameState);
+                break;
+        }
+        // TODO: add more cases to be able to change states and switch turns
+        return;
+    }
+
+    private String getNextPlayer(Player p) {
+        List<Player> players;
+        try {
+            GameInfo info = df.getGameInfo(p.getGameId());
+            players = df.getGame(info).getPlayers();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        Collections.sort(players);
+        int i = players.indexOf(p);
+        i += 1;
+        if (i == players.size())
+            i = 0;
+        return players.get(i).getName();
     }
 
     public class Triple
