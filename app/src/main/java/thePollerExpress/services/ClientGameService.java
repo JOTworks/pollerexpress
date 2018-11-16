@@ -37,9 +37,9 @@ public class ClientGameService {
      */
     public static boolean startGame(TrainCard[] cards)
     {
-
-        CD.getGame().setGameState(new GameState(null, GameState.State.READY_FOR_GAME_START));
-
+        //THIS IS NOT ALLOWED YOU CANOT CHANGE STATE ON CLIENT SIDE UNLESS PASSED SPECIFILCY AS A COMMAND
+        //CD.getGame().setGameState(new GameState(null, GameState.State.READY_FOR_GAME_START));
+        CD.getGame().setGameState(new GameState(null,GameState.State.WAITING_FOR_FIVE_PLAYERS));
         CD.getGame().getVisibleCards().set(cards);
 
         return true;

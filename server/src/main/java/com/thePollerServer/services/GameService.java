@@ -46,7 +46,7 @@ public class GameService
             if(number<= allowed)
             {
                 df.discardDestinationCard(p, discards);
-                df.updatePreGameState();
+                df.updatePreGameState(df.getGameInfo(p.getGameId()));
                 return true;
             }
         }
@@ -77,13 +77,13 @@ public class GameService
         return p;
     }
 
-    public void updateGameState(Player p) {
-        GameState gameState = df.getGameState();
+    public void updateGameState(Player p) throws DatabaseException {
+        GameState gameState = df.getGameState(df.getGameInfo(p.getGameId()));
 
         switch (gameState.getState()) {
             case READY_FOR_GAME_START:
                 GameState newGameState = new GameState(getNextPlayer(p), GameState.State.NO_ACTION_TAKEN);
-                df.setGameState(newGameState);
+                df.setGameState(newGameState,df.getGameInfo(p.getGameId()));
                 break;
         }
         // TODO: add more cases to be able to change states and switch turns

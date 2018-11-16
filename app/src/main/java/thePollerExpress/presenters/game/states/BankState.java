@@ -22,7 +22,11 @@ public class BankState {
        return null;
     }
     public BankState changeState(GameState gameState){
-        if(gameState.getState()==null || !gameState.getTurn().equals(CD.getUser().getName()))
+        if(gameState.getState()==null)
+            return new BankStateInactive();
+        if(gameState.getTurn()==null)
+            return new BankStateInactive();
+        if(gameState.getTurn().equals(CD.getUser().getName()))
             return new BankStateInactive();
         if(gameState.getState() == NO_ACTION_TAKEN )
             return new BankStateDrawn0();
