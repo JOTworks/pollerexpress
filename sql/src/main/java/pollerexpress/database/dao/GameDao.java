@@ -358,19 +358,23 @@ public class GameDao {
      * @return The state of the game
      * @throws DatabaseException
      */
-    public GameState.State getSubState() throws DatabaseException {
+    public GameState.State getSubState(GameInfo info) throws DatabaseException {
 
         try
         {
-            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SELECT_ALL_GAME_INFO);
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SELECT_GAME);
+            stmnt.setString(1, info.getId());
             ResultSet rs = stmnt.executeQuery();
 
-            return GameState.State.valueOf(rs.getString("SUBSTATE"));
 
+            if (rs.next()) {
+                return GameState.State.valueOf(rs.getString("SUBSTATE"));
+            }
         } catch (SQLException var4)
         {
             return null;
         }
+        return null;
     }
 
     public String getTurn() {
