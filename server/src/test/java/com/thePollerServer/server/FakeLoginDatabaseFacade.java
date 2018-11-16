@@ -12,6 +12,7 @@ import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.reponses.LoginResponse;
 import com.shared.models.Player;
 import com.shared.models.User;
+import com.shared.models.states.GameState;
 
 import java.util.List;
 
@@ -135,6 +136,31 @@ public class FakeLoginDatabaseFacade implements IDatabaseFacade
 
     @Override
     public List<TrainCard> drawTrainCards(Player p, int number) throws DatabaseException {
+        return null;
+    }
+
+    @Override
+    public void setPreGameState(int numPlayers, GameInfo gameInfo) throws DatabaseException {
+
+    }
+
+    @Override
+    public void setGameState(GameState gameState, GameInfo gameInfo) throws DatabaseException {
+
+    }
+
+    @Override
+    public void setGameState(GameState.State state, GameInfo gameInfo) throws DatabaseException {
+
+    }
+
+    @Override
+    public void updatePreGameState(GameInfo gameInfo) throws DatabaseException {
+
+    }
+
+    @Override
+    public GameState getGameState(GameInfo gameInfo) throws DatabaseException {
         return null;
     }
 
