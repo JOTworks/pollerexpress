@@ -455,7 +455,7 @@ public class DatabaseFacade implements IDatabaseFacade
                     state = WAITING_FOR_ONE_PLAYER;
                     break;
                 case 2 :
-                    state = WAITING_FOR_THREE_PLAYERS;
+                    state = WAITING_FOR_TWO_PLAYERS;
                     break;
                 case 3 :
                     state = WAITING_FOR_THREE_PLAYERS;
