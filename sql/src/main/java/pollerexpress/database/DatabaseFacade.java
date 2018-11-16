@@ -535,7 +535,7 @@ public class DatabaseFacade implements IDatabaseFacade
 
             db.open();
 
-            GameState.State curState = db.getGameDao().getSubState();
+            GameState.State curState = db.getGameDao().getSubState(gameInfo);
 
             db.getGameDao().updateSubState(curState.next(), gameInfo);
 
@@ -596,7 +596,7 @@ public class DatabaseFacade implements IDatabaseFacade
         {
             db.open();
 
-            GameState gameState = new GameState(db.getGameDao().getTurn(), db.getGameDao().getSubState());
+            GameState gameState = new GameState(db.getGameDao().getTurn(), db.getGameDao().getSubState(gameInfo));
 
             db.close(true);
 
