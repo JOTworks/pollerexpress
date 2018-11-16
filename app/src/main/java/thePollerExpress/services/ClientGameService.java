@@ -10,10 +10,10 @@ import com.shared.models.Player;
 import com.shared.models.Route;
 import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.states.GameState;
-
 import java.util.List;
 
 import thePollerExpress.models.ClientData;
+import static com.shared.models.states.GameState.State.*;
 
 public class ClientGameService {
 
@@ -37,8 +37,8 @@ public class ClientGameService {
      */
     public static boolean startGame(TrainCard[] cards)
     {
-
-        CD.getGame().setGameState(new GameState(null, "preGameState"));
+        //only a setgamestatecommand from the server should ever change the game state hard coded rn but its a problem - jack
+        CD.getGame().setGameState(new GameState(null, WAITING_FOR_ONE_PLAYER));
         CD.getGame().getVisibleCards().set(cards);
 
         return true;
