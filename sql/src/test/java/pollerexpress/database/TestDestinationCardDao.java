@@ -49,8 +49,7 @@ public class TestDestinationCardDao {
 
     @After
     public void down() {
-        try
-        {
+        try {
             db.open();
             dcDao.deleteDeck(gi);
             db.close(true);

@@ -80,7 +80,8 @@ public class SetupFacade {
     /*----------------These are all the methods that create commands and send them to the ClientComunicator--------------------*/
     /*------------------------------------------------------------------------------------------------------------------------*/
     /**
-     *
+     * will autuimatilcy have you join the game after you create it.
+     * @pre numplayers is between 2 and 5, and userColor is one of the enumerated colors
      * @param name
      * @param numPlayers
      * @param userColor
@@ -108,7 +109,7 @@ public class SetupFacade {
     }
 
     /**
-     *
+     * will not let you join a game twice, or join a game that is already full
      * @param player, info
      * @return res.getError, it will be null on succesful register
      */

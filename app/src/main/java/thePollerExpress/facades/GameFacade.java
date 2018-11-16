@@ -20,47 +20,23 @@ import thePollerExpress.models.ClientData;
 public class GameFacade {
 
     public ClientData CData;
-
     public GameFacade() {
         CData = ClientData.getInstance();
     }
-
+    private ClientCommunicator CC = ClientCommunicator.instance();
 
     public PollResponse startGame(User user){
-
-        ClientCommunicator CC = ClientCommunicator.instance();
-
         Class<?>[] types = {User.class};
         Object[] params= {user};
         Command startGame = new Command(CommandsExtensions.serverSide+ "CommandFacade","startGame",types,params);
-        PollResponse response = CC.sendCommand(startGame);
-
-
-        if(response == null)
-        {
-            return new PollResponse(null, new ErrorResponse("cannot connect to server",null,null) );
-        }
-
-        return response;
+        return sendCommand( startGame );
     }
 
-    public PollResponse chat(String message)
-    {
-        Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
-        Chat chat = new Chat(message, timeStamp, ClientData.getInstance().getUser());
-        GameInfo gameInfo = ClientData.getInstance().getGame().getGameInfo();
-        Class<?>[] types = {Chat.class, GameInfo.class};
-        Object[] values = {chat, gameInfo};
-        Command chatCommand = new Command(CommandsExtensions.serverSide +"CommandFacade","chat",types,values);
-        return sendCommand( chatCommand );
-    }
-
-    public PollResponse claimRoute(Route r)
-    {
-        Class<?>[] types = {Player.class, Route.class};
-        Object[] values = {CData.getUser(), r};
-        Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","claimRoute",types,values);
-        return sendCommand(command);
+    public PollResponse drawDestCard(){
+        Class<?>[] types = {Player.class};
+        Object[] params= {CData.getUser()};
+        Command drawDest= new Command(CommandsExtensions.serverSide+ "CommandFacade","drawDestinationCards",types,params);;
+        return sendCommand( drawDest );
     }
 
     public PollResponse drawDestCards() {
@@ -85,37 +61,39 @@ public class GameFacade {
         return sendCommand(command);
     }
 
-    public PollResponse discardDestCard(User user, List<DestinationCard> destCards){
-
-        ClientCommunicator CC = ClientCommunicator.instance();
-
+    public PollResponse discardDestCard(List<DestinationCard> destCards){
         Class<?>[] types = {Player.class, List.class};
-        Object[] params= {user, destCards};
-        Command startGame = new Command(CommandsExtensions.serverSide+ "CommandFacade","discardDestinationCards",types,params);
-        PollResponse response = CC.sendCommand(startGame);
+        Object[] params= {CData.getUser(), destCards};
+        Command discardDest = new Command(CommandsExtensions.serverSide+ "CommandFacade","discardDestinationCards",types,params);
+        return sendCommand( discardDest );
+    }
 
+    public PollResponse claimRoute(Route r) {
+        Class<?>[] types = {Player.class, Route.class};
+        Object[] values = {CData.getUser(), r};
+        Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","claimRoute",types,values);
+        return sendCommand(command);
+    }
 
-        if(response == null)
-        {
-            return new PollResponse(null, new ErrorResponse("cannot connect to server", new Exception(), startGame) );
-        } else if(response.getError()!=null){
-            return response;
-        }
-
-        return response;
+    public PollResponse chat(String message) {
+        Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
+        Chat chat = new Chat(message, timeStamp, ClientData.getInstance().getUser());
+        GameInfo gameInfo = ClientData.getInstance().getGame().getGameInfo();
+        Class<?>[] types = {Chat.class, GameInfo.class};
+        Object[] values = {chat, gameInfo};
+        Command chatCommand = new Command(CommandsExtensions.serverSide +"CommandFacade","chat",types,values);
+        return sendCommand( chatCommand );
     }
 
     private PollResponse sendCommand(Command command)
     {
         ClientCommunicator CC = ClientCommunicator.instance().instance();
         PollResponse response = CC.sendCommand(command);
-        if(response == null)
-        {
+        if(response == null) {
             return new PollResponse(null, new ErrorResponse("cannot connect to server", new Exception(), command) );
         } else if(response.getError()!=null){
             return response;
         }
-
         return response;
     }
 }

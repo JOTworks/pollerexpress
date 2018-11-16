@@ -442,53 +442,123 @@ public class DatabaseFacade implements IDatabaseFacade
     }
 
     @Override
-    public void setPreGameState(int numPlayers) {
+    public void setPreGameState(int numPlayers, GameInfo gameInfo) throws DatabaseException
+    {
 
-        GameState.State state = READY_FOR_GAME_START;
+        try
+        {
+            GameState.State state = READY_FOR_GAME_START;
 
-        switch(numPlayers) {
+            switch(numPlayers) {
 
-            case 1 :
-                state = WAITING_FOR_ONE_PLAYER;
-                break;
-            case 2 :
-                state = WAITING_FOR_THREE_PLAYERS;
-                break;
-            case 3 :
-                state = WAITING_FOR_THREE_PLAYERS;
-                break;
-            case 4 :
-                state = WAITING_FOR_FOUR_PLAYERS;
-                break;
-            case 5 :
-                state = WAITING_FOR_FIVE_PLAYERS;
-                break;
+                case 1 :
+                    state = WAITING_FOR_ONE_PLAYER;
+                    break;
+                case 2 :
+                    state = WAITING_FOR_THREE_PLAYERS;
+                    break;
+                case 3 :
+                    state = WAITING_FOR_THREE_PLAYERS;
+                    break;
+                case 4 :
+                    state = WAITING_FOR_FOUR_PLAYERS;
+                    break;
+                case 5 :
+                    state = WAITING_FOR_FIVE_PLAYERS;
+                    break;
+            }
+
+            db.open();
+
+            db.getGameDao().updateSubState(state, gameInfo);
+
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
         }
 
-
-
-        throw new NotImplementedException("DatabaseFacade.setPreGameState");
     }
 
     @Override
-    public void setGameState(GameState gameState) {
-        throw new NotImplementedException("DatabaseFacade.setGameState");
+    public void updatePreGameState(GameInfo gameInfo) throws DatabaseException {
+
+        try{
+
+            db.open();
+
+            GameState.State curState = db.getGameDao().getSubState();
+
+            db.getGameDao().updateSubState(curState.next(), gameInfo);
+
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public void setGameState(GameState gameState, GameInfo gameInfo) throws DatabaseException {
+
+        try
+        {
+            db.open();
+
+            // update the database with the name of the active player
+            db.getGameDao().updateTurn(gameState.getTurn(), gameInfo);
+
+            // update the database with a new game state
+            db.getGameDao().updateSubState(gameState.getState(), gameInfo);
+
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
 
     }
 
     @Override
-    public void setGameState(GameState.State state) {
-        throw new NotImplementedException("DatabaseFacade.setGameState");
+    public void setGameState(GameState.State state, GameInfo gameInfo) throws DatabaseException {
+
+        try
+        {
+            db.open();
+
+            // update the database with a new game state
+            db.getGameDao().updateSubState(state, gameInfo);
+
+
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+
     }
 
     @Override
-    public void updatePreGameState() {
-        throw new NotImplementedException("DatabaseFacade.updatePreGameState");
-    }
+    public GameState getGameState(GameInfo gameInfo) throws DatabaseException {
 
-    @Override
-    public GameState getGameState() {
-        throw new NotImplementedException("DatabaseFacade.getGameState");
+        try
+        {
+            db.open();
+
+            GameState gameState = new GameState(db.getGameDao().getTurn(), db.getGameDao().getSubState());
+
+            db.close(true);
+
+            return gameState;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
 
     }
 

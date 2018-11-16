@@ -79,19 +79,19 @@ public interface IDatabaseFacade
      *
      *  The state options are found in the GameState object
      */
-    void setPreGameState(int numPlayers);
+    void setPreGameState(int numPlayers, GameInfo gameInfo) throws DatabaseException;
 
     /**
      * update the database with a new value for the player and  game state.
      * @param gameState
      */
-    void setGameState(GameState gameState);
+    void setGameState(GameState gameState, GameInfo gameInfo) throws DatabaseException;
 
     /**
      * update the database with a new state for the player whose turn it is
      * @param state
      */
-    void setGameState(GameState.State state);
+    void setGameState(GameState.State state, GameInfo gameInfo) throws DatabaseException;
 
     /**
      * "decrements" the game state by changing it to a "lower" pre-game-state.
@@ -99,12 +99,12 @@ public interface IDatabaseFacade
      *
      * @pre the game table must already contain a value for game state
      */
-    void updatePreGameState();
+    void updatePreGameState(GameInfo gameInfo) throws DatabaseException;
 
     /**
      * return a game state object with the current game state
      * @return
      */
-    GameState getGameState();
+    GameState getGameState(GameInfo gameInfo) throws DatabaseException;
 }
 

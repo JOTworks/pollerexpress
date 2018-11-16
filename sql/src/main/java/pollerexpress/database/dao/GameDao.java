@@ -27,6 +27,8 @@ public class GameDao {
     public static final String SELECT_GAME = " SELECT *\n FROM GAMES \n WHERE GAME_ID = ?";
     public static final String SELECT_ALL_JOINABLE_GAME_INFO = "SELECT *\n WHERE NOT MAX_PLAYERS = CURRENT_PLAYERS \n  FROM GAMES";
     public static final String CREATE_NEW_GAME = "INSERT INTO GAMES("+ PARAMS+") \nVALUES("+PARAMS_INSERT+")";
+    private String turn;
+
     public GameDao(IDatabase db) {
         this._db = db;
     }
@@ -73,17 +75,21 @@ public class GameDao {
                 //first get the game info for the game.
                 GameInfo gi = new GameInfo(rs.getString("GAME_ID"), rs.getString("GAME_NAME"), rs.getInt("MAX_PLAYERS"), rs.getInt("CURRENT_PLAYERS") );
                 //get a list of players in the game.
-                rs.close();
-                stmnt.close();
+
                 List<Player> players = getPlayers(gi);
                 //create the game
                 Game game = new Game(gi);//TODO load more data
                 game.setPlayers(players);
+
+                /// todo: which one is correct
+                //if(rs.getString("SUBSTATE") != null && rs.getString("SUBSTATE").equals("")) {
                 if(rs.getString("SUBSTATE") != null) {
+
                     GameState state = new GameState(rs.getString("ACTIVE_PLAYER"), GameState.State.valueOf(rs.getString("SUBSTATE")));
                     game.setGameState(state);
                 }
-
+                rs.close();
+                stmnt.close();
                 return game;
             }
             rs.close();
@@ -92,11 +98,13 @@ public class GameDao {
         }
         catch (DatabaseException e)
         {
-            throw new DataNotFoundException(id, "GAMES");//TODO change error handling.
+            throw new DataNotFoundException(e.getMessage());
+            //throw new DataNotFoundException(id, "GAMES");//TODO change error handling.
         }
         catch(SQLException e)
         {
-            throw new DataNotFoundException(id, "GAMES");
+            throw new DataNotFoundException(e.getMessage());
+            //throw new DataNotFoundException(id, "GAMES");
         }
     }
 
@@ -263,11 +271,11 @@ public class GameDao {
     public static final String UPDATE_TURN = "UPDATE GAMES\n" +
             "SET ACTIVE_PLAYER = ?\n" +
             "WHERE GAME_ID = ?";
-    public void updateTurn(Player player, GameInfo gi) throws DatabaseException {
+    public void updateTurn(String player_name, GameInfo gi) throws DatabaseException {
         try
         {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(UPDATE_TURN);
-            stmnt.setString(1,player.getName() );
+            stmnt.setString(1,player_name );
             stmnt.setString(2,gi.getId() );
             stmnt.execute();
             stmnt.close();
@@ -341,5 +349,31 @@ public class GameDao {
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
+    }
+
+
+    /**
+     * Abby
+     * Untested
+     * @return The state of the game
+     * @throws DatabaseException
+     */
+    public GameState.State getSubState() throws DatabaseException {
+
+        try
+        {
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SELECT_ALL_GAME_INFO);
+            ResultSet rs = stmnt.executeQuery();
+
+            return GameState.State.valueOf(rs.getString("SUBSTATE"));
+
+        } catch (SQLException var4)
+        {
+            return null;
+        }
+    }
+
+    public String getTurn() {
+        return turn;
     }
 }

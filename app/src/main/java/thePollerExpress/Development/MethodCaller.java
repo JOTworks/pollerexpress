@@ -60,6 +60,7 @@ public class MethodCaller {
                         "setPlayerPoints p points" +
                         "setPlayerTrains p trains" +
                         "getRoutes\n" +
+                        "getState\n" +
 
                         "---\n" +
                         "add commands to the methodCaller class\n" +
@@ -69,6 +70,15 @@ public class MethodCaller {
             case "changeBank":
                 TrainCard[] cards = {new TrainCard(Color.TRAIN.YELLOW),new TrainCard(Color.TRAIN.YELLOW),new TrainCard(Color.TRAIN.YELLOW),new TrainCard(Color.TRAIN.YELLOW),new TrainCard(Color.TRAIN.RAINBOW)};
                 CD.getGame().getVisibleCards().set(cards);
+                break;
+            case "getState":
+                if(CD.getGame().getGameState()!=null) {
+                    result.add(CD.getGame().getGameState().getTurn());
+                    result.add(CD.getGame().getGameState().getState().toString());
+                }
+                else{
+                    result.add(null);
+                }
                 break;
             case "turnJack":
                 CD.getGame().setTurn("jackson");
