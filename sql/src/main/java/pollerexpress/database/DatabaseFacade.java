@@ -286,6 +286,13 @@ public class DatabaseFacade implements IDatabaseFacade
         {
             db.open();
             GameInfo info = db.getGameDao().read(player.getGameId()).getGameInfo();
+
+            int deckSize = db.getDestinationCardDao().getDeckSize(info);
+            if(deckSize < 3) {
+                DeckBuilder deckBuilder = new DeckBuilder(db);
+                deckBuilder.shuffleDestinationDeck(info);
+            }
+
             List<DestinationCard> cards = new ArrayList<>();
             for(int i = 0; i  < 3; ++i)//TODO get rid of magic numbers
             {
@@ -397,7 +404,16 @@ public class DatabaseFacade implements IDatabaseFacade
         try
         {
             db.open();
+
+            GameInfo gi = getGameInfo(p.getGameId());
+            int deckSize = db.getTrainCardDao().getDeckSize(gi);
+            if(deckSize < 1) {
+                DeckBuilder deckBuilder = new DeckBuilder(db);
+                deckBuilder.shuffleTrainDeck(gi);
+            }
+
             TrainCard visible = db.getTrainCardDao().drawFaceUp(p, i);
+
             db.close(true);
             return visible;
         }
@@ -425,6 +441,14 @@ public class DatabaseFacade implements IDatabaseFacade
         try
         {
             db.open();
+
+            GameInfo gi = getGameInfo(p.getGameId());
+            int deckSize = db.getTrainCardDao().getDeckSize(gi);
+            if(deckSize < number) {
+                DeckBuilder deckBuilder = new DeckBuilder(db);
+                deckBuilder.shuffleTrainDeck(gi);
+            }
+
             List<TrainCard> cards = new ArrayList<>();
             while (number > 0)
             {
@@ -434,6 +458,29 @@ public class DatabaseFacade implements IDatabaseFacade
 
             db.close(true);
             return cards;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    public TrainCard drawTrainCard(Player p) throws DatabaseException {
+        try
+        {
+            db.open();
+
+            GameInfo gi = getGameInfo(p.getGameId());
+            int deckSize = db.getTrainCardDao().getDeckSize(gi);
+            if(deckSize < 1) {
+                DeckBuilder deckBuilder = new DeckBuilder(db);
+                deckBuilder.shuffleTrainDeck(gi);
+            }
+
+            TrainCard card = db.getTrainCardDao().drawCard(p);
+
+            db.close(true);
+            return card;
         }
         finally
         {
