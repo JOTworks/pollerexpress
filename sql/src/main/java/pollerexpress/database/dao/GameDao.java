@@ -359,7 +359,6 @@ public class GameDao {
      * @throws DatabaseException
      */
     public GameState.State getSubState(GameInfo info) throws DatabaseException {
-
         try
         {
             PreparedStatement stmnt = this._db.getConnection().prepareStatement(SELECT_GAME);
@@ -377,7 +376,21 @@ public class GameDao {
         return null;
     }
 
-    public String getTurn() {
-        return turn;
+    public String getTurn(GameInfo info) {
+        try
+        {
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SELECT_GAME);
+            stmnt.setString(1, info.getId());
+            ResultSet rs = stmnt.executeQuery();
+
+
+            if (rs.next()) {
+                return rs.getString("ACTIVE_PLAYER");
+            }
+        } catch (SQLException var4)
+        {
+            return null;
+        }
+        return null;
     }
 }
