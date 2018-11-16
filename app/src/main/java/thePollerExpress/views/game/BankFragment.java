@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import com.shared.models.cardsHandsDecks.TrainCard;
 
@@ -19,7 +20,7 @@ public class BankFragment extends Fragment implements IBankView
 {
 
     TextView trainCardDeck;
-    TextView destinationCardDeck;
+    Button destinationCardDeck;
 
     BankPresenter bankPresenter;
 

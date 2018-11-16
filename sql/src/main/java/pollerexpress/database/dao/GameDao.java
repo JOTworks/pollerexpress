@@ -78,7 +78,11 @@ public class GameDao {
                 //create the game
                 Game game = new Game(gi);//TODO load more data
                 game.setPlayers(players);
-                if(rs.getString("SUBSTATE") != null && rs.getString("SUBSTATE").equals("")) {
+
+                /// todo: which one is correct
+                //if(rs.getString("SUBSTATE") != null && rs.getString("SUBSTATE").equals("")) {
+                if(rs.getString("SUBSTATE") != null) {
+
                     GameState state = new GameState(rs.getString("ACTIVE_PLAYER"), GameState.State.valueOf(rs.getString("SUBSTATE")));
                     game.setGameState(state);
                 }

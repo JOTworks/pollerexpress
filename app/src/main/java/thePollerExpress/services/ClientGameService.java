@@ -37,8 +37,9 @@ public class ClientGameService {
      */
     public static boolean startGame(TrainCard[] cards)
     {
-        //only a setgamestatecommand from the server should ever change the game state hard coded rn but its a problem - jack
-        CD.getGame().setGameState(new GameState(null, WAITING_FOR_ONE_PLAYER));
+
+        CD.getGame().setGameState(new GameState(null, GameState.State.READY_FOR_GAME_START));
+
         CD.getGame().getVisibleCards().set(cards);
 
         return true;
