@@ -293,7 +293,7 @@ public class GameDao {
     public void updateSubState(GameState.State state, GameInfo gi) throws DatabaseException {
         try
         {
-            PreparedStatement stmnt = _db.getConnection().prepareStatement(UPDATE_TURN);
+            PreparedStatement stmnt = _db.getConnection().prepareStatement(UPDATE_SUBSTATE);
             stmnt.setString(1,state.name() );
             stmnt.setString(2,gi.getId() );
             stmnt.execute();
