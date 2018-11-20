@@ -403,9 +403,9 @@ public class DatabaseFacade implements IDatabaseFacade
     {
         try
         {
-            db.open();
 
             GameInfo gi = getGameInfo(p.getGameId());
+            db.open();
             int deckSize = db.getTrainCardDao().getDeckSize(gi);
             if(deckSize < 1) {
                 DeckBuilder deckBuilder = new DeckBuilder(db);
@@ -440,9 +440,10 @@ public class DatabaseFacade implements IDatabaseFacade
     {
         try
         {
-            db.open();
+
 
             GameInfo gi = getGameInfo(p.getGameId());
+            db.open();
             int deckSize = db.getTrainCardDao().getDeckSize(gi);
             if(deckSize < number) {
                 DeckBuilder deckBuilder = new DeckBuilder(db);
@@ -468,9 +469,10 @@ public class DatabaseFacade implements IDatabaseFacade
     public TrainCard drawTrainCard(Player p) throws DatabaseException {
         try
         {
-            db.open();
+
 
             GameInfo gi = getGameInfo(p.getGameId());
+            db.open();
             int deckSize = db.getTrainCardDao().getDeckSize(gi);
             if(deckSize < 1) {
                 DeckBuilder deckBuilder = new DeckBuilder(db);
