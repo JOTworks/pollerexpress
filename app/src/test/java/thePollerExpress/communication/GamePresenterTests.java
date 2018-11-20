@@ -12,6 +12,5 @@ public class GamePresenterTests {
     public void startGame_sendsToClientCommunicator() {
         //GamePresenter gp = new GamePresenter(new GameFragment());
         GameFacade gf = new GameFacade();
-        GameFacade
     }
 }

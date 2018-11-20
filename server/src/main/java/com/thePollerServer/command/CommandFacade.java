@@ -105,19 +105,22 @@ public class CommandFacade
         df.makeBank(info);
         df.setPreGameState(info.getNumPlayers(), df.getGameInfo(user.getGameId()));
 
-        /*-----------------------------------------------------*/
-        //jack thinks you need to actualy send the change state command a this point.
-        /*-----------------------------------------------------*/
-
         setColor(user, user.getColor());
 
         Game game = df.getGame(info);
 
+        {
+            Class<?>[] types = {GameState.class};
+            Object[] params = {df.getGameState(df.getGameInfo(user.getGameId()))};
+            Command cmd = new Command(CommandsExtensions.clientSide + "ClientGameService", "setGameState", types, params);
+            CM.addCommand(cmd, df.getGameInfo(df.getPlayer(user.name).gameId));
+        }
+
         // set the game state for each person in the game
         {
             Class<?>[] types = {TrainCard[].class};
-            Object[] params = { df.getVisible(info) };                                                  //TODO: rename to setVisibleCards
-            Command startGame = new Command(CommandsExtensions.clientSide + "ClientGameService", "startGame", types, params);
+            Object[] params = { df.getVisible(info) };
+            Command startGame = new Command(CommandsExtensions.clientSide + "ClientCardService", "setVisibleCards", types, params);
             CM.addCommand(startGame, info);
         }
 
@@ -158,12 +161,7 @@ public class CommandFacade
             }
         }
 
-        {
-            Class<?>[] types = {GameState.class};
-            Object[] params = {df.getGameState(df.getGameInfo(user.getGameId()))};
-            Command cmd = new Command(CommandsExtensions.clientSide + "ClientGameService", "setGameState", types, params);
-            CM.addCommand(cmd, df.getGameInfo(df.getPlayer(user.name).gameId));
-        }
+
     }
 
     public static void discardDestinationCards(Player p, List<DestinationCard> cards) throws CommandFailed, DatabaseException

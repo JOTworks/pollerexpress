@@ -25,7 +25,9 @@
         android:textColor="@color/PollerWhite"
         android:textSize="30dp"
         app:layout_constraintEnd_toStartOf="@+id/join_game_button"
-        tools:layout_editor_absoluteY="4dp" />
+        tools:layout_editor_absoluteY="4dp"
+        tools:ignore="MissingConstraints" />
+    <!-- The missing constraints listed above may be a problem -->
 
 
     <Button
