@@ -12,21 +12,19 @@ public class BankState {
     protected GameFacade facade = new GameFacade();
     protected ClientData CD = ClientData.getInstance();
 
-    public String drawDestinationCards() {
-        return null;
-    }
+    public String drawDestinationCards() {return "BankState-dest"; }
     public String drawTrainCardFromDeck() {
-        return null;
+        return "BankState-deck";
     }
     public String drawFaceupCard(int cardIndex){
-       return null;
+       return "BankState-faceup";
     }
     public BankState changeState(GameState gameState){
         if(gameState.getState()==null)
             return new BankStateInactive();
         if(gameState.getTurn()==null)
             return new BankStateInactive();
-        if(gameState.getTurn().equals(CD.getUser().getName()))
+        if(!gameState.getTurn().equals(CD.getUser().getName()))
             return new BankStateInactive();
         if(gameState.getState() == NO_ACTION_TAKEN )
             return new BankStateDrawn0();
@@ -40,18 +38,18 @@ public class BankState {
 class BankStateDrawn1 extends BankState {
     public String drawTrainCardFromDeck() {
         facade.drawTrainCardFromDeck();
-        return null;
+        return "BankStateDrawn1-deck";
     }
     public String drawFaceupCard(int cardIndex){
         facade.drawVisibleCard(cardIndex);
-        return null;
+        return "BankStateDrawn1-faceup";
     }
 }
 
 class BankStateDrawn0 extends BankStateDrawn1 {
     public String drawDestinationCards() {
         facade.drawDestinationCards();
-        return null;
+        return "BankStateDrawn0-dest";
     }
 }
 

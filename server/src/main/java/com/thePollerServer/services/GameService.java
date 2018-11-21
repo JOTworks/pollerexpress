@@ -36,6 +36,7 @@ public class GameService
         //df.chat(chat, gameInfo);
     }
 
+
     //returns true if all
     public boolean discardDestinationCards(Player p, List<DestinationCard> discards)
     {
@@ -104,6 +105,16 @@ public class GameService
         if (i == players.size())
             i = 0;
         return players.get(i).getName();
+    }
+
+    public List<DestinationCard> drawDestinationCards(Player p) throws Exception {
+        if(!p.getName().equals(df.getGameState(df.getGameInfo(p.getGameId())).getTurn()) || !df.getGameState(df.getGameInfo(p.getGameId())).getState().equals(GameState.State.NO_ACTION_TAKEN)){
+            throw new Exception("cannot draw destination cards in this state");
+        }
+        List<DestinationCard> dlist = df.drawDestinationCards(p,2) ;
+        GameState newGameState = new GameState(df.getGameState(df.getGameInfo(p.getGameId())).getTurn(), GameState.State.DRAWN_DEST);
+        df.setGameState(newGameState,df.getGameInfo(p.getGameId()));
+        return dlist;
     }
 
     public class Triple

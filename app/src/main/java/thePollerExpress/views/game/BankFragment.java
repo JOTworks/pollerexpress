@@ -16,6 +16,7 @@ import com.shared.models.cardsHandsDecks.TrainCard;
 import cs340.pollerexpress.R;
 import thePollerExpress.presenters.game.BankPresenter;
 import thePollerExpress.presenters.game.interfaces.IBankPresenter;
+import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.interfaces.IBankView;
 
 public class BankFragment extends Fragment implements IBankView
@@ -54,7 +55,7 @@ public class BankFragment extends Fragment implements IBankView
             @Override
             public void onClick(View v) {
                bankPresenter.drawTrainCardFromDeck();
-               displayError("train deck clicked");
+
             }
         });
         Button DestinationCardDeck = (Button) destinationCardDeck;
@@ -62,7 +63,7 @@ public class BankFragment extends Fragment implements IBankView
             @Override
             public void onClick(View v) {
                 bankPresenter.drawDestinationCards();
-                displayError("destination deck clicked");
+
             }
         });
 
@@ -89,10 +90,10 @@ public class BankFragment extends Fragment implements IBankView
     @Override
     public void update()
     {
-        trainCardDeck.setText( String.format("%d", presenter.getTrainDeckSize()) );
-        destinationCardDeck.setText(String.format("%d", presenter.getDestinationDeckSize()));
+        trainCardDeck.setText( String.format("%d", bankPresenter.getTrainDeckSize()) );
+        destinationCardDeck.setText(String.format("%d", bankPresenter.getDestinationDeckSize()));
     }
-    
+
     private Drawable getFromCard(TrainCard card)
     {
         switch(card.getColor())
@@ -121,6 +122,11 @@ public class BankFragment extends Fragment implements IBankView
 
     public void displayError(String errorMessage) {
         android.widget.Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void changeView(IPollerExpressView view) {
+
     }
 
 }
