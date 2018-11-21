@@ -288,7 +288,7 @@ public class CommandFacade
 
         //check we actually got all of the train cards we wanted
         if(tList.size() != number) {
-            throw new CommandFailed("drawTrainCards");
+            throw new CommandFailed("drawTrainCards", "it could not draw correct number of cards");
         }
 
         //give command to actual player
@@ -313,5 +313,14 @@ public class CommandFacade
                 }
             }
         }
+    }
+
+    public static void drawTrainCard(Player p) throws CommandFailed, DatabaseException
+    {
+        IDatabaseFacade df = Factory.createDatabaseFacade();
+        CommandManager CM = CommandManager._instance();
+
+        Game game = df.getGame(df.getGameInfo(p.getGameId()));
+        //TrainCard card = df.drawTrainCard(p);
     }
 }

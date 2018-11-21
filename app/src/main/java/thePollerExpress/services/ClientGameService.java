@@ -63,6 +63,8 @@ public class ClientGameService {
     }
 
     public static boolean setGameState(GameState gameState) {
+        System.out.println("setting gameState");
+        System.out.println(gameState.getState().toString());
         CD.getGame().setGameState(gameState);
         return true;
     }
