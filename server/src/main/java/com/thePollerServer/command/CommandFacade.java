@@ -251,13 +251,18 @@ public class CommandFacade
     }
 
 
-    public static void drawTrainCards(Player p, int number) throws DatabaseException
+    public static void drawTrainCards(Player p, int number) throws CommandFailed, DatabaseException
     {
         IDatabaseFacade df = Factory.createDatabaseFacade();
         CommandManager CM = CommandManager._instance();
 
         Game game = df.getGame(df.getGameInfo(p.getGameId()));
         List<TrainCard> tList = df.drawTrainCards(p, number);
+
+        //check we actually got all of the train cards we wanted
+        if(tList.size() != number) {
+            throw new CommandFailed("drawTrainCards");
+        }
 
         //give command to actual player
         for(TrainCard card : tList)
@@ -271,7 +276,6 @@ public class CommandFacade
         //give altered command to everyone else in the game
         for(Player player : game.getPlayers())
         {
-            //if(!p.equals(player))
             {
                 for(TrainCard card : tList)
                 {

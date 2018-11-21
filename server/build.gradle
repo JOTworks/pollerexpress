@@ -14,5 +14,6 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(path: ':shared')
     implementation project(':sql')
+    implementation 'junit:junit:4.12'
 }
 
