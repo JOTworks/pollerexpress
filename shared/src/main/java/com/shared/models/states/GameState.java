@@ -25,7 +25,7 @@ public class GameState implements Serializable {
         GAME_OVER;
 
         public State next() {
-            return values()[ordinal()+1];
+            return values()[ordinal()-1];
         }
 
     }

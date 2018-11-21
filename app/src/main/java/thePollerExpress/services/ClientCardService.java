@@ -27,6 +27,17 @@ public class ClientCardService {
     //----------------------------------Train Card methods------------------------------------------
 
     /**
+     *  set the face up cards so all players can view them
+     * @return true if the state was changed and false otherwise
+     */
+    public static boolean setVisibleCards(TrainCard[] cards)
+    {
+        CD.getGame().getVisibleCards().set(cards);
+
+        return true;
+    }
+
+    /**
      * Used to assign the first trainCards a player receives at the start of a game
      *
      * @post one or more train cards are added to the hand of the player drawing cards

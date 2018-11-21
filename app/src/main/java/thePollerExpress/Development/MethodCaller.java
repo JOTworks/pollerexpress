@@ -193,40 +193,6 @@ public class MethodCaller {
         runner.execute(c);
     }
 
-//    private void runDemo() {
-//        try {
-//            ArrayList<String> result = new ArrayList<String>();
-//            Player demoPlayer = CD.getGame().getPlayer("jackson");
-//
-//
-//            fragment.toast("Beginning tour. CHOO CHOO!");
-//            // test claiming a route
-//            fragment.toast("Our first stop is claiming a route!");
-//            claimRoute(result, new String[]{"unused var", "1"});
-//            fragment.toast(result.toString());
-//
-//
-//            // face up deck cards can change
-//            fragment.toast("let's modify the face up deck cards!");
-//
-//            // hand of current player can change
-//            fragment.toast("let's modify the hand of the current player!");
-//            //CD.getUser().getTrainCardHand().removeFromHand();
-//
-//            // players points can be changed
-//            fragment.toast("let's modify the players points!");
-//            demoPlayer.setPoints(900);
-//
-//            // players trains remaining can be changed
-//            fragment.toast("let's modify the players remaining trains!");
-//            demoPlayer.setTrainCount(10);
-//
-//            // turn indicator can be changed
-//            fragment.toast("let's modify the turn indicator!");
-//            CD.getGame().setTurn("Nate");
-//        } catch (Exception e) {}
-//
-//    }
 
     private void claimRoute(ArrayList<String> result, String args[]) {
         if (args.length != 2)

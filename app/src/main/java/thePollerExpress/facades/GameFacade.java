@@ -38,8 +38,7 @@ public class GameFacade {
         Command drawDest= new Command(CommandsExtensions.serverSide+ "CommandFacade","drawDestinationCards",types,params);;
         return sendCommand( drawDest );
     }
-
-
+    g
 
     public PollResponse drawTrainCardFromDeck() {
         Class<?>[] types = {Player.class};

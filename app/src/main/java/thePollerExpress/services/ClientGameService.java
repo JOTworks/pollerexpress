@@ -30,20 +30,6 @@ public class ClientGameService {
         CD = ClientData.getInstance();
     }
 
-    /**
-     *  Set the game state for the state you will have going into the game
-     *  This will notify the observer and will cause every user to switch to the gameView
-     * @return true if the state was changed and false otherwise
-     */
-    public static boolean startGame(TrainCard[] cards)
-    {
-        //THIS IS NOT ALLOWED YOU CANOT CHANGE STATE ON CLIENT SIDE UNLESS PASSED SPECIFILCY AS A COMMAND
-        //CD.getGame().setGameState(new GameState(null, GameState.State.READY_FOR_GAME_START));
-        CD.getGame().setGameState(new GameState(null,GameState.State.WAITING_FOR_FIVE_PLAYERS));
-        CD.getGame().getVisibleCards().set(cards);
-
-        return true;
-    }
 
     public static boolean endGame()
     {

@@ -293,7 +293,7 @@ public class GameDao {
     public void updateSubState(GameState.State state, GameInfo gi) throws DatabaseException {
         try
         {
-            PreparedStatement stmnt = _db.getConnection().prepareStatement(UPDATE_TURN);
+            PreparedStatement stmnt = _db.getConnection().prepareStatement(UPDATE_SUBSTATE);
             stmnt.setString(1,state.name() );
             stmnt.setString(2,gi.getId() );
             stmnt.execute();
@@ -358,22 +358,39 @@ public class GameDao {
      * @return The state of the game
      * @throws DatabaseException
      */
-    public GameState.State getSubState() throws DatabaseException {
-
+    public GameState.State getSubState(GameInfo info) throws DatabaseException {
         try
         {
-            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SELECT_ALL_GAME_INFO);
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SELECT_GAME);
+            stmnt.setString(1, info.getId());
             ResultSet rs = stmnt.executeQuery();
 
-            return GameState.State.valueOf(rs.getString("SUBSTATE"));
 
+            if (rs.next()) {
+                return GameState.State.valueOf(rs.getString("SUBSTATE"));
+            }
         } catch (SQLException var4)
         {
             return null;
         }
+        return null;
     }
 
-    public String getTurn() {
-        return turn;
+    public String getTurn(GameInfo info) {
+        try
+        {
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SELECT_GAME);
+            stmnt.setString(1, info.getId());
+            ResultSet rs = stmnt.executeQuery();
+
+
+            if (rs.next()) {
+                return rs.getString("ACTIVE_PLAYER");
+            }
+        } catch (SQLException var4)
+        {
+            return null;
+        }
+        return null;
     }
 }
