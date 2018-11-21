@@ -1,5 +1,6 @@
 package com.thePollerServer.services;
 
+import com.shared.exceptions.ShuffleException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Chat;
 import com.shared.models.cardsHandsDecks.DestinationCard;
@@ -123,6 +124,13 @@ public class GameService
         if(!p.getName().equals(df.getGameState(df.getGameInfo(p.getGameId())).getTurn()) || !df.getGameState(df.getGameInfo(p.getGameId())).getState().equals(GameState.State.NO_ACTION_TAKEN)){
             throw new Exception("cannot draw destination cards in this state");
         }
+        GameInfo gi = df.getGameInfo(p.getGameId());
+        int drawnumber = 3;
+        if(df.getDestinationDeckSize(gi) < drawnumber) {
+            System.out.println("throwing a shuffle exception!!!");
+            throw new ShuffleException();
+        }
+
         List<DestinationCard> dlist = df.drawDestinationCards(p,2) ;
         GameState newGameState = new GameState(df.getGameState(df.getGameInfo(p.getGameId())).getTurn(), GameState.State.DRAWN_DEST);
         df.setGameState(newGameState,df.getGameInfo(p.getGameId()));

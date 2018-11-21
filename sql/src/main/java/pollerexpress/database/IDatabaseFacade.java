@@ -50,6 +50,10 @@ public interface IDatabaseFacade
      */
     int getPlayerDiscards(Player player) throws DatabaseException;
     void makeBank(GameInfo game) throws DatabaseException;
+    int getDestinationDeckSize(GameInfo gi) throws DatabaseException;
+    int getTrainDeckSize(GameInfo gi) throws DatabaseException;
+    void shuffleDestinationDeck(GameInfo gi) throws DatabaseException;
+    void shuffleTrainDeck(GameInfo gi) throws DatabaseException;
 
     // Abby
     void chat(Chat chat, GameInfo gameInfo) throws DatabaseException;

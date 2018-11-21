@@ -1,5 +1,6 @@
 package com.thePollerServer.command;
 
+import com.shared.exceptions.ShuffleException;
 import com.shared.models.Color;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Chat;
@@ -166,8 +167,24 @@ public class CommandFacade
         IDatabaseFacade df = Factory.createDatabaseFacade();
         GameInfo info = df.getGameInfo(p.getGameId());
         CommandManager CM = CommandManager._instance();
+        int drawnumber = 3;
+        List<DestinationCard> dlist = null;
 
-        List<DestinationCard> dlist = gm.drawDestinationCards(p) ;
+        try {
+            dlist = gm.drawDestinationCards(p);
+        } catch(ShuffleException e) {
+            //must! Shuffle!!!
+            df.shuffleDestinationDeck(info);
+            //add shuffle command
+            Integer newDeckSize = df.getDestinationDeckSize(info);
+            Class<?>[] types = {Integer.class};
+            Object[] params = {newDeckSize};
+            Command shuffleDestinationDeck = new Command(CommandsExtensions.clientSide + "ClientCardService", "shuffleDestinationDeck", types, params);
+            CM.addCommand(shuffleDestinationDeck, info);
+
+            //try getting cards again now that everything's shuffled
+            dlist = gm.drawDestinationCards(p);
+        }
 
         {
             Class<?>[] types = {Player.class, dlist.getClass()};//we will see if this works...

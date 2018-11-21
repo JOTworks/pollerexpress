@@ -371,6 +371,62 @@ public class DatabaseFacade implements IDatabaseFacade
     }
 
     @Override
+    public int getDestinationDeckSize(GameInfo gi) throws DatabaseException {
+        try{
+            db.open();
+            int deckSize = db.getDestinationCardDao().getDeckSize(gi);
+            db.close(true);
+            return deckSize;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public int getTrainDeckSize(GameInfo gi) throws DatabaseException {
+        try{
+            db.open();
+            int deckSize = db.getTrainCardDao().getDeckSize(gi);
+            db.close(true);
+            return deckSize;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public void shuffleDestinationDeck(GameInfo gi) throws DatabaseException {
+        try{
+            db.open();
+            DeckBuilder deckBuilder = new DeckBuilder(db);
+            deckBuilder.shuffleDestinationDeck(gi);
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public void shuffleTrainDeck(GameInfo gi) throws DatabaseException {
+        try{
+            db.open();
+            DeckBuilder deckBuilder = new DeckBuilder(db);
+            deckBuilder.shuffleTrainDeck(gi);
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
     public TrainCard[] getVisible(GameInfo info) throws DatabaseException
     {
         try

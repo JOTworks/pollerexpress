@@ -168,6 +168,12 @@ public class ClientCardService {
         return true;
     }
 
+    public static boolean shuffleDestinationDeck(Integer newDeckSize)
+    {
+        CD.getGame().setDestinationDeckSize(newDeckSize);
+        return true;
+    }
+
     /**
      * draws a "face up" traincard.
      * TODO: add logic to disallow draw if drawsLeft < 1

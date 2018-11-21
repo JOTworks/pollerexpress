@@ -267,6 +267,17 @@ public class Game extends Observable implements Serializable
         }
     }
 
+    public void setDestinationDeckSize(int size)
+    {
+        this.DestinationCardDeck = size;
+
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers(size);
+        }
+    }
+
     public void drawTrainCard(Player player)
     {
         //TODO add check...
