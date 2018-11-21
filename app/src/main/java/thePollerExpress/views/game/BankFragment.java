@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.shared.models.cardsHandsDecks.TrainCard;
 
 import cs340.pollerexpress.R;
@@ -19,7 +21,7 @@ import thePollerExpress.views.game.interfaces.IBankView;
 public class BankFragment extends Fragment implements IBankView
 {
 
-    TextView trainCardDeck;
+    Button trainCardDeck;
     Button destinationCardDeck;
 
     BankPresenter bankPresenter;
@@ -31,12 +33,11 @@ public class BankFragment extends Fragment implements IBankView
     }
     private TextView mVisible[];
 
-    IBankPresenter presenter;
+   ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        presenter= new BankPresenter(this);
         mVisible = new TextView[5];//TODO remove magic
         View v = inflater.inflate(R.layout.fragment_bank, container, false);
         mVisible[0] = v.findViewById(R.id.bank_0);
@@ -44,11 +45,32 @@ public class BankFragment extends Fragment implements IBankView
         mVisible[2] = v.findViewById(R.id.bank_2);
         mVisible[3] = v.findViewById(R.id.bank_3);
         mVisible[4] = v.findViewById(R.id.bank_4);
-        trainCardDeck = v.findViewById(R.id.train_card_deck);
-        destinationCardDeck = v.findViewById(R.id.destination_card_deck);
+        trainCardDeck = (Button) v.findViewById(R.id.train_card_deck);
+        destinationCardDeck = (Button)  v.findViewById(R.id.destination_card_deck);
+
+
+        Button TrainCardDeck = (Button) trainCardDeck;
+        TrainCardDeck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               bankPresenter.drawTrainCardFromDeck();
+               displayError("train deck clicked");
+            }
+        });
+        Button DestinationCardDeck = (Button) destinationCardDeck;
+        DestinationCardDeck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bankPresenter.drawDestinationCards();
+                displayError("destination deck clicked");
+            }
+        });
+
         update();
         return v;
     }
+
+
 
     @Override
     public void update(int i, TrainCard card)
@@ -70,7 +92,7 @@ public class BankFragment extends Fragment implements IBankView
         trainCardDeck.setText( String.format("%d", presenter.getTrainDeckSize()) );
         destinationCardDeck.setText(String.format("%d", presenter.getDestinationDeckSize()));
     }
-
+    
     private Drawable getFromCard(TrainCard card)
     {
         switch(card.getColor())
@@ -95,6 +117,10 @@ public class BankFragment extends Fragment implements IBankView
                 return getResources().getDrawable(R.drawable.rainbow_train_car);
         }
         return null;//TODO replace with blank
+    }
+
+    public void displayError(String errorMessage) {
+        android.widget.Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
     }
 
 }

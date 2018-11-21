@@ -39,7 +39,7 @@ public class BankState {
 
 class BankStateDrawn1 extends BankState {
     public String drawTrainCardFromDeck() {
-        //facade.
+        facade.drawTrainCardFromDeck();
         return null;
     }
     public String drawFaceupCard(int cardIndex){
@@ -50,7 +50,7 @@ class BankStateDrawn1 extends BankState {
 
 class BankStateDrawn0 extends BankStateDrawn1 {
     public String drawDestinationCards() {
-        facade.drawDestCard();
+        facade.drawDestinationCards();
         return null;
     }
 }

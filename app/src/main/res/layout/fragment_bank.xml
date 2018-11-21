@@ -70,7 +70,7 @@
             android:textAlignment="center"
             android:textColor="@color/PollerBackground"
             android:textSize="30dp"/>
-        <TextView
+        <Button
             android:id="@+id/train_card_deck"
             android:layout_width="110dp"
             android:layout_margin="5dp"
