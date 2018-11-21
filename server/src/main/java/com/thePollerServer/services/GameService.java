@@ -47,7 +47,19 @@ public class GameService
             if(number<= allowed)
             {
                 df.discardDestinationCard(p, discards);
-                df.updatePreGameState(df.getGameInfo(p.getGameId()));
+
+                //if before game starts, else durring a normal turn
+                String id = p.getGameId();
+                GameInfo gi = df.getGameInfo(id);
+                GameState gs = df.getGameState(gi);
+                String turn = gs.getTurn();
+                if(turn == null ){
+                    df.updatePreGameState(df.getGameInfo(p.getGameId()));
+                }else{
+                    GameState gamestate = new GameState(getNextPlayer(p),GameState.State.NO_ACTION_TAKEN);
+                    df.setGameState(gamestate,df.getGameInfo(p.getGameId()));
+                }
+
                 return true;
             }
         }

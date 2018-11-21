@@ -35,7 +35,7 @@ public class GameFacade {
     public PollResponse drawDestinationCards(){
         Class<?>[] types = {Player.class};
         Object[] params= {CData.getUser()};
-        Command drawDest= new Command(CommandsExtensions.serverSide+ "CommandFacade","drawDestinationCards",types,params);;
+        Command drawDest= new Command(CommandsExtensions.serverSide+ "CommandFacade","drawDestinationCards",types,params);
         return sendCommand( drawDest );
     }
 
