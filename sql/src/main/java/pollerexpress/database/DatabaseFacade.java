@@ -20,8 +20,10 @@ import com.shared.exceptions.database.DataNotFoundException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.states.GameState;
 
+import pollerexpress.database.dao.UserDao;
 import pollerexpress.database.utilities.DeckBuilder;
 
+import static com.shared.models.states.GameState.State.NO_ACTION_TAKEN;
 import static com.shared.models.states.GameState.State.READY_FOR_GAME_START;
 import static com.shared.models.states.GameState.State.WAITING_FOR_FIVE_PLAYERS;
 import static com.shared.models.states.GameState.State.WAITING_FOR_FOUR_PLAYERS;
@@ -539,8 +541,13 @@ public class DatabaseFacade implements IDatabaseFacade
 
             GameState.State curState = db.getGameDao().getSubState(gameInfo);
 
-            db.getGameDao().updateSubState(curState.next(), gameInfo);
-
+            if(curState.next().equals(READY_FOR_GAME_START)){
+                Player[] Players = db.getUserDao().getPlayersInGame(gameInfo);
+                db.getGameDao().updateTurn(Players[0].getName(), gameInfo);
+                db.getGameDao().updateSubState(NO_ACTION_TAKEN, gameInfo);
+            }else {
+                db.getGameDao().updateSubState(curState.next(), gameInfo);
+            }
             db.close(true);
         }
         finally

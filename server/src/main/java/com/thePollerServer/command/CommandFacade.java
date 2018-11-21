@@ -190,8 +190,8 @@ public class CommandFacade
     {
         GameService gm = new GameService();
         boolean discarded = gm.discardDestinationCards(p, cards);
-        // if it is a new player's turn, update the gameState to give control to the next player
-        gm.updateGameState(p);
+
+
         if (!discarded) {
             throw new CommandFailed("discardDestinationCard");
         }

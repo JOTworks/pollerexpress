@@ -91,21 +91,20 @@ public class BankPresenter implements IBankPresenter
             @Override
             public Object execute() throws CommandFailed
             {
-                String error = bankState.drawDestinationCards();
+                return bankState.drawDestinationCards();
                 //view.displayError(error);
-                return null;
             }
         });
     }
 
     public String drawTrainCardFromDeck(){
-        String error = bankState.drawTrainCardFromDeck();
-        view.displayError(error);
+        //String error = bankState.drawTrainCardFromDeck();
+        //view.displayError(error);
         return null;
     }
     public String drawFaceupCard(int cardIndex){
-        String error = bankState.drawFaceupCard(cardIndex);
-        view.displayError(error);
+        //String error = bankState.drawFaceupCard(cardIndex);
+        //view.displayError(error);
         return null;
     }
 

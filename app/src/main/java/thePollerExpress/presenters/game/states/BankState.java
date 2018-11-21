@@ -1,5 +1,6 @@
 package thePollerExpress.presenters.game.states;
 
+import com.shared.models.PollResponse;
 import com.shared.models.states.GameState;
 
 import thePollerExpress.facades.GameFacade;
@@ -12,12 +13,12 @@ public class BankState {
     protected GameFacade facade = new GameFacade();
     protected ClientData CD = ClientData.getInstance();
 
-    public String drawDestinationCards() {return "BankState-dest"; }
-    public String drawTrainCardFromDeck() {
-        return "BankState-deck";
+    public PollResponse drawDestinationCards() {return null; }
+    public PollResponse drawTrainCardFromDeck() {
+        return null;
     }
-    public String drawFaceupCard(int cardIndex){
-       return "BankState-faceup";
+    public PollResponse drawFaceupCard(int cardIndex){
+       return null;
     }
     public BankState changeState(GameState gameState){
         if(gameState.getState()==null)
@@ -36,20 +37,18 @@ public class BankState {
 }
 
 class BankStateDrawn1 extends BankState {
-    public String drawTrainCardFromDeck() {
-        facade.drawTrainCardFromDeck();
-        return "BankStateDrawn1-deck";
+    public PollResponse drawTrainCardFromDeck() {
+        return facade.drawTrainCardFromDeck();
+
     }
-    public String drawFaceupCard(int cardIndex){
-        facade.drawVisibleCard(cardIndex);
-        return "BankStateDrawn1-faceup";
+    public PollResponse drawFaceupCard(int cardIndex){
+        return facade.drawVisibleCard(cardIndex);
     }
 }
 
 class BankStateDrawn0 extends BankStateDrawn1 {
-    public String drawDestinationCards() {
-        facade.drawDestinationCards();
-        return "BankStateDrawn0-dest";
+    public PollResponse drawDestinationCards() {
+        return facade.drawDestinationCards();
     }
 }
 
