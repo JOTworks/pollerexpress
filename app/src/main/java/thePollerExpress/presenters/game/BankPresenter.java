@@ -1,12 +1,18 @@
 package thePollerExpress.presenters.game;
 
+import com.shared.exceptions.CommandFailed;
 import com.shared.models.Game;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.cardsHandsDecks.VisibleCards;
+import com.shared.models.interfaces.ICommand;
 
+import java.util.List;
 import java.util.Observable;
 import thePollerExpress.models.ClientData;
 import thePollerExpress.presenters.game.interfaces.IBankPresenter;
 import thePollerExpress.presenters.game.states.BankState;
+import thePollerExpress.utilities.AsyncRunner;
+import thePollerExpress.utilities.ViewFactory;
 import thePollerExpress.views.game.interfaces.IBankView;
 
 public class BankPresenter implements IBankPresenter
@@ -76,16 +82,30 @@ public class BankPresenter implements IBankPresenter
         bankState = bankState.changeState(CD.getGame().getGameState());
     }
 
-    public String drawDestinationCards(){
-        bankState.drawDestinationCards();
-        return null;
+    public void drawDestinationCards() {
+        AsyncRunner drawDestCardTask = new AsyncRunner(view);
+
+        drawDestCardTask.setNextView(ViewFactory.createDestinationHandView());
+        drawDestCardTask.execute(new ICommand()
+        {
+            @Override
+            public Object execute() throws CommandFailed
+            {
+                String error = bankState.drawDestinationCards();
+                //view.displayError(error);
+                return null;
+            }
+        });
     }
+
     public String drawTrainCardFromDeck(){
-        bankState.drawTrainCardFromDeck();
+        String error = bankState.drawTrainCardFromDeck();
+        view.displayError(error);
         return null;
     }
     public String drawFaceupCard(int cardIndex){
-        bankState.drawFaceupCard(cardIndex);
+        String error = bankState.drawFaceupCard(cardIndex);
+        view.displayError(error);
         return null;
     }
 

@@ -13,6 +13,8 @@ import com.shared.models.Command;
 import com.shared.exceptions.CommandFailed;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
+
+import pollerexpress.database.DatabaseFacade;
 import pollerexpress.database.IDatabaseFacade;
 import com.shared.models.Player;
 import com.thePollerServer.services.GameService;
@@ -109,12 +111,7 @@ public class CommandFacade
 
         Game game = df.getGame(info);
 
-        {
-            Class<?>[] types = {GameState.class};
-            Object[] params = {df.getGameState(df.getGameInfo(user.getGameId()))};
-            Command cmd = new Command(CommandsExtensions.clientSide + "ClientGameService", "setGameState", types, params);
-            CM.addCommand(cmd, df.getGameInfo(df.getPlayer(user.name).gameId));
-        }
+        setGameState(user);
 
         // set the game state for each person in the game
         {
@@ -164,6 +161,31 @@ public class CommandFacade
 
     }
 
+    public static void drawDestinationCards (Player p) throws Exception {
+        GameService gm = new GameService();
+        IDatabaseFacade df = Factory.createDatabaseFacade();
+        GameInfo info = df.getGameInfo(p.getGameId());
+        CommandManager CM = CommandManager._instance();
+
+        List<DestinationCard> dlist = gm.drawDestinationCards(p) ;
+
+        {
+            Class<?>[] types = {Player.class, dlist.getClass()};//we will see if this works...
+            Object[] params = {p, dlist};
+            Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawDestinationCards", types, params);
+            CM.addCommand(drawDestinationCards, p);
+        }
+        // next create the command for all other players...
+        {
+            Class<?>[] types = {Player.class, Integer.class};
+            Object[] params = {p, new Integer(3)};
+            Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawDestinationCards", types, params);
+            CM.addCommand(drawDestinationCards, info);
+        }
+
+       setGameState(p);
+    }
+
     public static void discardDestinationCards(Player p, List<DestinationCard> cards) throws CommandFailed, DatabaseException
     {
         GameService gm = new GameService();
@@ -190,12 +212,7 @@ public class CommandFacade
             CM.addCommand(cmd, df.getGameInfo(df.getPlayer(p.name).gameId));
         }
 
-        {
-            Class<?>[] types = {GameState.class};
-            Object[] params = {df.getGameState(df.getGameInfo(p.getGameId()))};
-            Command cmd = new Command(CommandsExtensions.clientSide + "ClientGameService", "setGameState", types, params);
-            CM.addCommand(cmd, df.getGameInfo(df.getPlayer(p.name).gameId));
-        }
+        setGameState(p);
     }
 
     /**
@@ -250,6 +267,16 @@ public class CommandFacade
         df.setColor(p, Color.getIndex(color));
     }
 
+    private static void setGameState(Player p) throws DatabaseException {
+        CommandManager CM = CommandManager._instance();
+        DatabaseFacade df = new DatabaseFacade();
+        {
+            Class<?>[] types = {GameState.class};
+            Object[] params = {df.getGameState(df.getGameInfo(p.getGameId()))};
+            Command cmd = new Command(CommandsExtensions.clientSide + "ClientGameService", "setGameState", types, params);
+            CM.addCommand(cmd, df.getGameInfo(df.getPlayer(p.name).gameId));
+        }
+    }
 
     public static void drawTrainCards(Player p, int number) throws CommandFailed, DatabaseException
     {

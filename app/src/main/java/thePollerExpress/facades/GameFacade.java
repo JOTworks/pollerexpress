@@ -32,24 +32,18 @@ public class GameFacade {
         return sendCommand( startGame );
     }
 
-    public PollResponse drawDestCard(){
+    public PollResponse drawDestinationCards(){
         Class<?>[] types = {Player.class};
         Object[] params= {CData.getUser()};
         Command drawDest= new Command(CommandsExtensions.serverSide+ "CommandFacade","drawDestinationCards",types,params);;
         return sendCommand( drawDest );
     }
 
-//    public PollResponse drawDestCards() {
-//        Class<?>[] types = {Player.class};
-//        Object[] values = {CData.getUser()};
-//        Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","drawDestCards",types,values);
-//        return sendCommand(command);
-//    }
 
     public PollResponse drawTrainCardFromDeck() {
         Class<?>[] types = {Player.class};
         Object[] values = {CData.getUser()};
-        Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","drawTrainCardFromDeck",types,values);
+        Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","drawTrainCard",types,values);
         return sendCommand(command);
     }
 
