@@ -112,5 +112,7 @@ public interface IDatabaseFacade
      * @return
      */
     GameState getGameState(GameInfo gameInfo) throws DatabaseException;
+
+    TrainCard drawTrainCard(Player p) throws DatabaseException;
 }
 

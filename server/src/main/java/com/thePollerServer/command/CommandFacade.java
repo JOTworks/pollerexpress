@@ -346,12 +346,52 @@ public class CommandFacade
         }
     }
 
-    public static void drawTrainCard(Player p) throws CommandFailed, DatabaseException
-    {
+    public static void drawTrainCard(Player p) throws Exception {
+        GameService gm = new GameService();
         IDatabaseFacade df = Factory.createDatabaseFacade();
+        GameInfo info = df.getGameInfo(p.getGameId());
         CommandManager CM = CommandManager._instance();
+        Game game = df.getGame(info);
 
-        Game game = df.getGame(df.getGameInfo(p.getGameId()));
-        //TrainCard card = df.drawTrainCard(p);
+        TrainCard card = null;
+        try {
+            card = gm.drawTrainCard(p);
+        } catch(ShuffleException e) {
+            //must! Shuffle!!!
+            df.shuffleTrainDeck(info);
+            //add shuffle command
+            Integer newDeckSize = df.getTrainDeckSize(info);
+            Class<?>[] types = {Integer.class};
+            Object[] params = {newDeckSize};
+            Command shuffleTrainDeck = new Command(CommandsExtensions.clientSide + "ClientCardService", "shuffleTrainDeck", types, params);
+            CM.addCommand(shuffleTrainDeck, info);
+
+            //try getting cards again now that everything's shuffled
+            card = gm.drawTrainCard(p);
+        }
+
+        //give command to actual player
+
+        {
+            Class<?>[] types = {card.getClass()};
+            Object[] params = {card};
+            Command drawTrainCard = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawTrainCard", types, params);
+            CM.addCommand(drawTrainCard, p);
+        }
+
+        //give altered command to everyone else in the game
+        for(Player player : game.getPlayers())
+        {
+            {
+                Class<?>[] types = {player.getClass()};
+                Object[] params = {player};
+                Command drawTrainCard = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawTrainCard", types, params);
+                CM.addCommand(drawTrainCard, p);
+            }
+        }
+        setGameState(p);
     }
+
+
+
 }

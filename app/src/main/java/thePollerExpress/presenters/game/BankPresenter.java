@@ -97,11 +97,19 @@ public class BankPresenter implements IBankPresenter
         });
     }
 
-    public String drawTrainCardFromDeck(){
-        //String error = bankState.drawTrainCardFromDeck();
-        //view.displayError(error);
-        return null;
+    public void drawTrainCardFromDeck(){
+        AsyncRunner drawTrainCardTask = new AsyncRunner(view);
+        drawTrainCardTask.execute(new ICommand()
+        {
+            @Override
+            public Object execute() throws CommandFailed
+            {
+                return bankState.drawTrainCardFromDeck();
+                //view.displayError(error);
+            }
+        });
     }
+
     public String drawFaceupCard(int cardIndex){
         //String error = bankState.drawFaceupCard(cardIndex);
         //view.displayError(error);
