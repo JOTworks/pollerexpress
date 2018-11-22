@@ -92,7 +92,6 @@ public class BankPresenter implements IBankPresenter
             public Object execute() throws CommandFailed
             {
                 return bankState.drawDestinationCards();
-                //view.displayError(error);
             }
         });
     }
@@ -105,15 +104,21 @@ public class BankPresenter implements IBankPresenter
             public Object execute() throws CommandFailed
             {
                 return bankState.drawTrainCardFromDeck();
-                //view.displayError(error);
             }
         });
     }
 
-    public String drawFaceupCard(int cardIndex){
-        //String error = bankState.drawFaceupCard(cardIndex);
-        //view.displayError(error);
-        return null;
+    public void drawFaceupCard(final int cardIndex){
+
+        AsyncRunner drawTrainCardTask = new AsyncRunner(view);
+        drawTrainCardTask.execute(new ICommand()
+        {
+            @Override
+            public Object execute() throws CommandFailed
+            {
+                return bankState.drawFaceupCard(cardIndex);
+            }
+        });
     }
 
 
