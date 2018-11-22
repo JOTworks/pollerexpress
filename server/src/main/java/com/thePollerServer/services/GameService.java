@@ -1,6 +1,8 @@
 package com.thePollerServer.services;
 
+import com.shared.exceptions.CommandFailed;
 import com.shared.exceptions.ShuffleException;
+import com.shared.exceptions.StateException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Chat;
 import com.shared.models.cardsHandsDecks.DestinationCard;
@@ -120,9 +122,9 @@ public class GameService
         return players.get(i).getName();
     }
 
-    public List<DestinationCard> drawDestinationCards(Player p) throws Exception {
+    public List<DestinationCard> drawDestinationCards(Player p) throws StateException, DatabaseException {
         if(!p.getName().equals(df.getGameState(df.getGameInfo(p.getGameId())).getTurn()) || !df.getGameState(df.getGameInfo(p.getGameId())).getState().equals(GameState.State.NO_ACTION_TAKEN)){
-            throw new Exception("cannot draw destination cards in this state");
+            throw new StateException("draw destination cards", df.getGameState(df.getGameInfo(p.getGameId())).getState().name());
         }
         GameInfo gi = df.getGameInfo(p.getGameId());
         int drawnumber = 3;

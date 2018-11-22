@@ -1,6 +1,7 @@
 package com.thePollerServer.command;
 
 import com.shared.exceptions.ShuffleException;
+import com.shared.exceptions.StateException;
 import com.shared.models.Color;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Chat;
@@ -22,7 +23,10 @@ import com.thePollerServer.services.GameService;
 import com.thePollerServer.services.SetupService;
 import com.thePollerServer.utilities.Factory;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.print.attribute.standard.Destination;
 
 public class CommandFacade
 {
@@ -162,7 +166,7 @@ public class CommandFacade
 
     }
 
-    public static void drawDestinationCards (Player p) throws Exception {
+    public static void drawDestinationCards (Player p) throws StateException, DatabaseException {
         GameService gm = new GameService();
         IDatabaseFacade df = Factory.createDatabaseFacade();
         GameInfo info = df.getGameInfo(p.getGameId());
@@ -186,6 +190,11 @@ public class CommandFacade
             dlist = gm.drawDestinationCards(p);
         }
 
+        System.out.println("!!!Printing drawn Destination Cards!!!");
+        for(DestinationCard card : dlist) {
+            System.out.println(card);
+        }
+
         {
             Class<?>[] types = {Player.class, dlist.getClass()};//we will see if this works...
             Object[] params = {p, dlist};
@@ -198,6 +207,11 @@ public class CommandFacade
             Object[] params = {p, new Integer(3)};
             Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawDestinationCards", types, params);
             CM.addCommand(drawDestinationCards, info);
+        }
+        List<DestinationCard> hand = df.getDestinationHand(p);
+        System.out.println("!!!Printing Destination Card HAND!!!");
+        for(DestinationCard card : hand) {
+            System.out.println(card);
         }
 
        setGameState(p);

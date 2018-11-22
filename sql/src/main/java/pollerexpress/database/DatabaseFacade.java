@@ -1,6 +1,5 @@
 package pollerexpress.database;
 
-import com.shared.exceptions.NotImplementedException;
 import com.shared.models.Authtoken;
 
 import com.shared.models.cardsHandsDecks.DestinationCard;
@@ -20,7 +19,6 @@ import com.shared.exceptions.database.DataNotFoundException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.states.GameState;
 
-import pollerexpress.database.dao.UserDao;
 import pollerexpress.database.utilities.DeckBuilder;
 
 import static com.shared.models.states.GameState.State.NO_ACTION_TAKEN;
@@ -415,6 +413,34 @@ public class DatabaseFacade implements IDatabaseFacade
             DeckBuilder deckBuilder = new DeckBuilder(db);
             deckBuilder.shuffleTrainDeck(gi);
             db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public List<DestinationCard> getDestinationHand(Player player) throws DatabaseException {
+        try{
+            db.open();
+            List<DestinationCard> hand = db.getDestinationCardDao().getHand(player);
+            db.close(true);
+            return hand;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public List<TrainCard> getTrainHand(Player player) throws DatabaseException {
+        try{
+            db.open();
+            List<TrainCard> hand = db.getTrainCardDao().getHand(player);
+            db.close(true);
+            return hand;
         }
         finally
         {

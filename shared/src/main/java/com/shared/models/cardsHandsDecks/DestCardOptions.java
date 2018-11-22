@@ -49,7 +49,16 @@ public class DestCardOptions extends Hand implements Serializable { //TODO: ther
         }
     }
 
-
-
-
+    @Override
+    public String toString() {
+        if(destCards.size() == 0) {
+            return "You have no Destination Card Options at the moment.";
+        }
+        StringBuilder builder = new StringBuilder("");
+        for(DestinationCard card : destCards) {
+            builder.append(card.toString());
+            builder.append('\n');
+        }
+        return builder.toString();
+    }
 }

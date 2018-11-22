@@ -61,6 +61,8 @@ public class MethodCaller {
                         "setPlayerTrains p trains" +
                         "getRoutes\n" +
                         "getState\n" +
+                        "getDestHand\n" +
+                        "getDestOptions\n" +
 
                         "---\n" +
                         "add commands to the methodCaller class\n" +
@@ -178,6 +180,11 @@ public class MethodCaller {
                 break;
 //            case "demo":
 //                runDemo();
+            case "getDestHand":
+                result.add(CD.getUser().getDestCardHand().toString());
+                break;
+            case "getDestOptions":
+                result.add(CD.getUser().getDestCardOptions().toString());
             default:
                 result.add("that didn't match any commands");
         }
