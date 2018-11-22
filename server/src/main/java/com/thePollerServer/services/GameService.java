@@ -137,6 +137,36 @@ public class GameService
         return dlist;
     }
 
+    public TrainCard drawTrainCard(Player p) throws Exception {
+        GameState gameState = df.getGameState(df.getGameInfo(p.getGameId()));
+        if(!p.getName().equals(gameState.getTurn()) ){
+            throw new Exception("cannot draw train card if not your turn");
+        }
+        GameState.State state = gameState.getState();
+        if (!state.equals(GameState.State.NO_ACTION_TAKEN) && !state.equals(GameState.State.DRAWN_ONE))
+        {
+            throw new Exception("cannot draw train card");
+        }
+        GameInfo gi = df.getGameInfo(p.getGameId());
+        if(df.getDestinationDeckSize(gi) < 1) {
+            System.out.println("throwing a shuffle exception!!!");
+            throw new ShuffleException();
+        }
+
+        TrainCard card = df.drawTrainCard(p);
+
+        //changing states
+        GameState newGameState;
+        if (state == GameState.State.NO_ACTION_TAKEN) {
+            newGameState = new GameState(gameState.getTurn(), GameState.State.DRAWN_ONE);
+        }else{
+            newGameState = new GameState(getNextPlayer(p),GameState.State.NO_ACTION_TAKEN);
+        }
+
+        df.setGameState(newGameState,df.getGameInfo(p.getGameId()));
+        return card;
+    }
+
     public class Triple
     {
         public TrainCard card;
