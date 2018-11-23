@@ -60,7 +60,6 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
 
     @Override
     public void update(Observable o, Object arg) {
-        view.displayError("updated");
         view.renderCards(ClientData.getInstance().getUser().getDestCardOptions().getDestinationCards());
     }
 

@@ -49,6 +49,10 @@ public class DestCardOptions extends Hand implements Serializable { //TODO: ther
         }
     }
 
+    public void makeEmpty() {
+        destCards = new ArrayList<>();
+    }
+
     @Override
     public String toString() {
         if(destCards.size() == 0) {
