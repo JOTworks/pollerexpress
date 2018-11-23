@@ -1,8 +1,12 @@
 package com.thePollerServer.services;
 
+import com.shared.exceptions.NotImplementedException;
 import com.shared.exceptions.ShuffleException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Chat;
+import com.shared.models.EndGameResult;
+import com.shared.models.PlayerScore;
+import com.shared.models.Route;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
@@ -12,6 +16,7 @@ import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.states.GameState;
 import com.thePollerServer.utilities.Factory;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,20 +50,22 @@ public class GameService
         try
         {
             int allowed = df.getPlayerDiscards(p);
-            if(number<= allowed)
+            if(number <= allowed)
             {
                 df.discardDestinationCard(p, discards);
 
-                //if before game starts, else durring a normal turn
+
                 String id = p.getGameId();
                 GameInfo gi = df.getGameInfo(id);
                 GameState gs = df.getGameState(gi);
                 String turn = gs.getTurn();
-                if(turn == null ){
-                    df.updatePreGameState(df.getGameInfo(p.getGameId()));
-                }else{
-                    GameState gamestate = new GameState(getNextPlayer(p),GameState.State.NO_ACTION_TAKEN);
-                    df.setGameState(gamestate,df.getGameInfo(p.getGameId()));
+
+                //update the game state after discarding
+                if(turn == null ){  //if before game starts
+                    df.updatePreGameState(gi);
+                }else{  //else during a normal turn
+                    GameState newGs = new GameState(getNextPlayer(p),GameState.State.NO_ACTION_TAKEN);
+                    df.setGameState(newGs, gi);
                 }
 
                 return true;
@@ -135,6 +142,75 @@ public class GameService
         GameState newGameState = new GameState(df.getGameState(df.getGameInfo(p.getGameId())).getTurn(), GameState.State.DRAWN_DEST);
         df.setGameState(newGameState,df.getGameInfo(p.getGameId()));
         return dlist;
+    }
+
+    public void checkForEndGame(Player p) {
+        String id = p.getGameId();
+        try {
+            GameInfo gi = df.getGameInfo(id);
+            GameState gs = df.getGameState(gi);
+
+            if (df.getPlayer(gs.getTurn()).getTrainCount() < 3) {
+                endGame(gi);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e.getClass() + ":" + e.getCause().toString())
+        }
+    }
+
+    private EndGameResult endGame(GameInfo gameInfo) {
+        EndGameResult gameResult = new EndGameResult();
+        try {
+
+            for (Player player : df.getPlayersInGame(gameInfo)) {
+                PlayerScore score = new PlayerScore();
+
+
+                score = setDestinationCardPoints(player, score);
+                score.setRoutePoints(calculateRoutePoints(player));
+                score.setBonusAwardPoints(calculateBonusPoints(player));
+
+                score.setTotalPoints();
+
+                gameResult.addScore(score);
+            }
+        }  catch (Exception e) {
+            throw new RuntimeException(e.getClass() + ":" + e.getCause().toString());
+        }
+
+        return gameResult;
+    }
+
+    private PlayerScore setDestinationCardPoints(Player p, PlayerScore score) {
+        List<DestinationCard> cards = new ArrayList<DestinationCard>(); //TODO: get actual cards from database
+        int reachedPoints = 0;
+        int unreachedPoints = 0;
+        for (DestinationCard card : cards) {
+            RouteCalculator rCalc = new RouteCalculator();
+        }
+
+        score.setDestinationPoints(reachedPoints);
+        score.setUnreachedDestinationPoints(unreachedPoints);
+    }
+
+//    private int calculateUnreachedDestinationPoints(Player player) {
+//        return 0;
+//    }
+//
+//    private int calculateDestinationPoints(Player player) {
+//        return 0;
+//    }
+
+    private int calculateBonusPoints(Player player) {
+        return 0; //TODO: calculate bonus points
+    }
+
+    private int calculateRoutePoints(Player player) {
+        int points = 0;
+        for (Route route : player.getRoutes())
+            points += route.getDistance();
+
+        return points;
     }
 
     public class Triple
