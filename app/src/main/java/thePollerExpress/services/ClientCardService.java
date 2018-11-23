@@ -107,10 +107,6 @@ public class ClientCardService {
      */
     public static boolean drawDestinationCards(Player player, ArrayList<DestinationCard> destinationCards)
     {
-        System.out.println("Client side reporting drawn Destination Cards!");
-        for(DestinationCard card : destinationCards) {
-            System.out.println(card);
-        }
         if(!CD.getUser().equals(player)) return false;
         for (DestinationCard card : destinationCards) {
             CD.addDestCardToOptions(card);
@@ -151,8 +147,11 @@ public class ClientCardService {
             CD.removeDestCardFromOptions(card);
         }
 
-        for (DestinationCard card : CD.getUser().getDestCardOptions().getDestinationCards())
+        for (DestinationCard card : CD.getUser().getDestCardOptions().getDestinationCards()) {
             CD.addDestCardToHand(card);
+        }
+
+        CD.emptyDestOptions();
         return true;
     }
 
