@@ -5,6 +5,7 @@ import com.shared.exceptions.ShuffleException;
 import com.shared.exceptions.StateException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Chat;
+import com.shared.models.Color;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
@@ -17,6 +18,9 @@ import com.thePollerServer.utilities.Factory;
 import java.util.Collections;
 import java.util.List;
 
+import static com.shared.models.Color.TRAIN.RAINBOW;
+import static com.shared.models.states.GameState.State.DRAWN_ONE;
+import static com.shared.models.states.GameState.State.NO_ACTION_TAKEN;
 
 
 /*
@@ -59,7 +63,7 @@ public class GameService
                 if(turn == null ){
                     df.updatePreGameState(df.getGameInfo(p.getGameId()));
                 }else{
-                    GameState gamestate = new GameState(getNextPlayer(p),GameState.State.NO_ACTION_TAKEN);
+                    GameState gamestate = new GameState(getNextPlayer(p),NO_ACTION_TAKEN);
                     df.setGameState(gamestate,df.getGameInfo(p.getGameId()));
                 }
 
@@ -77,20 +81,34 @@ public class GameService
     /**
      * the int is the remaining number of draws
      */
-    public Triple drawVisible(Player player, int i) throws DatabaseException
+    public TrainCard drawVisible(Player p, int i) throws Exception
     {
+        GameInfo info = df.getGameInfo(p.getGameId());
+        GameState gs = df.getGameState(info);
+        boolean isRainbow = df.getVisible(p,i).getColor().equals(RAINBOW);
+        //ugly ifs to test for legality
+        if(!gs.getTurn().equals(p.getName())){
+            throw new Exception("canot draw unless its your turn");
+        }
+        if(!gs.getState().equals(DRAWN_ONE) && !gs.getState().equals(NO_ACTION_TAKEN)){
+            throw new Exception("canot draw visible in this state");
+        }
+        if(gs.getState().equals(DRAWN_ONE) && isRainbow){
+            throw new Exception("Rainbow counts as 2 draws, you only have 1 draw left");
+        }
 
-        Triple p = new Triple();
-        GameInfo info = df.getGameInfo(player.getGameId());
-        //TODO check if the player can draw.
-        TrainCard visible = df.getVisible(player,i);
-        //TODO check if the player can draw the visible card
-        df.drawVisible(player, i);
-        p.drawsLeft = 0;//Default
-        p.card = visible;
-        p.info = info;
-        p.visible = df.getVisible(info);
-        return p;
+        TrainCard card = df.drawVisible(p,i);
+
+        //determine the next state
+        if(isRainbow || gs.getTurn().equals(DRAWN_ONE)){
+            GameState newGameState = new GameState(getNextPlayer(p), NO_ACTION_TAKEN);
+            df.setGameState(newGameState, info);
+        }else{
+            GameState newGameState = new GameState(gs.getTurn(), DRAWN_ONE);
+            df.setGameState(newGameState, info);
+        }
+
+        return card;
     }
 
     public void updateGameState(Player p) throws DatabaseException {
@@ -98,7 +116,7 @@ public class GameService
 
         switch (gameState.getState()) {
             case READY_FOR_GAME_START:
-                GameState newGameState = new GameState(getNextPlayer(p), GameState.State.NO_ACTION_TAKEN);
+                GameState newGameState = new GameState(getNextPlayer(p), NO_ACTION_TAKEN);
                 df.setGameState(newGameState,df.getGameInfo(p.getGameId()));
                 break;
         }
@@ -123,7 +141,7 @@ public class GameService
     }
 
     public List<DestinationCard> drawDestinationCards(Player p) throws StateException, DatabaseException {
-        if(!p.getName().equals(df.getGameState(df.getGameInfo(p.getGameId())).getTurn()) || !df.getGameState(df.getGameInfo(p.getGameId())).getState().equals(GameState.State.NO_ACTION_TAKEN)){
+        if(!p.getName().equals(df.getGameState(df.getGameInfo(p.getGameId())).getTurn()) || !df.getGameState(df.getGameInfo(p.getGameId())).getState().equals(NO_ACTION_TAKEN)){
             throw new StateException("draw destination cards", df.getGameState(df.getGameInfo(p.getGameId())).getState().name());
         }
         GameInfo gi = df.getGameInfo(p.getGameId());
@@ -145,7 +163,7 @@ public class GameService
             throw new Exception("cannot draw train card if not your turn");
         }
         GameState.State state = gameState.getState();
-        if (!state.equals(GameState.State.NO_ACTION_TAKEN) && !state.equals(GameState.State.DRAWN_ONE))
+        if (!state.equals(NO_ACTION_TAKEN) && !state.equals(DRAWN_ONE))
         {
             throw new Exception("cannot draw train card");
         }
@@ -159,10 +177,10 @@ public class GameService
 
         //changing states
         GameState newGameState;
-        if (state == GameState.State.NO_ACTION_TAKEN) {
-            newGameState = new GameState(gameState.getTurn(), GameState.State.DRAWN_ONE);
+        if (state == NO_ACTION_TAKEN) {
+            newGameState = new GameState(gameState.getTurn(), DRAWN_ONE);
         }else{
-            newGameState = new GameState(getNextPlayer(p),GameState.State.NO_ACTION_TAKEN);
+            newGameState = new GameState(getNextPlayer(p),NO_ACTION_TAKEN);
         }
 
         df.setGameState(newGameState,df.getGameInfo(p.getGameId()));

@@ -275,21 +275,22 @@ public class CommandFacade
      * @param i
      * @throws DatabaseException
      */
-    public static void drawVisible(Player p, Integer i) throws DatabaseException
+    public static void drawVisible(Player p, Integer i) throws Exception
     {
-        try
-        {
-            GameService.Triple result = new GameService().drawVisible(p, i);
+        DatabaseFacade df = new DatabaseFacade();
+        GameInfo info = df.getGameInfo(p.getGameId());
 
-            Class<?>[] types = {Player.class, TrainCard.class, Integer.class, TrainCard[].class};
-            Object[] params = {p, result.card, Integer.valueOf(result.drawsLeft),result.visible  };
-            Command command = new Command(CommandsExtensions.clientSide+"ClientCardService", "drawVisibleCard", types, params);
-            CommandManager._instance().addCommand(command, result.info);
-        }
-        finally
-        {
+            TrainCard card = new GameService().drawVisible(p, i);
+            TrainCard[] visible = df.getVisible(info);
 
+        {
+            Class<?>[] types = {Player.class, TrainCard.class, TrainCard[].class};
+            Object[] params = {p, card, visible};
+            Command command = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawVisibleCard", types, params);
+            CommandManager._instance().addCommand(command, info);
         }
+
+        setGameState(p);
     }
 
     public static void setColor(Player p, Color.PLAYER color)

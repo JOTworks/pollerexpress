@@ -190,11 +190,10 @@ public class ClientCardService {
      *
      * @param p the player who is drawing the card
      * @param card a trainCard
-     * @param drawsLeft a value for how many more cards the player can draw this turn
      * @param visible an array of the traincards that are currently "face up" on the board
      * @return true upon successful execution
      */
-    public static boolean drawVisibleCard(Player p, TrainCard card, Integer drawsLeft, TrainCard visible[])
+    public static boolean drawVisibleCard(Player p, TrainCard card, TrainCard visible[])
     {
         if(p.equals(CD.getUser()))
         {
