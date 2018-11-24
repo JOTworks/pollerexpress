@@ -16,12 +16,12 @@ public class RouteCalculator {
         this.routes = routes;
     }
 
-    private boolean checkDestinationReached(DestinationCard card) {
+    public boolean checkDestinationReached(DestinationCard card) {
         // if the two cities are not present in any of the routes claimed by a player, return false
         if (routesIncludeBothCities(card.getCity1(), card.getCity2())) {
              return findConnectedPath(card.getCity1(), card.getCity2());
         }
-        else return findConnectedPath(card.getCity1(), card.getCity2());
+        else return false;
     }
 
     /**
@@ -31,12 +31,12 @@ public class RouteCalculator {
      * @return
      */
     private boolean findConnectedPath(City currentCity, City destination) {
+        // base case
         if (currentCity == destination)
             return true;
 
-
         // find all connected cities and a routes that takes you there
-        List<CityRoutePair> nextCitiesAndTheRoutesToGetThere = getConnectedCitiesAndRoutes(currentCity, routes);
+        List<CityRoutePair> nextCitiesAndTheRoutesToGetThere = getConnectedCitiesAndRoutes(currentCity);
         // for each of these routeCityPairs...
         for (CityRoutePair cityRoutePair : nextCitiesAndTheRoutesToGetThere) {
             City nextCity = cityRoutePair.city;
@@ -45,7 +45,7 @@ public class RouteCalculator {
             // step 1: remove the route that gets you to the next city so you do not backtrack
             routes.remove(routeToNextCity);
             // step 3: recurse for the win!
-            if (findConnectedPath(currentCity, destination))
+            if (findConnectedPath(nextCity, destination))
                 return true;
         }
         // if we loop all the way through the connected routes and we never reach our destination
@@ -63,9 +63,9 @@ public class RouteCalculator {
 
         for (Route route : routes) {
             if (route.getCities().get(0) == city)
-                connectedCities = route.getCities().get(1);
+                connectedCitiesAndRoutes.add(new CityRoutePair(route.getCities().get(1), route));
             if (route.getCities().get(1) == city)
-                connectedCity = route.getCities().get(0);
+                connectedCitiesAndRoutes.add(new CityRoutePair(route.getCities().get(0), route));
         }
         return connectedCitiesAndRoutes;
     }
@@ -85,6 +85,15 @@ public class RouteCalculator {
         return routeIncludesCity(city1) && routeIncludesCity(city2);
     }
 
+    /**
+     * The routes need to be reset every time the calculator is used since traversal removes routes
+     * @param routes
+     */
+    public void resetRoutes(List<Route> routes) {
+        this.routes = routes;
+    }
+
+
     private class CityRoutePair {
         public City city;
         public Route route;
@@ -93,13 +102,5 @@ public class RouteCalculator {
             this.city = city;
             this.route = route;
         }
-    }
-
-    /**
-     * The routes need to be reset every time the calculator is used since traversal removes routes
-     * @param routes
-     */
-    public void resetRoutes(List<Route> routes) {
-        this.routes = routes;
     }
 }

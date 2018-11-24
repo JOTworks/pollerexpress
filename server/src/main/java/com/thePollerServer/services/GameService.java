@@ -15,6 +15,7 @@ import pollerexpress.database.IDatabaseFacade;
 import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.states.GameState;
 import com.thePollerServer.utilities.Factory;
+import com.thePollerServer.utilities.RouteCalculator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -163,17 +164,17 @@ public class GameService
         try {
 
             for (Player player : df.getPlayersInGame(gameInfo)) {
-                PlayerScore score = new PlayerScore();
-
+                PlayerScore score = new PlayerScore(player.name);
 
                 score = setDestinationCardPoints(player, score);
                 score.setRoutePoints(calculateRoutePoints(player));
-                score.setBonusAwardPoints(calculateBonusPoints(player));
-
-                score.setTotalPoints();
 
                 gameResult.addScore(score);
             }
+
+            gameResult.addBonusPoints();
+            gameResult.totalPoints();
+
         }  catch (Exception e) {
             throw new RuntimeException(e.getClass() + ":" + e.getCause().toString());
         }
@@ -186,22 +187,20 @@ public class GameService
         int reachedPoints = 0;
         int unreachedPoints = 0;
         for (DestinationCard card : cards) {
-            RouteCalculator rCalc = new RouteCalculator();
+            RouteCalculator rCalc = new RouteCalculator(p.getRoutes());
+            boolean destinationReached = rCalc.checkDestinationReached(card);
+            if (destinationReached)
+                reachedPoints += card.getPoints();
+            else
+                unreachedPoints += card.getPoints();
         }
 
         score.setDestinationPoints(reachedPoints);
         score.setUnreachedDestinationPoints(unreachedPoints);
+        return score;
     }
 
-//    private int calculateUnreachedDestinationPoints(Player player) {
-//        return 0;
-//    }
-//
-//    private int calculateDestinationPoints(Player player) {
-//        return 0;
-//    }
-
-    private int calculateBonusPoints(Player player) {
+    private int addBonusPoints(Player player) {
         return 0; //TODO: calculate bonus points
     }
 

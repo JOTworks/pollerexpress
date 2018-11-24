@@ -4,16 +4,24 @@ import java.io.Serializable;
 
 public class PlayerScore implements Serializable {
 
+    private String playerName;
     private Integer routePoints;
     private Integer destinationPoints;
     private Integer unreachedDestinationPoints;
     private Integer bonusAwardPoints;
     private Integer totalPoints;
 
-    public PlayerScore() {
+    public PlayerScore(String playerName) {
+        this.playerName = playerName;
+        routePoints = 0;
+        destinationPoints = 0;
+        unreachedDestinationPoints = 0;
+        bonusAwardPoints = 0;
+        totalPoints = 0;
     }
 
-    public PlayerScore(int routePoints, int destinationPoints, int unreachedDestinationPoints, int bonusAwardPoints) {
+    public PlayerScore(String playerName, int routePoints, int destinationPoints, int unreachedDestinationPoints, int bonusAwardPoints) {
+        this.playerName = playerName;
         this.routePoints = routePoints;
         this.destinationPoints = destinationPoints;
         this.unreachedDestinationPoints = unreachedDestinationPoints;
