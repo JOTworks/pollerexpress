@@ -3,6 +3,7 @@ package com.thePollerServer.command;
 import com.shared.exceptions.ShuffleException;
 import com.shared.exceptions.StateException;
 import com.shared.models.Color;
+import com.shared.models.EndGameResult;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Chat;
 import com.shared.models.Route;
@@ -27,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.print.attribute.standard.Destination;
+
+import static com.shared.models.states.GameState.State.NO_ACTION_TAKEN;
 
 public class CommandFacade
 {
@@ -94,6 +97,9 @@ public class CommandFacade
         Object[] params = {p, r};
         Command command = new Command(CommandsExtensions.clientSide + "ClientGameService", "claimRoute", types, params);
         CM.addCommand(command, info);
+
+        initiateEndgameIfEnd(p);
+
     }
     /**
      * initializes the state for each player, draws cards, and initializes the bank. TODO: consider putting some of this into a service
@@ -193,9 +199,7 @@ public class CommandFacade
         System.out.println("!!!Printing drawn Destination Cards!!!");
         for(DestinationCard card : dlist) {
             System.out.println(card);
-        }
 
-        {
             Class<?>[] types = {Player.class, dlist.getClass()};//we will see if this works...
             Object[] params = {p, dlist};
             Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawDestinationCards", types, params);
@@ -214,14 +218,16 @@ public class CommandFacade
             System.out.println(card);
         }
 
-       setGameState(p);
+        initiateEndgameIfEnd(p);
+
+        setGameState(p);
     }
 
     public static void discardDestinationCards(Player p, List<DestinationCard> cards) throws CommandFailed, DatabaseException
     {
         GameService gm = new GameService();
         boolean discarded = gm.discardDestinationCards(p, cards);
-
+        gm.checkForEndGame(p);
 
         if (!discarded) {
             throw new CommandFailed("discardDestinationCard");
@@ -268,7 +274,6 @@ public class CommandFacade
         CommandManager._instance().addCommand(chatCommand, gameInfo);
     }
 
-
     /**
      *
      * @param p
@@ -289,6 +294,8 @@ public class CommandFacade
             Command command = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawVisibleCard", types, params);
             CommandManager._instance().addCommand(command, info);
         }
+        initiateEndgameIfEnd(p);
+
 
         setGameState(p);
     }
@@ -371,6 +378,10 @@ public class CommandFacade
             card = gm.drawTrainCard(p);
         }
 
+        // if we successfully draw a card and the state is NO_ACTION_TAKEN then we check for endgame
+        initiateEndgameIfEnd(p);
+
+
         //double check there's a real card :)
         if(card == null) {
             throw new CommandFailed("drawTrainCard", "no card to draw");
@@ -396,6 +407,30 @@ public class CommandFacade
         setGameState(p);
     }
 
+    private static void initiateEndgameIfEnd(Player p) {
+
+        try {
+            IDatabaseFacade df = Factory.createDatabaseFacade();
+            CommandManager CM = CommandManager._instance();
+            GameInfo info = df.getGameInfo(p.getGameId());
+            GameService gm = new GameService();
+            EndGameResult gameResult = null;
+
+            if (df.getGameState(info).getState() == NO_ACTION_TAKEN)
+                gameResult = gm.checkForEndGame(p);
+
+            if (gameResult != null) {
+                Class<?>[] types = {EndGameResult.class};
+                Object[] params = {gameResult};
+                Command endGameCommand = new Command(CommandsExtensions.clientSide + "ClientGameService", "endGame", types, params);
+                CM.addCommand(endGameCommand, info);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e.getClass() + ":" + e.getCause().toString());
+        }
+
+    }
 
 
 }

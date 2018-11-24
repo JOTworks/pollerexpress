@@ -166,18 +166,22 @@ public class GameService
         return dlist;
     }
 
-    public void checkForEndGame(Player p) {
+    public EndGameResult checkForEndGame(Player p) {
+        EndGameResult gameResult = new EndGameResult();
+
         String id = p.getGameId();
         try {
             GameInfo gi = df.getGameInfo(id);
             GameState gs = df.getGameState(gi);
 
+            // the state should have already changed to the next player's turn by this point
             if (df.getPlayer(gs.getTurn()).getTrainCount() < 3) {
-                endGame(gi);
+                gameResult = endGame(gi);
             }
         } catch (Exception e) {
             throw new RuntimeException(e.getClass() + ":" + e.getCause().toString());
         }
+        return gameResult;
     }
 
     private EndGameResult endGame(GameInfo gameInfo) {
