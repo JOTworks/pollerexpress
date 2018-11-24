@@ -204,21 +204,27 @@ public class GameService
     }
 
     private PlayerScore setDestinationCardPoints(Player p, PlayerScore score) {
-        List<DestinationCard> cards = new ArrayList<DestinationCard>(); //TODO: get actual cards from database
-        int reachedPoints = 0;
-        int unreachedPoints = 0;
-        for (DestinationCard card : cards) {
-            RouteCalculator rCalc = new RouteCalculator(p.getRoutes());
-            boolean destinationReached = rCalc.checkDestinationReached(card);
-            if (destinationReached)
-                reachedPoints += card.getPoints();
-            else
-                unreachedPoints += card.getPoints();
-        }
+        try {
+            List<DestinationCard> cards = df.getDestinationHand(p);
 
-        score.setDestinationPoints(reachedPoints);
-        score.setUnreachedDestinationPoints(unreachedPoints);
+            int reachedPoints = 0;
+            int unreachedPoints = 0;
+            for (DestinationCard card : cards) {
+                RouteCalculator rCalc = new RouteCalculator(p.getRoutes());
+                boolean destinationReached = rCalc.checkDestinationReached(card);
+                if (destinationReached)
+                    reachedPoints += card.getPoints();
+                else
+                    unreachedPoints += card.getPoints();
+            }
+
+            score.setDestinationPoints(reachedPoints);
+            score.setUnreachedDestinationPoints(unreachedPoints);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getClass() + e.getCause().toString()); }
+
         return score;
+
     }
 
     private int calculateRoutePoints(Player player) {
