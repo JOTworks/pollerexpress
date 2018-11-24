@@ -194,5 +194,10 @@ public class FakeLoginDatabaseFacade implements IDatabaseFacade
         return null;
     }
 
+    @Override
+    public TrainCard drawTrainCard(Player p) throws DatabaseException {
+        return null;
+    }
+
 }
 

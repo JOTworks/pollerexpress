@@ -6,6 +6,7 @@ import com.shared.exceptions.StateException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Chat;
 import com.shared.models.Color;
+import com.shared.models.Command;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
@@ -45,7 +46,7 @@ public class GameService
 
 
     //returns true if all
-    public boolean discardDestinationCards(Player p, List<DestinationCard> discards)
+    public boolean discardDestinationCards(Player p, List<DestinationCard> discards) throws CommandFailed
     {
         int number = discards.size();
         try
@@ -69,13 +70,16 @@ public class GameService
 
                 return true;
             }
+            else
+            {
+                throw new CommandFailed("discardDestinationCards", "you can only discard up to " + allowed + " cards.");
+            }
         }
         catch (DatabaseException e)
         {
             //do nothing
             return false;
         }
-        return false;
     }
 
     /**
@@ -187,11 +191,5 @@ public class GameService
         return card;
     }
 
-    public class Triple
-    {
-        public TrainCard card;
-        public int drawsLeft;
-        public GameInfo info;
-        public TrainCard[] visible;
-    }
+
 }

@@ -287,8 +287,6 @@ public class DatabaseFacade implements IDatabaseFacade
             db.open();
             GameInfo info = db.getGameDao().read(player.getGameId()).getGameInfo();
 
-            int deckSize = db.getDestinationCardDao().getDeckSize(info);
-
             List<DestinationCard> cards = new ArrayList<>();
             for(int i = 0; i  < 3; ++i)//TODO get rid of magic numbers
             {

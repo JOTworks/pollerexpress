@@ -51,11 +51,11 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
                 cards.add(CD.getUser().getDestCardOptions().getDestinationCards().get(i));
             }
         }
-        if(cards.size()>CD.getUser().getDestinationDiscardCount()){
-            view.displayError("You can only discard "+CD.getUser().getDestinationDiscardCount()+" card");
-        }else {
+//        if(cards.size()>CD.getUser().getDestinationDiscardCount()){
+//            view.displayError("You can only discard "+CD.getUser().getDestinationDiscardCount()+" card");
+//        }else {
             discardDestCards(cards);
-        }
+//        }
     }
 
     @Override
