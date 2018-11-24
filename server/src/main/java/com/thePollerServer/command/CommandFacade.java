@@ -314,6 +314,7 @@ public class CommandFacade
     {
         IDatabaseFacade df = Factory.createDatabaseFacade();
         CommandManager CM = CommandManager._instance();
+        GameInfo info = df.getGameInfo(p.getGameId());
 
         Game game = df.getGame(df.getGameInfo(p.getGameId()));
         List<TrainCard> tList = df.drawTrainCards(p, number);
@@ -326,28 +327,27 @@ public class CommandFacade
         //give command to actual player
         for(TrainCard card : tList)
         {
-            Class<?>[] types = {card.getClass()};
+            Class<?>[] types = {TrainCard.class};
             Object[] params = {card};
             Command drawTrainCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawTrainCard", types, params);
             CM.addCommand(drawTrainCards, p);
         }
 
         //give altered command to everyone else in the game
-        for(Player player : game.getPlayers())
+
         {
+            for(TrainCard card : tList)
             {
-                for(TrainCard card : tList)
-                {
-                    Class<?>[] types = {player.getClass()};
-                    Object[] params = {player};
-                    Command drawTrainCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawTrainCard", types, params);
-                    CM.addCommand(drawTrainCards, p);
-                }
+                Class<?>[] types = {Player.class};
+                Object[] params = {p};
+                Command drawTrainCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawTrainCard", types, params);
+                CM.addCommand(drawTrainCards, info);
             }
         }
     }
 
     public static void drawTrainCard(Player p) throws Exception {
+        System.out.println("I'm in DRAW TRAIN CARD!!!");
         GameService gm = new GameService();
         IDatabaseFacade df = Factory.createDatabaseFacade();
         GameInfo info = df.getGameInfo(p.getGameId());
@@ -371,8 +371,13 @@ public class CommandFacade
             card = gm.drawTrainCard(p);
         }
 
-        //give command to actual player
+        //double check there's a real card :)
+        if(card == null) {
+            throw new CommandFailed("drawTrainCard", "no card to draw");
+        }
 
+        System.out.println("I am trying to actually tell people what. card. to draw.");
+        //give command to actual player
         {
             Class<?>[] types = {card.getClass()};
             Object[] params = {card};
@@ -381,15 +386,13 @@ public class CommandFacade
         }
 
         //give altered command to everyone else in the game
-        for(Player player : game.getPlayers())
         {
-            {
-                Class<?>[] types = {player.getClass()};
-                Object[] params = {player};
-                Command drawTrainCard = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawTrainCard", types, params);
-                CM.addCommand(drawTrainCard, p);
-            }
+            Class<?>[] types = {Player.class};
+            Object[] params = {p};
+            Command drawTrainCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawTrainCard", types, params);
+            CM.addCommand(drawTrainCards, info);
         }
+
         setGameState(p);
     }
 

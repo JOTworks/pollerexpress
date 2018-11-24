@@ -81,26 +81,26 @@ public class GameService
     /**
      * the int is the remaining number of draws
      */
-    public TrainCard drawVisible(Player p, int i) throws Exception
+    public TrainCard drawVisible(Player p, int i) throws DatabaseException, StateException
     {
         GameInfo info = df.getGameInfo(p.getGameId());
         GameState gs = df.getGameState(info);
         boolean isRainbow = df.getVisible(p,i).getColor().equals(RAINBOW);
         //ugly ifs to test for legality
         if(!gs.getTurn().equals(p.getName())){
-            throw new Exception("canot draw unless its your turn");
+            throw new StateException("draw visible card",gs.getTurn() + "'s turn");
         }
         if(!gs.getState().equals(DRAWN_ONE) && !gs.getState().equals(NO_ACTION_TAKEN)){
-            throw new Exception("canot draw visible in this state");
+            throw new StateException("draw visible card",gs.getState().name());
         }
         if(gs.getState().equals(DRAWN_ONE) && isRainbow){
-            throw new Exception("Rainbow counts as 2 draws, you only have 1 draw left");
+            throw new StateException("draw rainbow card",gs.getState().name());
         }
 
         TrainCard card = df.drawVisible(p,i);
 
         //determine the next state
-        if(isRainbow || gs.getTurn().equals(DRAWN_ONE)){
+        if(isRainbow || gs.getState().equals(DRAWN_ONE)){
             GameState newGameState = new GameState(getNextPlayer(p), NO_ACTION_TAKEN);
             df.setGameState(newGameState, info);
         }else{
