@@ -447,6 +447,19 @@ public class DatabaseFacade implements IDatabaseFacade
     }
 
     @Override
+    public void resetVisible(GameInfo info) throws DatabaseException {
+        try{
+            db.open();
+            db.getTrainCardDao().resetFaceUp(info);
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
     public TrainCard[] getVisible(GameInfo info) throws DatabaseException
     {
         try
