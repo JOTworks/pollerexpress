@@ -110,6 +110,36 @@ public class GSDFacade implements IDatabaseFacade
     }
 
     @Override
+    public int getDestinationDeckSize(GameInfo gi) throws DatabaseException {
+        return 0;
+    }
+
+    @Override
+    public int getTrainDeckSize(GameInfo gi) throws DatabaseException {
+        return 0;
+    }
+
+    @Override
+    public void shuffleDestinationDeck(GameInfo gi) throws DatabaseException {
+
+    }
+
+    @Override
+    public void shuffleTrainDeck(GameInfo gi) throws DatabaseException {
+
+    }
+
+    @Override
+    public List<DestinationCard> getDestinationHand(Player player) throws DatabaseException {
+        return null;
+    }
+
+    @Override
+    public List<TrainCard> getTrainHand(Player player) throws DatabaseException {
+        return null;
+    }
+
+    @Override
     public void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
         // no implementation necessary
     }
@@ -161,6 +191,11 @@ public class GSDFacade implements IDatabaseFacade
 
     @Override
     public GameState getGameState(GameInfo gameInfo) throws DatabaseException {
+        return null;
+    }
+
+    @Override
+    public TrainCard drawTrainCard(Player p) throws DatabaseException {
         return null;
     }
 

@@ -207,8 +207,8 @@ public class DestinationCardDao {
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
                 //TODO: actually fetch the cities rather than making dummy ones.
-                City city1 = new City("North Pole", new Point(0.1, 0.1));
-                City city2 = city1;
+                City city1 = new City(rs.getString("CITY_1"), new Point(0.0, 0.0));
+                City city2 = new City(rs.getString("CITY_2"), new Point(0.0, 0.0));
                 card = new DestinationCard(rs.getString("CARD_ID"), city1, city2, rs.getInt("POINTS"));
             }
             rs.close();

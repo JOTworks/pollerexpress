@@ -1,6 +1,5 @@
 package pollerexpress.database;
 
-import com.shared.exceptions.NotImplementedException;
 import com.shared.models.Authtoken;
 
 import com.shared.models.cardsHandsDecks.DestinationCard;
@@ -20,7 +19,6 @@ import com.shared.exceptions.database.DataNotFoundException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.states.GameState;
 
-import pollerexpress.database.dao.UserDao;
 import pollerexpress.database.utilities.DeckBuilder;
 
 import static com.shared.models.states.GameState.State.NO_ACTION_TAKEN;
@@ -289,12 +287,6 @@ public class DatabaseFacade implements IDatabaseFacade
             db.open();
             GameInfo info = db.getGameDao().read(player.getGameId()).getGameInfo();
 
-            int deckSize = db.getDestinationCardDao().getDeckSize(info);
-            if(deckSize < 3) {
-                DeckBuilder deckBuilder = new DeckBuilder(db);
-                deckBuilder.shuffleDestinationDeck(info);
-            }
-
             List<DestinationCard> cards = new ArrayList<>();
             for(int i = 0; i  < 3; ++i)//TODO get rid of magic numbers
             {
@@ -427,6 +419,34 @@ public class DatabaseFacade implements IDatabaseFacade
     }
 
     @Override
+    public List<DestinationCard> getDestinationHand(Player player) throws DatabaseException {
+        try{
+            db.open();
+            List<DestinationCard> hand = db.getDestinationCardDao().getHand(player);
+            db.close(true);
+            return hand;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public List<TrainCard> getTrainHand(Player player) throws DatabaseException {
+        try{
+            db.open();
+            List<TrainCard> hand = db.getTrainCardDao().getHand(player);
+            db.close(true);
+            return hand;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
     public TrainCard[] getVisible(GameInfo info) throws DatabaseException
     {
         try
@@ -465,10 +485,6 @@ public class DatabaseFacade implements IDatabaseFacade
             GameInfo gi = getGameInfo(p.getGameId());
             db.open();
             int deckSize = db.getTrainCardDao().getDeckSize(gi);
-            if(deckSize < 1) {
-                DeckBuilder deckBuilder = new DeckBuilder(db);
-                deckBuilder.shuffleTrainDeck(gi);
-            }
 
             TrainCard visible = db.getTrainCardDao().drawFaceUp(p, i);
 
@@ -503,10 +519,6 @@ public class DatabaseFacade implements IDatabaseFacade
             GameInfo gi = getGameInfo(p.getGameId());
             db.open();
             int deckSize = db.getTrainCardDao().getDeckSize(gi);
-            if(deckSize < number) {
-                DeckBuilder deckBuilder = new DeckBuilder(db);
-                deckBuilder.shuffleTrainDeck(gi);
-            }
 
             List<TrainCard> cards = new ArrayList<>();
             while (number > 0)
@@ -532,10 +544,6 @@ public class DatabaseFacade implements IDatabaseFacade
             GameInfo gi = getGameInfo(p.getGameId());
             db.open();
             int deckSize = db.getTrainCardDao().getDeckSize(gi);
-            if(deckSize < 1) {
-                DeckBuilder deckBuilder = new DeckBuilder(db);
-                deckBuilder.shuffleTrainDeck(gi);
-            }
 
             TrainCard card = db.getTrainCardDao().drawCard(p);
 

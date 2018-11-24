@@ -25,7 +25,7 @@ public class GameDao {
     public static final String PARAMS_INSERT = "?,?,?,?,?,?";
     public static final String SELECT_ALL_GAME_INFO = "SELECT *\n FROM  GAMES";
     public static final String SELECT_GAME = " SELECT *\n FROM GAMES \n WHERE GAME_ID = ?";
-    public static final String SELECT_ALL_JOINABLE_GAME_INFO = "SELECT *\n WHERE NOT MAX_PLAYERS = CURRENT_PLAYERS \n  FROM GAMES";
+    public static final String SELECT_ALL_JOINABLE_GAME_INFO = "SELECT *\n FROM GAMES \n WHERE MAX_PLAYERS < CURRENT_PLAYERS";
     public static final String CREATE_NEW_GAME = "INSERT INTO GAMES("+ PARAMS+") \nVALUES("+PARAMS_INSERT+")";
     private String turn;
 
@@ -123,7 +123,7 @@ public class GameDao {
     {
         try
         {
-            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SELECT_ALL_GAME_INFO);
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SELECT_ALL_JOINABLE_GAME_INFO);
             ResultSet rs = stmnt.executeQuery();
             ArrayList games = new ArrayList();
 

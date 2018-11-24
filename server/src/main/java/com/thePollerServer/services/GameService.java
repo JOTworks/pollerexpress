@@ -1,7 +1,8 @@
 package com.thePollerServer.services;
 
-import com.shared.exceptions.NotImplementedException;
+import com.shared.exceptions.CommandFailed;
 import com.shared.exceptions.ShuffleException;
+import com.shared.exceptions.StateException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Chat;
 import com.shared.models.EndGameResult;
@@ -21,6 +22,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.shared.models.Color.TRAIN.RAINBOW;
+import static com.shared.models.states.GameState.State.DRAWN_ONE;
+import static com.shared.models.states.GameState.State.NO_ACTION_TAKEN;
 
 
 /*
@@ -45,7 +49,7 @@ public class GameService
 
 
     //returns true if all
-    public boolean discardDestinationCards(Player p, List<DestinationCard> discards)
+    public boolean discardDestinationCards(Player p, List<DestinationCard> discards) throws CommandFailed
     {
         int number = discards.size();
         try
@@ -65,11 +69,15 @@ public class GameService
                 if(turn == null ){  //if before game starts
                     df.updatePreGameState(gi);
                 }else{  //else during a normal turn
-                    GameState newGs = new GameState(getNextPlayer(p),GameState.State.NO_ACTION_TAKEN);
-                    df.setGameState(newGs, gi);
+                    GameState newState = new GameState(getNextPlayer(p), NO_ACTION_TAKEN);
+                    df.setGameState(newState, gi);
                 }
 
                 return true;
+            }
+            else
+            {
+                throw new CommandFailed("discardDestinationCards", "you can only discard up to " + allowed + " cards.");
             }
         }
         catch (DatabaseException e)
@@ -77,26 +85,39 @@ public class GameService
             //do nothing
             return false;
         }
-        return false;
     }
 
     /**
      * the int is the remaining number of draws
      */
-    public Triple drawVisible(Player player, int i) throws DatabaseException
+    public TrainCard drawVisible(Player p, int i) throws DatabaseException, StateException
     {
+        GameInfo info = df.getGameInfo(p.getGameId());
+        GameState gs = df.getGameState(info);
+        boolean isRainbow = df.getVisible(p,i).getColor().equals(RAINBOW);
+        //ugly ifs to test for legality
+        if(!gs.getTurn().equals(p.getName())){
+            throw new StateException("draw visible card",gs.getTurn() + "'s turn");
+        }
+        if(!gs.getState().equals(DRAWN_ONE) && !gs.getState().equals(NO_ACTION_TAKEN)){
+            throw new StateException("draw visible card",gs.getState().name());
+        }
+        if(gs.getState().equals(DRAWN_ONE) && isRainbow){
+            throw new StateException("draw rainbow card",gs.getState().name());
+        }
 
-        Triple p = new Triple();
-        GameInfo info = df.getGameInfo(player.getGameId());
-        //TODO check if the player can draw.
-        TrainCard visible = df.getVisible(player,i);
-        //TODO check if the player can draw the visible card
-        df.drawVisible(player, i);
-        p.drawsLeft = 0;//Default
-        p.card = visible;
-        p.info = info;
-        p.visible = df.getVisible(info);
-        return p;
+        TrainCard card = df.drawVisible(p,i);
+
+        //determine the next state
+        if(isRainbow || gs.getState().equals(DRAWN_ONE)){
+            GameState newGameState = new GameState(getNextPlayer(p), NO_ACTION_TAKEN);
+            df.setGameState(newGameState, info);
+        }else{
+            GameState newGameState = new GameState(gs.getTurn(), DRAWN_ONE);
+            df.setGameState(newGameState, info);
+        }
+
+        return card;
     }
 
     public void updateGameState(Player p) throws DatabaseException {
@@ -104,7 +125,7 @@ public class GameService
 
         switch (gameState.getState()) {
             case READY_FOR_GAME_START:
-                GameState newGameState = new GameState(getNextPlayer(p), GameState.State.NO_ACTION_TAKEN);
+                GameState newGameState = new GameState(getNextPlayer(p), NO_ACTION_TAKEN);
                 df.setGameState(newGameState,df.getGameInfo(p.getGameId()));
                 break;
         }
@@ -128,9 +149,9 @@ public class GameService
         return players.get(i).getName();
     }
 
-    public List<DestinationCard> drawDestinationCards(Player p) throws Exception {
-        if(!p.getName().equals(df.getGameState(df.getGameInfo(p.getGameId())).getTurn()) || !df.getGameState(df.getGameInfo(p.getGameId())).getState().equals(GameState.State.NO_ACTION_TAKEN)){
-            throw new Exception("cannot draw destination cards in this state");
+    public List<DestinationCard> drawDestinationCards(Player p) throws StateException, DatabaseException {
+        if(!p.getName().equals(df.getGameState(df.getGameInfo(p.getGameId())).getTurn()) || !df.getGameState(df.getGameInfo(p.getGameId())).getState().equals(NO_ACTION_TAKEN)){
+            throw new StateException("draw destination cards", df.getGameState(df.getGameInfo(p.getGameId())).getState().name());
         }
         GameInfo gi = df.getGameInfo(p.getGameId());
         int drawnumber = 3;
@@ -155,7 +176,7 @@ public class GameService
                 endGame(gi);
             }
         } catch (Exception e) {
-            throw new RuntimeException(e.getClass() + ":" + e.getCause().toString())
+            throw new RuntimeException(e.getClass() + ":" + e.getCause().toString());
         }
     }
 
@@ -200,16 +221,41 @@ public class GameService
         return score;
     }
 
-    private int addBonusPoints(Player player) {
-        return 0; //TODO: calculate bonus points
-    }
-
     private int calculateRoutePoints(Player player) {
         int points = 0;
         for (Route route : player.getRoutes())
             points += route.getDistance();
 
         return points;
+    }
+
+    public TrainCard drawTrainCard(Player p) throws Exception {
+        GameState gameState = df.getGameState(df.getGameInfo(p.getGameId()));
+        if (!p.getName().equals(gameState.getTurn())) {
+            throw new Exception("cannot draw train card if not your turn");
+        }
+        GameState.State state = gameState.getState();
+        if (!state.equals(NO_ACTION_TAKEN) && !state.equals(DRAWN_ONE)) {
+            throw new Exception("cannot draw train card");
+        }
+        GameInfo gi = df.getGameInfo(p.getGameId());
+        if (df.getDestinationDeckSize(gi) < 1) {
+            System.out.println("throwing a shuffle exception!!!");
+            throw new ShuffleException();
+        }
+
+        TrainCard card = df.drawTrainCard(p);
+
+        //changing states
+        GameState newGameState;
+        if (state == NO_ACTION_TAKEN) {
+            newGameState = new GameState(gameState.getTurn(), DRAWN_ONE);
+        } else {
+            newGameState = new GameState(getNextPlayer(p), NO_ACTION_TAKEN);
+        }
+
+        df.setGameState(newGameState, df.getGameInfo(p.getGameId()));
+        return card;
     }
 
     public class Triple
@@ -219,4 +265,5 @@ public class GameService
         public GameInfo info;
         public TrainCard[] visible;
     }
+
 }

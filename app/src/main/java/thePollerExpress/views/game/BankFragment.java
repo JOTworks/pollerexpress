@@ -32,14 +32,14 @@ public class BankFragment extends Fragment implements IBankView
         super.onCreate(savedInstanceState);
         bankPresenter = new BankPresenter(this);
     }
-    private TextView mVisible[];
+    private Button mVisible[];
 
    ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mVisible = new TextView[5];//TODO remove magic
+        mVisible = new Button[5];//TODO remove magic
         View v = inflater.inflate(R.layout.fragment_bank, container, false);
         mVisible[0] = v.findViewById(R.id.bank_0);
         mVisible[1] = v.findViewById(R.id.bank_1);
@@ -50,11 +50,53 @@ public class BankFragment extends Fragment implements IBankView
         destinationCardDeck = (Button)  v.findViewById(R.id.destination_card_deck);
 
 
+
+        Button mVisible0 = (Button) mVisible[0];
+        mVisible0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bankPresenter.drawFaceupCard(0);
+
+            }
+        });
+        Button mVisible1 = (Button) mVisible[1];
+        mVisible1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bankPresenter.drawFaceupCard(1);
+
+            }
+        });
+        Button mVisible2 = (Button) mVisible[2];
+        mVisible2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bankPresenter.drawFaceupCard(2);
+
+            }
+        });
+        Button mVisible3 = (Button) mVisible[3];
+        mVisible3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bankPresenter.drawFaceupCard(3);
+
+            }
+        });
+        Button mVisible4 = (Button) mVisible[4];
+        mVisible4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bankPresenter.drawFaceupCard(4);
+
+            }
+        });
+
         Button TrainCardDeck = (Button) trainCardDeck;
         TrainCardDeck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               bankPresenter.drawTrainCardFromDeck();
+                bankPresenter.drawTrainCardFromDeck();
 
             }
         });
