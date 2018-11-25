@@ -33,7 +33,6 @@ import static com.shared.models.states.GameState.State.NO_ACTION_TAKEN;
 
 public class CommandFacade
 {
-
     private static final CommandFacade ourInstance = new CommandFacade();
 
     public static CommandFacade getInstance() {
@@ -42,12 +41,14 @@ public class CommandFacade
 
     private CommandFacade() { }
 
+    private static CommandManager CM = CommandManager._instance();
+
+
     public static void joinGame(Player player, GameInfo info) throws CommandFailed, DatabaseException
     {
         SetupService SS = new SetupService();
         SS.joinGame(player, info);
 
-        CommandManager CM = CommandManager._instance();
 
         Class<?>[] loadTypes = {Game.class};
         IDatabaseFacade DF = Factory.createDatabaseFacade();
@@ -66,7 +67,6 @@ public class CommandFacade
         SetupService SS = new SetupService();
         SS.createGame(player, info);
 
-        CommandManager CM = CommandManager._instance();
 
         //adds create command
         Class<?>[] types = {GameInfo.class};
@@ -86,7 +86,6 @@ public class CommandFacade
     public static void claimRoute(Player p, Route r) throws DatabaseException
     {
         ///do nothing but
-        CommandManager CM = CommandManager._instance();
         IDatabaseFacade df = Factory.createDatabaseFacade();
 
         GameInfo info = df.getGameInfo(p.getGameId());
@@ -114,7 +113,6 @@ public class CommandFacade
         System.out.println("gameID="+user.getGameId());
         GameInfo info = df.getGameInfo(user.getGameId());
 
-        CommandManager CM = CommandManager._instance();
         df.makeBank(info);
         df.setPreGameState(info.getNumPlayers(), df.getGameInfo(user.getGameId()));
 
@@ -176,7 +174,6 @@ public class CommandFacade
         GameService gm = new GameService();
         IDatabaseFacade df = Factory.createDatabaseFacade();
         GameInfo info = df.getGameInfo(p.getGameId());
-        CommandManager CM = CommandManager._instance();
         int drawnumber = 3;
         List<DestinationCard> dlist = null;
 
@@ -233,7 +230,6 @@ public class CommandFacade
             throw new CommandFailed("discardDestinationCard");
         }
         IDatabaseFacade df = Factory.createDatabaseFacade();
-        CommandManager CM = CommandManager._instance();
 
         {
             Class<?>[] types = {Player.class, List.class};
@@ -271,7 +267,7 @@ public class CommandFacade
         Class<?>[] types = {Chat.class, GameInfo.class};
         Object[] params = {chat, gameInfo};
         Command chatCommand = new Command(CommandsExtensions.clientSide+"ClientGameService", "chat", types, params);
-        CommandManager._instance().addCommand(chatCommand, gameInfo);
+        CM.addCommand(chatCommand, gameInfo);
     }
 
     /**
@@ -294,7 +290,7 @@ public class CommandFacade
             Class<?>[] types = {Player.class, TrainCard.class, TrainCard[].class};
             Object[] params = {p, card, visible};
             Command command = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawVisibleCard", types, params);
-            CommandManager._instance().addCommand(command, info);
+            CM.addCommand(command, info);
         }
         initiateEndgameIfEnd(p);
 
@@ -335,7 +331,6 @@ public class CommandFacade
     }
 
     private static void setGameState(Player p) throws DatabaseException {
-        CommandManager CM = CommandManager._instance();
         DatabaseFacade df = new DatabaseFacade();
         {
             Class<?>[] types = {GameState.class};
@@ -348,7 +343,6 @@ public class CommandFacade
     public static void drawTrainCards(Player p, int number) throws CommandFailed, DatabaseException
     {
         IDatabaseFacade df = Factory.createDatabaseFacade();
-        CommandManager CM = CommandManager._instance();
         GameInfo info = df.getGameInfo(p.getGameId());
 
         Game game = df.getGame(df.getGameInfo(p.getGameId()));
@@ -386,7 +380,6 @@ public class CommandFacade
         GameService gm = new GameService();
         IDatabaseFacade df = Factory.createDatabaseFacade();
         GameInfo info = df.getGameInfo(p.getGameId());
-        CommandManager CM = CommandManager._instance();
         Game game = df.getGame(info);
 
         TrainCard card = null;
@@ -439,7 +432,6 @@ public class CommandFacade
 
         try {
             IDatabaseFacade df = Factory.createDatabaseFacade();
-            CommandManager CM = CommandManager._instance();
             GameInfo info = df.getGameInfo(p.getGameId());
             GameService gm = new GameService();
             EndGameResult gameResult = null;
