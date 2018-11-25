@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import pollerexpress.database.dao.TrainCardDao;
 import pollerexpress.database.utilities.DeckBuilder;
@@ -279,6 +280,41 @@ public class TestTrainCardDao {
             builder.shuffleTrainDeck(gi);
             assertEquals(0, tcDao.getDiscardPile(gi).size());
             assertEquals(formerDeckCount + formerDiscardCount, tcDao.getDeckSize(gi));
+
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            fail();
+        }
+        finally
+        {
+            db.close(false);
+        }
+    }
+
+    @Test
+    public void testResetFaceUp() {
+        try {
+            //make game deck
+            db.open();
+            builder.makeTrainDeck(gi);
+
+            //get initial FaceUp and deck size
+            TrainCard[] faceUp = tcDao.getFaceUp(gi);
+            int deckSize = tcDao.getDeckSize(gi);
+
+            //resetFaceUp
+            tcDao.resetFaceUp(gi);
+
+            //get faceup cards and get deck size again
+            //deck size should be 5 less, faceup cards should be totally new.
+            assertEquals(deckSize - 5, tcDao.getDeckSize(gi));
+
+            TrainCard[] newFaceUp = tcDao.getFaceUp(gi);
+            ArrayList<TrainCard> oldFaceUp = new ArrayList<TrainCard>(Arrays.asList(faceUp));
+            for(TrainCard card : newFaceUp) {
+                assertFalse(oldFaceUp.contains(card));
+            }
 
         } catch(Exception e) {
             System.out.println(e.getMessage());

@@ -120,6 +120,30 @@ public class GameService
         return card;
     }
 
+    public boolean checkVisibleForReset(GameInfo info) throws DatabaseException, ShuffleException {
+        TrainCard[] visible = df.getVisible(info);
+        int maxRainbowCount = 2; //if there are three or more, I have to get new visible cards
+
+        int rainbowCount = 0;
+        for(TrainCard card : visible) {
+            if(card.getColor().equals(RAINBOW)) {
+                rainbowCount += 1;
+            }
+        }
+
+        if(rainbowCount > maxRainbowCount) {
+            //check if I have to shuffle
+            int deckSize = df.getTrainDeckSize(info);
+            if(deckSize < visible.length) {
+                throw new ShuffleException();
+            } else {
+                df.resetVisible(info);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void updateGameState(Player p) throws DatabaseException {
         GameState gameState = df.getGameState(df.getGameInfo(p.getGameId()));
 

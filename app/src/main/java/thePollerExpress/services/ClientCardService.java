@@ -202,4 +202,10 @@ public class ClientCardService {
         CD.getGame().getVisibleCards().set(visible);
         return true;
     }
+
+    public static boolean resetVisible(TrainCard visible[]) {
+        CD.getGame().drawTrainCards(visible.length);
+        CD.getGame().getVisibleCards().set(visible);
+        return true;
+    }
 }

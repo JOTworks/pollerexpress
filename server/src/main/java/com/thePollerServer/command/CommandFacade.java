@@ -282,10 +282,12 @@ public class CommandFacade
      */
     public static void drawVisible(Player p, Integer i) throws Exception
     {
+        CommandManager CM = CommandManager._instance();
         DatabaseFacade df = new DatabaseFacade();
         GameInfo info = df.getGameInfo(p.getGameId());
+        GameService gameService = new GameService();
 
-            TrainCard card = new GameService().drawVisible(p, i);
+            TrainCard card = gameService.drawVisible(p, i);
             TrainCard[] visible = df.getVisible(info);
 
         {
@@ -296,6 +298,32 @@ public class CommandFacade
         }
         initiateEndgameIfEnd(p);
 
+
+        //check if there are three or more rainbows
+        boolean reset;
+        try{
+            reset = gameService.checkVisibleForReset(info);
+        } catch(ShuffleException e) {
+            //must! Shuffle!!!
+            df.shuffleTrainDeck(info);
+            //add shuffle command
+            Integer newDeckSize = df.getTrainDeckSize(info);
+            Class<?>[] types = {Integer.class};
+            Object[] params = {newDeckSize};
+            Command shuffleTrainDeck = new Command(CommandsExtensions.clientSide + "ClientCardService", "shuffleTrainDeck", types, params);
+            CM.addCommand(shuffleTrainDeck, info);
+
+            //try again now that everything's shuffled
+            reset = gameService.checkVisibleForReset(info);
+        }
+        if(reset) {
+            //it's already reset, I just need to send the reset command back to everyone
+            visible = df.getVisible(info);
+            Class<?>[] types = {TrainCard[].class};
+            Object[] params = {visible};
+            Command shuffleTrainDeck = new Command(CommandsExtensions.clientSide + "ClientCardService", "resetVisible", types, params);
+            CM.addCommand(shuffleTrainDeck, info);
+        }
 
         setGameState(p);
     }

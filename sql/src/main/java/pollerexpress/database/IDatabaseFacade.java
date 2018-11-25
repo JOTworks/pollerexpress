@@ -56,6 +56,7 @@ public interface IDatabaseFacade
     void shuffleTrainDeck(GameInfo gi) throws DatabaseException;
     List<DestinationCard> getDestinationHand(Player player) throws DatabaseException;
     List<TrainCard> getTrainHand(Player player) throws DatabaseException;
+    void resetVisible(GameInfo info) throws DatabaseException;
 
     // Abby
     void chat(Chat chat, GameInfo gameInfo) throws DatabaseException;

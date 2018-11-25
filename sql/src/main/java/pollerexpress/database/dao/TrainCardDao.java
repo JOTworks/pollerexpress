@@ -218,6 +218,21 @@ public class TrainCardDao {
 
     }
 
+    public void resetFaceUp(GameInfo gi) throws DatabaseException {
+        String TABLE_NAME = "\"TRAIN_DECK_" + gi.getId() + "\"";
+        String GET_TOP_CARD = SELECT_TOP_CARD.replace("<TABLE_NAME>",TABLE_NAME);
+        String UPDATE = UPDATE_CARD.replace("<TABLE_NAME>",TABLE_NAME);
+
+        //discard all the cards, then flip that index
+        //...first get all the cards
+        TrainCard[] faceUp = getFaceUp(gi);
+
+        for(int i = 0; i < 5; i++) {
+            discardCard(gi.getId(), faceUp[i]);
+            flipFaceUp(gi.getId(),i);
+        }
+    }
+
     public ArrayList<TrainCard> getHand(Player player) throws DatabaseException {
         String TABLE_NAME = "\"TRAIN_DECK_" + player.getGameId() + "\"";
         String GET_HAND = SELECT_HAND.replace("<TABLE_NAME>",TABLE_NAME);
@@ -271,10 +286,12 @@ public class TrainCardDao {
     }
 
     public void discardCard(Player player, TrainCard card) throws DatabaseException {
-        String TABLE_NAME = "\"TRAIN_DECK_" + player.getGameId() + "\"";
+        discardCard(player.getGameId(), card);
+    }
+
+    private void discardCard(String gameid, TrainCard card) throws DatabaseException {
+        String TABLE_NAME = "\"TRAIN_DECK_" + gameid + "\"";
         String UPDATE = UPDATE_CARD.replace("<TABLE_NAME>",TABLE_NAME);
-
-
 
         try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(UPDATE);
@@ -287,8 +304,6 @@ public class TrainCardDao {
         } catch(SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
-
-
     }
 
     public int getDeckSize(GameInfo gi) throws DatabaseException {
