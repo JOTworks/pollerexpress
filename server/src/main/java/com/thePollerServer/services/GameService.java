@@ -5,8 +5,8 @@ import com.shared.exceptions.ShuffleException;
 import com.shared.exceptions.StateException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Chat;
-import com.shared.models.Color;
-import com.shared.models.Command;
+import com.shared.models.EndGameResult;
+import com.shared.models.PlayerScore;
 import com.shared.models.Route;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
@@ -17,6 +17,7 @@ import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.cardsHandsDecks.TrainCardHand;
 import com.shared.models.states.GameState;
 import com.thePollerServer.utilities.Factory;
+import com.thePollerServer.utilities.RouteCalculator;
 
 import java.util.Collections;
 import java.util.List;
@@ -54,20 +55,22 @@ public class GameService
         try
         {
             int allowed = df.getPlayerDiscards(p);
-            if(number<= allowed)
+            if(number <= allowed)
             {
                 df.discardDestinationCard(p, discards);
 
-                //if before game starts, else durring a normal turn
+
                 String id = p.getGameId();
                 GameInfo gi = df.getGameInfo(id);
                 GameState gs = df.getGameState(gi);
                 String turn = gs.getTurn();
-                if(turn == null ){
-                    df.updatePreGameState(df.getGameInfo(p.getGameId()));
-                }else{
-                    GameState gamestate = new GameState(getNextPlayer(p),NO_ACTION_TAKEN);
-                    df.setGameState(gamestate,df.getGameInfo(p.getGameId()));
+
+                //update the game state after discarding
+                if(turn == null ){  //if before game starts
+                    df.updatePreGameState(gi);
+                }else{  //else during a normal turn
+                    GameState newState = new GameState(getNextPlayer(p), NO_ACTION_TAKEN);
+                    df.setGameState(newState, gi);
                 }
 
                 return true;
@@ -187,18 +190,96 @@ public class GameService
         return dlist;
     }
 
+    public EndGameResult checkForEndGame(Player p) {
+        EndGameResult gameResult = new EndGameResult();
+
+        String id = p.getGameId();
+        try {
+            GameInfo gi = df.getGameInfo(id);
+            GameState gs = df.getGameState(gi);
+
+            // the state should have already changed to the next player's turn by this point
+            if (df.getPlayer(gs.getTurn()).getTrainCount() < 3000) {
+                gameResult = endGame(gi);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e.getClass() + ":" + e.getCause().toString());
+        }
+        return gameResult;
+    }
+
+    private EndGameResult endGame(GameInfo gameInfo) {
+        EndGameResult gameResult = new EndGameResult();
+        try {
+
+            for (Player player : df.getPlayersInGame(gameInfo)) {
+                PlayerScore score = new PlayerScore(player.name);
+
+                score = setDestinationCardPoints(player, score);
+                score.setRoutePoints(calculateRoutePoints(player));
+                score.setLongestRouteScore(calculateLongestRoute(player));
+
+                gameResult.addScore(score);
+            }
+
+            // addBonusPoints must be called after setLongestRoute is run for every player
+            gameResult.addBonusPoints();
+            gameResult.totalPoints();
+
+        }  catch (Exception e) {
+            throw new RuntimeException(e.getClass() + ":" + e.getCause().toString());
+        }
+
+        return gameResult;
+    }
+
+    private PlayerScore setDestinationCardPoints(Player p, PlayerScore score) {
+        try {
+            List<DestinationCard> cards = df.getDestinationHand(p);
+
+            int reachedPoints = 0;
+            int unreachedPoints = 0;
+            for (DestinationCard card : cards) {
+                RouteCalculator rCalc = new RouteCalculator(p.getRoutes());
+                boolean destinationReached = rCalc.checkDestinationReached(card);
+                if (destinationReached)
+                    reachedPoints += card.getPoints();
+                else
+                    unreachedPoints += card.getPoints();
+            }
+
+            score.setDestinationPoints(reachedPoints);
+            score.setUnreachedDestinationPoints(unreachedPoints);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getClass() + e.getCause().toString()); }
+
+        return score;
+    }
+
+    private int calculateRoutePoints(Player player) {
+        int points = 0;
+        for (Route route : player.getRoutes())
+            points += route.getRouteValue();
+
+        return points;
+    }
+
+    private int calculateLongestRoute(Player p) {
+        RouteCalculator rCalc = new RouteCalculator(p.getRoutes());
+        return rCalc.getLongestRouteLength(p.getRoutes());
+    }
+
     public TrainCard drawTrainCard(Player p) throws Exception {
         GameState gameState = df.getGameState(df.getGameInfo(p.getGameId()));
-        if(!p.getName().equals(gameState.getTurn()) ){
+        if (!p.getName().equals(gameState.getTurn())) {
             throw new Exception("cannot draw train card if not your turn");
         }
         GameState.State state = gameState.getState();
-        if (!state.equals(NO_ACTION_TAKEN) && !state.equals(DRAWN_ONE))
-        {
+        if (!state.equals(NO_ACTION_TAKEN) && !state.equals(DRAWN_ONE)) {
             throw new Exception("cannot draw train card");
         }
         GameInfo gi = df.getGameInfo(p.getGameId());
-        if(df.getDestinationDeckSize(gi) < 1) {
+        if (df.getDestinationDeckSize(gi) < 1) {
             System.out.println("throwing a shuffle exception!!!");
             throw new ShuffleException();
         }
@@ -209,11 +290,11 @@ public class GameService
         GameState newGameState;
         if (state == NO_ACTION_TAKEN) {
             newGameState = new GameState(gameState.getTurn(), DRAWN_ONE);
-        }else{
-            newGameState = new GameState(getNextPlayer(p),NO_ACTION_TAKEN);
+        } else {
+            newGameState = new GameState(getNextPlayer(p), NO_ACTION_TAKEN);
         }
 
-        df.setGameState(newGameState,df.getGameInfo(p.getGameId()));
+        df.setGameState(newGameState, df.getGameInfo(p.getGameId()));
         return card;
     }
 
@@ -240,10 +321,7 @@ public class GameService
                 Route actual = df.getRoute(r);
                 if (df.getRoute(r).getOwner() == null)
                 {
-
                     //TODO the actual claim in the sql
-
-
                 } else
                 {
                     has = false;

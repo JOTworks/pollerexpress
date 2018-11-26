@@ -34,4 +34,7 @@ public class RealViewFactory implements IViewFactory
     {
         return new MapView();
     }
+
+//    @Override
+//    public IEndGameView createEndGameView() { return new EndGameView(); }
 }

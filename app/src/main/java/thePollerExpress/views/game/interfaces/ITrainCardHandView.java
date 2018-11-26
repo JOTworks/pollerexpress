@@ -1,6 +1,8 @@
 package thePollerExpress.views.game.interfaces;
 
-public interface ITrainCardHandView {
+import thePollerExpress.views.IPollerExpressView;
+
+public interface ITrainCardHandView extends IPollerExpressView {
 
     void displayHand();
 }
