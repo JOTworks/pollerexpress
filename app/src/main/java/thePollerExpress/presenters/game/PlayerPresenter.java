@@ -1,6 +1,7 @@
 package thePollerExpress.presenters.game;
 
 import com.shared.models.Player;
+import com.shared.models.states.GameState;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -29,15 +30,14 @@ public class PlayerPresenter implements IPlayerPresenter, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if(o instanceof  Player)
-        {
-            playerView.renderPlayer(clientData.getGame().getPlayer(playerName));
-        }
-
-        if(clientData.getGame().currentTurn.equals(playerName)){
+        if(clientData.getGame().getGameState().getTurn().equals(playerName)){
             playerView.isTurn();
         }else{
             playerView.isNotTurn();
+        }
+        if(o instanceof  Player)
+        {
+            playerView.renderPlayer(clientData.getGame().getPlayer(playerName));
         }
     }
 

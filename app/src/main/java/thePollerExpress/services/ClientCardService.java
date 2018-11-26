@@ -47,6 +47,7 @@ public class ClientCardService {
      */
     public static boolean drawFirstTrainCards(ArrayList<TrainCard> trainCards)
     {
+        //order hand first
             CD.getUser().getTrainCardHand().setTrainCards(trainCards);
         return true;
     }
