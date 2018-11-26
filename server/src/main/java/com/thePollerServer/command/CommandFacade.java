@@ -158,8 +158,6 @@ public class CommandFacade
                 CM.addCommand(drawDestinationCards, info);
             }
         }
-
-
     }
 
     public static void drawDestinationCards (Player p) throws CommandFailed, StateException, DatabaseException {

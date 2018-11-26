@@ -199,7 +199,7 @@ public class GameService
             GameState gs = df.getGameState(gi);
 
             // the state should have already changed to the next player's turn by this point
-            if (df.getPlayer(gs.getTurn()).getTrainCount() < 3) {
+            if (df.getPlayer(gs.getTurn()).getTrainCount() < 3000) {
                 gameResult = endGame(gi);
             }
         } catch (Exception e) {
@@ -217,10 +217,12 @@ public class GameService
 
                 score = setDestinationCardPoints(player, score);
                 score.setRoutePoints(calculateRoutePoints(player));
+                score.setLongestRouteScore(calculateLongestRoute(player));
 
                 gameResult.addScore(score);
             }
 
+            // addBonusPoints must be called after setLongestRoute is run for every player
             gameResult.addBonusPoints();
             gameResult.totalPoints();
 
@@ -252,15 +254,19 @@ public class GameService
             throw new RuntimeException(e.getClass() + e.getCause().toString()); }
 
         return score;
-
     }
 
     private int calculateRoutePoints(Player player) {
         int points = 0;
         for (Route route : player.getRoutes())
-            points += route.getDistance();
+            points += route.getRouteValue();
 
         return points;
+    }
+
+    private int calculateLongestRoute(Player p) {
+        RouteCalculator rCalc = new RouteCalculator(p.getRoutes());
+        return rCalc.getLongestRouteLength(p.getRoutes());
     }
 
     public TrainCard drawTrainCard(Player p) throws Exception {

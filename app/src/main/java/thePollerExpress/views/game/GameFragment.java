@@ -3,6 +3,7 @@ package thePollerExpress.views.game;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,11 @@ public class GameFragment extends Fragment implements IGameView {
 
     @Override
     public void changeView(IPollerExpressView view) {
+        FragmentManager fragmentManager = getFragmentManager();
 
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, (Fragment) view);
+        fragmentTransaction.commit();
     }
 
     @Override

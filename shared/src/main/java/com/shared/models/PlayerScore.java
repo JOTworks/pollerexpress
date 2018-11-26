@@ -8,7 +8,8 @@ public class PlayerScore implements Serializable {
     private Integer routePoints;
     private Integer destinationPoints;
     private Integer unreachedDestinationPoints;
-    private Integer bonusAwardPoints;
+    private Integer bonusPoints;
+    private Integer longestRouteScore;
     private Integer totalPoints;
 
     public PlayerScore(String playerName) {
@@ -16,18 +17,19 @@ public class PlayerScore implements Serializable {
         routePoints = 0;
         destinationPoints = 0;
         unreachedDestinationPoints = 0;
-        bonusAwardPoints = 0;
+        bonusPoints = 0;
+        longestRouteScore = 0;
         totalPoints = 0;
     }
 
-    public PlayerScore(String playerName, int routePoints, int destinationPoints, int unreachedDestinationPoints, int bonusAwardPoints) {
+    public PlayerScore(String playerName, int routePoints, int destinationPoints, int unreachedDestinationPoints, int longestRouteScore) {
         this.playerName = playerName;
         this.routePoints = routePoints;
         this.destinationPoints = destinationPoints;
         this.unreachedDestinationPoints = unreachedDestinationPoints;
-        this.bonusAwardPoints = bonusAwardPoints;
+        this.longestRouteScore = longestRouteScore;
 
-        totalPoints = routePoints + destinationPoints + bonusAwardPoints - unreachedDestinationPoints;
+        setTotalPoints();
     }
 
     public int getRoutePoints() {
@@ -54,23 +56,39 @@ public class PlayerScore implements Serializable {
         this.unreachedDestinationPoints = unreachedDestinationPoints;
     }
 
-    public int getBonusAwardPoints() {
-        return bonusAwardPoints;
+    public int getLongestRouteScore() {
+        return longestRouteScore;
     }
 
-    public void setBonusAwardPoints(int bonusAwardPoints) {
-        this.bonusAwardPoints = bonusAwardPoints;
+    public void setLongestRouteScore(int longestRouteScore) {
+        this.longestRouteScore = longestRouteScore;
+    }
+
+    public Integer getBonusPoints() {
+        return bonusPoints;
+    }
+
+    public void setBonusPoints(Integer bonusPoints) {
+        this.bonusPoints = bonusPoints;
     }
 
     public int getTotalPoints() {
         return totalPoints;
     }
 
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
     public void setTotalPoints() {
         if (routePoints == null || destinationPoints == null ||
-                bonusAwardPoints == null || unreachedDestinationPoints == null)
+                bonusPoints == null || unreachedDestinationPoints == null)
             throw new RuntimeException("points were not all initialized before attempting to calculate totals");
 
-        this.totalPoints =  routePoints + destinationPoints + bonusAwardPoints - unreachedDestinationPoints;
+        this.totalPoints =  routePoints + destinationPoints + bonusPoints - unreachedDestinationPoints;
     }
 }

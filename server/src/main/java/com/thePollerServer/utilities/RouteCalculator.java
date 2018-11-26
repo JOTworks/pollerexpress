@@ -93,6 +93,10 @@ public class RouteCalculator {
         this.routes = routes;
     }
 
+    public int getLongestRouteLength(List<Route> routes) {
+        //TODO: Calculate longest route here
+        return 0;
+    }
 
     private class CityRoutePair {
         public City city;

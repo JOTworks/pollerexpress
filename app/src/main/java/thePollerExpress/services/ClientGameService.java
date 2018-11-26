@@ -5,6 +5,7 @@ import android.util.Log;
 import com.shared.exceptions.NotImplementedException;
 import com.shared.models.Chat;
 import com.shared.models.EndGameResult;
+import com.shared.models.HistoryItem;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
@@ -70,13 +71,14 @@ public class ClientGameService {
         return true;
     }
 
-    //----------------------------Unwritten methods-------------------------------------------------
-
     public static boolean endGame(EndGameResult gameResult) {
-        throw new NotImplementedException("ClientGameService.endGame()");
+        CD.setGameResult(gameResult);
+        return true;
     }
 
-    public static boolean updateHistory(Player p /*aHistoryObject goes here*/) {
+    //----------------------------Unwritten methods-------------------------------------------------
+
+    public static boolean updateHistory(Player p, HistoryItem historyItem) {
         throw new NotImplementedException("ClientGameService.updateHistory()");
     }
 }

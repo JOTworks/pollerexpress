@@ -1,11 +1,11 @@
 package com.shared.models;
 
-import com.shared.exceptions.NotImplementedException;
-
 import java.io.Serializable;
 import java.util.List;
+import java.util.Observable;
 
-public class EndGameResult implements Serializable {
+public class EndGameResult extends Observable implements Serializable {
+    private static final Integer BONUS_POINTS = 10;
     private List<PlayerScore> playerScores;
 
     public List<PlayerScore> getPlayerScores() {
@@ -16,8 +16,29 @@ public class EndGameResult implements Serializable {
         playerScores.add(ps);
     }
 
+    /**
+     * determines who should get the bonusPoints for longestRoute
+     */
     public void addBonusPoints() {
-        throw new NotImplementedException("GameService.addBonusPoints not implemented");
+        String bonusWinner = playerScores.get(0).getPlayerName();
+        int longestRoute = playerScores.get(0).getLongestRouteScore();
+        boolean isTie = true;
+        // loop and check if a player has a longer set of connected routes than the previous player
+        for (PlayerScore score : playerScores) {
+            if (score.getLongestRouteScore() > longestRoute) {
+                bonusWinner = score.getPlayerName();
+                longestRoute = score.getLongestRouteScore();
+                isTie = false;
+            }
+        }
+        // award bonus points if there is not a tie
+        if (!isTie) {
+            for (PlayerScore score : playerScores) {
+                if (score.getPlayerName().equals(bonusWinner)) {
+                    score.setBonusPoints(BONUS_POINTS);
+                }
+            }
+        }
     }
 
     /**
