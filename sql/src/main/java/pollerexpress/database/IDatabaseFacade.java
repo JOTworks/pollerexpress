@@ -28,6 +28,7 @@ public interface IDatabaseFacade
     Player getPlayer(String user) throws DatabaseException;
     GameInfo getGameInfo(String id) throws DatabaseException;
     Player[] getPlayersInGame(GameInfo info) throws DatabaseException;
+    void decrementTrainCars(Player p, int cars) throws DatabaseException;
 
 
     /**
@@ -126,6 +127,8 @@ public interface IDatabaseFacade
     TrainCardHand getTrainHandAsHand(Player p) throws DatabaseException;
 
     Route getRoute(Route r) throws DatabaseException;
+
+    void claimRoute(Route r, Player p) throws DatabaseException;
 
     TrainCard drawTrainCard(Player p) throws DatabaseException;
 }
