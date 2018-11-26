@@ -51,7 +51,7 @@ public class EndGameFragment extends Fragment implements IEndGameView {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_chat, container, false);
+        View v = inflater.inflate(R.layout.fragment_end_game, container, false);
         presenter = new EndGamePresenter(this);
         // wire up the widgets
         winnerName = v.findViewById(R.id.winner);
