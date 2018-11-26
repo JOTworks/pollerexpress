@@ -6,6 +6,7 @@ import com.shared.models.cardsHandsDecks.TrainCard;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
@@ -21,16 +22,20 @@ public class TrainCardHand extends Hand implements Serializable
             this.trainCards.add(card);
         }
 
+        Collections.sort(this.trainCards);
+
         synchronized (this)
         {
             this.setChanged();
-            notifyObservers(trainCards);
+            notifyObservers(this.trainCards);
         }
     }
 
     public void addToHand(TrainCard card) {
 
         trainCards.add(card);
+
+        Collections.sort(this.trainCards);
 
         synchronized (this)
         {
