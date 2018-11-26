@@ -62,7 +62,7 @@
         <EditText android:id="@+id/ip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="localhost"
+            android:text="10.0.2.2"
             />
     </LinearLayout>
 

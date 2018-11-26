@@ -56,6 +56,7 @@ public class SetupFacade {
      */
     public  ErrorResponse loginOrRegister(String requestType, LoginRequest loginReq){
 
+        //TODO: SET HOST WITH THIS CALL ON INSTANCE
         ClientCommunicator CC = ClientCommunicator.instance();
 
         LoginResponse response = CC.sendLoginRequest(requestType, loginReq);

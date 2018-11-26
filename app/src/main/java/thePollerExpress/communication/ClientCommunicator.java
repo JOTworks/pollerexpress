@@ -22,19 +22,34 @@ import thePollerExpress.models.ClientData;
 public class ClientCommunicator
 {
 
-    private String serverHost = "10.0.2.2";//"192.168.1.177";//"192.168.1.177";//local host
+    private String serverHost; // = "10.0.2.2";//"192.168.1.177";//"192.168.1.177";//local host
     private String serverPort = "8080";
     private static ClientCommunicator _instance;
 
-    private ClientCommunicator() {}
+    private ClientCommunicator(String host) {
+        if(host == null || host.equals("")) {
+            serverHost = "10.0.2.2";
+        }
+        else {
+            serverHost = host;
+        }
+    }
 
 
     public static ClientCommunicator instance()
     {
+//        //not currently thread safe
+//        if(_instance == null)
+//        {
+//            _instance = new ClientCommunicator("");
+//        }
+        return ClientCommunicator.instance("");
+    }
+    public static ClientCommunicator instance(String host) {
         //not currently thread safe
         if(_instance == null)
         {
-            _instance = new ClientCommunicator();
+            _instance = new ClientCommunicator(host);
         }
         return _instance;
     }
