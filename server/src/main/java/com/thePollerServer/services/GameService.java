@@ -242,8 +242,7 @@ public class GameService
                 {
 
                     //TODO the actual claim in the sql
-
-
+                    df.decrementTrainCars(p,cards.size());
                 } else
                 {
                     has = false;
