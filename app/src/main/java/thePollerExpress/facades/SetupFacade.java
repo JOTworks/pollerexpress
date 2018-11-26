@@ -44,6 +44,7 @@ public class SetupFacade {
      * even though they are functionally the same
      */
     public ErrorResponse register(LoginRequest request){
+
         return loginOrRegister("register", request);
     }
 

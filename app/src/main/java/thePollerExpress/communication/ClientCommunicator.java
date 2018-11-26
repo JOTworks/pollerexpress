@@ -38,7 +38,10 @@ public class ClientCommunicator
         }
         return _instance;
     }
-
+    public void setServer(String ip, String port){
+        serverHost = ip;
+        serverPort = port;
+    }
     public LoginResponse sendLoginRequest(String requestType, LoginRequest request)
     {
         return (LoginResponse) sendRequest(request, requestType);

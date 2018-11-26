@@ -18,7 +18,7 @@ public interface ILoginPresenter {
      * @param username
      * @param password
      */
-    public void logIn(String username, String password);
+    public void logIn(String username, String password, String ip, String port);
 
 
     /**
@@ -29,7 +29,7 @@ public interface ILoginPresenter {
      * @param username
      * @param password
      */
-    public void register(String username, String password, String confirm);
+    public void register(String username, String password, String confirm, String ip, String port);
 
     /**
      * If the parameters meet the requirements
@@ -49,4 +49,8 @@ public interface ILoginPresenter {
      * @param confirm
      */
     public void updateRegister(String username, String password, String confirm);
+
+
+
+
 }
