@@ -224,8 +224,10 @@ public class GameService
      * @param cards
      * @return
      */
-    public boolean claim(Player p, Route r, List<TrainCard> cards)
-    {
+    public boolean claim(Player p, Route r, List<TrainCard> cards) throws DatabaseException {
+        if(!p.getName().equals(df.getGameState(df.getGameInfo(p.getGameId())).getTurn()) || !df.getGameState(df.getGameInfo(p.getGameId())).getState().equals(NO_ACTION_TAKEN)){
+            throw new StateException("claim routs", df.getGameState(df.getGameInfo(p.getGameId())).getState().name());
+        }
         try
         {
 
@@ -247,6 +249,9 @@ public class GameService
                     has = false;
                 }
             }
+
+            GameState newGameState = new GameState(getNextPlayer(p),NO_ACTION_TAKEN);
+            df.setGameState(newGameState,df.getGameInfo(p.getGameId()));
             return has;
         }
         catch(DatabaseException e)
