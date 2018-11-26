@@ -588,6 +588,15 @@ public class DatabaseFacade implements IDatabaseFacade
     }
 
     @Override
+    public void setupPlayers(GameInfo game) throws DatabaseException {
+        Player[] players = getPlayersInGame(game);
+        for(Player p : players){
+            db.getUserDao().setPlayerPoints(p,0);
+            db.getUserDao().setPlayerTrainCars(p,40);
+        }
+    }
+
+    @Override
     public void setPreGameState(int numPlayers, GameInfo gameInfo) throws DatabaseException
     {
 
