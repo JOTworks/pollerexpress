@@ -2,6 +2,7 @@ package thePollerExpress.services;
 
 import android.util.Log;
 
+import com.shared.models.EndGameResult;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.interfaces.ISetupService;
@@ -28,7 +29,7 @@ class ClientSetupService implements ISetupService {
 
     public static boolean createGame(GameInfo gameInfo)
     {
-        ClientData.getInstance().addGame(gameInfo);
+        CD.addGame(gameInfo);
         return true;
     }
 
