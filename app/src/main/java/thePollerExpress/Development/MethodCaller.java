@@ -50,7 +50,7 @@ public class MethodCaller {
         ArrayList<String> result = new ArrayList<String>();
         switch (s) {
             case "help":
-                CD.updateAll();
+                //CD.updateAll();
                 result.add("getUserName\n" +
                         "getChatMessages\n" +
                         "getGameID\n" +
@@ -60,6 +60,9 @@ public class MethodCaller {
                         "setPlayerPoints p points" +
                         "setPlayerTrains p trains" +
                         "getRoutes\n" +
+                        "getState\n" +
+                        "getDestHand\n" +
+                        "getDestOptions\n" +
 
                         "---\n" +
                         "add commands to the methodCaller class\n" +
@@ -71,7 +74,25 @@ public class MethodCaller {
                     result.add("USAGE: setTurn playerName");
                 }
                 CD.getGame().setTurn(args[1]);
+
+            case "changeBank":
+                TrainCard[] cards = {new TrainCard(Color.TRAIN.YELLOW),new TrainCard(Color.TRAIN.YELLOW),new TrainCard(Color.TRAIN.YELLOW),new TrainCard(Color.TRAIN.YELLOW),new TrainCard(Color.TRAIN.RAINBOW)};
+                CD.getGame().getVisibleCards().set(cards);
                 break;
+            case "getState":
+                if(CD.getGame().getGameState()!=null) {
+                    result.add(CD.getGame().getGameState().getTurn());
+                    result.add(CD.getGame().getGameState().getState().toString());
+                }
+                else{
+                    result.add(null);
+                }
+                break;
+            case "turnJack":
+                CD.getGame().setTurn("jackson");
+                break;
+            case "turnAbby":
+                CD.getGame().setTurn("abby");break;
             case "jack":
                 CD.getGame().getPlayers().get(0).setPoints(20);
                 CD.getGame().getPlayers().get(0).setTrainCount(30);
@@ -142,8 +163,13 @@ public class MethodCaller {
                 else
                     result.add("game is null");
                 break;
-            case "demo":
-                runDemo();
+//            case "demo":
+//                runDemo();
+            case "getDestHand":
+                result.add(CD.getUser().getDestCardHand().toString());
+                break;
+            case "getDestOptions":
+                result.add(CD.getUser().getDestCardOptions().toString());
             default:
                 result.add("that didn't match any commands");
         }
@@ -159,42 +185,6 @@ public class MethodCaller {
         runner.execute(c);
     }
 
-    private void runDemo() {
-        try {
-            ArrayList<String> result = new ArrayList<String>();
-            Player demoPlayer = CD.getGame().getPlayer("jackson");
-
-
-            fragment.toast("Beginning tour. CHOO CHOO!");
-            // test claiming a route
-            fragment.toast("Our first stop is claiming a route!");
-            claimRoute(result, new String[]{"unused var", "1"});
-            fragment.toast(result.toString());
-
-
-            // face up deck cards can change
-            fragment.toast("let's modify the face up deck cards!");
-
-            // hand of current player can change
-            fragment.toast("let's modify the hand of the current player!");
-
-            // players points can be changed
-            Thread.sleep(3000);
-            fragment.toast("let's modify the players points!");
-            demoPlayer.setPoints(9001);
-
-            // players trains remaining can be changed
-            Thread.sleep(3000);
-            fragment.toast("let's modify the players remaining trains!");
-            demoPlayer.setTrainCount(10);
-
-            // turn indicator can be changed
-            Thread.sleep(3000);
-            fragment.toast("let's modify the turn indicator!");
-            CD.getGame().setTurn("Nate");
-        } catch (Exception e) {}
-
-    }
 
     private void claimRoute(ArrayList<String> result, String args[]) {
         if (args.length != 2)

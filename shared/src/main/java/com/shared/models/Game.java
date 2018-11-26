@@ -268,6 +268,17 @@ public class Game extends Observable implements Serializable
         }
     }
 
+    public void setDestinationDeckSize(int size)
+    {
+        this.DestinationCardDeck = size;
+
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers(size);
+        }
+    }
+
     public void drawTrainCard(Player player)
     {
         //TODO add check...
@@ -284,7 +295,17 @@ public class Game extends Observable implements Serializable
     {
         //TODO add check...
         this.TrainCardDeck -= numberOfCards;
-        getPlayer(player).setTrainCardCount(player.trainCardCount + numberOfCards);
+        getPlayer(player).setTrainCardCount(getPlayer(player).trainCardCount + numberOfCards);
+        synchronized (this)
+        {
+            this.setChanged();
+            this.notifyObservers();
+        }
+    }
+
+    public void drawTrainCards(int numberOfCards)
+    {
+        this.TrainCardDeck -= numberOfCards;
         synchronized (this)
         {
             this.setChanged();

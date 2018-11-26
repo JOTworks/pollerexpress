@@ -1,4 +1,4 @@
-package com.thePollerServer.commandServices;
+package com.thePollerServer.services;
 
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.exceptions.CommandFailed;

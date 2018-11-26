@@ -46,5 +46,8 @@ public class DestinationCard implements Serializable
         return Objects.equals(_id, card._id);
     }
 
-
+    @Override
+    public String toString() {
+        return _city1.getName() + " to " + _city2.getName() + ", " + _points;
+    }
 }

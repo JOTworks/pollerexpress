@@ -1,11 +1,18 @@
 package thePollerExpress.presenters.game;
 
+import com.shared.exceptions.CommandFailed;
 import com.shared.models.Game;
+import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.cardsHandsDecks.VisibleCards;
+import com.shared.models.interfaces.ICommand;
 
+import java.util.List;
 import java.util.Observable;
 import thePollerExpress.models.ClientData;
 import thePollerExpress.presenters.game.interfaces.IBankPresenter;
+import thePollerExpress.presenters.game.states.BankState;
+import thePollerExpress.utilities.AsyncRunner;
+import thePollerExpress.utilities.ViewFactory;
 import thePollerExpress.views.game.interfaces.IBankView;
 
 public class BankPresenter implements IBankPresenter
@@ -24,6 +31,7 @@ public class BankPresenter implements IBankPresenter
     @Override
     public void update(Observable observable, Object o)
     {
+        updateState();
         if(observable instanceof VisibleCards)
         {
             for (int i = 0; i < 5; ++i)
@@ -40,6 +48,7 @@ public class BankPresenter implements IBankPresenter
             view.update();
         }
     }
+
 
     @Override
     public int getDestinationDeckSize()
@@ -64,4 +73,53 @@ public class BankPresenter implements IBankPresenter
             //TODO log the exception.
         }
     }
+
+    /*---------------------Player Actions-----------------------*/
+    BankState bankState = new BankState();
+
+    private void updateState() {
+        //get state from cc
+        bankState = bankState.changeState(CD.getGame().getGameState());
+    }
+
+    public void drawDestinationCards() {
+        AsyncRunner drawDestCardTask = new AsyncRunner(view);
+
+        drawDestCardTask.setNextView(ViewFactory.createDestinationHandView());
+        drawDestCardTask.execute(new ICommand()
+        {
+            @Override
+            public Object execute() throws CommandFailed
+            {
+                return bankState.drawDestinationCards();
+            }
+        });
+    }
+
+    public void drawTrainCardFromDeck(){
+        AsyncRunner drawTrainCardTask = new AsyncRunner(view);
+        drawTrainCardTask.execute(new ICommand()
+        {
+            @Override
+            public Object execute() throws CommandFailed
+            {
+                return bankState.drawTrainCardFromDeck();
+            }
+        });
+    }
+
+    public void drawFaceupCard(final int cardIndex){
+
+        AsyncRunner drawTrainCardTask = new AsyncRunner(view);
+        drawTrainCardTask.execute(new ICommand()
+        {
+            @Override
+            public Object execute() throws CommandFailed
+            {
+                return bankState.drawFaceupCard(cardIndex);
+            }
+        });
+    }
+
+
 }

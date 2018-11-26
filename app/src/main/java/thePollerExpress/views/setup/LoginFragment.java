@@ -23,6 +23,8 @@ public class LoginFragment extends Fragment implements ILoginView {
     EditText userNameText;
     EditText passwordText;
     EditText confirmText;
+    EditText ipText;
+    EditText portText;
 
     Button login_button;
     Button register_button;
@@ -46,6 +48,8 @@ public class LoginFragment extends Fragment implements ILoginView {
         userNameText = (EditText)v.findViewById(R.id.user_name);
         passwordText = (EditText)v.findViewById(R.id.password);
         confirmText = (EditText)v.findViewById(R.id.confirm);
+        ipText = (EditText)v.findViewById(R.id.ip);
+        portText = (EditText)v.findViewById(R.id.port);
 
         login_button = (Button) v.findViewById(R.id.login_button);
         register_button = (Button) v.findViewById(R.id.register_button);

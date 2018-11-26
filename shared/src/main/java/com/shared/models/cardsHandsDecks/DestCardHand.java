@@ -26,6 +26,7 @@ public class DestCardHand extends Hand implements Serializable {
 
     public void addToHand(DestinationCard card) {
         destCards.add(card);
+        System.out.println("!!!" + card.toString());
         synchronized (this)
         {
             this.setChanged();
@@ -42,7 +43,15 @@ public class DestCardHand extends Hand implements Serializable {
         }
     }
 
-
-
-
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder("");
+        builder.append("Size: ");
+        builder.append(destCards.size());
+        for(DestinationCard card : destCards) {
+            builder.append('\n');
+            builder.append(card.toString());
+        }
+        return builder.toString();
+    }
 }

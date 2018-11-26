@@ -17,16 +17,19 @@ import java.util.List;
 import com.shared.exceptions.database.DataAlreadyInDatabaseException;
 import com.shared.exceptions.database.DataNotFoundException;
 import com.shared.exceptions.database.DatabaseException;
+import com.shared.models.states.GameState;
 
 public class GameDao {
-    IDatabase _db;//where the dao gets open connections from.
-    public static final String PARAMS = "GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS";
-    public static final String PARAMS_INSERT = "?,?,?,?";
-    public static final String SELECT_ALL_GAME_INFO = "SELECT GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS\n FROM  GAMES";
-    public static final String SELECT_GAME = " SELECT GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS \n FROM GAMES \n WHERE GAME_ID = ?";
-    public static final String SELECT_ALL_JOINABLE_GAME_INFO = "SELECT GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS\n WHERE NOT MAX_PLAYERS = CURRENT_PLAYERS \n  FROM GAMES";
+
+    IDatabase _db;
+    public static final String PARAMS = "GAME_ID, GAME_NAME, MAX_PLAYERS, CURRENT_PLAYERS, ACTIVE_PLAYER, SUBSTATE";
+    public static final String PARAMS_INSERT = "?,?,?,?,?,?";
+    public static final String SELECT_ALL_GAME_INFO = "SELECT *\n FROM  GAMES";
+    public static final String SELECT_GAME = " SELECT *\n FROM GAMES \n WHERE GAME_ID = ?";
+    public static final String SELECT_ALL_JOINABLE_GAME_INFO = "SELECT *\n FROM GAMES \n WHERE MAX_PLAYERS < CURRENT_PLAYERS";
     public static final String CREATE_NEW_GAME = "INSERT INTO GAMES("+ PARAMS+") \nVALUES("+PARAMS_INSERT+")";
     public static final String DELETE = "DELETE FROM GAMES WHERE GAME = ?";
+    private String turn;
 
     /**
      * creates a gamedao
@@ -54,6 +57,8 @@ public class GameDao {
             stmnt.setString( 2,game.getName() );
             stmnt.setInt( 3,game.getGameInfo().getMaxPlayers() );
             stmnt.setInt( 4,game.getGameInfo().getNumPlayers() );
+            stmnt.setString( 5, null );
+            stmnt.setString( 6, null );
             stmnt.execute();
             stmnt.close();
         }
@@ -82,13 +87,21 @@ public class GameDao {
                 //first get the game info for the game.
                 GameInfo gi = new GameInfo(rs.getString("GAME_ID"), rs.getString("GAME_NAME"), rs.getInt("MAX_PLAYERS"), rs.getInt("CURRENT_PLAYERS") );
                 //get a list of players in the game.
-                rs.close();
-                stmnt.close();
+
                 List<Player> players = getPlayers(gi);
                 //create the game
                 Game game = new Game(gi);//TODO load more data
                 game.setPlayers(players);
 
+                /// todo: which one is correct
+                //if(rs.getString("SUBSTATE") != null && rs.getString("SUBSTATE").equals("")) {
+                if(rs.getString("SUBSTATE") != null) {
+
+                    GameState state = new GameState(rs.getString("ACTIVE_PLAYER"), GameState.State.valueOf(rs.getString("SUBSTATE")));
+                    game.setGameState(state);
+                }
+                rs.close();
+                stmnt.close();
                 return game;
             }
             rs.close();
@@ -97,11 +110,13 @@ public class GameDao {
         }
         catch (DatabaseException e)
         {
-            throw new DataNotFoundException(id, "GAMES");//TODO change error handling.
+            throw new DataNotFoundException(e.getMessage());
+            //throw new DataNotFoundException(id, "GAMES");//TODO change error handling.
         }
         catch(SQLException e)
         {
-            throw new DataNotFoundException(id, "GAMES");
+            throw new DataNotFoundException(e.getMessage());
+            //throw new DataNotFoundException(id, "GAMES");
         }
     }
 
@@ -128,7 +143,7 @@ public class GameDao {
     {
         try
         {
-            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SELECT_ALL_GAME_INFO);
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SELECT_ALL_JOINABLE_GAME_INFO);
             ResultSet rs = stmnt.executeQuery();
             ArrayList games = new ArrayList();
 
@@ -283,6 +298,44 @@ public class GameDao {
         }
     }
 
+    public static final String UPDATE_TURN = "UPDATE GAMES\n" +
+            "SET ACTIVE_PLAYER = ?\n" +
+            "WHERE GAME_ID = ?";
+    public void updateTurn(String player_name, GameInfo gi) throws DatabaseException {
+        try
+        {
+            PreparedStatement stmnt = _db.getConnection().prepareStatement(UPDATE_TURN);
+            stmnt.setString(1,player_name );
+            stmnt.setString(2,gi.getId() );
+            stmnt.execute();
+            stmnt.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw new DatabaseException();
+        }
+    }
+
+    public static final String UPDATE_SUBSTATE = "UPDATE GAMES\n" +
+            "SET SUBSTATE = ?\n" +
+            "WHERE GAME_ID = ?";
+    public void updateSubState(GameState.State state, GameInfo gi) throws DatabaseException {
+        try
+        {
+            PreparedStatement stmnt = _db.getConnection().prepareStatement(UPDATE_SUBSTATE);
+            stmnt.setString(1,state.name() );
+            stmnt.setString(2,gi.getId() );
+            stmnt.execute();
+            stmnt.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw new DatabaseException();
+        }
+    }
+
     /**
      * Used by read Game and delete game.
      * @param info
@@ -326,5 +379,48 @@ public class GameDao {
         } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
+    }
+
+
+    /**
+     * Abby
+     * Untested
+     * @return The state of the game
+     * @throws DatabaseException
+     */
+    public GameState.State getSubState(GameInfo info) throws DatabaseException {
+        try
+        {
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SELECT_GAME);
+            stmnt.setString(1, info.getId());
+            ResultSet rs = stmnt.executeQuery();
+
+
+            if (rs.next()) {
+                return GameState.State.valueOf(rs.getString("SUBSTATE"));
+            }
+        } catch (SQLException var4)
+        {
+            return null;
+        }
+        return null;
+    }
+
+    public String getTurn(GameInfo info) {
+        try
+        {
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SELECT_GAME);
+            stmnt.setString(1, info.getId());
+            ResultSet rs = stmnt.executeQuery();
+
+
+            if (rs.next()) {
+                return rs.getString("ACTIVE_PLAYER");
+            }
+        } catch (SQLException var4)
+        {
+            return null;
+        }
+        return null;
     }
 }

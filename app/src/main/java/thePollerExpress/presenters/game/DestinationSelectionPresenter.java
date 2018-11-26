@@ -38,7 +38,7 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
             @Override
             public Object execute() throws CommandFailed
             {
-                return facade.discardDestCard(CD.getUser(), cards);
+                return facade.discardDestCard(cards);
             }
         });
     }
@@ -51,16 +51,15 @@ public class DestinationSelectionPresenter implements IDestinationSelectionPrese
                 cards.add(CD.getUser().getDestCardOptions().getDestinationCards().get(i));
             }
         }
-        if(cards.size()>CD.getUser().getDestinationDiscardCount()){
-            view.displayError("You can only discard "+CD.getUser().getDestinationDiscardCount()+" card");
-        }else {
+//        if(cards.size()>CD.getUser().getDestinationDiscardCount()){
+//            view.displayError("You can only discard "+CD.getUser().getDestinationDiscardCount()+" card");
+//        }else {
             discardDestCards(cards);
-        }
+//        }
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        view.displayError("updated");
         view.renderCards(ClientData.getInstance().getUser().getDestCardOptions().getDestinationCards());
     }
 

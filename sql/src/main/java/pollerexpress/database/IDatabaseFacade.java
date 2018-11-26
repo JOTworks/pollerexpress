@@ -12,6 +12,7 @@ import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.User;
 import com.shared.models.cardsHandsDecks.TrainCardHand;
 import com.shared.models.reponses.LoginResponse;
+import com.shared.models.states.GameState;
 
 import java.util.List;
 
@@ -51,6 +52,13 @@ public interface IDatabaseFacade
      */
     int getPlayerDiscards(Player player) throws DatabaseException;
     void makeBank(GameInfo game) throws DatabaseException;
+    int getDestinationDeckSize(GameInfo gi) throws DatabaseException;
+    int getTrainDeckSize(GameInfo gi) throws DatabaseException;
+    void shuffleDestinationDeck(GameInfo gi) throws DatabaseException;
+    void shuffleTrainDeck(GameInfo gi) throws DatabaseException;
+    List<DestinationCard> getDestinationHand(Player player) throws DatabaseException;
+    List<TrainCard> getTrainHand(Player player) throws DatabaseException;
+    void resetVisible(GameInfo info) throws DatabaseException;
 
     // Abby
     void chat(Chat chat, GameInfo gameInfo) throws DatabaseException;
@@ -63,7 +71,6 @@ public interface IDatabaseFacade
      */
     public TrainCard[] getVisible(GameInfo info) throws DatabaseException;
 
-
     TrainCard getVisible(Player p, int i) throws DatabaseException;
     TrainCard drawVisible(Player p, int i) throws DatabaseException;
 
@@ -71,10 +78,55 @@ public interface IDatabaseFacade
 
     List<TrainCard> drawTrainCards(Player p, int number) throws DatabaseException;
 
+    /**
+     * sets the game state according to the number of players. The 'turn' value for game state is
+     * is not affected since this command comes before any player has a turn. The 'state' field is
+     * set to a value indicating how many players must still discard before the game can begin
+     *
+     * @param numPlayers the number of players in the game. This determines
+     *                   which Startstate is chosen.
+     *
+     *  The state options are found in the GameState object
+     */
+    void setPreGameState(int numPlayers, GameInfo gameInfo) throws DatabaseException;
+
+    /**
+     * update the database with a new value for the player and  game state.
+     * @param gameState
+     */
+    void setGameState(GameState gameState, GameInfo gameInfo) throws DatabaseException;
+
+    /**
+     * update the database with a new state for the player whose turn it is
+     * @param state
+     */
+    void setGameState(GameState.State state, GameInfo gameInfo) throws DatabaseException;
+
+    /**
+     * "decrements" the game state by changing it to a "lower" pre-game-state.
+     * e.g. from WAITING_ON_THREE_PLAYERS to WAITING_ON_TWO_PLAYERS
+     *
+     * @pre the game table must already contain a value for game state
+     */
+    void updatePreGameState(GameInfo gameInfo) throws DatabaseException;
+
+    /**
+     * return a game state object with the current game state
+     * @return
+     */
+    GameState getGameState(GameInfo gameInfo) throws DatabaseException;
 
 
-    TrainCardHand getTrainHand(Player p) throws DatabaseException;
+    /**
+     *
+     * @param p
+     * @return
+     * @throws DatabaseException
+     */
+    TrainCardHand getTrainHandAsHand(Player p) throws DatabaseException;
 
     Route getRoute(Route r) throws DatabaseException;
+
+    TrainCard drawTrainCard(Player p) throws DatabaseException;
 }
 

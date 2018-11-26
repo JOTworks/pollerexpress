@@ -21,8 +21,17 @@ import java.util.List;
 
 import com.shared.exceptions.database.DataNotFoundException;
 import com.shared.exceptions.database.DatabaseException;
+import com.shared.models.states.GameState;
 
 import pollerexpress.database.utilities.DeckBuilder;
+
+import static com.shared.models.states.GameState.State.NO_ACTION_TAKEN;
+import static com.shared.models.states.GameState.State.READY_FOR_GAME_START;
+import static com.shared.models.states.GameState.State.WAITING_FOR_FIVE_PLAYERS;
+import static com.shared.models.states.GameState.State.WAITING_FOR_FOUR_PLAYERS;
+import static com.shared.models.states.GameState.State.WAITING_FOR_ONE_PLAYER;
+import static com.shared.models.states.GameState.State.WAITING_FOR_THREE_PLAYERS;
+import static com.shared.models.states.GameState.State.WAITING_FOR_TWO_PLAYERS;
 
 public class DatabaseFacade implements IDatabaseFacade
 {
@@ -281,6 +290,7 @@ public class DatabaseFacade implements IDatabaseFacade
         {
             db.open();
             GameInfo info = db.getGameDao().read(player.getGameId()).getGameInfo();
+
             List<DestinationCard> cards = new ArrayList<>();
             for(int i = 0; i  < 3; ++i)//TODO get rid of magic numbers
             {
@@ -357,6 +367,103 @@ public class DatabaseFacade implements IDatabaseFacade
     }
 
     @Override
+    public int getDestinationDeckSize(GameInfo gi) throws DatabaseException {
+        try{
+            db.open();
+            int deckSize = db.getDestinationCardDao().getDeckSize(gi);
+            db.close(true);
+            return deckSize;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public int getTrainDeckSize(GameInfo gi) throws DatabaseException {
+        try{
+            db.open();
+            int deckSize = db.getTrainCardDao().getDeckSize(gi);
+            db.close(true);
+            return deckSize;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public void shuffleDestinationDeck(GameInfo gi) throws DatabaseException {
+        try{
+            db.open();
+            DeckBuilder deckBuilder = new DeckBuilder(db);
+            deckBuilder.shuffleDestinationDeck(gi);
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public void shuffleTrainDeck(GameInfo gi) throws DatabaseException {
+        try{
+            db.open();
+            DeckBuilder deckBuilder = new DeckBuilder(db);
+            deckBuilder.shuffleTrainDeck(gi);
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public List<DestinationCard> getDestinationHand(Player player) throws DatabaseException {
+        try{
+            db.open();
+            List<DestinationCard> hand = db.getDestinationCardDao().getHand(player);
+            db.close(true);
+            return hand;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public List<TrainCard> getTrainHand(Player player) throws DatabaseException {
+        try{
+            db.open();
+            List<TrainCard> hand = db.getTrainCardDao().getHand(player);
+            db.close(true);
+            return hand;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public void resetVisible(GameInfo info) throws DatabaseException {
+        try{
+            db.open();
+            db.getTrainCardDao().resetFaceUp(info);
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
     public TrainCard[] getVisible(GameInfo info) throws DatabaseException
     {
         try
@@ -391,8 +498,13 @@ public class DatabaseFacade implements IDatabaseFacade
     {
         try
         {
+
+            GameInfo gi = getGameInfo(p.getGameId());
             db.open();
+            int deckSize = db.getTrainCardDao().getDeckSize(gi);
+
             TrainCard visible = db.getTrainCardDao().drawFaceUp(p, i);
+
             db.close(true);
             return visible;
         }
@@ -419,7 +531,12 @@ public class DatabaseFacade implements IDatabaseFacade
     {
         try
         {
+
+
+            GameInfo gi = getGameInfo(p.getGameId());
             db.open();
+            int deckSize = db.getTrainCardDao().getDeckSize(gi);
+
             List<TrainCard> cards = new ArrayList<>();
             while (number > 0)
             {
@@ -434,6 +551,152 @@ public class DatabaseFacade implements IDatabaseFacade
         {
             if(db.isOpen()) db.close(false);
         }
+    }
+
+    public TrainCard drawTrainCard(Player p) throws DatabaseException {
+        try
+        {
+
+
+            GameInfo gi = getGameInfo(p.getGameId());
+            db.open();
+            int deckSize = db.getTrainCardDao().getDeckSize(gi);
+
+            TrainCard card = db.getTrainCardDao().drawCard(p);
+
+            db.close(true);
+            return card;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public void setPreGameState(int numPlayers, GameInfo gameInfo) throws DatabaseException
+    {
+
+        try
+        {
+            GameState.State state = READY_FOR_GAME_START;
+
+            switch(numPlayers) {
+
+                case 1 :
+                    state = WAITING_FOR_ONE_PLAYER;
+                    break;
+                case 2 :
+                    state = WAITING_FOR_TWO_PLAYERS;
+                    break;
+                case 3 :
+                    state = WAITING_FOR_THREE_PLAYERS;
+                    break;
+                case 4 :
+                    state = WAITING_FOR_FOUR_PLAYERS;
+                    break;
+                case 5 :
+                    state = WAITING_FOR_FIVE_PLAYERS;
+                    break;
+            }
+
+            db.open();
+
+            db.getGameDao().updateSubState(state, gameInfo);
+
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+
+    }
+
+    @Override
+    public void updatePreGameState(GameInfo gameInfo) throws DatabaseException {
+
+        try{
+
+            db.open();
+
+            GameState.State curState = db.getGameDao().getSubState(gameInfo);
+
+            if(curState.next().equals(READY_FOR_GAME_START)){
+                Player[] Players = db.getUserDao().getPlayersInGame(gameInfo);
+                db.getGameDao().updateTurn(Players[0].getName(), gameInfo);
+                db.getGameDao().updateSubState(NO_ACTION_TAKEN, gameInfo);
+            }else {
+                db.getGameDao().updateSubState(curState.next(), gameInfo);
+            }
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+    }
+
+    @Override
+    public void setGameState(GameState gameState, GameInfo gameInfo) throws DatabaseException {
+
+        try
+        {
+            db.open();
+
+            // update the database with the name of the active player
+            db.getGameDao().updateTurn(gameState.getTurn(), gameInfo);
+
+            // update the database with a new game state
+            db.getGameDao().updateSubState(gameState.getState(), gameInfo);
+
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+
+    }
+
+    @Override
+    public void setGameState(GameState.State state, GameInfo gameInfo) throws DatabaseException {
+
+        try
+        {
+            db.open();
+
+            // update the database with a new game state
+            db.getGameDao().updateSubState(state, gameInfo);
+
+
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+
+    }
+
+    @Override
+    public GameState getGameState(GameInfo gameInfo) throws DatabaseException {
+
+        try
+        {
+            db.open();
+
+            GameState gameState = new GameState(db.getGameDao().getTurn(gameInfo), db.getGameDao().getSubState(gameInfo));
+
+            db.close(true);
+
+            return gameState;
+        }
+        finally
+        {
+            if(db.isOpen()) db.close(false);
+        }
+
     }
 
     @Override
@@ -458,7 +721,7 @@ public class DatabaseFacade implements IDatabaseFacade
     }
 
     @Override
-    public TrainCardHand getTrainHand(Player p) throws DatabaseException
+    public TrainCardHand getTrainHandAsHand(Player p) throws DatabaseException
     {
         try
         {

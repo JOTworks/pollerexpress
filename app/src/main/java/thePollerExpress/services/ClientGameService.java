@@ -2,6 +2,7 @@ package thePollerExpress.services;
 
 import android.util.Log;
 
+import com.shared.exceptions.NotImplementedException;
 import com.shared.models.Chat;
 import com.shared.models.User;
 import com.shared.models.cardsHandsDecks.DestinationCard;
@@ -10,10 +11,10 @@ import com.shared.models.Player;
 import com.shared.models.Route;
 import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.states.GameState;
-
 import java.util.List;
 
 import thePollerExpress.models.ClientData;
+import static com.shared.models.states.GameState.State.*;
 
 public class ClientGameService {
 
@@ -30,20 +31,13 @@ public class ClientGameService {
         CD = ClientData.getInstance();
     }
 
-    /**
-     *  Set the game state for the state you will have going into the game
-     *  This will notify the observer and will cause every user to switch to the gameView
-     * @return true if the state was changed and false otherwise
-     */
-    public static boolean startGame(TrainCard[] cards)
-    {
 
+    public static boolean endGame()
+    {
         CD.getGame().setGameState(new GameState());
-        CD.getGame().getVisibleCards().set(cards);
 
         return true;
     }
-
 
     public static boolean chat(Chat chat, GameInfo gameInfo)
     {
@@ -73,4 +67,17 @@ public class ClientGameService {
         return true;
     }
 
+    public static boolean setGameState(GameState gameState) {
+        System.out.println("setting gameState");
+        System.out.println(gameState.getState().toString());
+        CD.getGame().setGameState(gameState);
+        return true;
+    }
+
+    //----------------------------Unwritten methods-------------------------------------------------
+
+
+    public static boolean updateHistory(Player p /*aHistoryObject goes here*/) {
+        throw new NotImplementedException("ClientGameService.updateHistory()");
+    }
 }

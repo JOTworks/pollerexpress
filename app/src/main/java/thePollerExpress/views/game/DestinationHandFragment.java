@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -71,10 +73,13 @@ public class DestinationHandFragment extends Fragment implements IDestinationVie
 
         }
 
-        @Override
-        public void changeView(IPollerExpressView view) {
-
-        }
+    @Override
+    public void changeView(IPollerExpressView view) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.destination_fragment_container, (Fragment) view);
+        fragmentTransaction.commit();
+    }
 
 
     public class Adapter extends RecyclerView.Adapter<CardViewHolder> {

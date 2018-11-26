@@ -203,6 +203,10 @@ public class ClientData extends Observable
         this.user.getDestCardOptions().removeFromOptions(card);
     }
 
+    public void emptyDestOptions() {
+        this.user.getDestCardOptions().makeEmpty();
+    }
+
     public void updateAll() {
         game.updateObservables();
         game.getVisibleCards().updateObservables();
