@@ -1,5 +1,6 @@
 package thePollerExpress.views.game;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shared.models.cardsHandsDecks.TrainCard;
@@ -27,7 +29,7 @@ import thePollerExpress.views.game.interfaces.ITrainCardHandView;
  */
 public class TrainCardHandFragment extends Fragment implements ITrainCardHandView {
 
-    TextView cardView;
+    ImageView cardView;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     ITrainCardHandPresenter presenter = new TrainCardHandPresenter(this);
@@ -48,7 +50,7 @@ public class TrainCardHandFragment extends Fragment implements ITrainCardHandVie
 
         recyclerView.setHasFixedSize(true);
 
-        cardView = (TextView) recyclerView.findViewById(R.id.train_card_item);
+        cardView = (ImageView) recyclerView.findViewById(R.id.train_card_image_item);
 
         List<TrainCard> cardList = presenter.get();
         mAdapter = new Adapter(cardList);
@@ -68,6 +70,32 @@ public class TrainCardHandFragment extends Fragment implements ITrainCardHandVie
         * This is much more efficient than making a new adapter since
         * every time the recycler view needs to be updated.*/
         mAdapter.notifyDataSetChanged();
+    }
+
+    private Drawable getFromCard(TrainCard card)
+    {
+        switch(card.getColor())
+        {
+            case RED:
+                return getResources().getDrawable(R.drawable.red_train_card);
+            case BLUE:
+                return getResources().getDrawable(R.drawable.blue_train_card);
+            case BLACK:
+                return getResources().getDrawable(R.drawable.black_train_card);
+            case YELLOW:
+                return getResources().getDrawable(R.drawable.yellow_train_card);
+            case GREEN:
+                return getResources().getDrawable(R.drawable.green_train_card);
+            case WHITE:
+                return getResources().getDrawable(R.drawable.white_train_card);
+            case ORANGE:
+                return getResources().getDrawable(R.drawable.orange_train_card);
+            case PURPLE:
+                return getResources().getDrawable(R.drawable.purple_train_card);
+            case RAINBOW:
+                return getResources().getDrawable(R.drawable.rainbow_train_car);
+        }
+        return null;//TODO replace with blank
     }
 
     public class Adapter extends RecyclerView.Adapter<CardViewHolder> {
@@ -91,8 +119,9 @@ public class TrainCardHandFragment extends Fragment implements ITrainCardHandVie
         @Override
         public void onBindViewHolder(@NonNull CardViewHolder cardViewHolder, int i) {
 
-            String trainCardStr = cardList.get(i).getColorAsString();
-            cardViewHolder.bind(trainCardStr);
+            //String trainCardStr = cardList.get(i).getColorAsString();
+            //cardViewHolder.bind(trainCardStr + ":)");
+            cardViewHolder.bind(cardList.get(i));
         }
 
         @Override
@@ -103,17 +132,20 @@ public class TrainCardHandFragment extends Fragment implements ITrainCardHandVie
 
     public class CardViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView trainCard;
+        private TextView trainCardText;
+        private ImageView trainCard;
 
         //wire up the view holder
         public CardViewHolder(@NonNull View itemView) {
             super(itemView);
-            trainCard = (TextView) itemView.findViewById(R.id.train_card_item);
+            //trainCardText = (TextView) itemView.findViewById(R.id.train_card_item);
+            trainCard = (ImageView) itemView.findViewById(R.id.train_card_image_item);
         }
 
-        public void bind(String trainCardStr) {
-            trainCard.setText(trainCardStr);
-        }
+//        public void bind(String trainCardStr) {
+//            trainCardText.setText(trainCardStr);
+//        }
+        public void bind(TrainCard card) { trainCard.setBackground(getFromCard(card)); }
     }
 
 

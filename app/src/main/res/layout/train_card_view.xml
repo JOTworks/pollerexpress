@@ -5,13 +5,21 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content">
 
-<TextView
-    android:id="@+id/train_card_item"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:padding="20dp"
-    android:textColor="@color/colorPrimaryDark"
-    android:background="@color/PollerWhite"/>
+<!--<TextView-->
+    <!--android:id="@+id/train_card_item"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="20dp"-->
+    <!--android:textColor="@color/colorPrimaryDark"-->
+    <!--android:background="@color/PollerWhite"/>-->
+
+    <ImageView
+        android:id="@+id/train_card_image_item"
+        android:layout_width="110dp"
+        android:layout_height="60dp"
+        android:layout_margin="5dp"
+        android:padding="20dp"
+        android:background="@drawable/rainbow_train_car"/>
 
 <!--<View android:background="#ffffff"-->
     <!--android:layout_width = "match_parent"-->
