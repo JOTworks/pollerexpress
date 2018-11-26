@@ -1,6 +1,9 @@
 package com.shared.models;
 
+import com.shared.exceptions.NotImplementedException;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -10,6 +13,10 @@ public class EndGameResult extends Observable implements Serializable {
 
     public List<PlayerScore> getPlayerScores() {
         return playerScores;
+    }
+
+    public EndGameResult() {
+        playerScores = new ArrayList<>();
     }
 
     public void addScore(PlayerScore ps) {
@@ -41,12 +48,26 @@ public class EndGameResult extends Observable implements Serializable {
         }
     }
 
+    public void sortByScore() {
+        throw new NotImplementedException("EndGameResult.sortByScore");
+    }
+
     /**
      * Totals all of the points up for each player
      */
     public void totalPoints() {
         for (PlayerScore score : playerScores) {
             score.setTotalPoints();
+        }
+    }
+
+
+    public void setPlayerScores(List<PlayerScore> playerScores) {
+        this.playerScores = playerScores;
+        synchronized (this)
+        {
+            this.setChanged();
+            notifyObservers(this);
         }
     }
 }

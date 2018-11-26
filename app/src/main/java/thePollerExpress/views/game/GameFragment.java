@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.shared.models.Game;
 import com.shared.models.Player;
@@ -28,8 +29,7 @@ public class GameFragment extends Fragment implements IGameView {
     IGamePresenter gamePresenter;
     @Override
     public void displayError(String errorMessage) {
-
-        // todo: fill out
+        android.widget.Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
     }
 
     @Override

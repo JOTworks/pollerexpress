@@ -33,6 +33,7 @@ public class ClientData extends Observable
     private ClientData() {
 
         gameInfoList = new ArrayList<>();
+        gameResult = new EndGameResult();
     }
 
 
@@ -225,12 +226,7 @@ public class ClientData extends Observable
         }
     }
 
-    public void setGameResult(EndGameResult endGameResult) {
-        this.gameResult = endGameResult;
-        synchronized (this)
-        {
-            this.setChanged();
-            this.notifyObservers();
-        }
+    public void setGameResult(EndGameResult gameResult) {
+        this.gameResult.setPlayerScores(gameResult.getPlayerScores());
     }
 }

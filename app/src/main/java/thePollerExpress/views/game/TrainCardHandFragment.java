@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shared.models.cardsHandsDecks.TrainCard;
 
@@ -18,6 +19,7 @@ import java.util.List;
 import cs340.pollerexpress.R;
 import thePollerExpress.presenters.game.TrainCardHandPresenter;
 import thePollerExpress.presenters.game.interfaces.ITrainCardHandPresenter;
+import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.interfaces.ITrainCardHandView;
 
 /**
@@ -68,6 +70,16 @@ public class TrainCardHandFragment extends Fragment implements ITrainCardHandVie
         * This is much more efficient than making a new adapter since
         * every time the recycler view needs to be updated.*/
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void displayError(String errorMessage) {
+        android.widget.Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void changeView(IPollerExpressView view) {
+
     }
 
     public class Adapter extends RecyclerView.Adapter<CardViewHolder> {
