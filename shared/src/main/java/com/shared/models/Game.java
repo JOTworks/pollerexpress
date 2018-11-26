@@ -35,6 +35,7 @@ public class Game extends Observable implements Serializable
         faceUpCards = new VisibleCards();
         DestinationCardDeck = DESTINATION_DECK_SIZE;
         TrainCardDeck = TRAIN_CARD_DECK_SIZE;
+        map = new Map(Map.DEFAULT_MAP);
         currentTurn = "";
     }
     /**
@@ -44,7 +45,7 @@ public class Game extends Observable implements Serializable
     public Game(GameInfo info)
     {
         this();
-        map = new Map(Map.DEFAULT_MAP);
+
         _info = info;
         _players = new ArrayList<>();
     }

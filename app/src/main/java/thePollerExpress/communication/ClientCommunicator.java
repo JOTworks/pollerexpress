@@ -22,38 +22,25 @@ import thePollerExpress.models.ClientData;
 public class ClientCommunicator
 {
 
-    private String serverHost; // = "10.0.2.2";//"192.168.1.177";//"192.168.1.177";//local host
+    private String serverHost = "10.0.2.2";//"192.168.1.177";//"192.168.1.177";//local host
     private String serverPort = "8080";
     private static ClientCommunicator _instance;
 
-    private ClientCommunicator(String host) {
-        if(host == null || host.equals("")) {
-            serverHost = "10.0.2.2";
-        }
-        else {
-            serverHost = host;
-        }
-    }
+    private ClientCommunicator() {}
 
 
-    public static ClientCommunicator instance()
-    {
-//        //not currently thread safe
-//        if(_instance == null)
-//        {
-//            _instance = new ClientCommunicator("");
-//        }
-        return ClientCommunicator.instance("");
-    }
-    public static ClientCommunicator instance(String host) {
+    public static ClientCommunicator instance() {
         //not currently thread safe
         if(_instance == null)
         {
-            _instance = new ClientCommunicator(host);
+            _instance = new ClientCommunicator();
         }
         return _instance;
     }
-
+    public void setServer(String ip, String port){
+        serverHost = ip;
+        serverPort = port;
+    }
     public LoginResponse sendLoginRequest(String requestType, LoginRequest request)
     {
         return (LoginResponse) sendRequest(request, requestType);

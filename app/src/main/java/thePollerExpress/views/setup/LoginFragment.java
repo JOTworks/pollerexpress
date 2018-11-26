@@ -63,15 +63,23 @@ public class LoginFragment extends Fragment implements ILoginView {
             public void onClick(View v) {
                 //changeToSetupGameView(); }
                 loginPresenter.logIn(userNameText.getText().toString(),
-                        passwordText.getText().toString());
+                                    passwordText.getText().toString(),
+                                    ipText.getText().toString(),
+                                    portText.getText().toString()
+                                    );
             }
         });
 
         Button mregister_button = (Button) register_button;
         mregister_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { loginPresenter.register(userNameText.getText().toString(),
-                                          passwordText.getText().toString(), confirmText.getText().toString());
+            public void onClick(View v) {
+                loginPresenter.register(userNameText.getText().toString(),
+                                        passwordText.getText().toString(),
+                                        confirmText.getText().toString(),
+                                        ipText.getText().toString(),
+                                        portText.getText().toString()
+                                        );
             }
         });
 

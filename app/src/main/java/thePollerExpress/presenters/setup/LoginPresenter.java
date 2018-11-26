@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.models.requests.LoginRequest;
 
+import thePollerExpress.communication.ClientCommunicator;
 import thePollerExpress.communication.PollerExpress;
 import thePollerExpress.models.ClientData;
 import thePollerExpress.views.setup.ILoginView;
@@ -56,8 +57,8 @@ public class LoginPresenter implements ILoginPresenter {
      * @pre username and password have length greater than zero
      */
     @Override
-    public void logIn(String username, String password) {
-
+    public void logIn(String username, String password, String ip, String port) {
+        ClientCommunicator.instance().setServer(ip, port);
         if(username.length() <= 0 || username.length() > 1000
                 && password.length() <= 0 || password.length() > 1000) {
             loginView.displayError("field with too many or too few characters");
@@ -77,8 +78,8 @@ public class LoginPresenter implements ILoginPresenter {
      * @pre username and password have length greater than zero
      */
     @Override
-    public void register(String username, String password, String confirm) {
-
+    public void register(String username, String password, String confirm, String ip, String port) {
+        ClientCommunicator.instance().setServer(ip, port);
         if(!password.equals(confirm)) {
             loginView.displayError("your passwords dont match");
             return;

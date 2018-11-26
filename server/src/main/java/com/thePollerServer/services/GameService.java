@@ -7,12 +7,14 @@ import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Chat;
 import com.shared.models.Color;
 import com.shared.models.Command;
+import com.shared.models.Route;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import pollerexpress.database.IDatabaseFacade;
 
 import com.shared.models.cardsHandsDecks.TrainCard;
+import com.shared.models.cardsHandsDecks.TrainCardHand;
 import com.shared.models.states.GameState;
 import com.thePollerServer.utilities.Factory;
 
@@ -215,5 +217,41 @@ public class GameService
         return card;
     }
 
+    /**
+     *
+     * @param p
+     * @param r
+     * @param cards
+     * @return
+     */
+    public boolean claim(Player p, Route r, List<TrainCard> cards)
+    {
+        try
+        {
 
+            IDatabaseFacade df = Factory.createDatabaseFacade();
+            TrainCardHand hand = df.getTrainHandAsHand(p);
+            boolean has = hand.contains(cards);
+            if (has)
+            {
+                //check if the route is claimed
+                Route actual = df.getRoute(r);
+                if (df.getRoute(r).getOwner() == null)
+                {
+
+                    //TODO the actual claim in the sql
+
+
+                } else
+                {
+                    has = false;
+                }
+            }
+            return has;
+        }
+        catch(DatabaseException e)
+        {
+            return false;
+        }
+    }
 }

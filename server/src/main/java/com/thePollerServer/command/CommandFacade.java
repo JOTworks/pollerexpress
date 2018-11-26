@@ -80,20 +80,23 @@ public class CommandFacade
      * @param r route
      * @throws DatabaseException
      */
-    public static void claimRoute(Player p, Route r) throws DatabaseException
+    public static void claimRoute(Player p, Route r, List<TrainCard> cards) throws DatabaseException
     {
         ///do nothing but
         CommandManager CM = CommandManager._instance();
         IDatabaseFacade df = Factory.createDatabaseFacade();
 
         GameInfo info = df.getGameInfo(p.getGameId());
-        //TODO verify that a route can be cclaimed. in the future this will take a bunch of train cards
+        //TODO verify that a route can be claimed. in the future this will take a bunch of train cards
+        if( (new GameService()).claim(p, r, cards))
+        {
 
-        //its verified so...
-        Class<?>[] types = {Player.class, Route.class};
-        Object[] params = {p, r};
-        Command command = new Command(CommandsExtensions.clientSide + "ClientGameService", "claimRoute", types, params);
-        CM.addCommand(command, info);
+            //its verified so...
+            Class<?>[] types = {Player.class, Route.class, List.class};
+            Object[] params = {p, r, cards};
+            Command command = new Command(CommandsExtensions.clientSide + "ClientGameService", "claimRoute", types, params);
+            CM.addCommand(command, info);
+        }
     }
     /**
      * initializes the state for each player, draws cards, and initializes the bank. TODO: consider putting some of this into a service

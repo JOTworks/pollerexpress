@@ -8,6 +8,7 @@ import com.shared.models.Player;
 import com.shared.models.PollResponse;
 import com.shared.models.Route;
 import com.shared.models.User;
+import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.utilities.CommandsExtensions;
 
@@ -62,12 +63,6 @@ public class GameFacade {
         return sendCommand( discardDest );
     }
 
-    public PollResponse claimRoute(Route r) {
-        Class<?>[] types = {Player.class, Route.class};
-        Object[] values = {CData.getUser(), r};
-        Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","claimRoute",types,values);
-        return sendCommand(command);
-    }
 
     public PollResponse chat(String message) {
         Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
@@ -77,6 +72,14 @@ public class GameFacade {
         Object[] values = {chat, gameInfo};
         Command chatCommand = new Command(CommandsExtensions.serverSide +"CommandFacade","chat",types,values);
         return sendCommand( chatCommand );
+    }
+
+    public PollResponse claimRoute(Route r, List<TrainCard> cards)
+    {
+        Class<?>[] types = {Player.class, Route.class, List.class};
+        Object[] values = {CData.getUser(), r, cards};
+        Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","claimRoute",types,values);
+        return sendCommand(command);
     }
 
     private PollResponse sendCommand(Command command)
@@ -90,6 +93,8 @@ public class GameFacade {
         }
         return response;
     }
+
+
 }
 
 

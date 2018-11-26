@@ -44,6 +44,7 @@ public class SetupFacade {
      * even though they are functionally the same
      */
     public ErrorResponse register(LoginRequest request){
+
         return loginOrRegister("register", request);
     }
 
@@ -55,8 +56,6 @@ public class SetupFacade {
      * @pre loginReq atributes password and username cannot be empty string
      */
     public  ErrorResponse loginOrRegister(String requestType, LoginRequest loginReq){
-
-        //TODO: SET HOST WITH THIS CALL ON INSTANCE
         ClientCommunicator CC = ClientCommunicator.instance();
 
         LoginResponse response = CC.sendLoginRequest(requestType, loginReq);

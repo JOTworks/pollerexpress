@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class Map implements Serializable
 {
     public static Map DEFAULT_MAP;
-    //*****************************************************************************************************************8
+    //*****************************************************************************************************************
     //
     //
     //
@@ -32,7 +32,7 @@ public class Map implements Serializable
         new Route(boston, phoenix, 5, -30, Color.TRAIN.GREEN);
         new Route(moscow, houston, 5, 0 , Color.TRAIN.PURPLE);
         new Route(phoenix, moscow, 5, 0 , Color.TRAIN.YELLOW);
-        new Route(potlatch, moscow, 2, 0, Color.TRAIN.RED);
+        new Route(potlatch, moscow, 1, 0, Color.TRAIN.RAINBOW);
         new Route( boston, potlatch, 13, 230, Color.TRAIN.BLUE );
         new Route(houston, phoenix, 5, -14 );
         DEFAULT_MAP.add(boston);
@@ -41,14 +41,6 @@ public class Map implements Serializable
         DEFAULT_MAP.add(moscow);
         DEFAULT_MAP.add(potlatch);
     }
-
-
-
-
-
-
-
-
 
     //End of default map creator
 
@@ -75,8 +67,8 @@ public class Map implements Serializable
         }
     }
     /**
-     *
-     * @param cities
+     *Create a map from a list of cities, the cities must have their routes set up.
+     * @param cities a list of cities
      */
     public Map(List<City> cities)
     {
@@ -90,8 +82,8 @@ public class Map implements Serializable
     }
 
     /**
-     *
-     * @param city
+     *Add a city and all of its routes to the map.
+     * @param city city to add to the map
      */
     public void add(City city)
     {
@@ -101,12 +93,15 @@ public class Map implements Serializable
             routes.put(route ,route);
         }
     }
-
     /**
-     *
-     * @param source
-     * @param Destination
-     * @return
+     * use the visitor pattern in the following two methods.
+     */
+    /**
+     * Finds the distance in the connected graph
+     * @pre
+     * @param source a city in the map
+     * @param Destination another city in the map
+     * @return the number of train cars needed
      */
     public int getShortestDistanceBetweenCities(City source, City Destination)
     {
@@ -115,10 +110,11 @@ public class Map implements Serializable
     }
 
     /**
-     * For AI
-     * @param source
-     * @param Destination
-     * @return
+     * For AI mostly with destinations.
+     * @pre both cities are in the map
+     * @param source a city in the map
+     * @param Destination another city in the map
+     * @return true if the player can connect the cities, false otherwise.
      */
     public boolean playerCanReachCity(City source, City Destination, Player player)
     {
@@ -126,7 +122,7 @@ public class Map implements Serializable
     }
 
     /**
-     *
+     * gets a city from the map
      * @param cityName
      * @return
      */
@@ -135,25 +131,30 @@ public class Map implements Serializable
         return cities.get(cityName);
     }
 
+    /**
+     * Get the cities in the map
+     * @return all the cities in the map.
+     */
     public Collection<City> getCities()
     {
         return cities.values();
     }
 
+    /**
+     * it might be better to go through each city and collate the routes into a set....
+     * @return all the routes in the map
+     */
     public Collection<Route> getRoutes()
     {
         return routes.values();
     }
     public void claimRoute(Player p, Route route)
     {
-        System.out.print("Entering claim route");
         if( routes.containsKey( route ) )
         {
-            System.out.print(" Claimed a route");
             Route real = routes.get(route);
             real.setOwner(p);
         }
-        System.out.print(" leaving \n");
     }
 
 }

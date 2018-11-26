@@ -20,29 +20,42 @@ import thePollerExpress.views.setup.ILobbyView;
 import thePollerExpress.models.ClientData;
 
 /**
- * Abby
- * At least in phase 1, no async task is necessary for this class.
+ * Lobby presenter
+ * @author multiple
  */
 public class LobbyPresenter implements ILobbyPresenter, Observer {
 
-    private ILobbyView lobbyView;
+    private ILobbyView lobbyView; //the view this presenter deals with
     private GameFacade facade = new GameFacade();
-    private ClientData clientData;
+    private ClientData clientData; //where the data is stored.
+    private Observable observing; // the data this presenter observes
 
+    /**
+     * LobbyPresenter Constructor
+     * @pre none
+     * @post the presenter is observing the game model.
+     * @param lobbyView
+     */
     public LobbyPresenter(ILobbyView lobbyView)
     {
         this.lobbyView = lobbyView;
         clientData = ClientData.getInstance();
-        clientData.getGame().addObserver(this);
+        observing = clientData.getGame();
+        observing.addObserver(this);
     }
 
 
+    /**
+     * implements the logic of the start game button
+     * @pre the user on this client is the one who created the game
+     * @pre the server is up
+     * @pre game.getNumPlayers == game.getMaxPlayers()
+     * @post the game is started this presenter switches views.
+     * @post GameState = CanDiscardDestinationCards
+     */
     @Override
     public void startButtonPressed() {
 
-        /**todo
-         * commented out to get more points on phase 1, need to make this not crash latter
-         */
         if(clientData.getGame()==null){
             lobbyView.displayMessage("game is null");
         }else {
@@ -53,44 +66,46 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
             {
                 lobbyView.displayMessage("Not enough people");
             } else {
-                startGame();
+                //run an async task.
+                AsyncRunner startGameTask = new AsyncRunner(lobbyView);
+                startGameTask.execute(new ICommand()
+                {
+                    @Override
+                    public Object execute() throws CommandFailed
+                    {
+                        return facade.startGame(clientData.getUser());
+                    }
+                });
             }
         }
     }
 
-    public void startGame() {
-
-        AsyncRunner startGameTask = new AsyncRunner(lobbyView);
-
-//        startGameTask.setNextView(ViewFactory.createGameView());
-        startGameTask.execute(new ICommand()
-        {
-            @Override
-            public Object execute() throws CommandFailed
-            {
-                return facade.startGame(clientData.getUser());
-            }
-        });
-
-    }
-
+    /**
+     * @pre none
+     * @post returns the gameselection view,
+     * @post the player leaves the game
+     */
     @Override
     public void onBackArrowPressed()
     {
+        //call player leaves game
         lobbyView.changeToSetupGameView();
     }
 
-    /*
-    * What needs to happen to the lobby when model data changes?
-    * When a player enters or leaves the game, the lobby view
-    * needs to be updated to reflect that.
-    * */
+    /**
+     * Called when the game updates
+     * @pre arg is instance of gamestate | player
+     * @post the view correctly reflects the model
+     * @param o object being observed, the game model
+     * @param arg the part being updated
+     */
     @Override
     public void update(Observable o, Object arg)
     {
         System.out.println("Entered LobbyPresenterUpdate with " + arg.getClass().toString()); //TODO: remove debug statement
 
-        if (arg instanceof GameState) {
+        if (arg instanceof GameState) //we need to go to the next phase
+        {
             lobbyView.changeToGameView();
         }
         else if (arg instanceof Player) {
@@ -108,13 +123,24 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
         }
     }
 
+    /**
+     * gets the game the user is currently in
+     * @pre none
+     * @post nothing is changed
+     * @return the game the user is in
+     */
     @Override
     public Game getGame()
     {
         return clientData.getGame();
     }
+
+    /**
+     * @pre nothing
+     * @post this presenter no longer observes to the game.
+     */
     public void onDestroy()
     {
-        clientData.getGame().deleteObserver(this);
+        observing.deleteObserver(this);
     }
 }
