@@ -56,6 +56,7 @@ public class ClientGameService {
         Log.d("ClaimRoute", p.getName() + " " +r.toString());
         CD.getGame().getMap().claimRoute(p, r);
         User user = CD.getUser();
+        user.setTrainCount(user.getTrainCount()-cards.size());
         if(p.equals(user))
         {
 
