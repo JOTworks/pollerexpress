@@ -42,33 +42,30 @@ public class CommandFacade
     private CommandFacade() { }
 
     private static CommandManager CM = CommandManager._instance();
+    private static IDatabaseFacade df = Factory.createDatabaseFacade();
+
 
 
     public static void joinGame(Player player, GameInfo info) throws CommandFailed, DatabaseException
     {
-        SetupService SS = new SetupService();
-        SS.joinGame(player, info);
+        SetupService.joinGame(player, info);
 
-
+        //------------------------------add command portion-----------------------------------------
         Class<?>[] loadTypes = {Game.class};
-        IDatabaseFacade DF = Factory.createDatabaseFacade();
-        Object[] loadParams= {DF.getGame(info)};
+        Object[] loadParams= {df.getGame(info)};
         Command loadCommand = new Command(CommandsExtensions.clientSide+"ClientSetupService","loadGame",loadTypes,loadParams);
         CM.addCommand(loadCommand,player);
 
-        //adds join command
         Class<?>[] types = {Player.class, GameInfo.class};
-        Object[] params = {player, DF.getGameInfo(info.getId())};
+        Object[] params = {player, df.getGameInfo(info.getId())};
         Command joinCommand = new Command(CommandsExtensions.clientSide+"ClientSetupService","joinGame",types,params);
         CM.addCommand(joinCommand);
     }
 
     public static void createGame(Player player, GameInfo info) throws CommandFailed, DatabaseException {
-        SetupService SS = new SetupService();
-        SS.createGame(player, info);
+        SetupService.createGame(player, info);
 
-
-        //adds create command
+        //------------------------------add command portion-----------------------------------------
         Class<?>[] types = {GameInfo.class};
         Object[] params= {info};
         Command createCommand = new Command(CommandsExtensions.clientSide+"ClientSetupService","createGame",types,params);
@@ -83,15 +80,14 @@ public class CommandFacade
      * @param r route
      * @throws DatabaseException
      */
-    public static void claimRoute(Player p, Route r) throws DatabaseException
+    public static void claimRoute(Player p, Route r) throws CommandFailed, DatabaseException
     {
-        ///do nothing but
-        IDatabaseFacade df = Factory.createDatabaseFacade();
-
         GameInfo info = df.getGameInfo(p.getGameId());
-        //TODO verify that a route can be cclaimed. in the future this will take a bunch of train cards
+        //TODO verify that a route can be claimed. in the future this will take a bunch of train cards
+
 
         //its verified so...
+        //------------------------------add command portion-----------------------------------------
         Class<?>[] types = {Player.class, Route.class};
         Object[] params = {p, r};
         Command command = new Command(CommandsExtensions.clientSide + "ClientGameService", "claimRoute", types, params);
@@ -109,7 +105,6 @@ public class CommandFacade
      */
     public static void startGame(User user) throws CommandFailed, DatabaseException
     {
-        IDatabaseFacade df = Factory.createDatabaseFacade();
         System.out.println("gameID="+user.getGameId());
         GameInfo info = df.getGameInfo(user.getGameId());
 
@@ -122,14 +117,16 @@ public class CommandFacade
 
         setGameState(user);
 
-        // set the game state for each person in the game
+        //------------------------------add command portion-----------------------------------------
+        // NOTE: in addition to adding commands, drawTrainCards is also called for each player here
+
+        // setup the game for each person in the game
         {
             Class<?>[] types = {TrainCard[].class};
             Object[] params = { df.getVisible(info) };
             Command startGame = new Command(CommandsExtensions.clientSide + "ClientCardService", "setVisibleCards", types, params);
             CM.addCommand(startGame, info);
         }
-
 
         {
             Class<?>[] types = {game.getPlayers().getClass()};
@@ -140,14 +137,9 @@ public class CommandFacade
 
         for(Player p :game.getPlayers())
         {
-
-
-
-
             /* This is meant to call the first train cards.
             * This is in the StartGame method. */
             CommandFacade.drawTrainCards(p, 4);
-
 
             //this maybe should be put into the service, but most of the logic has to deal with commands....
             List<DestinationCard> dlist = df.drawDestinationCards(p, 1) ;
@@ -170,9 +162,8 @@ public class CommandFacade
 
     }
 
-    public static void drawDestinationCards (Player p) throws StateException, DatabaseException {
+    public static void drawDestinationCards (Player p) throws CommandFailed, StateException, DatabaseException {
         GameService gm = new GameService();
-        IDatabaseFacade df = Factory.createDatabaseFacade();
         GameInfo info = df.getGameInfo(p.getGameId());
         int drawnumber = 3;
         List<DestinationCard> dlist = null;
@@ -180,20 +171,12 @@ public class CommandFacade
         try {
             dlist = gm.drawDestinationCards(p);
         } catch(ShuffleException e) {
-            //must! Shuffle!!!
-            df.shuffleDestinationDeck(info);
-            //add shuffle command
-            Integer newDeckSize = df.getDestinationDeckSize(info);
-            Class<?>[] types = {Integer.class};
-            Object[] params = {newDeckSize};
-            Command shuffleDestinationDeck = new Command(CommandsExtensions.clientSide + "ClientCardService", "shuffleDestinationDeck", types, params);
-            CM.addCommand(shuffleDestinationDeck, info);
-
-            //try getting cards again now that everything's shuffled
-            dlist = gm.drawDestinationCards(p);
+            dlist = shuffleDestinationDeckAndRedraw(p, info);
         }
 
         System.out.println("!!!Printing drawn Destination Cards!!!");
+
+        //------------------------------add command portion-----------------------------------------
         for(DestinationCard card : dlist) {
             System.out.println(card);
 
@@ -220,6 +203,21 @@ public class CommandFacade
         setGameState(p);
     }
 
+    private static List<DestinationCard> shuffleDestinationDeckAndRedraw(Player p, GameInfo info) throws DatabaseException {
+        GameService gm = new GameService();
+        //must! Shuffle!!!
+        df.shuffleDestinationDeck(info);
+        //add shuffle command
+        Integer newDeckSize = df.getDestinationDeckSize(info);
+        Class<?>[] types = {Integer.class};
+        Object[] params = {newDeckSize};
+        Command shuffleDestinationDeck = new Command(CommandsExtensions.clientSide + "ClientCardService", "shuffleDestinationDeck", types, params);
+        CM.addCommand(shuffleDestinationDeck, info);
+
+        //try getting cards again now that everything's shuffled
+        return gm.drawDestinationCards(p);
+    }
+
     public static void discardDestinationCards(Player p, List<DestinationCard> cards) throws CommandFailed, DatabaseException
     {
         GameService gm = new GameService();
@@ -229,8 +227,8 @@ public class CommandFacade
         if (!discarded) {
             throw new CommandFailed("discardDestinationCard");
         }
-        IDatabaseFacade df = Factory.createDatabaseFacade();
 
+        //------------------------------add command portion-----------------------------------------
         {
             Class<?>[] types = {Player.class, List.class};
             Object[] params = {p, cards};
@@ -258,11 +256,11 @@ public class CommandFacade
      */
     public static void chat(Chat chat, GameInfo gameInfo) throws DatabaseException
     {
-
         // send the chat along to the database
         GameService gameService = new GameService();
         gameService.chat(chat, gameInfo);
 
+        //------------------------------add command portion-----------------------------------------
         // rebuild the command and give it to the CommandManager
         Class<?>[] types = {Chat.class, GameInfo.class};
         Object[] params = {chat, gameInfo};
@@ -278,14 +276,13 @@ public class CommandFacade
      */
     public static void drawVisible(Player p, Integer i) throws Exception
     {
-        CommandManager CM = CommandManager._instance();
-        DatabaseFacade df = new DatabaseFacade();
         GameInfo info = df.getGameInfo(p.getGameId());
         GameService gameService = new GameService();
 
-            TrainCard card = gameService.drawVisible(p, i);
-            TrainCard[] visible = df.getVisible(info);
+        TrainCard card = gameService.drawVisible(p, i);
+        TrainCard[] visible = df.getVisible(info);
 
+        //------------------------------add command portion-----------------------------------------
         {
             Class<?>[] types = {Player.class, TrainCard.class, TrainCard[].class};
             Object[] params = {p, card, visible};
@@ -295,7 +292,7 @@ public class CommandFacade
         initiateEndgameIfEnd(p);
 
 
-        //check if there are three or more rainbows
+        //------------------------check if there are three or more rainbows-------------------------
         boolean reset;
         try{
             reset = gameService.checkVisibleForReset(info);
@@ -326,12 +323,10 @@ public class CommandFacade
 
     public static void setColor(Player p, Color.PLAYER color)
     {
-        IDatabaseFacade df = Factory.createDatabaseFacade();
         df.setColor(p, Color.getIndex(color));
     }
 
     private static void setGameState(Player p) throws DatabaseException {
-        DatabaseFacade df = new DatabaseFacade();
         {
             Class<?>[] types = {GameState.class};
             Object[] params = {df.getGameState(df.getGameInfo(p.getGameId()))};
@@ -342,7 +337,6 @@ public class CommandFacade
 
     public static void drawTrainCards(Player p, int number) throws CommandFailed, DatabaseException
     {
-        IDatabaseFacade df = Factory.createDatabaseFacade();
         GameInfo info = df.getGameInfo(p.getGameId());
 
         Game game = df.getGame(df.getGameInfo(p.getGameId()));
@@ -353,6 +347,7 @@ public class CommandFacade
             throw new CommandFailed("drawTrainCards", "it could not draw correct number of cards");
         }
 
+        //------------------------------add command portion-----------------------------------------
         //give command to actual player
         for(TrainCard card : tList)
         {
@@ -378,37 +373,26 @@ public class CommandFacade
     public static void drawTrainCard(Player p) throws Exception {
         System.out.println("I'm in DRAW TRAIN CARD!!!");
         GameService gm = new GameService();
-        IDatabaseFacade df = Factory.createDatabaseFacade();
         GameInfo info = df.getGameInfo(p.getGameId());
-        Game game = df.getGame(info);
 
         TrainCard card = null;
         try {
             card = gm.drawTrainCard(p);
         } catch(ShuffleException e) {
-            //must! Shuffle!!!
-            df.shuffleTrainDeck(info);
-            //add shuffle command
-            Integer newDeckSize = df.getTrainDeckSize(info);
-            Class<?>[] types = {Integer.class};
-            Object[] params = {newDeckSize};
-            Command shuffleTrainDeck = new Command(CommandsExtensions.clientSide + "ClientCardService", "shuffleTrainDeck", types, params);
-            CM.addCommand(shuffleTrainDeck, info);
-
-            //try getting cards again now that everything's shuffled
-            card = gm.drawTrainCard(p);
+            card = shuffleTrainDeckAndRedraw(p, info);
         }
-
-        // if we successfully draw a card and the state is NO_ACTION_TAKEN then we check for endgame
-        initiateEndgameIfEnd(p);
-
 
         //double check there's a real card :)
         if(card == null) {
             throw new CommandFailed("drawTrainCard", "no card to draw");
         }
 
+        // if we successfully draw a card and the state is NO_ACTION_TAKEN then we check for endgame
+        initiateEndgameIfEnd(p);
+
         System.out.println("I am trying to actually tell people what. card. to draw.");
+
+        //------------------------------add command portion-----------------------------------------
         //give command to actual player
         {
             Class<?>[] types = {card.getClass()};
@@ -428,28 +412,38 @@ public class CommandFacade
         setGameState(p);
     }
 
-    private static void initiateEndgameIfEnd(Player p) {
+    private static TrainCard shuffleTrainDeckAndRedraw(Player p, GameInfo info) throws Exception {
+        GameService gm = new GameService();
+        //must! Shuffle!!!
+        df.shuffleTrainDeck(info);
+        //add shuffle command
+        Integer newDeckSize = df.getTrainDeckSize(info);
+        Class<?>[] types = {Integer.class};
+        Object[] params = {newDeckSize};
+        Command shuffleTrainDeck = new Command(CommandsExtensions.clientSide + "ClientCardService", "shuffleTrainDeck", types, params);
+        CM.addCommand(shuffleTrainDeck, info);
 
-        try {
-            IDatabaseFacade df = Factory.createDatabaseFacade();
+        //try getting cards again now that everything's shuffled
+        return gm.drawTrainCard(p);
+    }
+
+    private static void initiateEndgameIfEnd(Player p)  throws CommandFailed, DatabaseException {
+
             GameInfo info = df.getGameInfo(p.getGameId());
             GameService gm = new GameService();
+            // set a default value to check against later
             EndGameResult gameResult = null;
 
             if (df.getGameState(info).getState() == NO_ACTION_TAKEN)
                 gameResult = gm.checkForEndGame(p);
 
-            if (gameResult != null) {
+        //------------------------------add command portion-----------------------------------------
+        if (gameResult != null) {
                 Class<?>[] types = {EndGameResult.class};
                 Object[] params = {gameResult};
                 Command endGameCommand = new Command(CommandsExtensions.clientSide + "ClientGameService", "endGame", types, params);
                 CM.addCommand(endGameCommand, info);
             }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e.getClass() + ":" + e.getCause().toString());
-        }
-
     }
 
 
