@@ -199,7 +199,7 @@ public class GameService
             GameState gs = df.getGameState(gi);
 
             // the state should have already changed to the next player's turn by this point
-            if (df.getPlayer(gs.getTurn()).getTrainCount() < 3000) {
+            if (df.getPlayer(gs.getTurn()).getTrainCount() < 3) {
                 gameResult = endGame(gi);
             }
         } catch (Exception e) {
