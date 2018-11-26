@@ -1,12 +1,21 @@
 package thePollerExpress.presenters.game;
 
+import android.widget.Toast;
+
+import com.shared.exceptions.CommandFailed;
 import com.shared.models.Map;
 import com.shared.models.Route;
+import com.shared.models.cardsHandsDecks.TrainCard;
+import com.shared.models.interfaces.ICommand;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
+import thePollerExpress.facades.GameFacade;
 import thePollerExpress.models.ClientData;
 import thePollerExpress.presenters.game.interfaces.IMapPresenter;
+import thePollerExpress.utilities.AsyncRunner;
 import thePollerExpress.views.game.interfaces.IMapView;
 
 public class MapPresenter implements IMapPresenter
@@ -14,6 +23,7 @@ public class MapPresenter implements IMapPresenter
     IMapView view;
     ClientData CD;
     Observable observing[];
+    Route claiming = null;
     public MapPresenter(IMapView view)
     {
         this.view = view;
@@ -31,7 +41,50 @@ public class MapPresenter implements IMapPresenter
     @Override
     public void update(Observable observable, Object o)
     {
-        view.claimRoute();
+        view.redrawMap();
+    }
+
+    @Override
+    public void claimRoute(Route r)
+    {
+        if(r.getOwner()==null)
+        {
+            if(CD.getUser().getTrainCardHand().canClaimRoute(r))
+            {
+                //find the permutations and let the user pick
+                //display using a popup window...
+                claiming=r;
+                List<List<TrainCard>> permutations = CD.getUser().getTrainCardHand().getClaimPermutatations(r);
+                view.showPopup(permutations);
+            }
+            else
+            {
+                view.displayError("Not enough train cards to claim " + r.toString());
+            }
+        }
+        else
+        {
+            //do nothing the route is claimed.
+        }
+    }
+    @Override
+    public void claim(List<TrainCard> cards_to_use)
+    {
+        final List<TrainCard> cards = new ArrayList<>();
+        cards.addAll(cards_to_use);
+        AsyncRunner task = new AsyncRunner(view);
+        final Route r = claiming;
+        claiming=null;
+        task.execute(new ICommand()
+        {
+            @Override
+            public Object execute() throws CommandFailed
+            {
+                return new GameFacade().claimRoute(r, cards);
+            }
+        });
+
+        //do the stuff of claiming.
     }
     @Override
     public void onDestroy()
@@ -45,7 +98,7 @@ public class MapPresenter implements IMapPresenter
     @Override
     public Map getMap()
     {
-
         return CD.getGame().getMap();
     }
+
 }

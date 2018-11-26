@@ -2,9 +2,13 @@ package pollerexpress.database;
 
 import com.shared.models.Authtoken;
 
+import com.shared.models.City;
+import com.shared.models.Point;
+import com.shared.models.Route;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Chat;
 import com.shared.models.cardsHandsDecks.TrainCard;
+import com.shared.models.cardsHandsDecks.TrainCardHand;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
@@ -714,5 +718,27 @@ public class DatabaseFacade implements IDatabaseFacade
             if(db.isOpen()) db.close(false);
         }
 
+    }
+
+    @Override
+    public TrainCardHand getTrainHandAsHand(Player p) throws DatabaseException
+    {
+        try
+        {
+            db.open();
+            TrainCardHand hand =new TrainCardHand();
+            hand.setTrainCards(db.getTrainCardDao().getHand(p));
+            return hand;
+        }
+        finally
+        {
+            db.close(false);
+        }
+    }
+
+    @Override
+    public Route getRoute(Route r) throws DatabaseException
+    {
+        return r;//TODO load from r;
     }
 }

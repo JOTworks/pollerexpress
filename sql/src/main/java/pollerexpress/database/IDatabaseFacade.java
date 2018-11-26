@@ -2,6 +2,7 @@ package pollerexpress.database;
 
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Authtoken;
+import com.shared.models.Route;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Chat;
 import com.shared.models.Game;
@@ -9,6 +10,7 @@ import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.User;
+import com.shared.models.cardsHandsDecks.TrainCardHand;
 import com.shared.models.reponses.LoginResponse;
 import com.shared.models.states.GameState;
 
@@ -113,6 +115,17 @@ public interface IDatabaseFacade
      * @return
      */
     GameState getGameState(GameInfo gameInfo) throws DatabaseException;
+
+
+    /**
+     *
+     * @param p
+     * @return
+     * @throws DatabaseException
+     */
+    TrainCardHand getTrainHandAsHand(Player p) throws DatabaseException;
+
+    Route getRoute(Route r) throws DatabaseException;
 
     TrainCard drawTrainCard(Player p) throws DatabaseException;
 }

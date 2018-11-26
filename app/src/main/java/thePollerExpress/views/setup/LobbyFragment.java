@@ -146,7 +146,7 @@ public class LobbyFragment extends Fragment implements ILobbyView,  IPollerExpre
 
     @Override
     public void displayError(String errorMessage) {
-
+        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
     }
 
     @Override

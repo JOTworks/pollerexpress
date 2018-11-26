@@ -13,6 +13,12 @@ import java.util.List;
 
 public class SetupService
 {
+    /**
+     *
+     * @param player
+     * @param info
+     * @throws CommandFailed
+     */
     public static void  joinGame(Player player, GameInfo info) throws CommandFailed
     {
         IDatabaseFacade df = Factory.createDatabaseFacade();
@@ -26,12 +32,15 @@ public class SetupService
         }
     }
 
+    /**
+     * @pre
+     * @param player
+     * @param info
+     * @throws CommandFailed
+     */
     public static void createGame(Player player, GameInfo info) throws CommandFailed
     {
-        //when it creates a game it must ensure that the games rotation is unique... so it shouldn't depend on being able to send the information back...
-        //also what do i do when a command fails..
 
-        //do this...
         Game game = new Game(info);
         IDatabaseFacade df = Factory.createDatabaseFacade();
         try
