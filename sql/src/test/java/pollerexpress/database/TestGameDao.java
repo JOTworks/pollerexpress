@@ -9,6 +9,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import pollerexpress.database.dao.GameDao;
 
 import static org.junit.Assert.*;
@@ -24,7 +26,7 @@ public class TestGameDao {
     public void up() {
         db = new Database();
         gDao = db.gDao;
-        gi = new GameInfo("Game",3);
+        gi = new GameInfo("Game",1);
         g = new Game(gi);
         u = new User("username","password");
         //p = new Player("username", gi.getId());
@@ -64,6 +66,26 @@ public class TestGameDao {
 
             gDao.write(g);
             Game game = gDao.read(g.getId());
+
+            db.close(true);
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
+    public void testJoinableGames() {
+        try{
+            db.open();
+
+            gDao.write(g);
+            Game game = gDao.read(g.getId());
+            ArrayList<GameInfo> joinable = gDao.getJoinableGames();
+            assertNotNull(game);
+            System.out.println(game);
+            assertEquals(1,joinable.size());
 
             db.close(true);
         } catch(Exception e) {

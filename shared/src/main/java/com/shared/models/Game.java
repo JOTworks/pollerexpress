@@ -327,4 +327,13 @@ public class Game extends Observable implements Serializable
             this.notifyObservers(UPDATE_ALL_STRING);
         }
     }
+
+    @Override
+    public String toString() {
+//        StringBuilder builder = new StringBuilder("");
+//        builder.append("ID: ");
+//        builder.append(_info.getId())
+//        return super.toString();
+        return _info.toString();
+    }
 }
