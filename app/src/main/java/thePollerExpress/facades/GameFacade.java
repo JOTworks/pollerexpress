@@ -8,6 +8,7 @@ import com.shared.models.Player;
 import com.shared.models.PollResponse;
 import com.shared.models.Route;
 import com.shared.models.User;
+import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.utilities.CommandsExtensions;
 
@@ -90,10 +91,10 @@ public class GameFacade {
         return response;
     }
 
-    public PollResponse claimRoute(Route r)
+    public PollResponse claimRoute(Route r, List<TrainCard> cards)
     {
-        Class<?>[] types = {Player.class, Route.class};
-        Object[] values = {CData.getUser(), r};
+        Class<?>[] types = {Player.class, Route.class, List.class};
+        Object[] values = {CData.getUser(), r, cards};
         Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","claimRoute",types,values);
         return sendCommand(command);
     }

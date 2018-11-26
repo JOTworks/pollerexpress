@@ -55,7 +55,7 @@ public class MethodCaller {
                         "getChatMessages\n" +
                         "getGameID\n" +
                         "changeBank\n" +
-                        "claimRoute [int i]\n" +
+                        "redrawMap [int i]\n" +
                         "drawVisible [int i]\n" +
                         "setPlayerPoints p points" +
                         "setPlayerTrains p trains" +
@@ -82,7 +82,7 @@ public class MethodCaller {
                 result.add("10");
                 result.add("5)");
                 break;
-            case "claimRoute":
+            case "redrawMap":
                 claimRoute(result, args);
                 break;
 
@@ -199,22 +199,22 @@ public class MethodCaller {
     private void claimRoute(ArrayList<String> result, String args[]) {
         if (args.length != 2)
         {
-            result.add("USAGE: claimRoute routenumber");
+            result.add("USAGE: redrawMap routenumber");
             return;
         }
-        final Route r = ClientGameService.claimRoute(CD.getUser(), Integer.valueOf(args[1]));
-        if (r == null)
-            return;
+        //final Route r = ClientGameService.claimRoute(CD.getUser(), Integer.valueOf(args[1]));
+        //if (r == null)
+            //return;
 
         asyncCommand(new ICommand()
         {
             @Override
             public Object execute() throws CommandFailed
             {
-                return new GameFacade().claimRoute(r);
+                return null;//new GameFacade().claimRoute(r);
             }
         });
 
-        result.add(String.format("Claimed a %s", r.toString()));
+        //result.add(String.format("Claimed a %s", r.toString()));
     }
 }

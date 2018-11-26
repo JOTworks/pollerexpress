@@ -32,7 +32,7 @@ public class Map implements Serializable
         new Route(boston, phoenix, 5, -30, Color.TRAIN.GREEN);
         new Route(moscow, houston, 5, 0 , Color.TRAIN.PURPLE);
         new Route(phoenix, moscow, 5, 0 , Color.TRAIN.YELLOW);
-        new Route(potlatch, moscow, 2, 0, Color.TRAIN.RED);
+        new Route(potlatch, moscow, 1, 0, Color.TRAIN.RAINBOW);
         new Route( boston, potlatch, 13, 230, Color.TRAIN.BLUE );
         new Route(houston, phoenix, 5, -14 );
         DEFAULT_MAP.add(boston);

@@ -3,6 +3,7 @@ package thePollerExpress.services;
 import android.util.Log;
 
 import com.shared.models.Chat;
+import com.shared.models.User;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
@@ -55,16 +56,20 @@ public class ClientGameService {
         return true;
     }
 
-    public static Route claimRoute(Player p, int route)
-    {
-        Route r = (Route)CD.getGame().getMap().getRoutes().toArray()[route];
-        //claimRoute(p, r );
-        return r;
-    }
-    public static boolean claimRoute(Player p, Route r)
+
+    public static boolean claimRoute(Player p, Route r, List<TrainCard> cards)
     {
         Log.d("ClaimRoute", p.getName() + " " +r.toString());
         CD.getGame().getMap().claimRoute(p, r);
+        User user = CD.getUser();
+        if(p.equals(user))
+        {
+
+            for(TrainCard card: cards)
+            {
+                user.getTrainCardHand().removeFromHand(card);
+            }
+        }
         return true;
     }
 

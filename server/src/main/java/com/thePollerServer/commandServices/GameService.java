@@ -2,12 +2,15 @@ package com.thePollerServer.commandServices;
 
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Chat;
+import com.shared.models.Route;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import pollerexpress.database.IDatabaseFacade;
+import pollerexpress.database.dao.IDatabase;
 
 import com.shared.models.cardsHandsDecks.TrainCard;
+import com.shared.models.cardsHandsDecks.TrainCardHand;
 import com.thePollerServer.utilities.Factory;
 
 import java.util.List;
@@ -94,5 +97,43 @@ public class GameService
         public int drawsLeft;
         public GameInfo info;
         public TrainCard[] visible;
+    }
+
+    /**
+     *
+     * @param p
+     * @param r
+     * @param cards
+     * @return
+     */
+    public boolean claim(Player p, Route r, List<TrainCard> cards)
+    {
+        try
+        {
+
+            IDatabaseFacade df = Factory.createDatabaseFacade();
+            TrainCardHand hand = df.getTrainHand(p);
+            boolean has = hand.contains(cards);
+            if (has)
+            {
+                //check if the route is claimed
+                Route actual = df.getRoute(r);
+                if (df.getRoute(r).getOwner() == null)
+                {
+
+                    //TODO the actual claim in the sql
+
+
+                } else
+                {
+                    has = false;
+                }
+            }
+            return has;
+        }
+        catch(DatabaseException e)
+        {
+            return false;
+        }
     }
 }

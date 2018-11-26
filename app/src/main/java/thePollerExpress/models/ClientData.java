@@ -39,7 +39,7 @@ public class ClientData extends Observable
     private User user = null;
     private Authtoken auth;
 
-    private Game game;
+    private Game game = new Game(new GameInfo("bob", 3));
 
     /** This will be used to display
      * the games the client can join
@@ -172,7 +172,6 @@ public class ClientData extends Observable
             this.gameInfoList.add(info);
             this.setChanged();
             this.notifyObservers(this.gameInfoList);
-
         }
     }
 
