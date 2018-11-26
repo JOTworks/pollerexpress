@@ -282,6 +282,20 @@ public class DatabaseFacade implements IDatabaseFacade
         }
     }
 
+    @Override
+    public void decrementTrainCars(Player p, int cars) throws DatabaseException {
+        try{
+            db.open();
+            int carCount = db.getUserDao().getPlayerTrainCars(p);
+            db.getUserDao().setPlayerTrainCars(p,carCount - cars);
+            db.close(true);
+        } finally {
+            if(db.isOpen()) {
+                db.close(false);
+            }
+        }
+    }
+
 
     @Override
     public List<DestinationCard> drawDestinationCards(Player player, int canDiscard) throws DatabaseException
@@ -574,6 +588,15 @@ public class DatabaseFacade implements IDatabaseFacade
     }
 
     @Override
+    public void setupPlayers(GameInfo game) throws DatabaseException {
+        Player[] players = getPlayersInGame(game);
+        for(Player p : players){
+            db.getUserDao().setPlayerPoints(p,0);
+            db.getUserDao().setPlayerTrainCars(p,40);
+        }
+    }
+
+    @Override
     public void setPreGameState(int numPlayers, GameInfo gameInfo) throws DatabaseException
     {
 
@@ -740,5 +763,10 @@ public class DatabaseFacade implements IDatabaseFacade
     public Route getRoute(Route r) throws DatabaseException
     {
         return r;//TODO load from r;
+    }
+
+    @Override
+    public void claimRoute(Route r, Player p) throws DatabaseException {
+
     }
 }

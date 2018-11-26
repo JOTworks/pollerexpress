@@ -6,11 +6,12 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/player_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         tools:context="thePollerExpress.views.MainActivity"
-        android:background="@color/PollerBackground"
+        android:background="@color/garishPink"
         android:orientation="vertical">
 
         <TextView
@@ -19,11 +20,11 @@
             android:layout_height="wrap_content"
             android:text="PLAYER NAME"
             android:textColor="@color/PollerWhite"
+            android:background="@color/PollerBackground"
             android:gravity="center"/>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/player_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"

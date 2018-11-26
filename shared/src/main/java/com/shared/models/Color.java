@@ -23,7 +23,38 @@ public class Color implements Serializable
     public static PLAYER convertIndexToColor(int dex)
     {
         return colors[dex % colors.length];
+    }
 
+    public static int getIsTurnColor(PLAYER color) {
+        switch(color) {
+            case RED:
+                return 0xFFFF3333;
+            case BLUE:
+                return 0xFF2020FF;
+            case GREEN:
+                return 0xFF209F20;
+            case YELLOW:
+                return 0xFFD9FF09;
+            case BLACK:
+                return 0xFF333333;
+        }
+        return 0;
+    }
+
+    public static int getIsNotTurnColor(PLAYER color) {
+        switch(color) {
+            case RED:
+                return 0x88FF3333;
+            case BLUE:
+                return 0x882020FF;
+            case GREEN:
+                return 0x88209F20;
+            case YELLOW:
+                return 0x88D9FF09;
+            case BLACK:
+                return 0x88333333;
+        }
+        return 0x00000000;
     }
 
     public static int getIndex(PLAYER c)
