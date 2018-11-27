@@ -146,7 +146,6 @@ public class GameSelectionFragment extends Fragment implements IGameSelectionVie
 
     @Override
     public void changeView(IPollerExpressView view) {
-        //TODO: test
         FragmentManager fragmentManager = getFragmentManager();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

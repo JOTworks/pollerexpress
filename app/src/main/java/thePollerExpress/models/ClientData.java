@@ -2,6 +2,7 @@ package thePollerExpress.models;
 
 import com.shared.models.Authtoken;
 
+import com.shared.models.EndGameResult;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
@@ -32,6 +33,7 @@ public class ClientData extends Observable
     private ClientData() {
 
         gameInfoList = new ArrayList<>();
+        gameResult = new EndGameResult();
     }
 
 
@@ -40,6 +42,8 @@ public class ClientData extends Observable
     private Authtoken auth;
 
     private Game game = new Game(new GameInfo("bob", 3));
+
+    private EndGameResult gameResult;
 
     /** This will be used to display
      * the games the client can join
@@ -61,7 +65,7 @@ public class ClientData extends Observable
     public ArrayList<GameInfo> getGameInfoList(){
         return gameInfoList;
     }
-
+    public EndGameResult getGameResult() { return gameResult; }
 
     public boolean gameExists(GameInfo game){
         for(int i = 0; i<gameInfoList.size(); i++){
@@ -219,5 +223,9 @@ public class ClientData extends Observable
             this.setChanged();
             this.notifyObservers(UPDATE_ALL_STRING);
         }
+    }
+
+    public void setGameResult(EndGameResult gameResult) {
+        this.gameResult.setPlayerScores(gameResult.getPlayerScores());
     }
 }
