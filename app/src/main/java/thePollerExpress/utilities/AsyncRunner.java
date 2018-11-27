@@ -54,7 +54,7 @@ public class AsyncRunner extends AsyncTask<ICommand, Void, PollResponse> {
     @Override
     protected PollResponse doInBackground(ICommand... commands)
     {
-
+        PollerExpress.setCanRun(false);
         PollResponse response;
         try
         {
@@ -82,6 +82,7 @@ public class AsyncRunner extends AsyncTask<ICommand, Void, PollResponse> {
     protected void onPostExecute (PollResponse response)
     {
 
+        PollerExpress.setCanRun(true);
         if(response == null)
         {
 

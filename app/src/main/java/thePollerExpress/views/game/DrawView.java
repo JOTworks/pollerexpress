@@ -24,16 +24,18 @@ import static java.lang.Math.pow;
 public class DrawView extends android.support.v7.widget.AppCompatImageView
 {
     IMapPresenter presenter = null;
+
+
     public DrawView(Context context)
     {
         super(context);
     }
 
-    DrawView(Context context, AttributeSet attrs) {
+    public DrawView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    DrawView(Context context, AttributeSet attrs, int defStyle) {
+    public DrawView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -49,6 +51,7 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
         super.onDraw(canvas);
 
         if(this.presenter == null) return;
+        //return;
 
         Map map = presenter.getMap();// presenter.getMap();
 
@@ -60,7 +63,7 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
         {
             drawCity(city, canvas);
         }
-
+        //*/
     }
 
     /**
@@ -150,7 +153,7 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
         }
 
         //draw the dashedline of path length
-        Log.d("DrawView", String.valueOf(route.rotation) );
+        //Log.d("DrawView", String.valueOf(route.rotation) );
         Paint paint = new Paint();
         paint.setColor( getRouteColor( route.getColor() ) );
         paint.setAntiAlias(true);
@@ -232,7 +235,6 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
             case GREEN:
                 return getContext().getResources().getInteger(R.integer.GREEN);
             default:
-                System.out.println("On grey");
                 return getContext().getResources().getInteger(R.integer.GREY);
 
         }

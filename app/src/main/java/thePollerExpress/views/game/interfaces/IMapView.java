@@ -16,4 +16,6 @@ public interface IMapView extends IPollerExpressView
      * @param permutations
      */
     void showPopup(List<List<TrainCard>> permutations);
+
+    void setClickable(boolean b);
 }
