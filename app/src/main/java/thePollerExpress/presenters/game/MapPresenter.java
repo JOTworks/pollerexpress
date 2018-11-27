@@ -3,10 +3,12 @@ package thePollerExpress.presenters.game;
 import android.widget.Toast;
 
 import com.shared.exceptions.CommandFailed;
+import com.shared.models.Game;
 import com.shared.models.Map;
 import com.shared.models.Route;
 import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.interfaces.ICommand;
+import com.shared.models.states.GameState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ public class MapPresenter implements IMapPresenter
     ClientData CD;
     Observable observing[];
     Route claiming = null;
+
     public MapPresenter(IMapView view)
     {
         this.view = view;
@@ -36,12 +39,32 @@ public class MapPresenter implements IMapPresenter
             observing[i] = o;
             i += 1;
         }
-
+        CD.getGame().addObserver(this);
     }
     @Override
     public void update(Observable observable, Object o)
     {
-        view.redrawMap();
+        if(observable instanceof Game)
+        {
+            //set view to not clickable.
+            //
+            if(o instanceof GameState)
+            {
+                GameState state = (GameState) o;
+                if(state.getState().equals(GameState.State.NO_ACTION_TAKEN) && state.getTurn().equals(CD.getUser().getName()))
+                {
+                    view.setClickable(true);
+                }
+                else
+                {
+                    view.setClickable(false);
+                }
+            }
+        }
+        else
+        {
+            view.redrawMap();
+        }
     }
 
     @Override
@@ -93,6 +116,7 @@ public class MapPresenter implements IMapPresenter
         {
             o.deleteObserver(this);
         }
+        CD.getGame().deleteObserver(this);
     }
 
     @Override

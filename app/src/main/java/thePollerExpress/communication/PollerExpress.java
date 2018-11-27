@@ -23,6 +23,7 @@ import thePollerExpress.models.ClientData;
 public class PollerExpress
 {
 
+    private static boolean canRun = true;
     private static boolean testing = false;
     private static int DELAY = 2000;
     private static Activity main;
@@ -38,6 +39,10 @@ public class PollerExpress
 
             synchronized public void run()
             {
+                if(!canRun)
+                {
+                    return;
+                }
                 System.out.println(String.format("%s %d", "CHOO!", ClientData.getInstance().countObservers()));
                 if( ClientData.getInstance().getUser() == null )
                 {
@@ -91,5 +96,10 @@ public class PollerExpress
                 }
             }
         });
+    }
+
+    public static void setCanRun(boolean b)
+    {
+        canRun = b;
     }
 }
