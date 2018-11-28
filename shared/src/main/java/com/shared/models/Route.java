@@ -149,6 +149,22 @@ public class Route extends Observable implements Serializable
         return owner;
     }
 
+    public int getRouteValue() {
+        int routeValue = 0;
+        switch (distance) {
+            case 1: routeValue = 1;
+                break;
+            case 2: routeValue = 2;
+            case 3: routeValue = 4;
+                break;
+            case 4: routeValue = 7;
+            case 5: routeValue = 10;
+                break;
+            case 6: routeValue = 15;
+        }
+        return routeValue;
+    }
+
     @Override
     public boolean equals(Object o)
     {

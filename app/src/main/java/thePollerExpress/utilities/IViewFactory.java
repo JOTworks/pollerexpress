@@ -11,5 +11,6 @@ public interface IViewFactory {
     IPollerExpressView createDestinationHandView();
     IGameView createGameView();
     IMapView createMapView();
+//    IEndGameView createEndGameView();
 
 }

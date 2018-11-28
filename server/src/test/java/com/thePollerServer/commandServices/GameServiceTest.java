@@ -1,5 +1,7 @@
 package com.thePollerServer.commandServices;
 
+import com.shared.exceptions.CommandFailed;
+import com.shared.models.Command;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Player;
 import com.thePollerServer.services.GameService;
@@ -54,7 +56,7 @@ public class GameServiceTest
     }
 
     @Test
-    public void discardDestinationCards() throws Exception
+    public void discardDestinationCards() throws CommandFailed
     {
         GameService gs = new GameService();
         assertFalse(gs.discardDestinationCards(me, tooMany) );
