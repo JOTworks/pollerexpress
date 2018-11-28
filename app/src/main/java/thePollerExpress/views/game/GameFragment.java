@@ -3,10 +3,12 @@ package thePollerExpress.views.game;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.shared.models.Game;
 import com.shared.models.Player;
@@ -27,13 +29,16 @@ public class GameFragment extends Fragment implements IGameView {
     IGamePresenter gamePresenter;
     @Override
     public void displayError(String errorMessage) {
-
-        // todo: fill out
+        android.widget.Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void changeView(IPollerExpressView view) {
+        FragmentManager fragmentManager = getFragmentManager();
 
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, (Fragment) view);
+        fragmentTransaction.commit();
     }
 
     @Override
