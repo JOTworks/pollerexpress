@@ -89,6 +89,7 @@ public class MapView extends Fragment implements IMapView, IPollerExpressView
         //displayError(String.valueOf(vScroll.getScrollY()));
         float x = map.x - vScroll.getX();//+ hScroll.getScrollX()
         float y = map.y + vScroll.getScrollY() - vScroll.getY();
+        displayError((int)x + "," + (int)y);
         for(Route r : myMap.getRoutes())
         {
             //find the distance
