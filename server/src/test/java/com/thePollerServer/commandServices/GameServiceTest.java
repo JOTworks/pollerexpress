@@ -54,7 +54,7 @@ public class GameServiceTest
     }
 
     @Test
-    public void discardDestinationCards()
+    public void discardDestinationCards() throws Exception
     {
         GameService gs = new GameService();
         assertFalse(gs.discardDestinationCards(me, tooMany) );
