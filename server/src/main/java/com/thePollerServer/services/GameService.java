@@ -6,8 +6,13 @@ import com.shared.exceptions.StateException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Chat;
 
+
 import com.shared.models.Color;
 import com.shared.models.Command;
+
+import com.shared.models.EndGameResult;
+import com.shared.models.PlayerScore;
+
 
 import com.shared.models.EndGameResult;
 import com.shared.models.PlayerScore;
@@ -24,7 +29,6 @@ import com.shared.models.states.GameState;
 import com.thePollerServer.utilities.Factory;
 import com.thePollerServer.utilities.RouteCalculator;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -205,13 +209,14 @@ public class GameService
             GameState gs = df.getGameState(gi);
 
             // the state should have already changed to the next player's turn by this point
-            if (df.getPlayer(gs.getTurn()).getTrainCount() < 3000) {
-                gameResult = endGame(gi);
+            int trainCount = df.getPlayer(gs.getTurn()).getTrainCount();
+            if (df.getPlayer(gs.getTurn()).getTrainCount() < 3) {
+                return gameResult = endGame(gi);
             }
         } catch (Exception e) {
             throw new RuntimeException(e.getClass() + ":" + e.getCause().toString());
         }
-        return gameResult;
+        return null;
     }
 
     private EndGameResult endGame(GameInfo gameInfo) {
@@ -328,7 +333,6 @@ public class GameService
                 Route actual = df.getRoute(r);
                 if (df.getRoute(r).getOwner() == null)
                 {
-
 
                     //TODO the actual claim in the sql
                     df.decrementTrainCars(p,cards.size());

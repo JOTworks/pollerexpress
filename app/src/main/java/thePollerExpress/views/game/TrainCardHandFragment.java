@@ -63,10 +63,9 @@ public class TrainCardHandFragment extends Fragment implements ITrainCardHandVie
         return v;
     }
 
-    private Drawable getFromCard(TrainCard card)
-    {
-        switch(card.getColor())
-        {
+    private Drawable getFromCard(TrainCard card) {
+        switch (card.getColor()) {
+
             case RED:
                 return getResources().getDrawable(R.drawable.red_train_card);
             case BLUE:
@@ -88,6 +87,7 @@ public class TrainCardHandFragment extends Fragment implements ITrainCardHandVie
         }
         return null;//TODO replace with blank
     }
+
     /**
      * updates the recycler view
      */
@@ -100,6 +100,7 @@ public class TrainCardHandFragment extends Fragment implements ITrainCardHandVie
     }
 
 
+
     @Override
     public void displayError(String errorMessage) {
         android.widget.Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
@@ -107,7 +108,6 @@ public class TrainCardHandFragment extends Fragment implements ITrainCardHandVie
 
     @Override
     public void changeView(IPollerExpressView view) {
-
 
     }
 

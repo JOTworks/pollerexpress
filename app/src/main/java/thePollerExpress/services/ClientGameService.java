@@ -5,10 +5,17 @@ import android.util.Log;
 import com.shared.exceptions.NotImplementedException;
 import com.shared.models.Chat;
 
+
 import com.shared.models.User;
 import com.shared.models.EndGameResult;
 import com.shared.models.HistoryItem;
 import com.shared.models.cardsHandsDecks.DestinationCard;
+
+import com.shared.models.User;
+import com.shared.models.EndGameResult;
+import com.shared.models.HistoryItem;
+
+
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.shared.models.Route;
@@ -17,7 +24,6 @@ import com.shared.models.states.GameState;
 import java.util.List;
 
 import thePollerExpress.models.ClientData;
-import static com.shared.models.states.GameState.State.*;
 
 public class ClientGameService {
 

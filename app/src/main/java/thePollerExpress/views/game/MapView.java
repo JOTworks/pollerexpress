@@ -59,6 +59,7 @@ public class MapView extends Fragment implements IMapView, IPollerExpressView
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        //View v = inflater.inflate(R.layout.fragment_bank, container, false);
         View v = inflater.inflate(R.layout.fragment_map_view, container, false);
         hScroll = (HorizontalScrollView) v.findViewById(R.id.scrollHorizontal);
         vScroll = (VScrollView) v.findViewById(R.id.scrollVertical);
@@ -67,7 +68,8 @@ public class MapView extends Fragment implements IMapView, IPollerExpressView
         presenter = PresenterFactory.createIMapPresenter(this);
         map.setPresenter(presenter);
 
-        map.invalidate();
+       // map.invalidate();
+
         map.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -75,7 +77,7 @@ public class MapView extends Fragment implements IMapView, IPollerExpressView
             {
                onMapclicked();
             }
-        });
+        });//*/
         return v;
     }
 
@@ -93,8 +95,8 @@ public class MapView extends Fragment implements IMapView, IPollerExpressView
             float x = map.x - vScroll.getX();//+ hScroll.getScrollX()
             float y = map.y + vScroll.getScrollY() - vScroll.getY();
             float distance = pts.aprox(x, y);
-            Log.d("drawView Click", String.format("%d, %d", hScroll.getScrollX(), vScroll.getScrollY()));
-            Log.d("drawViewListener",String.format("distance = %f, p(%f, %f)%s, %s", distance, x, y, pts.toString(), r.toString()) );
+            //Log.d("drawView Click", String.format("%d, %d", hScroll.getScrollX(), vScroll.getScrollY()));
+            //Log.d("drawViewListener",String.format("distance = %f, p(%f, %f)%s, %s", distance, x, y, pts.toString(), r.toString()) );
             if(distance < min_distance)
             {
                 chosen = r;
@@ -172,7 +174,7 @@ public class MapView extends Fragment implements IMapView, IPollerExpressView
     public void onDestroy()
     {
         super.onDestroy();
-        Log.d("MapView", "onDestroy");
+        //Log.d("MapView", "onDestroy");
         //TODO tell my presenter to disconnect itself from what it is observing.
         this.presenter.onDestroy();
     }
@@ -223,4 +225,9 @@ public class MapView extends Fragment implements IMapView, IPollerExpressView
         return null;//TODO replace with blank
     }
 
+    @Override
+    public void setClickable(boolean b)
+    {
+        map.setClickable(b);
+    }
 }
