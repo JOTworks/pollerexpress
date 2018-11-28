@@ -80,9 +80,11 @@ public class CommandFacade
      * @param r route
      * @throws DatabaseException
      */
+
     public static void claimRoute(Player p, Route r, List<TrainCard> cards) throws CommandFailed, DatabaseException
     {
         GameInfo info = df.getGameInfo(p.getGameId());
+
 
         if( (new GameService()).claim(p, r, cards))
         {

@@ -9,6 +9,7 @@ import thePollerExpress.models.ClientData;
 import thePollerExpress.presenters.game.interfaces.IGamePresenter;
 import thePollerExpress.utilities.IViewFactory;
 import thePollerExpress.utilities.RealViewFactory;
+import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.interfaces.IGameView;
 
 public class GamePresenter implements IGamePresenter, Observer {
@@ -28,7 +29,11 @@ public class GamePresenter implements IGamePresenter, Observer {
         if (arg instanceof EndGameResult) {
             //view.displayError("update happened!");
             IViewFactory viewFactory = new RealViewFactory();
-            view.changeView(viewFactory.createMapView());
+//            view.changeView(viewFactory.createMapView());
+//            view.changeView((IPollerExpressView) viewFactory.createEndGameView((EndGameResult) arg));
+            view.changeView((IPollerExpressView) viewFactory.createEndGameView(null)); //todo gave null but orginaly was empty
+
+
         }
     }
 }
