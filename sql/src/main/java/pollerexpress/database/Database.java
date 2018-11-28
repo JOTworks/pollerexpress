@@ -33,6 +33,8 @@ public class Database implements IDatabase
     public static final String DROP_DEFAULT_DESTINATION_DECK = "drop table if exists DEFAULT_DESTINATION_DECK";
     public static final String DROP_DEFAULT_TRAIN_DECK = "drop table if exists DEFAULT_TRAIN_DECK";
     public static final String DROP_CHAT = "drop table if exists CHATS";
+    public static final String DROP_CITIES = "drop table if exists CITIES";
+    public static final String DROP_ROUTES = "drop table if exists ROUTES";
     public static final String USER_TABLE = "USERS";
     public static final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS USERS\n " +
             "( `USER_NAME` TEXT NOT NULL UNIQUE, `PASSWORD` TEXT NOT NULL,  'GAME_ID' TEXT, 'DESTINATION_DISCARDS' INT, 'TRAIN_CARS' INT, 'POINTS' INT, 'COLOR' INT, PRIMARY KEY(`USER_NAME`) )";
@@ -40,7 +42,8 @@ public class Database implements IDatabase
     public static final String CREATE_DEFAULT_DESTINATION_DECK_TABLE = "CREATE TABLE IF NOT EXISTS DEFAULT_DESTINATION_DECK\n (`CARD_ID` TEXT NOT NULL UNIQUE, `CITY_1` TEXT NOT NULL, `CITY_2` TEXT NOT NULL, `POINTS` INT, PRIMARY KEY(`CARD_ID`) )";
     public static final String CREATE_DEFAULT_TRAIN_DECK_TABLE = "CREATE TABLE IF NOT EXISTS DEFAULT_TRAIN_DECK\n (`CARD_ID` TEXT NOT NULL UNIQUE, `COLOR` TEXT, PRIMARY KEY(`CARD_ID`) )";
     public static final String CREATE_CHAT_TABLE = "CREATE TABLE IF NOT EXISTS CHATS\n (`TIMESTAMP` TIMESTAMP NOT NULL, `GAME` TEXT NOT NULL, `PLAYER` TEXT NOT NULL, `MESSAGE` TEXT NOT NULL, PRIMARY KEY(`TIMESTAMP`) )";
-    public static final String GAME_TABLE = " GAMES";
+    public static final String CREATE_CITIES_TABLE = "CREATE TABLE IF NOT EXISTS CITIES\n (`NAME` TEXT NOT NULL, `X_COOR` DOUBLE NOT NULL, `Y_COOR` DOUBLE NOT NULL, PRIMARY KEY(`NAME`) )";
+    public static final String CREATE_ROUTES_TABLE = "CREATE TABLE IF NOT EXISTS ROUTES\n (`ROUTE_ID` TEXT NOT NULL, `CITY_1` TEXT NOT NULL, `CITY_2` TEXT NOT NULL, `COLOR` TEXT NOT NULL, `LENGTH` INT, `ROTATION` INT, PRIMARY KEY(`ROUTE_ID`) )";
     public static final String CREATE_GAME_TABLE = "CREATE TABLE IF NOT EXISTS  GAMES\n ('GAME_ID' TEXT NOT NULL UNIQUE, 'GAME_NAME' TEXT NOT NULL,'MAX_PLAYERS' INT, 'CURRENT_PLAYERS' INT, 'ACTIVE_PLAYER' TEXT, 'SUBSTATE' TEXT, PRIMARY KEY('GAME_ID') )";
     final String CONNECTION_URL;
     Connection dataConnection;
@@ -51,6 +54,8 @@ public class Database implements IDatabase
     DestinationCardDao dcDao;
     TrainCardDao tcDao;
     ChatDao cDao;
+    CityDao cityDao;
+    RouteDao rDao;
     private boolean isOpen;
     String url;
 
@@ -80,6 +85,8 @@ public class Database implements IDatabase
         this.dcDao = new DestinationCardDao(this);
         this.tcDao = new TrainCardDao(this);
         this.cDao = new ChatDao(this);
+        this.cityDao = new CityDao(this);
+        this.rDao = new RouteDao(this);
     }
 
     public Database() {
@@ -162,18 +169,24 @@ public class Database implements IDatabase
             PreparedStatement destination_deck = this.dataConnection.prepareStatement(CREATE_DEFAULT_DESTINATION_DECK_TABLE);
             PreparedStatement train_deck = this.dataConnection.prepareStatement(CREATE_DEFAULT_TRAIN_DECK_TABLE);
             PreparedStatement chat_stmt = this.dataConnection.prepareStatement(CREATE_CHAT_TABLE);
+            PreparedStatement cities_stmt = this.dataConnection.prepareStatement(CREATE_CITIES_TABLE);
+            PreparedStatement routes_stmt = this.dataConnection.prepareStatement(CREATE_ROUTES_TABLE);
             users_stmnt.execute();
             authtokens_stmnt.execute();
             games_stmnt.execute();
             destination_deck.execute();
             train_deck.execute();
             chat_stmt.execute();
+            cities_stmt.execute();
+            routes_stmt.execute();
             users_stmnt.close();
             games_stmnt.close();
             authtokens_stmnt.close();
             destination_deck.close();
             train_deck.close();
             chat_stmt.close();
+            cities_stmt.close();
+            routes_stmt.close();
         }
         catch (SQLException e)
         {
@@ -201,6 +214,12 @@ public class Database implements IDatabase
             Drop_stmnt.execute();
             Drop_stmnt.close();
             Drop_stmnt = this.dataConnection.prepareStatement(DROP_CHAT);
+            Drop_stmnt.execute();
+            Drop_stmnt.close();
+            Drop_stmnt = this.dataConnection.prepareStatement(DROP_CITIES);
+            Drop_stmnt.execute();
+            Drop_stmnt.close();
+            Drop_stmnt = this.dataConnection.prepareStatement(DROP_ROUTES);
             Drop_stmnt.execute();
             Drop_stmnt.close();
 
@@ -253,6 +272,10 @@ public class Database implements IDatabase
     {
         return isOpen;
     }
+
+    public RouteDao getRouteDao() { return rDao; }
+
+    public CityDao getCityDao() { return cityDao; }
 
     public ChatDao getChatDao() { return cDao; }
 

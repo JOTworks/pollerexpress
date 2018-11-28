@@ -3,6 +3,7 @@ package com.thePollerServer.commandServices;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Authtoken;
 import com.shared.models.Chat;
+import com.shared.models.Route;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
@@ -11,6 +12,7 @@ import com.shared.models.User;
 import pollerexpress.database.IDatabaseFacade;
 
 import com.shared.models.cardsHandsDecks.TrainCard;
+import com.shared.models.cardsHandsDecks.TrainCardHand;
 import com.shared.models.reponses.LoginResponse;
 import com.shared.models.states.GameState;
 
@@ -80,6 +82,11 @@ public class GSDFacade implements IDatabaseFacade
     }
 
     @Override
+    public void decrementTrainCars(Player p, int cars) throws DatabaseException {
+
+    }
+
+    @Override
     public List<DestinationCard> drawDestinationCards(Player player, int canDiscard) throws DatabaseException
     {
         return null;
@@ -140,6 +147,11 @@ public class GSDFacade implements IDatabaseFacade
     }
 
     @Override
+    public void resetVisible(GameInfo info) throws DatabaseException {
+
+    }
+
+    @Override
     public void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
         // no implementation necessary
     }
@@ -195,8 +207,28 @@ public class GSDFacade implements IDatabaseFacade
     }
 
     @Override
+    public TrainCardHand getTrainHandAsHand(Player p) throws DatabaseException {
+        return null;
+    }
+
+    @Override
+    public Route getRoute(Route r) throws DatabaseException {
+        return null;
+    }
+
+    @Override
+    public void claimRoute(Route r, Player p) throws DatabaseException {
+
+    }
+
+    @Override
     public TrainCard drawTrainCard(Player p) throws DatabaseException {
         return null;
+    }
+
+    @Override
+    public void setupPlayers(GameInfo game) throws DatabaseException {
+
     }
 
 }

@@ -7,12 +7,24 @@ import java.util.Observable;
 
 public class Route extends Observable implements Serializable
 {
+    String id;
     List<City> cities;
     int distance;
     Player owner;
     Color.TRAIN color;
 
     public int rotation;//used for double routes.
+
+    public Route(String id, City city1, City city2, int distance, Player owner, Color.TRAIN color, int rotation) {
+        this.id = id;
+        cities = new ArrayList<>();
+        cities.add(city1);
+        cities.add(city2);
+        this.distance = distance;
+        this.owner = owner;
+        this.color = color;
+        this.rotation = rotation;
+    }
 
     /**
      * Constructs basic gray routes
@@ -62,6 +74,8 @@ public class Route extends Observable implements Serializable
         this(dest, target, distance);
         this.rotation = rot;
     }
+
+    public String getId() { return id; }
 
     /**
      * Given a city, gets the adjacent city on this route.
