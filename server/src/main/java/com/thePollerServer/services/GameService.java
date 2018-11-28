@@ -242,7 +242,7 @@ public class GameService
             int unreachedPoints = 0;
             for (DestinationCard card : cards) {
                 RouteCalculator rCalc = new RouteCalculator(p.getRoutes());
-                boolean destinationReached = rCalc.checkDestinationReached(card);
+                boolean destinationReached = rCalc.checkDestinationReached(p,card);
                 if (destinationReached)
                     reachedPoints += card.getPoints();
                 else
