@@ -30,4 +30,14 @@ public class Point implements Serializable
     {
         return y;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o == null) return false;
+        if(o instanceof Point){
+            Point p = (Point) o;
+            return (this.x == p.x && this.y == p.y);
+        }
+        return false;
+    }
 }

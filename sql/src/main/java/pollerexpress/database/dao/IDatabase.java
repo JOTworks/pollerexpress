@@ -10,4 +10,5 @@ import pollerexpress.database.dao.TrainCardDao;
 public interface IDatabase
 {
     Connection getConnection();
+
 }
