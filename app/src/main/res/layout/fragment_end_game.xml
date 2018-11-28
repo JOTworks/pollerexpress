@@ -60,14 +60,14 @@
     </LinearLayout>
 
 
-    <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:id="@+id/end_game_recycler_view"-->
-            <!--android:scrollbars="vertical"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textSize="15dp"-->
-            <!--android:padding="5dp"-->
-            <!--android:layout_alignParentTop="true" />-->
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/end_game_recycler_view"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:padding="5dp"
+            android:layout_alignParentTop="true" />
 
     <Button
         android:id="@+id/find_new_game_button"

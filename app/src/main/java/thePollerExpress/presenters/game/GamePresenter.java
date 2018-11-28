@@ -30,8 +30,8 @@ public class GamePresenter implements IGamePresenter, Observer {
             //view.displayError("update happened!");
             IViewFactory viewFactory = new RealViewFactory();
 //            view.changeView(viewFactory.createMapView());
-//            view.changeView((IPollerExpressView) viewFactory.createEndGameView((EndGameResult) arg));
-            view.changeView((IPollerExpressView) viewFactory.createEndGameView());
+            view.changeView((IPollerExpressView) viewFactory.createEndGameView((EndGameResult) arg));
+//            view.changeView((IPollerExpressView) viewFactory.createEndGameView());
 
 
         }

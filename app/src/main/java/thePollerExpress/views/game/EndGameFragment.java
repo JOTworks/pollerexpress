@@ -15,10 +15,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.shared.models.EndGameResult;
+import com.shared.models.Player;
+import com.shared.models.PlayerScore;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cs340.pollerexpress.R;
 import thePollerExpress.presenters.game.ChatPresenter;
@@ -34,7 +37,7 @@ public class EndGameFragment extends Fragment implements IEndGameView {
     IEndGamePresenter presenter;
     EndGameResult endGameResult;
     RecyclerView.LayoutManager layoutManager;
-//    Adapter adapter;
+    Adapter adapter;
     EndGameResult gameResult;
 
     public void setGameResult(EndGameResult gameResult) {
@@ -50,15 +53,13 @@ public class EndGameFragment extends Fragment implements IEndGameView {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_end_game, container, false);
         presenter = new EndGamePresenter(this);
-        // wire up the widgets
+
         winnerName = v.findViewById(R.id.winner);
+        winnerName.setText("Insert The Winner's Name");
 
         findNewGame = v.findViewById(R.id.find_new_game_button);
-
-        // listen for find new game button to be clicked
         findNewGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,87 +67,70 @@ public class EndGameFragment extends Fragment implements IEndGameView {
             }
         });
 
-        //set up the recycler view
-//        recyclerView = v.findViewById(R.id.end_game_recycler_view);
-//        recyclerView.setHasFixedSize(true);
-//
-//        adapter = new EndGameFragment.Adapter();
-//        recyclerView.setAdapter(adapter);
-//
-//        layoutManager = new LinearLayoutManager(getContext());
-//        recyclerView.setLayoutManager(layoutManager);
+        recyclerView = v.findViewById(R.id.end_game_recycler_view);
+        recyclerView.setHasFixedSize(true);
+
+        adapter = new EndGameFragment.Adapter(endGameResult.getPlayerScores());
+        recyclerView.setAdapter(adapter);
+
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
 
         return v;
     }
 
 
-//    public class Adapter extends RecyclerView.Adapter<ViewHolder> {
-//
-//        private ArrayList tempList = new ArrayList();
-//
-//        public Adapter(ArrayList tempList) {
-//            this.tempList = tempList;
-//        }
-//
-//        @Override
-//        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-//
-//            // create a new view
-//            ConstraintLayout v = (ConstraintLayout) LayoutInflater.from(viewGroup.getContext())
-//                    .inflate(R.layout.player_end_item_view, viewGroup, false);
-//
-//            // create and return a view holder
-//            ViewHolder viewHolder = new ViewHolder(v);
-//            return viewHolder;
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-//            viewHolder.bind();
-//
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            return 0;
-//        }
-//    }
-//
-//    public class ViewHolder extends RecyclerView.ViewHolder {
-//
-//        private TextView username;
-//        private TextView total;
-//        private TextView gained;
-//        private TextView lost;
-//
-//        public ViewHolder(@NonNull View itemView) {
-//            super(itemView);
-//            username = (TextView) itemView.findViewById(R.id.username);
-//            total = (TextView) itemView.findViewById(R.id.total);
-//            gained = (TextView) itemView.findViewById(R.id.gained);
-//            lost = (TextView) itemView.findViewById(R.id.lost);
-//        }
-//
-//        public void bind(PlayerEndResult playerEndResult) {
-//            username.setText(playerEndResult.username);
-//            total.setText(playerEndResult.total);
-//            gained.setText(playerEndResult.gained);
-//            lost.setText(playerEndResult.lost);
-//        }
-//    }
-//
-//    public class PlayerEndResult {
-//        String total;
-//        String gained;
-//        String lost;
-//        String username;
-//
-//        public PlayerEndResult(String total, String gained, String lost, String username) {
-//            this.total = total;
-//            this.gained = gained;
-//            this.lost = lost;
-//            this.username = username;
-//        }
-//    }
+    public class Adapter extends RecyclerView.Adapter<ViewHolder> {
 
+        private List<PlayerScore> playerScores;
+
+        public Adapter(List list) {
+            playerScores = list;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+
+            ConstraintLayout v = (ConstraintLayout) LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.player_end_item_view, viewGroup, false);
+
+            ViewHolder viewHolder = new ViewHolder(v);
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+            PlayerScore playerScore = playerScores.get(i);
+            viewHolder.bind(playerScore);
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return playerScores.size();
+        }
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView username;
+        private TextView total;
+        private TextView gained;
+        private TextView lost;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            username = (TextView) itemView.findViewById(R.id.username);
+            total = (TextView) itemView.findViewById(R.id.total);
+            gained = (TextView) itemView.findViewById(R.id.gained);
+            lost = (TextView) itemView.findViewById(R.id.lost);
+        }
+
+        public void bind(PlayerScore playerScore) {
+            username.setText(playerScore.getPlayerName());
+            total.setText(playerScore.getTotalPoints());
+            gained.setText(playerScore.getDestinationPoints());
+            lost.setText(playerScore.getUnreachedDestinationPoints());
+        }
+    }
 }
