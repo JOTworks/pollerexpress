@@ -131,7 +131,7 @@ public class Map implements Serializable
         new Route(Cities[Reykjavik],Cities[Bergen], 3,0, Color.TRAIN.BLACK);
         new Route(Cities[Reykjavik],Cities[Hammerfest], 3,0, Color.TRAIN.ORANGE);
 
-        new Route(Cities[Nord],Cities[Bronlundhus], 2,0, Color.TRAIN.RED); //Nord
+        new Route(Cities[Nord],Cities[Bronlundhus], 2,0, Color.TRAIN.WHITE); //Nord
         new Route(Cities[Nord],Cities[Rudolphford], 2,0, Color.TRAIN.YELLOW);
 
         new Route(Cities[Yetifurt],Cities[Bronlundhus], 2,0, Color.TRAIN.PURPLE); //Yetifurt
@@ -142,22 +142,22 @@ public class Map implements Serializable
         new Route(Cities[Rudolphford],Cities[Alert], 3,-15, Color.TRAIN.RAINBOW);
 
         new Route(Cities[Dasherbury],Cities[Alert], 2,0, Color.TRAIN.PURPLE); //Dasherbury
-        new Route(Cities[Dasherbury],Cities[Alpine], 3,5, Color.TRAIN.BLACK);
+        new Route(Cities[Dasherbury],Cities[Alpine], 3,5, Color.TRAIN.BLUE);
 
-        new Route(Cities[Alpine],Cities[Isachsen], 2,0, Color.TRAIN.GREEN); //Alpine
+        new Route(Cities[Alpine],Cities[Isachsen], 2,0, Color.TRAIN.YELLOW); //Alpine
         new Route(Cities[Alpine],Cities[Anchorage], 2,0, Color.TRAIN.RAINBOW);
         new Route(Cities[Alpine],Cities[Deadhorse], 2,0, Color.TRAIN.WHITE);
         new Route(Cities[Alpine],Cities[Utquigvik], 2,0, Color.TRAIN.ORANGE);
 
-        new Route(Cities[Isachsen],Cities[Alert], 2,0, Color.TRAIN.GREEN); //Isachsen
+        new Route(Cities[Isachsen],Cities[Alert], 2,0, Color.TRAIN.BLACK); //Isachsen
         new Route(Cities[Isachsen],Cities[Deadhorse], 2,0, Color.TRAIN.RAINBOW);
 
-        new Route(Cities[Deadhorse],Cities[Utquigvik], 1,0, Color.TRAIN.YELLOW);
+        new Route(Cities[Deadhorse],Cities[Utquigvik], 1,0, Color.TRAIN.BLUE);
         new Route(Cities[Deadhorse],Cities[Alert], 2,0, Color.TRAIN.YELLOW);
 
         new Route(Cities[Utquigvik],Cities[Ulukhaktok], 3,0, Color.TRAIN.PURPLE);
 
-        new Route(Cities[Anchorage],Cities[Ulukhaktok], 3,0, Color.TRAIN.GREEN);
+        new Route(Cities[Anchorage],Cities[Ulukhaktok], 3,0, Color.TRAIN.BLACK);
 
         new Route(Cities[Weather],Cities[Ulukhaktok], 3,0, Color.TRAIN.RAINBOW);
         new Route(Cities[Weather],Cities[Tokyo], 3,15, Color.TRAIN.WHITE);
@@ -168,7 +168,7 @@ public class Map implements Serializable
         new Route(Cities[Tokyo],Cities[Blitzenberg], 3,15, Color.TRAIN.YELLOW);
         new Route(Cities[Tokyo],Cities[Novosibirsk], 3,0, Color.TRAIN.YELLOW);
 
-        new Route(Cities[Novosibirsk],Cities[Blitzenberg], 3,0, Color.TRAIN.GREEN);
+        new Route(Cities[Novosibirsk],Cities[Blitzenberg], 3,0, Color.TRAIN.BLUE);
         new Route(Cities[Novosibirsk],Cities[Omsk], 3,5, Color.TRAIN.ORANGE);
 
         new Route(Cities[Omsk],Cities[Surgut], 4,-10, Color.TRAIN.BLACK);
@@ -186,7 +186,7 @@ public class Map implements Serializable
 
         new Route(Cities[Bergen],Cities[Hammerfest], 2,0, Color.TRAIN.RAINBOW);
 
-        new Route(Cities[Bronlundhus],Cities[Hammerfest], 5,40, Color.TRAIN.PURPLE);
+        new Route(Cities[Bronlundhus],Cities[Hammerfest], 5,40, Color.TRAIN.BLUE);
 //
         for(City city: Cities)
         {
