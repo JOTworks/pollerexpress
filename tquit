@@ -1,0 +1,32 @@
+[1mdiff --git a/server/src/main/java/com/thePollerServer/services/GameService.java b/server/src/main/java/com/thePollerServer/services/GameService.java[m
+[1mindex d7b6f27..f6518ff 100644[m
+[1m--- a/server/src/main/java/com/thePollerServer/services/GameService.java[m
+[1m+++ b/server/src/main/java/com/thePollerServer/services/GameService.java[m
+[36m@@ -106,6 +106,8 @@[m [mpublic class GameService[m
+         return players.get(i).getName();[m
+     }[m
+ [m
+[32m+[m
+[32m+[m
+     public class Triple[m
+     {[m
+         public TrainCard card;[m
+[1mdiff --git a/sql/src/main/java/pollerexpress/database/IDatabaseFacade.java b/sql/src/main/java/pollerexpress/database/IDatabaseFacade.java[m
+[1mindex 66c2998..89f6e6e 100644[m
+[1m--- a/sql/src/main/java/pollerexpress/database/IDatabaseFacade.java[m
+[1m+++ b/sql/src/main/java/pollerexpress/database/IDatabaseFacade.java[m
+[36m@@ -69,6 +69,14 @@[m [mpublic interface IDatabaseFacade[m
+ [m
+     List<TrainCard> drawTrainCards(Player p, int number) throws DatabaseException;[m
+ [m
+[32m+[m[32m    /**[m
+[32m+[m[32m     * Draws a single train card for a player.[m
+[32m+[m[32m     * @param p[m
+[32m+[m[32m     * @return[m
+[32m+[m[32m     * @throws DatabaseException[m
+[32m+[m[32m     */[m
+[32m+[m[32m    TrainCard drawTrainCard(Player p) throws DatabaseException;[m
+[32m+[m
+     /**[m
+      * sets the game state according to the number of players. The 'turn' value for game state is[m
+      * is not affected since this command comes before any player has a turn. The 'state' field is[m

@@ -5,8 +5,18 @@ import com.shared.exceptions.ShuffleException;
 import com.shared.exceptions.StateException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Chat;
+
+
+import com.shared.models.Color;
+import com.shared.models.Command;
+
 import com.shared.models.EndGameResult;
 import com.shared.models.PlayerScore;
+
+
+import com.shared.models.EndGameResult;
+import com.shared.models.PlayerScore;
+
 import com.shared.models.Route;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
@@ -242,7 +252,7 @@ public class GameService
             int unreachedPoints = 0;
             for (DestinationCard card : cards) {
                 RouteCalculator rCalc = new RouteCalculator(p.getRoutes());
-                boolean destinationReached = rCalc.checkDestinationReached(card);
+                boolean destinationReached = rCalc.checkDestinationReached(p,card);
                 if (destinationReached)
                     reachedPoints += card.getPoints();
                 else
@@ -299,6 +309,7 @@ public class GameService
         return card;
     }
 
+
     /**
      *
      * @param p
@@ -322,6 +333,8 @@ public class GameService
                 Route actual = df.getRoute(r);
                 if (df.getRoute(r).getOwner() == null)
                 {
+
+                    //TODO the actual claim in the sql
 
                     df.decrementTrainCars(p,cards.size());
                     df.claimRoute(r,p);

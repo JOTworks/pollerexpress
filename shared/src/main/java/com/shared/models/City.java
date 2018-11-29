@@ -43,6 +43,11 @@ public class City implements Serializable
         return this;
     }
 
+    public List<Route> getRoutes()
+    {
+        return routes;
+    }
+
     public City addRoute(Route route)
     {
         this.routes.add(route);

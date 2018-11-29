@@ -1,25 +1,26 @@
 package com.thePollerServer.utilities;
 
 import com.shared.models.City;
+import com.shared.models.Player;
 import com.shared.models.Route;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class RouteCalculator {
 
     private List<Route> routes;
-
     public RouteCalculator(List<Route> routes) {
-        this.routes = routes;
+        this.routes = new LinkedList<>(routes);
     }
 
-    public boolean checkDestinationReached(DestinationCard card) {
+    public boolean checkDestinationReached(Player p, DestinationCard card) {
         // if the two cities are not present in any of the routes claimed by a player, return false
         if (routesIncludeBothCities(card.getCity1(), card.getCity2())) {
-             return findConnectedPath(card.getCity1(), card.getCity2());
+             return findConnectedPath(p, card.getCity1(), card.getCity2());
         }
         else return false;
     }
@@ -30,7 +31,7 @@ public class RouteCalculator {
      * @param destination
      * @return
      */
-    private boolean findConnectedPath(City currentCity, City destination) {
+    private boolean findConnectedPath(Player p, City currentCity, City destination) {
         // base case
         if (currentCity == destination)
             return true;
@@ -44,9 +45,12 @@ public class RouteCalculator {
 
             // step 1: remove the route that gets you to the next city so you do not backtrack
             routes.remove(routeToNextCity);
-            // step 3: recurse for the win!
-            if (findConnectedPath(nextCity, destination))
-                return true;
+            if(p.equals(cityRoutePair.route.getOwner()))
+            {
+                // step 3: recurse for the win!
+                if (findConnectedPath(p, nextCity, destination))
+                    return true;
+            }
         }
         // if we loop all the way through the connected routes and we never reach our destination
         // then we return false
@@ -74,8 +78,7 @@ public class RouteCalculator {
         boolean hasCity = false;
 
         for (Route route : routes) {
-            if (route.getCities().get(0) == city ||
-                    route.getCities().get(1) == city)
+            if (route.getCities().indexOf(city) != -1)
                 hasCity = true;
         }
         return hasCity;
@@ -90,7 +93,7 @@ public class RouteCalculator {
      * @param routes
      */
     public void resetRoutes(List<Route> routes) {
-        this.routes = routes;
+        this.routes = new LinkedList<>(routes);
     }
 
     public int getLongestRouteLength(List<Route> routes) {
@@ -107,4 +110,5 @@ public class RouteCalculator {
             this.route = route;
         }
     }
+
 }

@@ -187,5 +187,4 @@ public class ChatFragment extends Fragment implements IChatView {
         //do nothing
     }
 
-
 }

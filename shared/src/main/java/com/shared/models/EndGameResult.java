@@ -61,7 +61,6 @@ public class EndGameResult extends Observable implements Serializable {
         }
     }
 
-
     public void setPlayerScores(List<PlayerScore> playerScores) {
         this.playerScores = playerScores;
         synchronized (this)
@@ -70,4 +69,5 @@ public class EndGameResult extends Observable implements Serializable {
             notifyObservers(this);
         }
     }
+
 }

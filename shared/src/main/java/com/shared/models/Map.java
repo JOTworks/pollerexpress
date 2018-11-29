@@ -59,6 +59,7 @@ public class Map implements Serializable
 
     static
     {
+
         DEFAULT_MAP = new Map();
         City[] Cities = new City[25];
         int i = 0;
@@ -105,7 +106,7 @@ public class Map implements Serializable
         new Route(Cities[1],Cities[11], 4,0, Color.TRAIN.RAINBOW); // Atlantis
 
         new Route(Cities[11],Cities[9], 3,0, Color.TRAIN.RAINBOW); //Reykjavik
-        new Route(Cities[11],Cities[10], 3,0, Color.TRAIN.YELLOW);
+        new Route(Cities[11],Cities[10], 1,0, Color.TRAIN.YELLOW);
         new Route(Cities[11],Cities[12], 3,0, Color.TRAIN.RED);
         new Route(Cities[11],Cities[13], 3,0, Color.TRAIN.ORANGE);
 
@@ -118,13 +119,12 @@ public class Map implements Serializable
         {
             DEFAULT_MAP.add(city);
         }
-
     }
 
     //End of default map creator
 
     HashMap<String, City> cities;
-    HashMap<Route, Route> routes;
+    HashMap<String, Route> routes;
     public Map()
     {
         cities = new HashMap<>();
@@ -142,7 +142,7 @@ public class Map implements Serializable
         {
             Route copy = new Route(getCityByName(route.getCities().get(0).name ), getCityByName(route.getCities().get(1).getName()), route.getDistance() , route.getRotation() , route.getColor() );
             copy.setOwner(route.getOwner());
-            routes.put(copy, copy);
+            routes.put(copy.toString(), copy);
         }
     }
     /**
@@ -169,7 +169,7 @@ public class Map implements Serializable
         cities.put(city.name, city);
         for(Route route : city.routes)
         {
-            routes.put(route ,route);
+            routes.put(route.toString() ,route);
         }
     }
     /**
@@ -179,72 +179,69 @@ public class Map implements Serializable
      * Finds the distance in the connected graph
      * @pre
      * @param source a city in the map
-     * @param Destination another city in the map
+     * @param destination another city in the map
      * @return the number of train cars needed
      */
-    public int getShortestDistanceBetweenCities(City source, City Destination)
+    public int getShortestDistanceBetweenCities(String source, String destination)
     {
-        //TODO implement dijkstras for this...
-        return -1;//can't reach.
-    }
-
-    /**
-     * For AI mostly with destinations.
-     * @pre both cities are in the map
-     * @param source a city in the map
-     * @param Destination another city in the map
-     * @return true if the player can connect the cities, false otherwise.
-     */
-    public boolean playerCanReachCity(City source, City Destination, Player player)
-    {
-        class QO
+        class Visited
         {
-            City data;
-            int priority;
-
-            QO(City s1, int prior)
+            int distance;
+            City city;
+            public Visited(City city, int distance)
             {
-                this.data = s1;
-                this.priority = prior;
+                this.distance= distance;
+                this.city = city;
             }
 
         }
-        class queueObjectComparitor implements Comparator<QO>
+        class Comp implements Comparator<Visited>
         {
             @Override
-            public int compare(QO queueObject, QO t1)
+            public int compare(Visited x, Visited y)
             {
-                return queueObject.priority - t1.priority;
+                return Integer.compare(x.distance, y.distance);
             }
         }
-        PriorityQueue<QO> queue = new PriorityQueue<>(new queueObjectComparitor());
 
-        queue.add(new QO(source, 0));
-        HashMap<City, City> prev= new HashMap<>();
-        HashSet<City> seen = new HashSet<>();
-        int best = Integer.MAX_VALUE;
-        prev.put(source, null);
+        //HashMap<City, City> prev = new HashMap<>();
+        Set<City> processed = new HashSet<>();
+        City start = getCityByName(source);
+        City end = getCityByName(destination);
+
+        PriorityQueue<Visited> queue = new PriorityQueue<>(new Comp());
+        queue.add(new Visited(start, 0));
+
         while(!queue.isEmpty())
         {
-            QO c = queue.poll();
-            if(seen.contains(c.data))
+            Visited cur = queue.poll();
+
+            if(processed.contains(cur.city))
             {
                 continue;
             }
-            seen.add(c.data);
-            for( Route r: c.data.routes)
+
+            processed.add(cur.city);
+            for(Route r: cur.city.routes)
             {
-                City other =r.getDestination(c.data);
+                City other=r.getDestination(cur.city);
+                if(processed.contains(other))
+                {
+                    continue;
+                }
+                int distance =cur.distance + r.getDistance();
+                if(other.equals(end))
+                {
+                    return distance;
+                }
+                else
+                {
+                    queue.add(new Visited(other, distance));
+                }
 
             }
         }
-
-        return true;
-    }
-
-    public boolean playerReachesCity(City source, City destination, Player player)
-    {
-        return true;
+        return -1;//can't reach.
     }
 
     /**
@@ -255,6 +252,16 @@ public class Map implements Serializable
     public City getCityByName(String cityName)
     {
         return cities.get(cityName);
+    }
+
+    /**
+     *
+     * @param routeId
+     * @return
+     */
+    public Route getRouteByName(String routeId)
+    {
+        return routes.get(routeId);
     }
 
     /**
@@ -276,13 +283,15 @@ public class Map implements Serializable
     }
     public void claimRoute(Player p, Route route)
     {
-        if( routes.containsKey( route ) )
+        claimRoute(p, route.toString());
+    }
+
+    public void claimRoute(Player p, String routeId)
+    {
+        if( routes.containsKey( routeId ) )
         {
-            Route real = routes.get(route);
+            Route real = routes.get(routeId);
             real.setOwner(p);
         }
     }
-
-
-
 }
