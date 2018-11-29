@@ -59,7 +59,6 @@ public class Map implements Serializable
 
     static
     {
-
         DEFAULT_MAP = new Map();
         City[] Cities = new City[25];
         int i = 0;
@@ -79,41 +78,115 @@ public class Map implements Serializable
         Cities[i++] =new City("Hammerfest", new Point(1704,2612));//13
         Cities[i++] =new City("Anadrysky", new Point(2376,2153));//14
         Cities[i++] =new City("Surgut", new Point(2446,1838));//15
-        Cities[i++] =new City("Omsk", new Point(2509,1062));//16
-        Cities[i++] =new City("Novosibirsk", new Point(2218,787));//17
+        Cities[i++] =new City("Omsk", new Point(2559,1062));//16
+        Cities[i++] =new City("Novosibirsk", new Point(2218,687));//17
         Cities[i++] =new City("Weather Station", new Point(1740,141));//18
         Cities[i++] =new City("Elsa's Castle", new Point(2091,1600));//19
-        Cities[i++] =new City("New Tokyo", new Point(1737,796));//20
+        Cities[i++] =new City("New Tokyo", new Point(1837,796));//20
         Cities[i++] =new City("Yetifurt", new Point(453,1866));//21
         Cities[i++] =new City("Rudolphford", new Point(1077,1833));//22
         Cities[i++] =new City("Dasherbury", new Point(218,1239));//23
         Cities[i++] =new City("Blitzenberg", new Point(2043,1240));//24
-//        Cities[i++] =new City("Maimi", new Point(1800,1050));//25
-//        Cities[i++] =new City("Saint Louis", new Point(1340,700));//26
-//        Cities[i++] =new City("Nashville", new Point(230,800));//27
-//        Cities[i++] =new City("Raleigh", new Point(400,450));//28
-//        Cities[i++] =new City("Denver", new Point(600,230));//29
-//        Cities[i++] =new City("Santa Fe", new Point(30,100));//30
-//        Cities[i++] =new City("El Paso", new Point(450,1200));//31
-//        Cities[i++] =new City("Chicago", new Point(450,440));//32
-//        Cities[i++] =new City("Little Rock", new Point(30,550));//33
-//        Cities[i++] =new City("Atlanta", new Point(1200,220));//34
-//        Cities[i++] =new City("Salt Lake City", new Point(500,110));//35
-//
-        new Route(Cities[0],Cities[1], 3,-5, Color.TRAIN.GREEN); //Santa's workshop
-        new Route(Cities[0],Cities[18], 6,5, Color.TRAIN.RED);
 
-        new Route(Cities[1],Cities[11], 4,0, Color.TRAIN.RAINBOW); // Atlantis
+        int Santas = 0;
+        int Atlantis = 1;
+        int Utquigvik = 2;
+        int Deadhorse = 3;
+        int Alpine = 4;
+        int Anchorage = 5;
+        int Alert = 6;
+        int Isachsen = 7;
+        int Ulukhaktok = 8;
+        int Bronlundhus = 9;
+        int Nord = 10;
+        int Reykjavik = 11;
+        int Bergen = 12;
+        int Hammerfest = 13;
+        int Anadrysky = 14;
+        int Surgut = 15;
+        int Omsk = 16;
+        int Novosibirsk = 17;
+        int Weather = 18;
+        int Elsas = 19;
+        int Tokyo = 20;
+        int Yetifurt = 21;
+        int Rudolphford = 22;
+        int Dasherbury = 23;
+        int Blitzenberg = 24;
 
-        new Route(Cities[11],Cities[9], 3,0, Color.TRAIN.RAINBOW); //Reykjavik
-        new Route(Cities[11],Cities[10], 1,0, Color.TRAIN.YELLOW);
-        new Route(Cities[11],Cities[12], 3,0, Color.TRAIN.RED);
-        new Route(Cities[11],Cities[13], 3,0, Color.TRAIN.ORANGE);
 
-        new Route(Cities[10],Cities[9], 2,0, Color.TRAIN.RAINBOW); //Nord
-        new Route(Cities[10],Cities[22], 2,0, Color.TRAIN.GREEN);
+        new Route(Cities[Santas],Cities[Atlantis], 3,-15, Color.TRAIN.RED); //Santa's workshop
+        new Route(Cities[Santas],Cities[Atlantis], 3,15, Color.TRAIN.GREEN);
+        new Route(Cities[Santas],Cities[Weather], 6,-35, Color.TRAIN.GREEN);
+        new Route(Cities[Santas],Cities[Weather], 6,-5, Color.TRAIN.RED);
+        new Route(Cities[Santas],Cities[Alert], 5,-10, Color.TRAIN.RED);
+        new Route(Cities[Santas],Cities[Alert], 5,10, Color.TRAIN.GREEN);
 
-        new Route(Cities[12],Cities[13], 2,0, Color.TRAIN.YELLOW);
+        new Route(Cities[Atlantis],Cities[Reykjavik], 4,0, Color.TRAIN.RAINBOW); // Atlantis
+        new Route(Cities[Atlantis],Cities[Elsas], 3,10, Color.TRAIN.RAINBOW); // Atlantis
+        new Route(Cities[Atlantis],Cities[Rudolphford], 4,-10, Color.TRAIN.WHITE); // Atlantis
+
+        new Route(Cities[Reykjavik],Cities[Bronlundhus], 3,0, Color.TRAIN.RAINBOW); //Reykjavik
+        new Route(Cities[Reykjavik],Cities[Nord], 1,0, Color.TRAIN.YELLOW);
+        new Route(Cities[Reykjavik],Cities[Bergen], 3,0, Color.TRAIN.BLACK);
+        new Route(Cities[Reykjavik],Cities[Hammerfest], 3,0, Color.TRAIN.ORANGE);
+
+        new Route(Cities[Nord],Cities[Bronlundhus], 2,0, Color.TRAIN.RED); //Nord
+        new Route(Cities[Nord],Cities[Rudolphford], 2,0, Color.TRAIN.YELLOW);
+
+        new Route(Cities[Yetifurt],Cities[Bronlundhus], 2,0, Color.TRAIN.PURPLE); //Yetifurt
+        new Route(Cities[Yetifurt],Cities[Rudolphford], 3,0, Color.TRAIN.YELLOW);
+        new Route(Cities[Yetifurt],Cities[Dasherbury], 4,0, Color.TRAIN.ORANGE);
+        new Route(Cities[Yetifurt],Cities[Alert], 4,0, Color.TRAIN.BLACK);
+
+        new Route(Cities[Rudolphford],Cities[Alert], 3,-15, Color.TRAIN.RAINBOW);
+
+        new Route(Cities[Dasherbury],Cities[Alert], 2,0, Color.TRAIN.PURPLE); //Dasherbury
+        new Route(Cities[Dasherbury],Cities[Alpine], 3,-5, Color.TRAIN.BLACK);
+
+        new Route(Cities[Alpine],Cities[Isachsen], 2,0, Color.TRAIN.GREEN); //Alpine
+        new Route(Cities[Alpine],Cities[Anchorage], 2,0, Color.TRAIN.RAINBOW);
+        new Route(Cities[Alpine],Cities[Deadhorse], 2,0, Color.TRAIN.WHITE);
+        new Route(Cities[Alpine],Cities[Utquigvik], 2,0, Color.TRAIN.ORANGE);
+
+        new Route(Cities[Isachsen],Cities[Alert], 2,0, Color.TRAIN.GREEN); //Isachsen
+        new Route(Cities[Isachsen],Cities[Deadhorse], 2,0, Color.TRAIN.RAINBOW);
+
+        new Route(Cities[Deadhorse],Cities[Utquigvik], 1,0, Color.TRAIN.YELLOW);
+        new Route(Cities[Deadhorse],Cities[Alert], 2,0, Color.TRAIN.YELLOW);
+
+        new Route(Cities[Utquigvik],Cities[Ulukhaktok], 3,0, Color.TRAIN.PURPLE);
+
+        new Route(Cities[Anchorage],Cities[Ulukhaktok], 3,0, Color.TRAIN.GREEN);
+
+        new Route(Cities[Weather],Cities[Ulukhaktok], 3,0, Color.TRAIN.RAINBOW);
+        new Route(Cities[Weather],Cities[Tokyo], 3,15, Color.TRAIN.WHITE);
+        new Route(Cities[Weather],Cities[Novosibirsk], 3,60, Color.TRAIN.BLACK);
+        new Route(Cities[Weather],Cities[Novosibirsk], 3,10, Color.TRAIN.PURPLE);
+        new Route(Cities[Weather],Cities[Anchorage], 3,-35, Color.TRAIN.WHITE);
+
+        new Route(Cities[Tokyo],Cities[Blitzenberg], 3,15, Color.TRAIN.YELLOW);
+        new Route(Cities[Tokyo],Cities[Novosibirsk], 3,0, Color.TRAIN.YELLOW);
+
+        new Route(Cities[Novosibirsk],Cities[Blitzenberg], 3,0, Color.TRAIN.GREEN);
+        new Route(Cities[Novosibirsk],Cities[Omsk], 3,5, Color.TRAIN.ORANGE);
+
+        new Route(Cities[Omsk],Cities[Surgut], 4,-10, Color.TRAIN.BLACK);
+        new Route(Cities[Omsk],Cities[Elsas], 3,0, Color.TRAIN.RAINBOW);
+
+        new Route(Cities[Elsas],Cities[Blitzenberg], 3,-5, Color.TRAIN.PURPLE);
+        new Route(Cities[Elsas],Cities[Surgut], 3,0, Color.TRAIN.ORANGE);
+        new Route(Cities[Elsas],Cities[Anadrysky], 3,0, Color.TRAIN.WHITE);
+
+        new Route(Cities[Surgut],Cities[Anadrysky], 2,0, Color.TRAIN.RAINBOW);
+
+        new Route(Cities[Anadrysky],Cities[Hammerfest], 3,-10, Color.TRAIN.YELLOW);
+        new Route(Cities[Anadrysky],Cities[Bergen], 3,10, Color.TRAIN.ORANGE);
+        new Route(Cities[Anadrysky],Cities[Bergen], 3,-10, Color.TRAIN.BLACK);
+
+        new Route(Cities[Bergen],Cities[Hammerfest], 2,0, Color.TRAIN.RAINBOW);
+
+        new Route(Cities[Bronlundhus],Cities[Hammerfest], 5,40, Color.TRAIN.PURPLE);
 //
         for(City city: Cities)
         {
