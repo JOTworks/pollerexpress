@@ -12,7 +12,7 @@
     <integer name="WHITE" >0xFFFFFFFF</integer>
     <integer name="BLUE"  >0xFF2020FF</integer>
     <integer name="YELLOW">0xFFD9FF09</integer>
-    <integer name="ORANGE">0xFFD9D999</integer>
+    <integer name="ORANGE">0xFFFF9006</integer>
     <integer name="BLACK" >0xFF000000</integer>
     <integer name="RED"   >0xFFFF3333</integer>
     <integer name="GREEN" >0xFF209F20</integer>

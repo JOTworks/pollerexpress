@@ -110,6 +110,7 @@ public class CommandFacade
         GameInfo info = df.getGameInfo(user.getGameId());
 
         df.makeBank(info);
+        df.makeRoutes(info);
         df.setPreGameState(info.getNumPlayers(), df.getGameInfo(user.getGameId()));
 
         setColor(user, user.getColor());
