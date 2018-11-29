@@ -82,14 +82,14 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
         Paint outerPaint= new Paint();
         outerPaint.setStyle(Paint.Style.FILL);
         outerPaint.setColor(cities_exterior );
-        canvas.drawCircle(x,y,30,outerPaint);
+        canvas.drawCircle(x,y,25,outerPaint);
 
         Paint innerPaint= new Paint();
         innerPaint.setColor(cities_color);
         innerPaint.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(x,y,20, innerPaint);
+        canvas.drawCircle(x,y,15, innerPaint);
 
-        float textSize = 50;
+        float textSize = 35;
         float cityNameOffsetX = 30;
         float cityNameOffsetY = 0;
         {
@@ -147,7 +147,7 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
         {
             Paint oPaint = new Paint();
             oPaint.setColor(  ( getPlayerColor(route.getOwner().getColor())));//TODO set color based off of color property, but this way is fun too..
-            oPaint.setStrokeWidth((float) (car_width *1.25) );
+            oPaint.setStrokeWidth((float) car_width );
             oPaint.setStyle(Paint.Style.STROKE);
             canvas.drawPath(path, oPaint);
         }
