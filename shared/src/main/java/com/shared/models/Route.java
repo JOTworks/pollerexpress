@@ -85,7 +85,7 @@ public class Route extends Observable implements Serializable
         this.rotation = rot;
     }
 
-    public String getId() { return id; }
+    public String getId() { return toString(); }
 
     /**
      * Given a city, gets the adjacent city on this route.
