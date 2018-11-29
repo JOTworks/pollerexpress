@@ -212,7 +212,17 @@ public class GSDFacade implements IDatabaseFacade
     }
 
     @Override
+    public void makeRoutes(GameInfo gi) throws DatabaseException {
+
+    }
+
+    @Override
     public Route getRoute(Route r) throws DatabaseException {
+        return null;
+    }
+
+    @Override
+    public Route getGameRoute(Route r, GameInfo gi) throws DatabaseException {
         return null;
     }
 

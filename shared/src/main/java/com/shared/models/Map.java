@@ -194,6 +194,8 @@ public class Map implements Serializable
         }
     }
 
+    public static Map getDefaultMap(){ return DEFAULT_MAP; }
+
     //End of default map creator
 
     HashMap<String, City> cities;
@@ -332,7 +334,7 @@ public class Map implements Serializable
      * @param routeId
      * @return
      */
-    public Route getRouteByName(String routeId)
+    public Route getRouteById(String routeId)
     {
         return routes.get(routeId);
     }
