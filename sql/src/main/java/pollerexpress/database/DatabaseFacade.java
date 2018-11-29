@@ -766,7 +766,8 @@ public class DatabaseFacade implements IDatabaseFacade
     }
 
     @Override
-    public void claimRoute(Route r, Player p) throws DatabaseException {
-
+    public void claimRoute(Route r, Player p) throws DatabaseException
+    {
+        //pretend to claim.
     }
 }

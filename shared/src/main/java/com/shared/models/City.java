@@ -58,7 +58,6 @@ public class City implements Serializable
     public boolean equals(Object o)
     {
         if (o == null || (!(o instanceof City))) return false;
-
         return ((City) o).getName().equals(this.name);
     }
 

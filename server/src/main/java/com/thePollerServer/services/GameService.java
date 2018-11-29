@@ -322,8 +322,9 @@ public class GameService
                 Route actual = df.getRoute(r);
                 if (df.getRoute(r).getOwner() == null)
                 {
-                    //TODO the actual claim in the sql
+
                     df.decrementTrainCars(p,cards.size());
+                    df.claimRoute(r,p);
                 } else
                 {
                     has = false;

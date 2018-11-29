@@ -15,7 +15,7 @@ public class TrainCardDao {
     private IDatabase _db;
     public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS <TABLE_NAME>\n(`CARD_ID` TEXT NOT NULL PRIMARY KEY, `POSITION` INT, `PLAYER` TEXT, `FACE_UP` INT)";
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS <TABLE_NAME>";
-    public static final String INSERT_CARD = "INSERT INTO <TABLE_NAME>(CARD_ID, POSITION, PLAYER, FACE_UP)\n VALUES(?,?,?,?)";
+    public static final String INSERT_CARD = "INSERT INTO <TABLE_NAME> (CARD_ID, POSITION, PLAYER, FACE_UP)\n VALUES(?,?,?,?)";
     public static final String INSERT_DEFAULT_CARD = "INSERT INTO DEFAULT_TRAIN_DECK(CARD_ID, COLOR)\n VALUES(?,?)";
     public static final String UPDATE_CARD = "UPDATE <TABLE_NAME>\n SET POSITION = ?, PLAYER = ?, FACE_UP = ?\n WHERE CARD_ID = ?";
     public static final String SELECT_TOP_CARD = "SELECT DEF.CARD_ID, DEF.COLOR\n FROM DEFAULT_TRAIN_DECK AS DEF\n LEFT JOIN <TABLE_NAME> AS DECK\n ON DECK.CARD_ID = DEF.CARD_ID\n WHERE POSITION != 0\n ORDER BY POSITION ASC\n LIMIT 1";
@@ -360,8 +360,6 @@ public class TrainCardDao {
     */
 
     public void insertIntoDefault(TrainCard card) throws DatabaseException {
-
-
         try{
             PreparedStatement stmnt = _db.getConnection().prepareStatement(INSERT_DEFAULT_CARD);
             stmnt.setString(1, card.getId());
@@ -371,8 +369,6 @@ public class TrainCardDao {
         } catch(SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
-
-
     }
 
     public ArrayList<TrainCard> getDefaultDeck() throws DatabaseException {
