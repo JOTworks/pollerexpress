@@ -218,6 +218,7 @@ public class DatabaseFacade implements IDatabaseFacade
         {
             db.open();
             Game game = db.getGameDao().read( info.getId() );
+            db.close(false);
             return game;
         }
         catch(DatabaseException e)
@@ -226,7 +227,7 @@ public class DatabaseFacade implements IDatabaseFacade
         }
         finally
         {
-            db.close(false);
+            if(db.isOpen()){db.close(false);}
         }
     }
 
@@ -591,8 +592,8 @@ public class DatabaseFacade implements IDatabaseFacade
     @Override
     public void setupPlayers(GameInfo game) throws DatabaseException {
         try {
-            db.open();
             Player[] players = getPlayersInGame(game);
+            db.open();
             for (Player p : players) {
                 db.getUserDao().setPlayerPoints(p, 0);
                 db.getUserDao().setPlayerTrainCars(p, 40);
