@@ -81,7 +81,7 @@ public class TestRouteDao {
         try {
             db.open();
 
-            Route r = builder.getMap().getRoutes()
+            //Route r = builder.getMap().getRoutes();
 
             db.close(true);
 
