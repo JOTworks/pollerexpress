@@ -21,6 +21,8 @@ import com.shared.models.Player;
 import com.shared.models.Route;
 import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.states.GameState;
+
+import java.sql.Timestamp;
 import java.util.List;
 
 import thePollerExpress.models.ClientData;
@@ -40,6 +42,14 @@ public class ClientGameService {
         CD = ClientData.getInstance();
     }
 
+
+    public static boolean sendGameHistory(){
+
+        //hack to make it show up in chat, doesnt parce what the history was
+        Chat chat = new Chat("history",new Timestamp(0),CD.getUser());
+        CD.getGame().addChat(chat);
+        return true;
+    }
 
     public static boolean endGame()
     {

@@ -110,6 +110,7 @@ public class CommandFacade
             CM.addCommand(command, info);
             initiateEndgameIfEnd(real);
             setGameState(real);
+            sendGameHistory(info, command);
         }
         else
         {
@@ -208,6 +209,7 @@ public class CommandFacade
             Object[] params = {p, new Integer(3)};
             Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawDestinationCards", types, params);
             CM.addCommand(drawDestinationCards, info);
+            sendGameHistory(info, drawDestinationCards);
         }
 
         setGameState(p);
@@ -224,6 +226,7 @@ public class CommandFacade
     {
         GameService gm = new GameService();
         boolean discarded = gm.discardDestinationCards(p, cards);
+        GameInfo info = model.getMyGame(p);
 
         if (!discarded) {
             throw new CommandFailed("discardDestinationCard");
@@ -242,6 +245,7 @@ public class CommandFacade
             Object[] params = {p, new Integer(cards.size())};
             Command cmd = new Command(CommandsExtensions.clientSide + "ClientCardService", "discardDestinationCards", types, params);
             CM.addCommand(cmd, model.getMyGame(p));
+            sendGameHistory(info, cmd);
         }
 
         setGameState(p);
@@ -291,6 +295,7 @@ public class CommandFacade
             Object[] params = {p, card, visible};
             Command command = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawVisibleCard", types, params);
             CM.addCommand(command, info);
+            sendGameHistory(info, command);
         }
 
         setGameState(p);
@@ -392,6 +397,7 @@ public class CommandFacade
             Object[] params = {p};
             Command drawTrainCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawTrainCard", types, params);
             CM.addCommand(drawTrainCards, info);
+            sendGameHistory(info, drawTrainCards);
         }
 
         setGameState(p);
@@ -417,8 +423,17 @@ public class CommandFacade
                 Object[] params = {gameResult};
                 Command endGameCommand = new Command(CommandsExtensions.clientSide + "ClientGameService", "endGame", types, params);
                 CM.addCommand(endGameCommand, info);
+                sendGameHistory(info, endGameCommand);
             }
     }
 
+    private static void sendGameHistory(GameInfo info, Command command){
+        {
+            Class<?>[] types = {};
+            Object[] params = {};
+            Command historyCommand = new Command(CommandsExtensions.clientSide + "ClientGameService", "sendGameHistory", types, params);
+            CM.addCommand(historyCommand, info);
+        }
+    }
 
 }
