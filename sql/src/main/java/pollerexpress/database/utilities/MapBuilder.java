@@ -46,4 +46,15 @@ public class MapBuilder {
         r.setOwner(_db.getUserDao().read(owner));
         return r;
     }
+
+    public ArrayList<Route> getPlayerRoutes(Player p) throws DatabaseException {
+        ArrayList<Route> routes = new ArrayList<>();
+        ArrayList<String> route_ids = rDao.getPlayerRoutes(p);
+        for(String id : route_ids) {
+            Route r = map.getRouteById(id);
+            r.setOwner(p);
+            routes.add(r);
+        }
+        return routes;
+    }
 }

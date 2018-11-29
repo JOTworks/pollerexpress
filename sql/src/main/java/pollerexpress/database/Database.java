@@ -138,6 +138,7 @@ public class Database implements IDatabase
         if (this.isOpen) {
             //throw new DatabaseException("Tried to open an open line");
             System.out.println("Tried to open an open line");
+            return;
             //won't fail silently this way, but also won't break everything if there's a recoverable error elsewhere.
         } else {
             this.isOpen = true;

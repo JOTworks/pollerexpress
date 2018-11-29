@@ -132,6 +132,8 @@ public interface IDatabaseFacade
 
     Route getGameRoute(Route r, GameInfo gi) throws DatabaseException;
 
+    List<Route> getPlayerRoutes(Player p) throws DatabaseException;
+
     void claimRoute(Route r, Player p) throws DatabaseException;
 
     TrainCard drawTrainCard(Player p) throws DatabaseException;

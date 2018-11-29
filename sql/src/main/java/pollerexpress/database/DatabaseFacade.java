@@ -218,6 +218,7 @@ public class DatabaseFacade implements IDatabaseFacade
         {
             db.open();
             Game game = db.getGameDao().read( info.getId() );
+            db.close(false);
             return game;
         }
         catch(DatabaseException e)
@@ -226,7 +227,7 @@ public class DatabaseFacade implements IDatabaseFacade
         }
         finally
         {
-            db.close(false);
+            if(db.isOpen()){db.close(false);}
         }
     }
 
@@ -802,6 +803,19 @@ public class DatabaseFacade implements IDatabaseFacade
             db.open();
             Route route = new MapBuilder(db).getGameRoute(r.getId(), gi);
             return route;
+        }
+        finally
+        {
+            db.close(false);
+        }
+    }
+
+    @Override
+    public List<Route> getPlayerRoutes(Player p) throws DatabaseException {
+        try
+        {
+            db.open();
+            return new MapBuilder(db).getPlayerRoutes(p);
         }
         finally
         {

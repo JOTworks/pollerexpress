@@ -6,6 +6,7 @@ import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.shared.models.User;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -222,7 +223,7 @@ public class UserDao {
     {
         try
         {
-            PreparedStatement stmnt = this._db.getConnection().prepareStatement(SET_PLAYER_POINTS);
+            PreparedStatement stmnt = _db.getConnection().prepareStatement(SET_PLAYER_POINTS);
             stmnt.setInt(1, points);
             stmnt.setString(2, player.getName());
             stmnt.executeUpdate();
