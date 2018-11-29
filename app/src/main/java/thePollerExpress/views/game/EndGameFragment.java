@@ -10,8 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.shared.models.EndGameResult;
@@ -19,22 +21,26 @@ import com.shared.models.EndGameResult;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cs340.pollerexpress.R;
+import thePollerExpress.models.PlayerEndResult;
 import thePollerExpress.presenters.game.ChatPresenter;
 import thePollerExpress.presenters.game.EndGamePresenter;
 import thePollerExpress.presenters.game.interfaces.IEndGamePresenter;
+import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.views.game.interfaces.IEndGameView;
 
-public class EndGameFragment extends Fragment implements IEndGameView {
+public class EndGameFragment extends Fragment implements IEndGameView
+{
 
     TextView winnerName;
-    RecyclerView recyclerView;
+    ListView recyclerView;
     Button findNewGame;
     IEndGamePresenter presenter;
     EndGameResult endGameResult;
-    RecyclerView.LayoutManager layoutManager;
-//    Adapter adapter;
+    //ListVie.LayoutManager layoutManager;
+    MyAdapter adapter;
     EndGameResult gameResult;
 
     public void setGameResult(EndGameResult gameResult) {
@@ -67,86 +73,89 @@ public class EndGameFragment extends Fragment implements IEndGameView {
         });
 
         //set up the recycler view
-//        recyclerView = v.findViewById(R.id.end_game_recycler_view);
-//        recyclerView.setHasFixedSize(true);
-//
-//        adapter = new EndGameFragment.Adapter();
-//        recyclerView.setAdapter(adapter);
-//
-//        layoutManager = new LinearLayoutManager(getContext());
-//        recyclerView.setLayoutManager(layoutManager);
+        recyclerView = v.findViewById( R.id.end_game_recycler_view );
+        adapter = new EndGameFragment.MyAdapter(presenter.getEndGameResult());
+        recyclerView.setAdapter(adapter);
+
+
 
         return v;
     }
 
+    @Override
+    public void displayError(String errorMessage)
+    {
 
-//    public class Adapter extends RecyclerView.Adapter<ViewHolder> {
-//
-//        private ArrayList tempList = new ArrayList();
-//
-//        public Adapter(ArrayList tempList) {
-//            this.tempList = tempList;
-//        }
-//
-//        @Override
-//        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-//
-//            // create a new view
-//            ConstraintLayout v = (ConstraintLayout) LayoutInflater.from(viewGroup.getContext())
-//                    .inflate(R.layout.player_end_item_view, viewGroup, false);
-//
-//            // create and return a view holder
-//            ViewHolder viewHolder = new ViewHolder(v);
-//            return viewHolder;
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-//            viewHolder.bind();
-//
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            return 0;
-//        }
-//    }
-//
-//    public class ViewHolder extends RecyclerView.ViewHolder {
-//
-//        private TextView username;
-//        private TextView total;
-//        private TextView gained;
-//        private TextView lost;
-//
-//        public ViewHolder(@NonNull View itemView) {
-//            super(itemView);
-//            username = (TextView) itemView.findViewById(R.id.username);
-//            total = (TextView) itemView.findViewById(R.id.total);
-//            gained = (TextView) itemView.findViewById(R.id.gained);
-//            lost = (TextView) itemView.findViewById(R.id.lost);
-//        }
-//
-//        public void bind(PlayerEndResult playerEndResult) {
-//            username.setText(playerEndResult.username);
-//            total.setText(playerEndResult.total);
-//            gained.setText(playerEndResult.gained);
-//            lost.setText(playerEndResult.lost);
-//        }
-//    }
-//
-//    public class PlayerEndResult {
-//        String total;
-//        String gained;
-//        String lost;
-//        String username;
-//
-//        public PlayerEndResult(String total, String gained, String lost, String username) {
-//            this.total = total;
-//            this.gained = gained;
-//            this.lost = lost;
-//            this.username = username;
-//        }
-//    }
+    }
+
+    @Override
+    public void changeView(IPollerExpressView view)
+    {
+
+    }
+
+
+    private class MyAdapter extends BaseAdapter
+    {
+        private List<PlayerEndResult> tempList;
+        public MyAdapter(List<PlayerEndResult> results)
+        {
+            tempList = results;
+        }
+        @Override
+        public int getCount()
+        {
+            return tempList.size();
+        }
+
+        @Override
+        public Object getItem(int i)
+        {
+            return tempList.get(i);
+        }
+
+        @Override
+        public long getItemId(int i)
+        {
+            return i;
+        }
+
+        // override other abstract methods here
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup container) {
+            if (convertView == null) {
+                convertView = getLayoutInflater().inflate(R.layout.player_end_item_view, container, false);
+            }
+
+            View itemView = convertView;
+            TextView username;
+            TextView total;
+            TextView destination;
+            TextView lost;
+            TextView longest;
+            TextView bonus;
+
+            PlayerEndResult playerEndResult = (PlayerEndResult) getItem(position);
+            username = (TextView) itemView.findViewById(R.id.user_name);
+            total = (TextView) itemView.findViewById(R.id.total);
+            destination = (TextView) itemView.findViewById(R.id.destination_points);
+            lost = (TextView) itemView.findViewById(R.id.destination_mallus);
+            lost.setTextColor(getContext().getColor(R.color.garishPink));
+            longest = itemView.findViewById(R.id.longest_route);
+            bonus = itemView.findViewById(R.id.bonus);
+
+            username.setText(playerEndResult.username);
+            total.setText(playerEndResult.total);
+            destination.setText(playerEndResult.completedDestination);
+            lost.setText(playerEndResult.incompleteDestination);
+            longest.setText(playerEndResult.longestRoute);
+            bonus.setText(playerEndResult.longestRoute);
+
+            return convertView;
+        }
+    }
+
+
 
 }

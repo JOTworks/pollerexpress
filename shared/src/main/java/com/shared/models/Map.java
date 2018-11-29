@@ -20,41 +20,8 @@ public class Map implements Serializable
     //
     //*******************************************************************************************************************
 
-//    Alert	Canada
-//    Bronlundhus	Greenland
-//    Nord	Greenland
-//    Anadyrskol	Russia?
-//     Novosibirsk siberia
-//    Utqiagvik	Alaska
-//    New Tokyo
-//    Atlantis
-//    Santa's Workshop
-//    Elsa's Castle
-//    Surgut	Russia
-//    Anchorage
-//    Bergen	Norway
-//    Murmansk	Russia
-//    Isachsen	Canada
-//    Weather Station
-//    Reykjavik	iceland
-//    Ulukhaktok	Canada
-//    Hammerfest	Norway
-//    Alpine
-//            Deadhorse
-//    Omsk siberia
-//    Boreas
-//    Home of Polaris
-//    An Ice Place
-//        Cupidforth
-//    Donnerbrough
-//            Rudolphford
-//    Cometville
-//            Blitzenberg
-//    Dasherbury
-//            Prancerstadt
-//    Dancerkirk
-//            Elfland
-//    Yetifurt
+
+
 
 
     static
@@ -159,6 +126,7 @@ public class Map implements Serializable
 
         new Route(Cities[Anchorage],Cities[Ulukhaktok], 3,0, Color.TRAIN.BLACK);
 
+
         new Route(Cities[Weather],Cities[Ulukhaktok], 3,0, Color.TRAIN.RAINBOW);
         new Route(Cities[Weather],Cities[Tokyo], 3,15, Color.TRAIN.WHITE);
         new Route(Cities[Weather],Cities[Novosibirsk], 3,60, Color.TRAIN.BLACK);
@@ -169,6 +137,7 @@ public class Map implements Serializable
         new Route(Cities[Tokyo],Cities[Novosibirsk], 3,0, Color.TRAIN.YELLOW);
 
         new Route(Cities[Novosibirsk],Cities[Blitzenberg], 3,0, Color.TRAIN.BLUE);
+
         new Route(Cities[Novosibirsk],Cities[Omsk], 3,5, Color.TRAIN.ORANGE);
 
         new Route(Cities[Omsk],Cities[Surgut], 4,-10, Color.TRAIN.BLACK);
@@ -187,7 +156,7 @@ public class Map implements Serializable
         new Route(Cities[Bergen],Cities[Hammerfest], 2,0, Color.TRAIN.RAINBOW);
 
         new Route(Cities[Bronlundhus],Cities[Hammerfest], 5,40, Color.TRAIN.BLUE);
-//
+
         for(City city: Cities)
         {
             DEFAULT_MAP.add(city);
@@ -211,7 +180,8 @@ public class Map implements Serializable
         //TODO have this do a deep copy of everything...
         for(City city: toCopy.getCities())
         {
-            this.cities.put(city.getName(), city);
+            City newCity = new City(city);
+            this.cities.put(city.getName(), newCity);
         }
         for(Route route: toCopy.getRoutes())
         {
@@ -370,3 +340,17 @@ public class Map implements Serializable
         }
     }
 }
+
+
+// other possible city names
+//
+//    Murmansk	Russia
+//    Boreas
+//    Home of Polaris
+//    An Ice Place
+//    Cupidforth
+//    Donnerbrough
+//    Cometville
+//            Prancerstadt
+//    Dancerkirk
+//            Elfland

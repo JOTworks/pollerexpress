@@ -44,15 +44,16 @@ public class TrainCardHand extends Hand implements Serializable
         }
     }
 
-    public void removeFromHand(TrainCard card) {
+    public boolean removeFromHand(TrainCard card) {
 
-        trainCards.remove(card);
+        boolean removed = trainCards.remove(card);
 
         synchronized (this)
         {
             this.setChanged();
             notifyObservers(card);
         }
+        return removed;
     }
 
     public ArrayList<String> getCardsAsStrings() {

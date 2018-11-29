@@ -116,15 +116,6 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
     {
         return x1;
     }
-    public float distanceToRoute(float x, float y, Route r)
-    {
-        //I will just calculate the distance at three points, the start, middle, and end. and take the average of the smallest two..
-        AnchorPoints anchor = new AnchorPoints(r);
-        //float m_x = BX(.5f, anchor);
-        //float m_y = BY(.5f, anchor);
-
-        return Float.POSITIVE_INFINITY;
-    }
 
 
     private final float max_car_size = 70;

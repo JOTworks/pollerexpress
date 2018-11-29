@@ -33,7 +33,6 @@ public class ClientCardService {
     public static boolean setVisibleCards(TrainCard[] cards)
     {
         CD.getGame().getVisibleCards().set(cards);
-
         return true;
     }
 
@@ -106,7 +105,7 @@ public class ClientCardService {
      * @param destinationCards
      * @return false if the player parameter is not the same as the user. true otherwise
      */
-    public static boolean drawDestinationCards(Player player, ArrayList<DestinationCard> destinationCards)
+    public static boolean drawDestinationCards(Player player, List<DestinationCard> destinationCards)
     {
         if(!CD.getUser().equals(player)) return false;
         for (DestinationCard card : destinationCards) {

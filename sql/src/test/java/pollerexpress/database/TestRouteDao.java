@@ -2,18 +2,12 @@ package pollerexpress.database;
 
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
-import com.shared.models.Route;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.Assert.*;
-
-import pollerexpress.database.dao.RouteDao;
-import pollerexpress.database.utilities.MapBuilder;
 
 public class TestRouteDao {
     Database db;

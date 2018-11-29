@@ -39,6 +39,10 @@ public class PlayerScore implements Serializable {
     public void setRoutePoints(int routePoints) {
         this.routePoints = routePoints;
     }
+    public void addRoutePoints(int points)
+    {
+        this.routePoints+= points;
+    }
 
     public int getDestinationPoints() {
         return destinationPoints;

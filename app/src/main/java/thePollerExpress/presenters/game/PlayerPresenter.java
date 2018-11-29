@@ -23,12 +23,13 @@ public class PlayerPresenter implements IPlayerPresenter, Observer {
         clientData.getGame().addObserver(this);
     }
 
-    public Player getPlayer() {
-
+    public Player getPlayer()
+    {
         return ClientData.getInstance().getGame().getPlayer(playerName);
     }
 
     @Override
+<<<<<<< HEAD
     public void update(Observable o, Object arg) {
 
         if (o instanceof Player) {
@@ -37,9 +38,23 @@ public class PlayerPresenter implements IPlayerPresenter, Observer {
         if (clientData.getGame().getGameState().getTurn() == null)
             return;
         if (clientData.getGame().getGameState().getTurn().equals(playerName)) {
+=======
+    public void update(Observable o, Object arg)
+    {
+
+        if(clientData.getGame().getGameState().getTurn().equals(playerName)){
+>>>>>>> 8b0d0c07e6f0abecf090a37d53eaed8ed24ea3c7
             playerView.isTurn();
         } else {
             playerView.isNotTurn();
         }
+<<<<<<< HEAD
+=======
+
+        if(o instanceof  Player)
+        {
+            playerView.renderPlayer(clientData.getGame().getPlayer(playerName));
+        }
+>>>>>>> 8b0d0c07e6f0abecf090a37d53eaed8ed24ea3c7
     }
 }
