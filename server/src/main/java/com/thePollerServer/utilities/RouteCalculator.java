@@ -6,6 +6,7 @@ import com.shared.models.Route;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public class RouteCalculator {
 
     private List<Route> routes;
-    public RouteCalculator(List<Route> routes) {
+    public RouteCalculator(Collection<Route> routes) {
         this.routes = new LinkedList<>(routes);
     }
 
@@ -62,7 +63,8 @@ public class RouteCalculator {
      * @param city
      * @return null if no cities are found, the connected city otherwise
      */
-    private List<CityRoutePair> getConnectedCitiesAndRoutes(City city) {
+    private List<CityRoutePair> getConnectedCitiesAndRoutes(City city)
+    {
         List<CityRoutePair> connectedCitiesAndRoutes = new ArrayList<>();
 
         for (Route route : routes) {

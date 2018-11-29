@@ -21,15 +21,20 @@ import com.shared.models.Route;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
-import pollerexpress.database.IDatabaseFacade;
-
 import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.cardsHandsDecks.TrainCardHand;
 import com.shared.models.states.GameState;
-import com.thePollerServer.utilities.Factory;
+import com.thePollerServer.Model.ServerData;
+import com.thePollerServer.Model.ServerGame;
+import com.thePollerServer.Model.ServerPlayer;
+
+import com.thePollerServer.utilities.LongestRouteCalculator;
 import com.thePollerServer.utilities.RouteCalculator;
 
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import static com.shared.models.Color.TRAIN.RAINBOW;
@@ -50,51 +55,48 @@ import static com.shared.models.states.GameState.State.NO_ACTION_TAKEN;
  * */
 public class GameService
 {
-    private IDatabaseFacade df = Factory.createDatabaseFacade();
 
+    ServerData model = ServerData.instance();
 
-    public void chat(Chat chat, GameInfo gameInfo) throws DatabaseException {
+    /**
+     * Done for refactor
+     * @param chat
+     * @param gameInfo
+     * @throws DatabaseException
+     */
+    public void chat(Chat chat, GameInfo gameInfo) throws DatabaseException
+    {
         //df.chat(chat, gameInfo);
+        ServerGame game = model.getGame(gameInfo);
+        game.addChat(chat);
     }
 
 
     //returns true if all
+    /*
+     *
+     */
     public boolean discardDestinationCards(Player p, List<DestinationCard> discards) throws CommandFailed
     {
         int number = discards.size();
-        try
+        ServerGame game = model.getGame(p);
+        ServerPlayer player = game.getPlayer(p);
+        if(  game.discardDestinationCards(player, discards))
         {
-            int allowed = df.getPlayerDiscards(p);
-            if(number <= allowed)
-            {
-                df.discardDestinationCard(p, discards);
+            GameState gs = game.getGameState();
+            String turn = gs.getTurn();
 
-
-                String id = p.getGameId();
-                GameInfo gi = df.getGameInfo(id);
-                GameState gs = df.getGameState(gi);
-                String turn = gs.getTurn();
-
-                //update the game state after discarding
-                if(turn == null ){  //if before game starts
-                    df.updatePreGameState(gi);
-                }else{  //else during a normal turn
-                    GameState newState = new GameState(getNextPlayer(p), NO_ACTION_TAKEN);
-                    df.setGameState(newState, gi);
-                }
-
-                return true;
+            //update the game state after discarding
+            if(turn == null ){  //if before game starts
+                game.updatePreGameState(player);
+            }else{  //else during a normal turn
+                GameState newState = new GameState(getNextPlayer(p), NO_ACTION_TAKEN);
+                game.setGameState(newState);
             }
-            else
-            {
-                throw new CommandFailed("discardDestinationCards", "you can only discard up to " + allowed + " cards.");
-            }
+
+            return true;
         }
-        catch (DatabaseException e)
-        {
-            //do nothing
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -102,9 +104,10 @@ public class GameService
      */
     public TrainCard drawVisible(Player p, int i) throws DatabaseException, StateException
     {
-        GameInfo info = df.getGameInfo(p.getGameId());
-        GameState gs = df.getGameState(info);
-        boolean isRainbow = df.getVisible(p,i).getColor().equals(RAINBOW);
+        GameInfo info = model.getMyGame(p);
+        ServerGame game = model.getGame(info);
+        GameState gs = game.getGameState();
+        boolean isRainbow = game.getVisibleCards().get(i).getColor().equals(RAINBOW);
         //ugly ifs to test for legality
         if(!gs.getTurn().equals(p.getName())){
             throw new StateException("draw visible card",gs.getTurn() + "'s turn");
@@ -116,87 +119,50 @@ public class GameService
             throw new StateException("draw rainbow card",gs.getState().name());
         }
 
-        TrainCard card = df.drawVisible(p,i);
+        ServerPlayer real = game.getPlayer(p);
+        TrainCard card = game.drawVisible(real,i);
 
         //determine the next state
         if(isRainbow || gs.getState().equals(DRAWN_ONE)){
             GameState newGameState = new GameState(getNextPlayer(p), NO_ACTION_TAKEN);
-            df.setGameState(newGameState, info);
+            game.setGameState(newGameState);
         }else{
             GameState newGameState = new GameState(gs.getTurn(), DRAWN_ONE);
-            df.setGameState(newGameState, info);
+            game.setGameState(newGameState);
         }
 
         return card;
     }
 
-    public boolean checkVisibleForReset(GameInfo info) throws DatabaseException, ShuffleException {
-        TrainCard[] visible = df.getVisible(info);
-        int maxRainbowCount = 2; //if there are three or more, I have to get new visible cards
 
-        int rainbowCount = 0;
-        for(TrainCard card : visible) {
-            if(card.getColor().equals(RAINBOW)) {
-                rainbowCount += 1;
+    private String getNextPlayer(Player p)
+    {
+        ServerGame game = model.getGame(p);
+        boolean useNext = false;
+        for(ServerPlayer player: game.getPlayers())
+        {
+            if(useNext)
+            {
+                return player.getName();
+            }
+            if(p.equals(player))
+            {
+                useNext = true;
             }
         }
-
-        if(rainbowCount > maxRainbowCount) {
-            //check if I have to shuffle
-            int deckSize = df.getTrainDeckSize(info);
-            if(deckSize < visible.length) {
-                throw new ShuffleException();
-            } else {
-                df.resetVisible(info);
-                return true;
-            }
-        }
-        return false;
+        return game.getPlayers().get(0).getName();
     }
 
-    public void updateGameState(Player p) throws DatabaseException {
-        GameState gameState = df.getGameState(df.getGameInfo(p.getGameId()));
-
-        switch (gameState.getState()) {
-            case READY_FOR_GAME_START:
-                GameState newGameState = new GameState(getNextPlayer(p), NO_ACTION_TAKEN);
-                df.setGameState(newGameState,df.getGameInfo(p.getGameId()));
-                break;
+    public List<DestinationCard> drawDestinationCards(Player p) throws StateException, DatabaseException
+    {
+        ServerGame game = model.getGame(p);
+        ServerPlayer player =game.getPlayer(p);
+        if(!game.myTurn(player)|| !game.getGameState().getState().equals(NO_ACTION_TAKEN)){
+            throw new StateException("draw destination cards", game.getGameState().getTurn());
         }
-        // TODO: add more cases to be able to change states and switch turns
-        return;
-    }
-
-    private String getNextPlayer(Player p) {
-        List<Player> players;
-        try {
-            GameInfo info = df.getGameInfo(p.getGameId());
-            players = df.getGame(info).getPlayers();
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
-        Collections.sort(players);
-        int i = players.indexOf(p);
-        i += 1;
-        if (i == players.size())
-            i = 0;
-        return players.get(i).getName();
-    }
-
-    public List<DestinationCard> drawDestinationCards(Player p) throws StateException, DatabaseException {
-        if(!p.getName().equals(df.getGameState(df.getGameInfo(p.getGameId())).getTurn()) || !df.getGameState(df.getGameInfo(p.getGameId())).getState().equals(NO_ACTION_TAKEN)){
-            throw new StateException("draw destination cards", df.getGameState(df.getGameInfo(p.getGameId())).getState().name());
-        }
-        GameInfo gi = df.getGameInfo(p.getGameId());
-        int drawnumber = 3;
-        if(df.getDestinationDeckSize(gi) < drawnumber) {
-            System.out.println("throwing a shuffle exception!!!");
-            throw new ShuffleException();
-        }
-
-        List<DestinationCard> dlist = df.drawDestinationCards(p,2) ;
-        GameState newGameState = new GameState(df.getGameState(df.getGameInfo(p.getGameId())).getTurn(), GameState.State.DRAWN_DEST);
-        df.setGameState(newGameState,df.getGameInfo(p.getGameId()));
+        List<DestinationCard> dlist = game.drawDestinationCards(player,2) ;
+        GameState newGameState = new GameState(game.getGameState().getTurn(), GameState.State.DRAWN_DEST);
+        game.setGameState(newGameState);
         return dlist;
     }
 
@@ -204,33 +170,43 @@ public class GameService
         EndGameResult gameResult = new EndGameResult();
 
         String id = p.getGameId();
-        try {
-            GameInfo gi = df.getGameInfo(id);
-            GameState gs = df.getGameState(gi);
+        ServerGame game = model.getGame(p);
 
-            // the state should have already changed to the next player's turn by this point
-            int trainCount = df.getPlayer(gs.getTurn()).getTrainCount();
-            if (df.getPlayer(gs.getTurn()).getTrainCount() < 3) {
-                return gameResult = endGame(gi);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e.getClass() + ":" + e.getCause().toString());
+        GameState gs = game.getGameState();
+
+        // the state should have already changed to the next player's turn by this point
+        int trainCount = game.getPlayer(gs.getTurn()).getTrainCount();
+        System.out.println(trainCount);
+        if (trainCount < 3) {
+            return gameResult = endGame(game);
         }
+
         return null;
     }
 
-    private EndGameResult endGame(GameInfo gameInfo) {
+    private EndGameResult endGame(ServerGame game)
+    {
         EndGameResult gameResult = new EndGameResult();
-        try {
+        try
+        {
+            HashMap<String, PlayerScore> scores = new HashMap<>();
+            HashMap<String, Integer> longestRoute = new HashMap<>();
+            //initialize score map.
 
-            for (Player player : df.getPlayersInGame(gameInfo)) {
-                PlayerScore score = new PlayerScore(player.name);
+            for (ServerPlayer player : game.getPlayers())
+            {
+                scores.put(player.getName(), new PlayerScore(player.getName()));
+            }
+            //set the gameResult Scores.
+            gameResult.setPlayerScores(new LinkedList<>(scores.values()));
 
-                score = setDestinationCardPoints(player, score);
+            LongestRouteCalculator LRC = new LongestRouteCalculator(game.getMap().getCities());
+            for (ServerPlayer player : game.getPlayers())
+            {
+                PlayerScore score = scores.get(player.name);
+                setDestinationCardPoints(player, score, game.getMap().getRoutes());
                 score.setRoutePoints(calculateRoutePoints(player));
-                score.setLongestRouteScore(calculateLongestRoute(player));
-
-                gameResult.addScore(score);
+                score.setLongestRouteScore(LRC.getLongestRoute(player));
             }
 
             // addBonusPoints must be called after setLongestRoute is run for every player
@@ -244,14 +220,16 @@ public class GameService
         return gameResult;
     }
 
-    private PlayerScore setDestinationCardPoints(Player p, PlayerScore score) {
-        try {
-            List<DestinationCard> cards = df.getDestinationHand(p);
+    private PlayerScore setDestinationCardPoints(ServerPlayer p, PlayerScore score, Collection<Route> routes) {
+        try
+        {
+            List<DestinationCard> cards = p.getDestCardHand().getDestinationCards();
 
             int reachedPoints = 0;
             int unreachedPoints = 0;
-            for (DestinationCard card : cards) {
-                RouteCalculator rCalc = new RouteCalculator(p.getRoutes());
+            for (DestinationCard card : cards)
+            {
+                RouteCalculator rCalc = new RouteCalculator(routes);
                 boolean destinationReached = rCalc.checkDestinationReached(p,card);
                 if (destinationReached)
                     reachedPoints += card.getPoints();
@@ -267,90 +245,79 @@ public class GameService
         return score;
     }
 
-    private int calculateRoutePoints(Player player) {
+    private int calculateRoutePoints(Player player)
+    {
+        ServerGame game = model.getGame(player);
         int points = 0;
-        for (Route route : player.getRoutes())
-            points += route.getRouteValue();
+        for ( Route route : game.getMap().getRoutes() )
+            if(player.equals(route.getOwner())) points += route.getRouteValue();
 
         return points;
     }
 
-    private int calculateLongestRoute(Player p) {
-        RouteCalculator rCalc = new RouteCalculator(p.getRoutes());
-        return rCalc.getLongestRouteLength(p.getRoutes());
-    }
-
-    public TrainCard drawTrainCard(Player p) throws Exception {
-        GameState gameState = df.getGameState(df.getGameInfo(p.getGameId()));
-        if (!p.getName().equals(gameState.getTurn())) {
+    public TrainCard drawTrainCard(Player p) throws Exception
+    {
+        ServerGame game = model.getGame(p);
+        ServerPlayer player = game.getPlayer(p);
+        GameState gameState =game.getGameState();
+        if (!game.myTurn(player))
+        {
             throw new Exception("cannot draw train card if not your turn");
         }
         GameState.State state = gameState.getState();
-        if (!state.equals(NO_ACTION_TAKEN) && !state.equals(DRAWN_ONE)) {
+        if (!state.equals(NO_ACTION_TAKEN) && !state.equals(DRAWN_ONE))
+        {
             throw new Exception("cannot draw train card");
         }
-        GameInfo gi = df.getGameInfo(p.getGameId());
-        if (df.getDestinationDeckSize(gi) < 1) {
-            System.out.println("throwing a shuffle exception!!!");
-            throw new ShuffleException();
-        }
 
-        TrainCard card = df.drawTrainCard(p);
+        TrainCard card = game.drawTrainCard(player);
 
         //changing states
         GameState newGameState;
-        if (state == NO_ACTION_TAKEN) {
+        if (state == NO_ACTION_TAKEN)
+        {
             newGameState = new GameState(gameState.getTurn(), DRAWN_ONE);
         } else {
             newGameState = new GameState(getNextPlayer(p), NO_ACTION_TAKEN);
         }
 
-        df.setGameState(newGameState, df.getGameInfo(p.getGameId()));
+        game.setGameState(newGameState);
         return card;
     }
 
 
     /**
-     *
+     * Done for refactor.
      * @param p
      * @param r
      * @param cards
      * @return
      */
-    public boolean claim(Player p, Route r, List<TrainCard> cards) throws DatabaseException {
-        if(!p.getName().equals(df.getGameState(df.getGameInfo(p.getGameId())).getTurn()) || !df.getGameState(df.getGameInfo(p.getGameId())).getState().equals(NO_ACTION_TAKEN)){
-            throw new StateException("claim routs", df.getGameState(df.getGameInfo(p.getGameId())).getState().name());
-        }
-        try
+    public boolean claim(Player p, Route r, List<TrainCard> cards) throws DatabaseException
+    {
+        ServerGame game = model.getGame(model.getMyGame(p));
+        if(!p.getName().equals(game.getGameState().getTurn()) || !game.getGameState().getState().equals(NO_ACTION_TAKEN))
         {
-
-            IDatabaseFacade df = Factory.createDatabaseFacade();
-            TrainCardHand hand = df.getTrainHandAsHand(p);
-            boolean has = hand.contains(cards);
-            if (has)
+            throw new StateException("claim routes", game.getGameState().getTurn());
+        }
+        ServerPlayer player = game.getPlayer(p);
+        Route real = game.getMap().getRouteByName(r.toString());
+        boolean claimed = player.getTrainCardHand().contains(cards);
+        if(claimed && real.getOwner() == null)
+        {
+            for(TrainCard card: cards)
             {
-                //check if the route is claimed
-                Route actual = df.getRoute(r);
-                if (df.getRoute(r).getOwner() == null)
-                {
-
-                    //TODO the actual claim in the sql
-
-                    df.decrementTrainCars(p,cards.size());
-                    df.claimRoute(r,p);
-                } else
-                {
-                    has = false;
-                }
+               game.discardTrainCard(player, card);
             }
-
-            GameState newGameState = new GameState(getNextPlayer(p),NO_ACTION_TAKEN);
-            df.setGameState(newGameState,df.getGameInfo(p.getGameId()));
-            return has;
+            real.setOwner(player);
+            player.setTrainCount(player.getTrainCount() - real.getDistance());
+            game.getGameState().setState(NO_ACTION_TAKEN);
+            game.getGameState().setTurn(getNextPlayer(p));
         }
-        catch(DatabaseException e)
+        else
         {
-            return false;
+            claimed = false;
         }
+        return claimed;
     }
 }

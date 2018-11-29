@@ -36,6 +36,12 @@ public class TrainCard implements Serializable, Comparable
         return Objects.equals(_id, card._id);
     }
 
+    @Override
+    public int hashCode()
+    {
+        return _id.hashCode();
+    }
+
     public String getColorAsString() {
 
         return String.valueOf(_color);

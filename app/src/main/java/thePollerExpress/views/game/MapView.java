@@ -88,14 +88,15 @@ public class MapView extends Fragment implements IMapView, IPollerExpressView
         Route chosen = null;
         //displayError(String.valueOf(vScroll.getScrollY()));
 
+        float x = map.x - vScroll.getX();//+ hScroll.getScrollX()
+        float y = map.y + vScroll.getScrollY() - vScroll.getY();
+        displayError(String.format("%f,%f", x,y));
         for(Route r : myMap.getRoutes())
         {
             //find the distance
             AnchorPoints pts = new AnchorPoints(r);
-            float x = map.x - vScroll.getX();//+ hScroll.getScrollX()
-            float y = map.y + vScroll.getScrollY() - vScroll.getY();
             float distance = pts.aprox(x, y);
-            displayError(String.format("%f,%f", x,y));
+
             //Log.d("drawView Click", String.format("%d, %d", hScroll.getScrollX(), vScroll.getScrollY()));
             //Log.d("drawViewListener",String.format("distance = %f, p(%f, %f)%s, %s", distance, x, y, pts.toString(), r.toString()) );
             if(distance < min_distance)

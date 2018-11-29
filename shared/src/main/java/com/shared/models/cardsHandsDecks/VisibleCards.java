@@ -28,11 +28,20 @@ public class VisibleCards extends Observable implements Serializable
         }
     }
 
+    public void set(int index, TrainCard card)
+    {
+        this.cards[index] = card;
+    }
+
     public TrainCard get(int i)
     {
         return cards[i];
     }
 
+    public TrainCard[] asArray()
+    {
+        return cards;
+    }
     public void updateObservables() {
         synchronized (this)
         {

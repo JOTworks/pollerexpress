@@ -1,21 +1,18 @@
 package com.thePollerServer.services;
 
 import com.shared.exceptions.database.DatabaseException;
-import pollerexpress.database.IDatabaseFacade;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.models.requests.LoginRequest;
 import com.shared.models.reponses.LoginResponse;
 import com.shared.models.User;
-import com.thePollerServer.utilities.Factory;
-
-import pollerexpress.database.DatabaseFacade;
+import com.thePollerServer.Model.ServerData;
 
 public class LoginService
 {
+    private ServerData model = ServerData.instance();
     public LoginResponse login(LoginRequest lr)
     {
-        IDatabaseFacade df = Factory.createDatabaseFacade();
-        return df.login(new User(lr.username, lr.password));
+        return model.login(new User(lr.username, lr.password));
     }
 
     public LoginResponse register(LoginRequest lr)
@@ -25,15 +22,14 @@ public class LoginService
 
         //Jack is working right here
         //IDatabaseFacade df = Factory.createDatabaseFacade();
-        DatabaseFacade df = new DatabaseFacade();
-        try{
-            User user = new User(lr.username, lr.password);
-            df.register(user);
-            return df.login(user);
-        }
-        catch(DatabaseException e)
+
+        User user = new User(lr.username, lr.password);
+        if(model.addUser(user))
         {
-            return new LoginResponse(null, null, new ErrorResponse(String.format("%s is already used", lr.username), null, null));
+            return model.login(user);
         }
+
+        return new LoginResponse(null, null, new ErrorResponse(String.format("%s is already used", lr.username), null, null));
+
     }
 }

@@ -4,6 +4,7 @@ import com.shared.models.City;
 import com.shared.models.Player;
 import com.shared.models.Route;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.Set;
 public class LongestRouteCalculator
 {
     private List<City> cities;
-    public LongestRouteCalculator(List<City> cities)
+    public LongestRouteCalculator(Collection<City> cities)
     {
         this.cities = new LinkedList<>(cities);
     }

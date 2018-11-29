@@ -5,6 +5,7 @@ import android.util.Log;
 import com.shared.models.EndGameResult;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
+import com.shared.models.User;
 import com.shared.models.interfaces.ISetupService;
 import com.shared.models.Player;
 import com.shared.models.states.GameState;
@@ -65,10 +66,16 @@ class ClientSetupService implements ISetupService {
             List<Player> players = game.getPlayers();
             for(int i = 0; i < players.size(); ++i)
             {
+                Player p = players.get(i);
                 if(players.get(i).equals(CD.getUser()))
                 {
+
                     players.set(i, CD.getUser());
+                    User user = CD.getUser();
+                    user.setTrainCount(p.getTrainCount());
+                    user.setColor(p.getColor());
                 }
+                players.get(i).setTrainCount(p.getTrainCount());
             }
             return true;
         }
