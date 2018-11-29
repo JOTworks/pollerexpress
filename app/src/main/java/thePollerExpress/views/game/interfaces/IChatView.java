@@ -10,7 +10,6 @@ import thePollerExpress.views.IPollerExpressView;
 
 public interface IChatView extends IPollerExpressView
 {
-
     public void displayError(String message);
     public void changeToDevView();
     public void displayChats(String message);

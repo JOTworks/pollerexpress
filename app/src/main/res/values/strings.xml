@@ -16,6 +16,7 @@
     <string name="color_option_black_text">red</string>
     <string name="card_width">"100dp"</string>
     <string name="card_height">60dp</string>
+    <string name="find_new_game_button_text">Find a New Game</string>
     <string-array name="num_players_spinner_array">
         <!--todo:
         added 1 for testing perpusus, we need to take it out before we passoff-->

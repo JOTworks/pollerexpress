@@ -15,7 +15,8 @@ public class Route extends Observable implements Serializable
 
     public int rotation;//used for double routes.
 
-    public Route(String id, City city1, City city2, int distance, Player owner, Color.TRAIN color, int rotation) {
+    public Route(String id, City city1, City city2, int distance, Player owner, Color.TRAIN color, int rotation)
+    {
         this.id = id;
         cities = new ArrayList<>();
         cities.add(city1);
@@ -37,8 +38,17 @@ public class Route extends Observable implements Serializable
     {
         this.rotation = 0;
         cities = new ArrayList<>();
-        cities.add (dest);
-        cities.add(target);
+        if(dest.getName().compareTo(target.getName()) < 0)
+        {
+
+            cities.add (dest);
+            cities.add(target);
+        }
+        else
+        {
+            cities.add(target);
+            cities.add (dest);
+        }
         this.distance = distance;
         dest.addRoute(this);
         target.addRoute(this);
@@ -101,7 +111,7 @@ public class Route extends Observable implements Serializable
     @Override
     public String toString()
     {
-        return "Path" +cities.toString();
+        return "Path" +cities.toString() + String.valueOf(rotation);
     }
 
     /**
@@ -171,7 +181,10 @@ public class Route extends Observable implements Serializable
         if (this == o) return true;
         if (!(o instanceof Route)) return false;
         Route route = (Route) o;
-
+        if( this.rotation != route.rotation )
+        {
+            return false;
+        }
         if(this.cities.get(0).equals(route.cities.get(0)))
         {
             return this.cities.get(1).equals(route.cities.get(1));
@@ -185,6 +198,6 @@ public class Route extends Observable implements Serializable
     @Override
     public int hashCode()
     {
-        return (cities.get(0)).hashCode() + cities.get(1).hashCode() + rotation;
+        return toString().hashCode();
     }
 }

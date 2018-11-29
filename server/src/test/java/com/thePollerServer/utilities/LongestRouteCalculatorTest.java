@@ -4,19 +4,18 @@ import com.shared.models.City;
 import com.shared.models.Player;
 import com.shared.models.Point;
 import com.shared.models.Route;
-import com.shared.models.cardsHandsDecks.DestinationCard;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
-public class Test_RouteCalculator {
+public class LongestRouteCalculatorTest
+{
 
-    List<Route> routes;
+    List<City> cities;
     City Jacktown = new City("Jacktown", new Point(1,1));
     City Natetown = new City("Natetown", new Point(1,1));
     City Morgantown = new City("Morgantown", new Point(1,1));
@@ -35,40 +34,30 @@ public class Test_RouteCalculator {
     Route route6 = new Route(Santatown, Elftown, 3);
     Route route7 = new Route(Jacktown, Elftown, 2);
     Player p = new Player("torsten");
-    public Test_RouteCalculator() {
+    public LongestRouteCalculatorTest() {
 
-        routes = new ArrayList<>();
+        cities = new ArrayList<>();
         route1.setOwner(p);
         route2.setOwner(p);
         route3.setOwner(p);
         route4.setOwner(p);
         route5.setOwner(p);
         route7.setOwner(p);
-        routes.add(route1);
-        routes.add(route2);
-        routes.add(route3);
-        routes.add(route4);
-        routes.add(route5);
-        routes.add(route6);
-        routes.add(route7);
+        cities.add(Jacktown);
+        cities.add(Natetown);
+        cities.add(Morgantown);
+        cities.add(Torstentown);
+        cities.add(Santatown);
+        cities.add(Abbytown);
+        cities.add(Rodhamtown);
+        cities.add(Elftown);
 
     }
-
     @Test
-    public void findConnectedRoutes_canFindRoutes() {
-        RouteCalculator routeCalculator = new RouteCalculator(routes);
-        assertTrue(routeCalculator.checkDestinationReached(p, new DestinationCard(Jacktown, Rodhamtown, 5)));
-    }
+    public void getLongestRoute()
+    {
+        LongestRouteCalculator calc = new LongestRouteCalculator(cities);
+        assertEquals(14, calc.getLongestRoute(p));
 
-    @Test
-    public void findConnectedRoutes_canFindRouteForAdjacentCity() {
-        RouteCalculator routeCalculator = new RouteCalculator(routes);
-        assertTrue(routeCalculator.checkDestinationReached(p, new DestinationCard(Jacktown, Natetown, 5)));
-    }
-
-    @Test
-    public void findConnectedRoutes_cannotFindNonConnectedRoutes() {
-        RouteCalculator routeCalculator = new RouteCalculator(routes);
-        assertFalse(routeCalculator.checkDestinationReached(p, new DestinationCard(Jacktown, Santatown, 5)));
     }
 }

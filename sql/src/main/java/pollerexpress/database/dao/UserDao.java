@@ -45,17 +45,21 @@ public class UserDao {
         write(u.name, u.password);
     }
 
+    private String READ = "select USER_NAME, PASSWORD, GAME_ID, POINTS, TRAIN_CARS \nfrom USERS \nwhere USER_NAME = ?";
     public User read(String name) throws DataNotFoundException
     {
         try
         {
-            PreparedStatement stmnt = this._db.getConnection().prepareStatement("select USER_NAME, PASSWORD, GAME_ID \nfrom USERS \nwhere USER_NAME = ?");
+            PreparedStatement stmnt = this._db.getConnection().prepareStatement(READ);
             stmnt.setString(1, name);
             ResultSet rs = stmnt.executeQuery();
             //TODO get DESTINATIONHAND
 
             if (rs.next()) {
-                return new User(rs.getString("USER_NAME"), rs.getString("PASSWORD"), rs.getString("GAME_ID"));
+                User u =new User(rs.getString("USER_NAME"), rs.getString("PASSWORD"), rs.getString("GAME_ID"));
+                u.setTrainCount(rs.getInt("TRAIN_CARS"));
+                u.setPoints(rs.getInt("POINTS"));
+                return u;
             } else {
                 throw new DataNotFoundException(name, "USERS");
             }

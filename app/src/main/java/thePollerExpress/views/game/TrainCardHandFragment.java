@@ -63,19 +63,9 @@ public class TrainCardHandFragment extends Fragment implements ITrainCardHandVie
         return v;
     }
 
-    /**
-     * updates the recycler view
-     */
-    public void displayHand() {
-
-        /*This line of code takes the place of making a new adapter.
-        * This is much more efficient than making a new adapter since
-        * every time the recycler view needs to be updated.*/
-        mAdapter.notifyDataSetChanged();
-    }
-
     private Drawable getFromCard(TrainCard card) {
         switch (card.getColor()) {
+
             case RED:
                 return getResources().getDrawable(R.drawable.red_train_card);
             case BLUE:
@@ -97,6 +87,19 @@ public class TrainCardHandFragment extends Fragment implements ITrainCardHandVie
         }
         return null;//TODO replace with blank
     }
+
+    /**
+     * updates the recycler view
+     */
+    public void displayHand() {
+
+        /*This line of code takes the place of making a new adapter.
+        * This is much more efficient than making a new adapter since
+        * every time the recycler view needs to be updated.*/
+        mAdapter.notifyDataSetChanged();
+    }
+
+
 
     @Override
     public void displayError(String errorMessage) {
