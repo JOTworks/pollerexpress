@@ -115,7 +115,7 @@ public class CommandFacade
         setColor(user, user.getColor());
 
         Game game = df.getGame(info);
-
+        df.setupPlayers(info);
         setGameState(user);
 
         //------------------------------add command portion-----------------------------------------
