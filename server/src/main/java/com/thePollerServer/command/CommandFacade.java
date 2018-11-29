@@ -94,8 +94,6 @@ public class CommandFacade
             Command command = new Command(CommandsExtensions.clientSide + "ClientGameService", "claimRoute", types, params);
             CM.addCommand(command, info);
         }
-
-        initiateEndgameIfEnd(p);
         setGameState(p);
 
     }
@@ -250,7 +248,7 @@ public class CommandFacade
 //            System.out.println(card);
 //        }
 //
-//        initiateEndgameIfEnd(p);
+//
 //
 //        setGameState(p);
 //    }
@@ -295,7 +293,6 @@ public class CommandFacade
         }
 
         setGameState(p);
-        //initiateEndgameIfEnd(p);
 
     }
 
@@ -342,8 +339,6 @@ public class CommandFacade
             Command command = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawVisibleCard", types, params);
             CM.addCommand(command, info);
         }
-        initiateEndgameIfEnd(p);
-
 
         //------------------------check if there are three or more rainbows-------------------------
         boolean reset;
@@ -386,6 +381,23 @@ public class CommandFacade
             Command cmd = new Command(CommandsExtensions.clientSide + "ClientGameService", "setGameState", types, params);
             CM.addCommand(cmd, df.getGameInfo(df.getPlayer(p.name).gameId));
         }
+
+        //check end of game
+        GameInfo info = df.getGameInfo(p.getGameId());
+        GameService gm = new GameService();
+        // set a default value to check against later
+        EndGameResult gameResult = null;
+        if (df.getGameState(info).getState() == NO_ACTION_TAKEN)
+            gameResult = gm.checkForEndGame(p);
+        //------------------------------add command portion-----------------------------------------
+        if (gameResult != null) {
+            Class<?>[] types = {EndGameResult.class};
+            Object[] params = {gameResult};
+            Command endGameCommand = new Command(CommandsExtensions.clientSide + "ClientGameService", "endGame", types, params);
+            CM.addCommand(endGameCommand, info);
+        }
+
+
     }
 
     public static void drawTrainCards(Player p, int number) throws CommandFailed, DatabaseException
@@ -439,9 +451,6 @@ public class CommandFacade
         if(card == null) {
             throw new CommandFailed("drawTrainCard", "no card to draw");
         }
-
-        // if we successfully draw a card and the state is NO_ACTION_TAKEN then we check for endgame
-        initiateEndgameIfEnd(p);
 
         System.out.println("I am trying to actually tell people what. card. to draw.");
 
