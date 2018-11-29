@@ -69,16 +69,16 @@
             android:padding="5dp"
             android:layout_alignParentTop="true" />
 
-    <Button
-        android:id="@+id/find_new_game_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="40dp"
-        android:text="@string/find_new_game_button_text"
-        android:background="@color/PollerWhite"
-        android:padding="6dp"
-        android:layout_gravity="center"
-        />
+    <!--<Button-->
+        <!--android:id="@+id/find_new_game_button"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="40dp"-->
+        <!--android:text="@string/find_new_game_button_text"-->
+        <!--android:background="@color/PollerWhite"-->
+        <!--android:padding="6dp"-->
+        <!--android:layout_gravity="center"-->
+        <!--/>-->
 
 </LinearLayout>
 

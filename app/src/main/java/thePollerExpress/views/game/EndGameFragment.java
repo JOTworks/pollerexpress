@@ -33,7 +33,7 @@ public class EndGameFragment extends Fragment implements IEndGameView {
 
     TextView winnerName;
     RecyclerView recyclerView;
-    Button findNewGame;
+//    Button findNewGame;
     IEndGamePresenter presenter;
     EndGameResult endGameResult;
     RecyclerView.LayoutManager layoutManager;
@@ -59,13 +59,13 @@ public class EndGameFragment extends Fragment implements IEndGameView {
         winnerName = v.findViewById(R.id.winner);
         winnerName.setText("Insert The Winner's Name");
 
-        findNewGame = v.findViewById(R.id.find_new_game_button);
-        findNewGame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.findNewGame();
-            }
-        });
+//        findNewGame = v.findViewById(R.id.find_new_game_button);
+//        findNewGame.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                presenter.findNewGame();
+//            }
+//        });
 
         recyclerView = v.findViewById(R.id.end_game_recycler_view);
         recyclerView.setHasFixedSize(true);
