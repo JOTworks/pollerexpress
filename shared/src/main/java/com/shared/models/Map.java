@@ -118,9 +118,9 @@ public class Map implements Serializable
         new Route(Cities[Santas],Cities[Atlantis], 3,-15, Color.TRAIN.RED); //Santa's workshop
         new Route(Cities[Santas],Cities[Atlantis], 3,15, Color.TRAIN.GREEN);
         new Route(Cities[Santas],Cities[Weather], 6,-35, Color.TRAIN.GREEN);
-        new Route(Cities[Santas],Cities[Weather], 6,-5, Color.TRAIN.RED);
-        new Route(Cities[Santas],Cities[Alert], 5,-10, Color.TRAIN.RED);
-        new Route(Cities[Santas],Cities[Alert], 5,10, Color.TRAIN.GREEN);
+        new Route(Cities[Santas],Cities[Weather], 6,5, Color.TRAIN.RED);
+        new Route(Cities[Santas],Cities[Alert], 4,-10, Color.TRAIN.RED);
+        new Route(Cities[Santas],Cities[Alert], 4,10, Color.TRAIN.GREEN);
 
         new Route(Cities[Atlantis],Cities[Reykjavik], 4,0, Color.TRAIN.RAINBOW); // Atlantis
         new Route(Cities[Atlantis],Cities[Elsas], 3,10, Color.TRAIN.RAINBOW); // Atlantis
@@ -142,7 +142,7 @@ public class Map implements Serializable
         new Route(Cities[Rudolphford],Cities[Alert], 3,-15, Color.TRAIN.RAINBOW);
 
         new Route(Cities[Dasherbury],Cities[Alert], 2,0, Color.TRAIN.PURPLE); //Dasherbury
-        new Route(Cities[Dasherbury],Cities[Alpine], 3,-5, Color.TRAIN.BLACK);
+        new Route(Cities[Dasherbury],Cities[Alpine], 3,5, Color.TRAIN.BLACK);
 
         new Route(Cities[Alpine],Cities[Isachsen], 2,0, Color.TRAIN.GREEN); //Alpine
         new Route(Cities[Alpine],Cities[Anchorage], 2,0, Color.TRAIN.RAINBOW);

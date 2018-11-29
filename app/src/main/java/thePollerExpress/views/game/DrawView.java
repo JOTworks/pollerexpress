@@ -89,7 +89,7 @@ public class DrawView extends android.support.v7.widget.AppCompatImageView
         innerPaint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(x,y,15, innerPaint);
 
-        float textSize = 35;
+        float textSize = 40;
         float cityNameOffsetX = 30;
         float cityNameOffsetY = 0;
         {
