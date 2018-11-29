@@ -151,6 +151,8 @@ public class Map implements Serializable
         }
     }
 
+    public static Map getDefaultMap(){ return DEFAULT_MAP; }
+
     //End of default map creator
 
     HashMap<String, City> cities;
