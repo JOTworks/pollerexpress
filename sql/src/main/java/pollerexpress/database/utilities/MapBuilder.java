@@ -25,8 +25,13 @@ public class MapBuilder {
         rDao = _db.getRouteDao();
     }
 
+    public Map getMap() {
+        return map;
+    }
+
     public void makeGameRoutes(GameInfo gi) throws DatabaseException {
         for(Route r : map.getRoutes()) {
+            System.out.println(r);
             rDao.insertRoute(r, gi);
         }
     }

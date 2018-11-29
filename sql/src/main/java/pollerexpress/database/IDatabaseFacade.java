@@ -126,6 +126,8 @@ public interface IDatabaseFacade
      */
     TrainCardHand getTrainHandAsHand(Player p) throws DatabaseException;
 
+    void makeRoutes(GameInfo gi) throws DatabaseException;
+
     Route getRoute(Route r) throws DatabaseException;
 
     Route getGameRoute(Route r, GameInfo gi) throws DatabaseException;

@@ -761,6 +761,20 @@ public class DatabaseFacade implements IDatabaseFacade
     }
 
     @Override
+    public void makeRoutes(GameInfo gi) throws DatabaseException {
+        try
+        {
+            db.open();
+            new MapBuilder(db).makeGameRoutes(gi);
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()){db.close(false);}
+        }
+    }
+
+    @Override
     public Route getRoute(Route r) throws DatabaseException
     {
         try
