@@ -41,7 +41,7 @@ public class RouteDao {
         }
     }
 
-    public void claimRoute(Player p, Route r) throws DatabaseException {
+    public void claimRoute(Route r, Player p) throws DatabaseException {
         try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(UPDATE_ROUTE);
             stmnt.setString( 1, p.getName() );

@@ -261,7 +261,7 @@ public class Map implements Serializable
      * @param routeId
      * @return
      */
-    public Route getRouteByName(String routeId)
+    public Route getRouteById(String routeId)
     {
         return routes.get(routeId);
     }

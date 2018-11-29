@@ -24,6 +24,7 @@ import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.states.GameState;
 
 import pollerexpress.database.utilities.DeckBuilder;
+import pollerexpress.database.utilities.MapBuilder;
 
 import static com.shared.models.states.GameState.State.NO_ACTION_TAKEN;
 import static com.shared.models.states.GameState.State.READY_FOR_GAME_START;
@@ -762,12 +763,44 @@ public class DatabaseFacade implements IDatabaseFacade
     @Override
     public Route getRoute(Route r) throws DatabaseException
     {
-        return r;//TODO load from r;
+        try
+        {
+            db.open();
+            Route route = new MapBuilder(db).getRoute(r.getId());
+            return route;
+        }
+        finally
+        {
+            db.close(false);
+        }
+    }
+
+    @Override
+    public Route getGameRoute(Route r, GameInfo gi) throws DatabaseException {
+        try
+        {
+            db.open();
+            Route route = new MapBuilder(db).getGameRoute(r.getId(), gi);
+            return route;
+        }
+        finally
+        {
+            db.close(false);
+        }
     }
 
     @Override
     public void claimRoute(Route r, Player p) throws DatabaseException
     {
-        //pretend to claim.
+        try
+        {
+            db.open();
+            db.getRouteDao().claimRoute(r, p);
+            db.close(true);
+        }
+        finally
+        {
+            if(db.isOpen()){db.close(false);}
+        }
     }
 }
