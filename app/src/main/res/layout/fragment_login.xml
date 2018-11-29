@@ -6,10 +6,8 @@
     android:layout_height="match_parent"
     android:gravity="center"
     tools:context="thePollerExpress.views.MainActivity"
+    android:background="@color/PollerBackground"
     android:orientation="vertical">
-
-
-
 
 
         <LinearLayout
@@ -20,11 +18,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/PollerTheme"
                 android:text="User Name: "
                 android:gravity="right"/>
             <EditText android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/PollerTheme"
                 android:text="jackson"
                 android:inputType="text" />
         </LinearLayout>
@@ -32,17 +32,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/PollerTheme"
             android:orientation="horizontal"
             android:gravity="center">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/PollerTheme"
                 android:text="Password: "
 
                 android:gravity="right"/>
             <EditText android:id="@+id/password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/PollerTheme"
                 android:text="password"
                 android:inputType="textPassword" />
         </LinearLayout>
@@ -50,17 +53,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/PollerTheme"
         android:orientation="horizontal"
         android:gravity="center">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/PollerTheme"
             android:text="Confirm: "
 
             android:gravity="right"/>
         <EditText android:id="@+id/confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/PollerTheme"
             android:text="password"
             android:inputType="textPassword" />
     </LinearLayout>
@@ -68,17 +74,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/PollerTheme"
         android:orientation="horizontal"
         android:gravity="center">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/PollerTheme"
             android:text="IP: "
 
             android:gravity="right"/>
         <EditText android:id="@+id/ip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/PollerTheme"
             android:text="10.0.2.2"
             />
     </LinearLayout>
@@ -87,17 +96,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/PollerTheme"
         android:orientation="horizontal"
         android:gravity="center">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/PollerTheme"
             android:text="port: "
 
             android:gravity="right"/>
         <EditText android:id="@+id/port"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/PollerTheme"
             android:text="8080"
             />
     </LinearLayout>
