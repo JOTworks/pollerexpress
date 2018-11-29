@@ -111,7 +111,6 @@ public class Map implements Serializable
 
         new Route(Cities[10],Cities[9], 2,0, Color.TRAIN.RAINBOW); //Nord
         new Route(Cities[10],Cities[22], 2,0, Color.TRAIN.GREEN);
-        new Route(Cities[10],Cities[12], 3,0, Color.TRAIN.YELLOW);
 
         new Route(Cities[12],Cities[13], 2,0, Color.TRAIN.YELLOW);
 //
