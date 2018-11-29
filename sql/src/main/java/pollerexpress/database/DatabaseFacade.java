@@ -811,6 +811,19 @@ public class DatabaseFacade implements IDatabaseFacade
     }
 
     @Override
+    public List<Route> getPlayerRoutes(Player p) throws DatabaseException {
+        try
+        {
+            db.open();
+            return new MapBuilder(db).getPlayerRoutes(p);
+        }
+        finally
+        {
+            db.close(false);
+        }
+    }
+
+    @Override
     public void claimRoute(Route r, Player p) throws DatabaseException
     {
         try
