@@ -46,7 +46,6 @@ public class SetupService
         try
         {
             df.create(player, game);
-            df.setupPlayers(info);
         }
         catch(DatabaseException e)
         {
