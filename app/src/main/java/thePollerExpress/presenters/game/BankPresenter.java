@@ -1,13 +1,16 @@
 package thePollerExpress.presenters.game;
 
 import com.shared.exceptions.CommandFailed;
+import com.shared.models.Color;
 import com.shared.models.Game;
-import com.shared.models.cardsHandsDecks.DestinationCard;
+import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.cardsHandsDecks.VisibleCards;
 import com.shared.models.interfaces.ICommand;
+import com.shared.models.states.GameState;
 
-import java.util.List;
 import java.util.Observable;
+
+import thePollerExpress.facades.GameFacade;
 import thePollerExpress.models.ClientData;
 import thePollerExpress.presenters.game.interfaces.IBankPresenter;
 import thePollerExpress.presenters.game.states.BankState;
@@ -47,19 +50,45 @@ public class BankPresenter implements IBankPresenter
         {
             view.update();
         }
+        checkUnableToDrawSecondCard();
+    }
+
+    private void checkUnableToDrawSecondCard() {
+        boolean noDrawableCards = true;
+        for (TrainCard card : CD.getGame().getVisibleCards().asArray()) {
+            if (card.getColor() != Color.TRAIN.BLANK && card.getColor() != Color.TRAIN.RAINBOW)
+                noDrawableCards = false;
+        }
+        if (noDrawableCards && CD.getGame().getGameState().getState() == GameState.State.DRAWN_ONE) {
+            view.displayError("unable to draw any more cards... play moving to next player");
+            sendSkipSecondDrawCommand();
+        }
+    }
+
+    private void sendSkipSecondDrawCommand() {
+        AsyncRunner skipSecondTurnTask = new AsyncRunner(view);
+
+        skipSecondTurnTask.execute(new ICommand()
+        {
+            @Override
+            public Object execute() throws CommandFailed
+            {
+                return new GameFacade().skipSecondDraw();
+            }
+        });
     }
 
 
     @Override
     public int getDestinationDeckSize()
     {
-        return CD.getGame().DestinationCardDeck;
+        return CD.getGame().destinationCardDeck;
     }
 
     @Override
     public int getTrainDeckSize()
     {
-        return CD.getGame().TrainCardDeck;
+        return CD.getGame().trainCardDeck;
     }
     public void onDestroy()
     {

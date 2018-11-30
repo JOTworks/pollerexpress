@@ -1,5 +1,6 @@
 package com.thePollerServer.Model;
 
+import com.shared.exceptions.NoCardToDrawException;
 import com.shared.models.Color;
 import com.shared.models.cardsHandsDecks.TrainCard;
 
@@ -25,14 +26,15 @@ public class TrainCardDeck
             {
                 for(int i =0; i < LOCOMOTIVES; ++i)
                 {
-                    cards.add(new TrainCard(color));
+                    cards.add(new TrainCard(Color.TRAIN.RAINBOW));
                 }
             }
             else
             {
                 for(int i = 0; i < TRAINS; ++i)
                 {
-                    cards.add(new TrainCard(color));
+                    if (color != Color.TRAIN.BLANK)
+                        cards.add(new TrainCard(color));
                 }
             }
         }
@@ -41,15 +43,17 @@ public class TrainCardDeck
         discard = new LinkedList<>();
     }
 
-    public TrainCard drawCard()
+    public TrainCard drawCard() //throws NoCardToDrawException
     {
-        TrainCard drawn= deck.remove(0);
         if(deck.size() ==0)
         {
             deck.addAll(discard);
             discard = new LinkedList<>();
             Collections.shuffle(deck);
         }
+
+        TrainCard drawn= deck.remove(0);
+
         return drawn;
     }
 

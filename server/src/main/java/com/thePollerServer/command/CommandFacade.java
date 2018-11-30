@@ -1,5 +1,6 @@
 package com.thePollerServer.command;
 
+import com.shared.exceptions.NoCardToDrawException;
 import com.shared.exceptions.StateException;
 import com.shared.models.Color;
 import com.shared.models.EndGameResult;
@@ -72,7 +73,7 @@ public class CommandFacade
      * @throws CommandFailed
      * @throws DatabaseException
      */
-    public static void createGame(Player player, GameInfo info) throws CommandFailed, DatabaseException {
+    public static void createGame(Player player, GameInfo info) throws CommandFailed, DatabaseException  {
         SetupService.createGame(player, info);
 
         //------------------------------add command portion-----------------------------------------
@@ -280,7 +281,7 @@ public class CommandFacade
      * @param i
      * @throws DatabaseException
      */
-    public static void drawVisible(Player p, Integer i) throws Exception
+    public static void drawVisible(Player p, Integer i) throws Exception, CommandFailed
     {
         GameInfo info = model.getMyGame(p);
         GameService gameService = new GameService();
@@ -307,7 +308,7 @@ public class CommandFacade
         realP.setColor(color);
     }
 
-    private static void setGameState(Player p) throws DatabaseException
+    private static void setGameState(Player p)
     {
         {
             GameInfo info = model.getMyGame(p);
@@ -326,7 +327,7 @@ public class CommandFacade
      * @throws CommandFailed
      * @throws DatabaseException
      */
-    public static void drawTrainCards(Player p, int number) throws CommandFailed, DatabaseException
+    public static void drawTrainCards(Player p, int number) throws CommandFailed
     {
         GameInfo info = model.getMyGame(p);
 
@@ -335,7 +336,8 @@ public class CommandFacade
         List<TrainCard> tList = new LinkedList<>();
         for(int i =0; i < number; ++i)
         {
-             tList.add(game.drawTrainCard(realPlayer));
+            // this try will never encounter a cannot draw exception because drawTrainCards happens only at game start
+            try{ tList.add(game.drawTrainCard(realPlayer)); } catch (Exception e) {}
         }
 
         //check we actually got all of the train cards we wanted
@@ -404,7 +406,7 @@ public class CommandFacade
     }
 
 
-    private static void initiateEndgameIfEnd(Player p)  throws CommandFailed, DatabaseException {
+    private static void initiateEndgameIfEnd(Player p)  throws CommandFailed {
 
             GameInfo info = model.getMyGame(p);
             ServerGame game = model.getGame(p);
@@ -422,6 +424,13 @@ public class CommandFacade
                 Command endGameCommand = new Command(CommandsExtensions.clientSide + "ClientGameService", "endGame", types, params);
                 CM.addCommand(endGameCommand, info);
             }
+    }
+
+    private static void skipSecondDraw(Player p) throws CommandFailed {
+        GameService gm = new GameService();
+        gm.skipSecondDraw((ServerPlayer)p);
+        initiateEndgameIfEnd(p);
+        setGameState(p);
     }
 
 

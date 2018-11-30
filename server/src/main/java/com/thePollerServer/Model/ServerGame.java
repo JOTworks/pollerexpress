@@ -1,5 +1,6 @@
 package com.thePollerServer.Model;
 
+import com.shared.exceptions.NoCardToDrawException;
 import com.shared.models.Chat;
 import com.shared.models.ChatHistory;
 import com.shared.models.Color;
@@ -58,7 +59,7 @@ public class ServerGame extends Observable implements Serializable
      *
      * @param info
      */
-    public ServerGame(GameInfo info)
+    public ServerGame(GameInfo info)   // never thrown
     {
         this();
         _info = info;
@@ -89,7 +90,7 @@ public class ServerGame extends Observable implements Serializable
      * @param info
      * @param players
      */
-    public ServerGame(GameInfo info, Player[] players)
+    public ServerGame(GameInfo info, Player[] players)   // never thrown
     {
         this();
         map = Map.DEFAULT_MAP;
@@ -134,8 +135,10 @@ public class ServerGame extends Observable implements Serializable
     }
 
 
-    public TrainCard drawTrainCard(ServerPlayer player)
+    public TrainCard drawTrainCard(ServerPlayer player) throws Exception
     {
+        if (this.tcd.deck.size() == 0 && this.tcd.discard.size() == 0)
+            throw new Exception("cannot draw from an empty deck when there is no discard pile");
         TrainCard drew = this.tcd.drawCard();
         player.getTrainCardHand().addToHand(drew);
         return drew;
@@ -153,11 +156,21 @@ public class ServerGame extends Observable implements Serializable
         return false;
     }
 
-    private TrainCard drawVisible(int index)
+    private TrainCard drawVisible(int index) throws NoCardToDrawException
     {
+        // draw the face up card
         TrainCard faceUp = faceUpCards.get(index);
-        TrainCard drew = tcd.drawCard();
+        if (faceUp.getColor() == Color.TRAIN.BLANK)
+            throw new NoCardToDrawException("train card");
+
+        // replace the drawn card with a new card
+        TrainCard drew;
+        if (this.tcd.deck.size() == 0 && this.tcd.discard.size() == 0)
+            drew = new TrainCard(Color.TRAIN.BLANK);
+        else
+            drew = tcd.drawCard();
         faceUpCards.set(index, drew);
+
         //check if the visible cards are good enough
         int rainbowcount = 0;
         int allowed= 2;
@@ -183,7 +196,7 @@ public class ServerGame extends Observable implements Serializable
         }
         return faceUp;
     }
-    public TrainCard drawVisible(ServerPlayer p, int index)
+    public TrainCard drawVisible(ServerPlayer p, int index) throws NoCardToDrawException
     {
         TrainCard drew= drawVisible(index);
 
