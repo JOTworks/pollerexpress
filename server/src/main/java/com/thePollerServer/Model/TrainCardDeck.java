@@ -1,5 +1,6 @@
 package com.thePollerServer.Model;
 
+import com.shared.exceptions.NoCardToDrawException;
 import com.shared.models.Color;
 import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.cardsHandsDecks.VisibleCards;
@@ -28,14 +29,15 @@ public class TrainCardDeck
             {
                 for(int i =0; i < LOCOMOTIVES; ++i)
                 {
-                    cards.add(new TrainCard(color));
+                    cards.add(new TrainCard(Color.TRAIN.RAINBOW));
                 }
             }
             else
             {
                 for(int i = 0; i < TRAINS; ++i)
                 {
-                    cards.add(new TrainCard(color));
+                    if (color != Color.TRAIN.BLANK)
+                        cards.add(new TrainCard(color));
                 }
             }
         }
@@ -48,7 +50,7 @@ public class TrainCardDeck
         }
     }
 
-    public TrainCard drawCard()
+    public TrainCard drawCard() //throws NoCardToDrawException
     {
         if(deck.size() ==0)
         {
@@ -66,7 +68,6 @@ public class TrainCardDeck
         {
             return null;
         }
-
         return drawn;
     }
     public  TrainCard drawVisible(int index)

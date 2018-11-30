@@ -1,8 +1,10 @@
 package com.thePollerServer.command;
 
+import com.shared.exceptions.NoCardToDrawException;
 import com.shared.exceptions.StateException;
 import com.shared.models.Color;
 import com.shared.models.EndGameResult;
+import com.shared.models.HistoryItem;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Chat;
 import com.shared.models.Route;
@@ -23,6 +25,7 @@ import com.shared.models.ServerPlayer;
 import com.thePollerServer.services.GameService;
 import com.thePollerServer.services.SetupService;
 
+import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -73,7 +76,7 @@ public class CommandFacade
      * @throws CommandFailed
      * @throws DatabaseException
      */
-    public static void createGame(Player player, GameInfo info) throws CommandFailed, DatabaseException {
+    public static void createGame(Player player, GameInfo info) throws CommandFailed, DatabaseException  {
         SetupService.createGame(player, info);
 
         //------------------------------add command portion-----------------------------------------
@@ -114,6 +117,12 @@ public class CommandFacade
                 Command startGame = new Command(CommandsExtensions.clientSide + "ClientCardService", "setVisibleCards", types, params);
                 CM.addCommand(startGame, info);
             }
+            r.setOwner(null);//for safety
+            Class<?>[] types = {Player.class, Route.class, List.class};
+            Object[] params = {real, r, cards};//ok
+            Command command = new Command(CommandsExtensions.clientSide + "ClientGameService", "claimRoute", types, params);
+            CM.addCommand(command, info);
+            sendGameHistory(info, command, p);
             setGameState(real);
             initiateEndgameIfEnd(real);//this might fix...
         }
@@ -235,6 +244,7 @@ public class CommandFacade
             Object[] params = {p, new Integer(3)};//ok
             Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawDestinationCards", types, params);
             CM.addCommand(drawDestinationCards, info);
+            sendGameHistory(info, drawDestinationCards, p);
         }
 
         setGameState(p);
@@ -264,12 +274,13 @@ public class CommandFacade
             CM.addCommand(cmd, p);
         }
 
-        /*
+        /* todo: why is this commented out!?!?!?
         {
             Class<?>[] types = {Player.class, Integer.class};
             Object[] params = {p, new Integer(cards.size())};
             Command cmd = new Command(CommandsExtensions.clientSide + "ClientCardService", "discardDestinationCards", types, params);
             CM.addCommand(cmd, model.getMyGame(p));
+            sendGameHistory(info, cmd, p);
         }*/
 
         setGameState(p);
@@ -305,7 +316,7 @@ public class CommandFacade
      * @param i
      * @throws DatabaseException
      */
-    public static void drawVisible(Player p, Integer i) throws Exception
+    public static void drawVisible(Player p, Integer i) throws Exception, CommandFailed
     {
         GameInfo info = model.getMyGame(p);
         GameService gameService = new GameService();
@@ -319,6 +330,7 @@ public class CommandFacade
             Object[] params = {p, card, visible};//ok
             Command command = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawVisibleCard", types, params);
             CM.addCommand(command, info);
+            sendGameHistory(info, command, p);
         }
         {
             Class<?>[] types = {Integer.class};
@@ -338,7 +350,7 @@ public class CommandFacade
         realP.setColor(color);
     }
 
-    private static void setGameState(Player p) throws DatabaseException
+    private static void setGameState(Player p)
     {
         {
             GameInfo info = model.getMyGame(p);
@@ -357,7 +369,7 @@ public class CommandFacade
      * @throws CommandFailed
      * @throws DatabaseException
      */
-    public static void drawTrainCards(Player p, int number) throws CommandFailed, DatabaseException
+    public static void drawTrainCards(Player p, int number) throws CommandFailed
     {
         GameInfo info = model.getMyGame(p);
 
@@ -366,7 +378,8 @@ public class CommandFacade
         List<TrainCard> tList = new LinkedList<>();
         for(int i =0; i < number; ++i)
         {
-             tList.add(game.drawTrainCard(realPlayer));
+            // this try will never encounter a cannot draw exception because drawTrainCards happens only at game start
+            try{ tList.add(game.drawTrainCard(realPlayer)); } catch (Exception e) {}
         }
 
         //check we actually got all of the train cards we wanted
@@ -428,6 +441,7 @@ public class CommandFacade
             Object[] params = {p};
             Command drawTrainCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawTrainCard", types, params);
             CM.addCommand(drawTrainCards, info);
+            sendGameHistory(info, drawTrainCards, p);
         }
         {
             Class<?>[] types = {Integer.class};
@@ -441,8 +455,15 @@ public class CommandFacade
         initiateEndgameIfEnd(p);
     }
 
+    public static void skipSecondDraw(Player p) throws CommandFailed {
+        GameService gm = new GameService();
+        gm.skipSecondDraw(p);
+        setGameState(p);
+        initiateEndgameIfEnd(p);
+    }
 
-    private static void initiateEndgameIfEnd(Player p)  throws CommandFailed, DatabaseException {
+
+    private static void initiateEndgameIfEnd(Player p)  throws CommandFailed {
 
             GameInfo info = model.getMyGame(p);
             ServerGame game = model.getGame(p);
@@ -460,6 +481,35 @@ public class CommandFacade
                 Command endGameCommand = new Command(CommandsExtensions.clientSide + "ClientGameService", "endGame", types, params);
                 CM.addCommand(endGameCommand, info);
             }
+    }
+
+    private static void sendGameHistory(GameInfo info, Command command, Player p){
+
+        String action = "action not in switch";
+        switch(command.getMethodName()){
+            case "claimRoute":
+                action = "claimed a route";
+                break;
+            case "drawDestinationCards":
+                action = "drew destination cards";
+                break;
+            case "drawVisibleCard":
+                action = "drew a train card";
+                break;
+            case "drawTrainCard":
+                action = "drew a train card";
+                break;
+            case "discardDestinationCards":
+                action = "discarded destination cards";
+                break;
+        }
+        HistoryItem historyItem = new HistoryItem(action, new Timestamp(System.currentTimeMillis()), p);
+        {
+            Class<?>[] types = {HistoryItem.class};
+            Object[] params = {historyItem};
+            Command historyCommand = new Command(CommandsExtensions.clientSide + "ClientGameService", "sendGameHistory", types, params);
+            CM.addCommand(historyCommand, info);
+        }
     }
 
 

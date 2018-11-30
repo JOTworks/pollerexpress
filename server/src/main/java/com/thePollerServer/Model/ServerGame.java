@@ -1,5 +1,6 @@
 package com.thePollerServer.Model;
 
+import com.shared.exceptions.NoCardToDrawException;
 import com.shared.models.Chat;
 import com.shared.models.ChatHistory;
 import com.shared.models.Color;
@@ -55,7 +56,7 @@ public class ServerGame extends Observable implements Serializable
      *
      * @param info
      */
-    public ServerGame(GameInfo info)
+    public ServerGame(GameInfo info)   // never thrown
     {
         this();
         _info = info;
@@ -86,7 +87,7 @@ public class ServerGame extends Observable implements Serializable
      * @param info
      * @param players
      */
-    public ServerGame(GameInfo info, Player[] players)
+    public ServerGame(GameInfo info, Player[] players)   // never thrown
     {
         this();
         map = Map.DEFAULT_MAP;
@@ -131,8 +132,10 @@ public class ServerGame extends Observable implements Serializable
     }
 
 
-    public TrainCard drawTrainCard(ServerPlayer player)
+    public TrainCard drawTrainCard(ServerPlayer player) throws Exception
     {
+        if (this.tcd.deck.size() == 0 && this.tcd.discard.size() == 0)
+            throw new Exception("cannot draw from an empty deck when there is no discard pile");
         TrainCard drew = this.tcd.drawCard();
         if(drew == null)
         {
@@ -163,6 +166,7 @@ public class ServerGame extends Observable implements Serializable
         {
             return null;
         }
+
         p.getTrainCardHand().addToHand(drew);
         return drew;
     }

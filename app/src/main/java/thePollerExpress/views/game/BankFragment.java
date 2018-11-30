@@ -162,7 +162,8 @@ public class BankFragment extends Fragment implements IBankView
             case RAINBOW:
                 return getResources().getDrawable(R.drawable.rainbow_train_car);
         }
-        return null;//TODO replace with blank
+        // else it will have the value BLANK
+        return getResources().getDrawable(R.drawable.blank_train);
     }
 
     public void displayError(String errorMessage) {
