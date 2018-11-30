@@ -24,6 +24,16 @@ public class Game extends Observable implements Serializable
     ChatHistory chatHistory = new ChatHistory();
     List<Player> _players;
 
+    public GameHistory getGameHistory() {
+        return gameHistory;
+    }
+
+    public void setGameHistory(GameHistory gameHistory) {
+        this.gameHistory = gameHistory;
+    }
+
+    private GameHistory gameHistory = new GameHistory();
+
     //todo:make these private
     public String currentTurn; //right now is players name
     public VisibleCards faceUpCards;
