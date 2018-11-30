@@ -28,32 +28,7 @@ public class Map implements Serializable
     {
         DEFAULT_MAP = new Map();
         City[] Cities = new City[25];
-        int i = 0;
-        Cities[i++] =new City("Santa's Workshop", new Point(1490,1370));//0
-        Cities[i++] =new City("Atlantis", new Point(1780,1983));//1
-        Cities[i++] =new City("Utquigvik", new Point(977,672));//2
-        Cities[i++] =new City("Deadhorse", new Point(841,848));//3
-        Cities[i++] =new City("Alpine", new Point(484,648));//4
-        Cities[i++] =new City("Anchorage", new Point(767,364));//5
-        Cities[i++] =new City("Alert", new Point(838,1272));//6
-        Cities[i++] =new City("Isachsen", new Point(572,981));//7
-        Cities[i++] =new City("Ulukhaktok", new Point(1277,367));//8
-        Cities[i++] =new City("Bronlundhus", new Point(628,2284));//9
-        Cities[i++] =new City("Nord", new Point(1043,2134));//10
-        Cities[i++] =new City("Reykjavik", new Point(1185,2396));//11
-        Cities[i++] =new City("Bergen", new Point(1817,2209));//12
-        Cities[i++] =new City("Hammerfest", new Point(1704,2612));//13
-        Cities[i++] =new City("Anadrysky", new Point(2376,2153));//14
-        Cities[i++] =new City("Surgut", new Point(2446,1838));//15
-        Cities[i++] =new City("Omsk", new Point(2559,1062));//16
-        Cities[i++] =new City("Novosibirsk", new Point(2218,687));//17
-        Cities[i++] =new City("Weather Station", new Point(1740,141));//18
-        Cities[i++] =new City("Elsa's Castle", new Point(2091,1600));//19
-        Cities[i++] =new City("New Tokyo", new Point(1837,796));//20
-        Cities[i++] =new City("Yetifurt", new Point(453,1866));//21
-        Cities[i++] =new City("Rudolphford", new Point(1077,1833));//22
-        Cities[i++] =new City("Dasherbury", new Point(218,1239));//23
-        Cities[i++] =new City("Blitzenberg", new Point(2043,1240));//24
+
 
         int Santas = 0;
         int Atlantis = 1;
@@ -80,6 +55,35 @@ public class Map implements Serializable
         int Rudolphford = 22;
         int Dasherbury = 23;
         int Blitzenberg = 24;
+
+        int i = 0;
+        Cities[Santas]      = new City("Santa's Workshop", new Point(1490,1370));//0
+        Cities[Atlantis]    = new City("Atlantis", new Point(1780,1983));//1
+        Cities[Utquigvik]   = new City("Utquigvik", new Point(977,672));//2
+        Cities[Deadhorse]   = new City("Deadhorse", new Point(841,848));//3
+        Cities[Alpine]      = new City("Alpine", new Point(484,648));//4
+        Cities[Anchorage]   = new City("Anchorage", new Point(767,364));//5
+        Cities[Alert]       = new City("Alert", new Point(838,1272));//6
+        Cities[Isachsen]    = new City("Isachsen", new Point(572,981));//7
+        Cities[Ulukhaktok]  = new City("Ulukhaktok", new Point(1277,367));//8
+        Cities[Bronlundhus] = new City("Bronlundhus", new Point(628,2284));//9
+        Cities[Nord]        = new City("Nord", new Point(1043,2134));//10
+        Cities[Reykjavik]   = new City("Reykjavik", new Point(1185,2396));//11
+        Cities[Bergen]      = new City("Bergen", new Point(1817,2209));//12
+        Cities[Hammerfest]  = new City("Hammerfest", new Point(1704,2612));//13
+        Cities[Anadrysky]   = new City("Anadrysky", new Point(2376,2153));//14
+        Cities[Surgut]      = new City("Surgut", new Point(2446,1838));//15
+        Cities[Omsk]        = new City("Omsk", new Point(2559,1062));//16
+        Cities[Novosibirsk] = new City("Novosibirsk", new Point(2218,687));//17
+        Cities[Weather]     = new City("Weather Station", new Point(1740,141));//18
+        Cities[Elsas]       = new City("Elsa's Castle", new Point(2091,1600));//19
+        Cities[Tokyo]       = new City("New Tokyo", new Point(1837,796));//20
+        Cities[Yetifurt]    = new City("Yetifurt", new Point(453,1866));//21
+        Cities[Rudolphford] = new City("Rudolphford", new Point(1077,1833));//22
+        Cities[Dasherbury]  = new City("Dasherbury", new Point(218,1239));//23
+        Cities[Blitzenberg] = new City("Blitzenberg", new Point(2043,1240));//24
+
+
 
 
         new Route(Cities[Santas],Cities[Atlantis], 3,-15, Color.TRAIN.RED); //Santa's workshop

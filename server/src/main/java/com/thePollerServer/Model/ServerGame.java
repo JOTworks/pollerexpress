@@ -200,6 +200,7 @@ public class ServerGame extends Observable implements Serializable
     public List<DestinationCard> drawDestinationCards( ServerPlayer player, int discards)
     {
         List<DestinationCard> cards = new ArrayList<>();
+        if(dcd.discard.size() + dcd.deck.size() < 3) return cards;//not enough to draw.
         for(int i= 0; i < 3; ++i)
         {
             cards.add(dcd.drawCard());
@@ -218,7 +219,10 @@ public class ServerGame extends Observable implements Serializable
         for(DestinationCard card: cards)
         {
             player.getDestCardOptions().removeFromOptions(card);
-            dcd.discardCard(card);
+            if( !dcd.discardCard(card))
+            {
+                return false;
+            }
         }
         for(DestinationCard card: player.getDestCardOptions().getDestinationCards())
         {

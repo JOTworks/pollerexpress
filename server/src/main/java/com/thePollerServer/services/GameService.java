@@ -144,7 +144,7 @@ public class GameService
         return game.getPlayers().get(0).getName();
     }
 
-    public List<DestinationCard> drawDestinationCards(Player p) throws StateException, DatabaseException
+    public List<DestinationCard> drawDestinationCards(Player p) throws StateException
     {
         ServerGame game = model.getGame(p);
         ServerPlayer player = game.getPlayer(p);
@@ -152,6 +152,10 @@ public class GameService
             throw new StateException("draw destination cards", game.getGameState().getTurn());
         }
         List<DestinationCard> dlist = game.drawDestinationCards(player,2) ;
+        if(dlist.size() != 3)
+        {
+            throw new StateException("not enought destination cards", game.getGameState().getTurn());
+        }
         GameState newGameState = new GameState(p.name, GameState.State.DRAWN_DEST);
         game.setGameState(newGameState);
         return dlist;

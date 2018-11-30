@@ -246,7 +246,7 @@ public class Game extends Observable implements Serializable
     public void drawDestinationCards(Player player, int number)
     {
         //TODO add check...
-        this.DestinationCardDeck -= number;
+        //this.DestinationCardDeck -= number;
         getPlayer(player).setDestinationCardCount(getPlayer(player).destinationCardCount + number);//TODO use getter
 
         synchronized (this)
@@ -292,7 +292,7 @@ public class Game extends Observable implements Serializable
     public void drawTrainCard(Player player)
     {
         //TODO add check...
-        this.TrainCardDeck -= 1;
+        //this.TrainCardDeck -= 1;
         getPlayer(player).setTrainCardCount(getPlayer(player).trainCardCount + 1);
         synchronized (this)
         {
@@ -306,7 +306,7 @@ public class Game extends Observable implements Serializable
     public void drawTrainCards(Player player, int numberOfCards)
     {
         //TODO add check...
-        this.TrainCardDeck -= numberOfCards;
+        //this.TrainCardDeck -= numberOfCards;
         getPlayer(player).setTrainCardCount(getPlayer(player).trainCardCount + numberOfCards);
         synchronized (this)
         {
