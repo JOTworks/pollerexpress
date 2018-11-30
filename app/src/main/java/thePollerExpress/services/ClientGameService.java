@@ -54,7 +54,7 @@ public class ClientGameService {
     }
     public static boolean chat(Chat chat, GameInfo gameInfo)
     {
-        //we dont need the gameinfo, becasue chats should only be sent to poeple in the game? but i guess i could check here too
+        //we dont need the gameInfo, becasue chats should only be sent to poeple in the game? but i guess i could check here too
         if(gameInfo.equals(CD.getGame()))
         {
             return true;
