@@ -44,7 +44,7 @@ public class GameHistory extends Observable implements Serializable
     public void addHistoryItem(HistoryItem historyItem) {
 
         historyItems.add(historyItem);
-        sortChats(historyItems);
+        sortItems(historyItems);
         synchronized (this)
         {
             this.setChanged();
@@ -59,7 +59,7 @@ public class GameHistory extends Observable implements Serializable
      * @return a list of HistoryItem objects, sorted by their timestamps
      * @param historyItems
      */
-    private ArrayList<HistoryItem> sortChats(ArrayList<HistoryItem> historyItems) {
+    private ArrayList<HistoryItem> sortItems(ArrayList<HistoryItem> historyItems) {
 
         Comparator<HistoryItem> comparator = new Comparator<HistoryItem>() {
 
@@ -91,7 +91,7 @@ public class GameHistory extends Observable implements Serializable
 
         ArrayList<String> itemsAsStrings = new ArrayList<>();
 
-        historyItems = sortChats(historyItems);
+        historyItems = sortItems(historyItems);
 
         for(int i = 0; i < historyItems.size(); i++) {
 

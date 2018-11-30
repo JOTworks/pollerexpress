@@ -93,6 +93,7 @@ public class ClientGameService {
     //----------------------------Unwritten methods-------------------------------------------------
 
     public static boolean updateHistory(Player p, HistoryItem historyItem) {
-        throw new NotImplementedException("ClientGameService.updateHistory()");
+        CD.getGame().getGameHistory().addHistoryItem(historyItem);
+        return true;
     }
 }
