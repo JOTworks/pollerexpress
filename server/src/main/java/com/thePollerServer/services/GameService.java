@@ -315,7 +315,7 @@ public class GameService
             throw new StateException("claim routes", game.getGameState().getTurn());
         }
         ServerPlayer player = game.getPlayer(p);
-        Route real = game.getMap().getRouteByName(r.toString());
+        Route real = game.getMap().getRouteById(r.toString());
         boolean claimed = player.getTrainCardHand().contains(cards);
         if(claimed && real.getOwner() == null)
         {
