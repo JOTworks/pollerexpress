@@ -1,6 +1,8 @@
 package thePollerExpress.views.game;
 
 
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -121,6 +123,7 @@ public class BankFragment extends Fragment implements IBankView
         if(card == null)
         {
             mVisible[i].setClickable(false);
+            mVisible[i].setBackground(null);
         }
         else
         {

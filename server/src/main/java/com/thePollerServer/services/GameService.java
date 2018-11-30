@@ -112,12 +112,18 @@ public class GameService
 
         ServerPlayer real = game.getPlayer(p);
         TrainCard card = game.drawVisible(real,i);
+        if(card == null)
+        {
+            throw new StateException("couldn't draw the card", "because reasons");
+        }
 
         //determine the next state
-        if(isRainbow || gs.getState().equals(DRAWN_ONE)){
+        if(isRainbow || gs.getState().equals(DRAWN_ONE) || (!game.getTrainCardDeck().drawsLeft()) )
+        {
+            System.out.println("Draw Visible no draws left");
             GameState newGameState = new GameState(getNextPlayer(p), NO_ACTION_TAKEN);
             game.setGameState(newGameState);
-        }else{
+        } else {
             GameState newGameState = new GameState(gs.getTurn(), DRAWN_ONE);
             game.setGameState(newGameState);
         }
@@ -271,7 +277,7 @@ public class GameService
 
         //changing states
         GameState newGameState;
-        if (state == NO_ACTION_TAKEN)
+        if (state == NO_ACTION_TAKEN && game.getTrainCardDeck().drawsLeft())
         {
             newGameState = new GameState(gameState.getTurn(), DRAWN_ONE);
         } else {
@@ -295,7 +301,7 @@ public class GameService
         ServerGame game = model.getGame(model.getMyGame(p));
         if(!p.getName().equals(game.getGameState().getTurn()) || !game.getGameState().getState().equals(NO_ACTION_TAKEN))
         {
-            throw new StateException("claim routes", game.getGameState().getTurn());
+            throw new StateException("claim routes", game.getGameState().getState().toString() + game.getGameState().getTurn());
         }
         ServerPlayer player = game.getPlayer(p);
         Route real = game.getMap().getRouteById(r.toString());
