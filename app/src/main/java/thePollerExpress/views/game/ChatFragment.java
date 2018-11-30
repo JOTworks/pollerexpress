@@ -35,7 +35,8 @@ public class ChatFragment extends Fragment implements IChatView {
 
     Button sendChatButton;
     Button chatViewButton;
-    Button devViewButton;
+//    Button devViewButton;
+    Button gameHistoryViewButton;
     EditText chatMessage;
     IChatPresenter CP;
     ArrayList<String> chatList;
@@ -59,7 +60,8 @@ public class ChatFragment extends Fragment implements IChatView {
         chatMessage = (EditText) v.findViewById(R.id.chat_message);
         sendChatButton = (Button) v.findViewById(R.id.send_chat_button);
         chatViewButton = (Button) v.findViewById(R.id.chat_view_button);
-        devViewButton = (Button) v.findViewById(R.id.dev_view_button);
+//        devViewButton = (Button) v.findViewById(R.id.dev_view_button);
+        gameHistoryViewButton = (Button) v.findViewById(R.id.game_history_view_button);
 
         //set up the recyclerview
         recyclerView = (RecyclerView) v.findViewById(R.id.chat_recycler_view);
@@ -85,10 +87,10 @@ public class ChatFragment extends Fragment implements IChatView {
         });
 
         // listen for run button to be clicked
-        devViewButton.setOnClickListener(new View.OnClickListener() {
+        gameHistoryViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CP.PressedDevViewButton();
+                CP.PressedGameHistoryViewButton();
             }
         });
 
@@ -104,10 +106,21 @@ public class ChatFragment extends Fragment implements IChatView {
         return v;
     }
 
-    public void changeToDevView(){
+//    public void changeToDevView(){
+//        FragmentManager fm = getFragmentManager();
+//        //Fragment createGameFragment = fm.findFragmentById(R.rotation.fragment_create_game);
+//        Fragment fragment = new MethodCallerFragment();
+//
+//        FragmentTransaction ft = fm.beginTransaction();
+//        ft.replace(R.id.chat_history_fragment_container, fragment);
+//        ft.commit();
+//        fm.popBackStack();
+//    }
+
+
+    public void changeToGameHistoryView(){
         FragmentManager fm = getFragmentManager();
-        //Fragment createGameFragment = fm.findFragmentById(R.rotation.fragment_create_game);
-        Fragment fragment = new MethodCallerFragment();
+        Fragment fragment = new GameHistoryFragment();
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.chat_history_fragment_container, fragment);

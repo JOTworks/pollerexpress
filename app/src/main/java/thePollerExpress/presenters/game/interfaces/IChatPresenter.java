@@ -8,7 +8,8 @@ import java.util.List;
 public interface IChatPresenter {
     public void PressedSendButton(String message);
     public void PressedChatViewButton();
-    public void PressedDevViewButton();
+//    public void PressedDevViewButton();
+    public void PressedGameHistoryViewButton();
     ArrayList<String> getChat();
 
 }

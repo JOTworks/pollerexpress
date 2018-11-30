@@ -59,9 +59,14 @@ public class ChatPresenter implements IChatPresenter, Observer {
             chatView.displayError("Already in Chat");
         }
 
+//        @Override
+//        public void PressedDevViewButton() {
+//            chatView.changeToDevView();
+//        }
+
         @Override
-        public void PressedDevViewButton() {
-            chatView.changeToDevView();
+        public void PressedGameHistoryViewButton() {
+                chatView.changeToGameHistoryView();
         }
 
         @Override

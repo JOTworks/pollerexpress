@@ -86,9 +86,9 @@ public class GameHistoryFragment extends Fragment implements IGameHistoryView {
         return v;
     }
 
-    public void changeToGameHistoryView(){
+    public void changeToChatView(){
         FragmentManager fm = getFragmentManager();
-        Fragment fragment = new MethodCallerFragment();
+        Fragment fragment = new ChatFragment();
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.chat_history_fragment_container, fragment);

@@ -56,7 +56,8 @@ public class GameFragment extends Fragment implements IGameView {
 
         FragmentManager fm = getFragmentManager();
 
-        Fragment fragment = new MethodCallerFragment();
+//        Fragment fragment = new MethodCallerFragment();
+        Fragment fragment = new GameHistoryFragment();
         fm.beginTransaction()
                 .add(R.id.chat_history_fragment_container, fragment)
                 .commit();
