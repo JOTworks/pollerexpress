@@ -7,6 +7,7 @@ import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Chat;
 
 
+import com.shared.models.Command;
 import com.shared.models.EndGameResult;
 import com.shared.models.PlayerScore;
 
@@ -297,24 +298,33 @@ public class GameService
      * @param cards
      * @return
      */
-    public boolean claim(Player p, Route r, List<TrainCard> cards) throws DatabaseException
+    public boolean claim(Player p, Route r, List<TrainCard> cards) throws CommandFailed
     {
         ServerGame game = model.getGame(model.getMyGame(p));
+
         if(!p.getName().equals(game.getGameState().getTurn()) || !game.getGameState().getState().equals(NO_ACTION_TAKEN))
         {
             throw new StateException("claim routes", game.getGameState().getState().toString() + game.getGameState().getTurn());
         }
         ServerPlayer player = game.getPlayer(p);
-        Route real = game.getMap().getRouteById(r.toString());
+        Route realRoute = game.getMap().getRouteById(r.toString());
+
+        //in the case of a double route
+        for (Route routeIter : game.getMap().getRoutes()) {
+            if (realRoute.isDoubleRoute(routeIter) && game.getNumPlayers() < 4) // if it's the same route it will obviously be unclaimed
+                if (routeIter.getOwner() != null || realRoute.getOwner() != null)
+                    throw new CommandFailed("can not claim double route when there are less than 4 players");
+        }
+
         boolean claimed = player.getTrainCardHand().contains(cards);
-        if(claimed && real.getOwner() == null)
+        if(claimed && realRoute.getOwner() == null)
         {
             for(TrainCard card: cards)
             {
                game.discardTrainCard(player, card);
             }
-            real.setOwner(player);
-            player.setTrainCount(player.getTrainCount() - real.getDistance());
+            realRoute.setOwner(player);
+            player.setTrainCount(player.getTrainCount() - realRoute.getDistance());
             game.getGameState().setState(NO_ACTION_TAKEN);
             game.getGameState().setTurn(getNextPlayer(p));
         }
