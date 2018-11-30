@@ -57,7 +57,7 @@ public class GameHistoryPresenter implements IGameHistoryPresenter, Observer {
         if( !(arg instanceof HistoryItem) ) return;
 
         // display the history
-        String action = ((HistoryItem) arg).toString();
-        gameHistoryView.displayGameHistoryItems(action);
+        String item = ((HistoryItem) arg).toString();
+        gameHistoryView.displayGameHistoryItems(item);
     }
 }
