@@ -99,9 +99,9 @@ public class CommandFacade
     {
         GameInfo info = model.getMyGame(p);
         ServerGame game = model.getGame(info);
-        Player real = game.getPlayer(p).toPlayer();
+        Player realPlayer = game.getPlayer(p).toPlayer();
 
-        if( (new GameService()).claim(real, r, cards))
+        if( (new GameService()).claim(realPlayer, r, cards))
         {
             //its verified so...
 
@@ -114,17 +114,17 @@ public class CommandFacade
 
                 r.setOwner(null);//for safety
                 Class<?>[] types = {Player.class, Route.class, List.class};
-                Object[] params = {real, r, cards};//ok
+                Object[] params = {realPlayer, r, cards};//ok
                 Command command = new Command(CommandsExtensions.clientSide + "ClientGameService", "claimRoute", types, params);
                 CM.addCommand(command, info);
 
             sendGameHistory(info, command, p);
-            setGameState(real);
-            initiateEndgameIfEnd(real);//this might fix...
+            setGameState(realPlayer);
+            initiateEndgameIfEnd(realPlayer);//this might fix...
         }
         else
         {
-            throw new CommandFailed("claimeRoute");
+            throw new CommandFailed("claimRoute");
         }
     }
     /**

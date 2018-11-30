@@ -177,6 +177,23 @@ public class Route extends Observable implements Serializable
         return routeValue;
     }
 
+    /**
+     * check if two routes are part of a double route
+     * @param r
+     * @return
+     */
+    public boolean isDoubleRoute(Route r)
+    {
+        if(this.cities.get(0).equals(r.cities.get(0)))
+        {
+            return this.cities.get(1).equals(r.cities.get(1));
+        }
+        else
+        {
+            return this.cities.get(0).equals(r.cities.get(1)) && this.cities.get(1).equals(r.cities.get(0));
+        }
+    }
+
     @Override
     public boolean equals(Object o)
     {
