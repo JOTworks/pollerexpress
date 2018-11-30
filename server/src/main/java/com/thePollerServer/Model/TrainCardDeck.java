@@ -14,7 +14,7 @@ import java.util.Set;
 public class TrainCardDeck
 {
     static private final int TRAINS = 12;//8;
-    static private final int LOCOMOTIVES = 9;//10;
+    static private final int LOCOMOTIVES = 14;//10;
     Set<TrainCard> cards;
     List<TrainCard> deck;
     List<TrainCard> discard;
