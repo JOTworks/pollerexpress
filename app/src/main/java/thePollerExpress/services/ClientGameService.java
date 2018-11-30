@@ -49,8 +49,10 @@ public class ClientGameService {
     }
 
     public static boolean sendGameHistory(HistoryItem historyItem){
-        chat(new Chat(historyItem.getaction(),historyItem.getTimestamp(),historyItem.getactionSender()), CD.getGame().getGameInfo());
+//        chat(new Chat(historyItem.getaction(),historyItem.getTimestamp(),historyItem.getactionSender()), CD.getGame().getGameInfo());
+        CD.getGame().getGameHistory().addHistoryItem(historyItem);
         return true;
+
     }
     public static boolean chat(Chat chat, GameInfo gameInfo)
     {
@@ -96,8 +98,8 @@ public class ClientGameService {
 
     //----------------------------Unwritten methods-------------------------------------------------
 
-    public static boolean updateHistory(Player p, HistoryItem historyItem) {
-        CD.getGame().getGameHistory().addHistoryItem(historyItem);
-        return true;
-    }
+//    public static boolean updateHistory(Player p, HistoryItem historyItem) {
+//        CD.getGame().getGameHistory().addHistoryItem(historyItem);
+//        return true;
+//    }
 }

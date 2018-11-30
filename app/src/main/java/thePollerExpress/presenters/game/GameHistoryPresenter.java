@@ -3,6 +3,7 @@ package thePollerExpress.presenters.game;
 import com.shared.exceptions.CommandFailed;
 import com.shared.models.Chat;
 
+import com.shared.models.HistoryItem;
 import com.shared.models.interfaces.ICommand;
 
 import java.sql.Timestamp;
@@ -29,7 +30,7 @@ public class GameHistoryPresenter implements IGameHistoryPresenter, Observer {
     {
         this.gameHistoryView = view;
         clientData = ClientData.getInstance();
-        clientData.getGame().getChatHistory().addObserver(this);
+//        clientData.getGame().getChatHistory().addObserver(this);
         clientData.getGame().getGameHistory().addObserver(this);
     }
 
@@ -47,16 +48,16 @@ public class GameHistoryPresenter implements IGameHistoryPresenter, Observer {
 
     @Override
     public void PressedGameHistoryViewButton() {
-        gameHistoryView.displayError("Already in Chat");
+        gameHistoryView.displayError("Already in Game History");
     }
 
     @Override
     public void update(Observable o, Object arg)
     {
-        if( !(arg instanceof Chat) ) return;
+        if( !(arg instanceof HistoryItem) ) return;
 
         // display the history
-        String action = ((Chat) arg).toString();
+        String action = ((HistoryItem) arg).toString();
         gameHistoryView.displayGameHistoryItems(action);
     }
 }
