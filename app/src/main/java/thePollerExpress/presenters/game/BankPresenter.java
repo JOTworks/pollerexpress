@@ -50,13 +50,13 @@ public class BankPresenter implements IBankPresenter
         {
             view.update();
         }
-        checkUnableToDrawSecondCard();
+        //checkUnableToDrawSecondCard();
     }
 
     private void checkUnableToDrawSecondCard() {
         boolean noDrawableCards = true;
         for (TrainCard card : CD.getGame().getVisibleCards().asArray()) {
-            if (card.getColor() != Color.TRAIN.BLANK && card.getColor() != Color.TRAIN.RAINBOW)
+            if (card == null|| (card.getColor() != Color.TRAIN.BLANK && card.getColor() != Color.TRAIN.RAINBOW))
                 noDrawableCards = false;
         }
         if (noDrawableCards && CD.getGame().getGameState().getState() == GameState.State.DRAWN_ONE) {
