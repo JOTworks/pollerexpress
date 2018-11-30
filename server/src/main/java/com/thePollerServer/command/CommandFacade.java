@@ -507,7 +507,7 @@ public class CommandFacade
         {
             Class<?>[] types = {HistoryItem.class};
             Object[] params = {historyItem};
-            Command historyCommand = new Command(CommandsExtensions.clientSide + "ClientGameService", "updateHistory", types, params);
+            Command historyCommand = new Command(CommandsExtensions.clientSide + "ClientGameService", "sendGameHistory", types, params);
             CM.addCommand(historyCommand, info);
         }
     }
