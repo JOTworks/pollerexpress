@@ -47,6 +47,12 @@ public class DestinationCard implements Serializable
     }
 
     @Override
+    public int hashCode()
+    {
+        return _id.hashCode();
+    }
+
+    @Override
     public String toString() {
         return _city1.getName() + " to " + _city2.getName() + ", " + _points;
     }

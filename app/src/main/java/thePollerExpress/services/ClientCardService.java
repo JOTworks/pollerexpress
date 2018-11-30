@@ -65,6 +65,7 @@ public class ClientCardService {
         return true;
     }
 
+
     /**
      * add a single trainCard to the hand
      *
@@ -78,6 +79,11 @@ public class ClientCardService {
         return true;
     }
 
+    public static boolean setTrainCardDeck(Integer integer)
+    {
+        CD.getGame().setTrainCardDeckSize(integer);
+        return true;
+    }
     /**
      * add 1 to the number of traincards displayed for this player
      *

@@ -174,6 +174,21 @@ public class CommandFacade
             }
         }
 
+        {
+            Class<?>[] types = {Integer.class};
+            Object[] params = {game.getTrainCardDeck().size()};
+            Command setTrainDeck = new Command(CommandsExtensions.clientSide + "ClientCardService", "setTrainCardDeck", types, params);
+            CM.addCommand(setTrainDeck, info);
+        }
+        {
+            //assume a shuffle occured...
+            Integer newDeckSize = game.getDestinationDeck().size();
+            Class<?>[] types = {Integer.class};
+            Object[] params = {newDeckSize};
+            Command shuffleDestinationDeck = new Command(CommandsExtensions.clientSide + "ClientCardService", "shuffleDestinationDeck", types, params);
+            CM.addCommand(shuffleDestinationDeck, info);
+        }
+
     }
 
     public static void drawDestinationCards (Player p) throws StateException, DatabaseException
@@ -373,6 +388,7 @@ public class CommandFacade
         System.out.println("I'm in DRAW TRAIN CARD!!!");
         GameService gm = new GameService();
         GameInfo info = model.getMyGame(p);
+        ServerGame game = model.getGame(info);
 
         TrainCard card = gm.drawTrainCard(p);
 
@@ -399,9 +415,22 @@ public class CommandFacade
             Command drawTrainCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawTrainCard", types, params);
             CM.addCommand(drawTrainCards, info);
         }
+        {
+            Class<?>[] types = {Integer.class};
+            Object[] params = {game.getTrainCardDeck().size()};
+            Command setTrainDeck = new Command(CommandsExtensions.clientSide + "ClientCardService", "setTrainCardDeck", types, params);
+            CM.addCommand(setTrainDeck, info);
+        }
 
         setGameState(p);
         // if we successfully draw a card and the state is NO_ACTION_TAKEN then we check for endgame
+        initiateEndgameIfEnd(p);
+    }
+
+    public static void skipSecondDraw(Player p) throws CommandFailed {
+        GameService gm = new GameService();
+        gm.skipSecondDraw(p);
+        setGameState(p);
         initiateEndgameIfEnd(p);
     }
 
@@ -424,13 +453,6 @@ public class CommandFacade
                 Command endGameCommand = new Command(CommandsExtensions.clientSide + "ClientGameService", "endGame", types, params);
                 CM.addCommand(endGameCommand, info);
             }
-    }
-
-    private static void skipSecondDraw(Player p) throws CommandFailed {
-        GameService gm = new GameService();
-        gm.skipSecondDraw((ServerPlayer)p);
-        initiateEndgameIfEnd(p);
-        setGameState(p);
     }
 
 
