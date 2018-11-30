@@ -72,7 +72,7 @@ public class MapPresenter implements IMapPresenter
     {
         if(r.getOwner()==null)
         {
-            if(CD.getUser().getTrainCardHand().canClaimRoute(r))
+            if(CD.getUser().getTrainCardHand().canClaimRoute(r) && CD.getUser().getTrainCount() >= r.getDistance())
             {
                 //find the permutations and let the user pick
                 //display using a popup window...
@@ -82,7 +82,14 @@ public class MapPresenter implements IMapPresenter
             }
             else
             {
-                view.displayError("Not enough train cards to claim " + r.toString());
+                if(CD.getUser().getTrainCount() < r.getDistance())
+                {
+                    view.displayError("Not enough train cars to claim");
+                }
+                else
+                {
+                    view.displayError("Not enough train cards to claim " + r.toString());
+                }
             }
         }
         else
