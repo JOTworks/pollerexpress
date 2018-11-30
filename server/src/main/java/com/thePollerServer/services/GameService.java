@@ -1,6 +1,7 @@
 package com.thePollerServer.services;
 
 import com.shared.exceptions.CommandFailed;
+import com.shared.exceptions.NoCardToDrawException;
 import com.shared.exceptions.StateException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Chat;
@@ -93,7 +94,7 @@ public class GameService
     /**
      * the int is the remaining number of draws
      */
-    public TrainCard drawVisible(Player p, int i) throws DatabaseException, StateException
+    public TrainCard drawVisible(Player p, int i) throws StateException, NoCardToDrawException
     {
         GameInfo info = model.getMyGame(p);
         ServerGame game = model.getGame(info);
@@ -316,5 +317,10 @@ public class GameService
             claimed = false;
         }
         return claimed;
+    }
+
+    public void skipSecondDraw(Player p) {
+        model.getGame(p).getGameState().setState(NO_ACTION_TAKEN);
+        model.getGame(p).setTurn(getNextPlayer(p));
     }
 }

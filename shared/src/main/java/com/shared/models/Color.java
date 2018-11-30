@@ -16,7 +16,7 @@ public class Color implements Serializable
     }
 
     public enum TRAIN {
-        PURPLE, WHITE, BLUE, YELLOW, ORANGE, BLACK, RED, GREEN, RAINBOW
+        PURPLE, WHITE, BLUE, YELLOW, ORANGE, BLACK, RED, GREEN, RAINBOW, BLANK
     }
     private static PLAYER colors[] = {RED, BLUE, GREEN, YELLOW, BLACK};
 

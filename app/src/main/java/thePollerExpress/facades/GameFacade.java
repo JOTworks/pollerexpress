@@ -82,6 +82,13 @@ public class GameFacade {
         return sendCommand(command);
     }
 
+    public PollResponse skipSecondDraw() {
+        Class<?>[] types = {Player.class};
+        Object[] values = {CData.getUser()};
+        Command command = new Command(CommandsExtensions.serverSide +"CommandFacade","skipSecondDraw",types,values);
+        return sendCommand(command);
+    }
+
     private PollResponse sendCommand(Command command)
     {
         ClientCommunicator CC = ClientCommunicator.instance().instance();
@@ -93,6 +100,7 @@ public class GameFacade {
         }
         return response;
     }
+
 
 
 }

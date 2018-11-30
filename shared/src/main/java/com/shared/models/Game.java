@@ -37,14 +37,14 @@ public class Game extends Observable implements Serializable
     //todo:make these private
     public String currentTurn; //right now is players name
     public VisibleCards faceUpCards;
-    public int DestinationCardDeck;
-    public int TrainCardDeck;
+    public int destinationCardDeck;
+    public int trainCardDeck;
 
     private Game()
     {
         faceUpCards = new VisibleCards();
-        DestinationCardDeck = DESTINATION_DECK_SIZE;
-        TrainCardDeck = TRAIN_CARD_DECK_SIZE;
+        destinationCardDeck = DESTINATION_DECK_SIZE;
+        trainCardDeck = TRAIN_CARD_DECK_SIZE;
         map = new Map(Map.DEFAULT_MAP);
         currentTurn = "";
     }
@@ -256,6 +256,7 @@ public class Game extends Observable implements Serializable
     public void drawDestinationCards(Player player, int number)
     {
         //TODO add check...
+
         //this.DestinationCardDeck -= number;
         getPlayer(player).setDestinationCardCount(getPlayer(player).destinationCardCount + number);//TODO use getter
 
@@ -280,7 +281,7 @@ public class Game extends Observable implements Serializable
 
     public void setDestinationDeckSize(int size)
     {
-        this.DestinationCardDeck = size;
+        this.destinationCardDeck = size;
 
         synchronized (this)
         {
@@ -291,7 +292,7 @@ public class Game extends Observable implements Serializable
 
     public void setTrainCardDeckSize(int size)
     {
-        this.TrainCardDeck = size;
+        this.trainCardDeck = size;
         synchronized (this)
         {
             this.setChanged();
@@ -301,8 +302,8 @@ public class Game extends Observable implements Serializable
 
     public void drawTrainCard(Player player)
     {
-        //TODO add check...
-        //this.TrainCardDeck -= 1;
+        if (trainCardDeck != 0)
+            trainCardDeck -= 1;
         getPlayer(player).setTrainCardCount(getPlayer(player).trainCardCount + 1);
         synchronized (this)
         {
@@ -316,7 +317,7 @@ public class Game extends Observable implements Serializable
     public void drawTrainCards(Player player, int numberOfCards)
     {
         //TODO add check...
-        //this.TrainCardDeck -= numberOfCards;
+        this.trainCardDeck -= numberOfCards;
         getPlayer(player).setTrainCardCount(getPlayer(player).trainCardCount + numberOfCards);
         synchronized (this)
         {
@@ -327,7 +328,7 @@ public class Game extends Observable implements Serializable
 
     public void drawTrainCards(int numberOfCards)
     {
-        this.TrainCardDeck -= numberOfCards;
+        this.trainCardDeck -= numberOfCards;
         synchronized (this)
         {
             this.setChanged();
