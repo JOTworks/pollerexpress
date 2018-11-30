@@ -165,9 +165,11 @@ public class Route extends Observable implements Serializable
             case 1: routeValue = 1;
                 break;
             case 2: routeValue = 2;
+                break;
             case 3: routeValue = 4;
                 break;
             case 4: routeValue = 7;
+                break;
             case 5: routeValue = 10;
                 break;
             case 6: routeValue = 15;
