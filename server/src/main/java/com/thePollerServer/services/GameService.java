@@ -1,38 +1,29 @@
 package com.thePollerServer.services;
 
 import com.shared.exceptions.CommandFailed;
-import com.shared.exceptions.ShuffleException;
 import com.shared.exceptions.StateException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Chat;
 
 
-import com.shared.models.Color;
-import com.shared.models.Command;
-
 import com.shared.models.EndGameResult;
 import com.shared.models.PlayerScore;
 
-
-import com.shared.models.EndGameResult;
-import com.shared.models.PlayerScore;
 
 import com.shared.models.Route;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.shared.models.cardsHandsDecks.TrainCard;
-import com.shared.models.cardsHandsDecks.TrainCardHand;
 import com.shared.models.states.GameState;
 import com.thePollerServer.Model.ServerData;
 import com.thePollerServer.Model.ServerGame;
-import com.thePollerServer.Model.ServerPlayer;
+import com.shared.models.ServerPlayer;
 
 import com.thePollerServer.utilities.LongestRouteCalculator;
 import com.thePollerServer.utilities.RouteCalculator;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;

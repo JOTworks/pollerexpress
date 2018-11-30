@@ -7,6 +7,7 @@ import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Map;
 import com.shared.models.Player;
+import com.shared.models.ServerPlayer;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.cardsHandsDecks.VisibleCards;
@@ -14,7 +15,6 @@ import com.shared.models.states.GameState;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -123,10 +123,12 @@ public class ServerGame extends Observable implements Serializable
     public boolean join(Player p)
     {
         boolean canJoin = getGameInfo().getNumPlayers() <= getGameInfo().getMaxPlayers();
+        System.out.print(getGameInfo().getNumPlayers());
         if(canJoin)
         {
             _players.add(new ServerPlayer(p.getName()));
             getGameInfo().addPlayer();
+
         }
         return canJoin;
     }

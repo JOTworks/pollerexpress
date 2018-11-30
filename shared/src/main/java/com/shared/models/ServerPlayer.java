@@ -1,4 +1,4 @@
-package com.thePollerServer.Model;
+package com.shared.models;
 
 import com.shared.models.Player;
 import com.shared.models.cardsHandsDecks.DestCardHand;

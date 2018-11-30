@@ -1,6 +1,5 @@
 package com.thePollerServer.command;
 
-import com.shared.exceptions.ShuffleException;
 import com.shared.exceptions.StateException;
 import com.shared.models.Color;
 import com.shared.models.EndGameResult;
@@ -20,16 +19,12 @@ import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.thePollerServer.Model.ServerData;
 import com.thePollerServer.Model.ServerGame;
-import com.thePollerServer.Model.ServerPlayer;
-import com.thePollerServer.Server;
+import com.shared.models.ServerPlayer;
 import com.thePollerServer.services.GameService;
 import com.thePollerServer.services.SetupService;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.print.attribute.standard.Destination;
 
 import static com.shared.models.states.GameState.State.NO_ACTION_TAKEN;
 
@@ -106,11 +101,11 @@ public class CommandFacade
             //its verified so...
             r.setOwner(null);//for safety
             Class<?>[] types = {Player.class, Route.class, List.class};
-            Object[] params = {real, r, cards};
+            Object[] params = {real, r, cards};//ok
             Command command = new Command(CommandsExtensions.clientSide + "ClientGameService", "claimRoute", types, params);
             CM.addCommand(command, info);
-            initiateEndgameIfEnd(real);//its not here
             setGameState(real);
+            initiateEndgameIfEnd(real);//this might fix...
         }
         else
         {
@@ -164,7 +159,7 @@ public class CommandFacade
             List<DestinationCard> dlist = game.drawDestinationCards(p, 1) ;
             {
                 Class<?>[] types = {Player.class, List.class};//we will see if this works...
-                Object[] params = {fake, dlist};
+                Object[] params = {fake, dlist};//ok
                 Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawDestinationCards", types, params);
                 CM.addCommand(drawDestinationCards, p);
             }
@@ -172,7 +167,7 @@ public class CommandFacade
             // next create the command for all other players...
             {
                 Class<?>[] types = {Player.class, Integer.class};
-                Object[] params = {fake, new Integer(3)};
+                Object[] params = {fake, new Integer(3)};//ok
                 Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawDestinationCards", types, params);
                 CM.addCommand(drawDestinationCards, info);
             }
@@ -184,6 +179,11 @@ public class CommandFacade
     {
         GameService gm = new GameService();
         ServerGame game = model.getGame(p);
+        if(p instanceof  ServerPlayer)
+        {
+            System.out.print("THE BUG IS HERE\n");
+        }
+        //Player real = game.getPlayer(p)
         GameInfo info = game.getGameInfo();
         CommandManager CM = CommandManager._instance();
 
@@ -200,14 +200,14 @@ public class CommandFacade
 
         {
             Class<?>[] types = {Player.class, List.class};//we will see if this works...
-            Object[] params = {p, dlist};
+            Object[] params = {p, dlist};//ok
             Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawDestinationCards", types, params);
             CM.addCommand(drawDestinationCards, p);
         }
         // next create the command for all other players...
         {
             Class<?>[] types = {Player.class, Integer.class};
-            Object[] params = {p, new Integer(3)};
+            Object[] params = {p, new Integer(3)};//ok
             Command drawDestinationCards = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawDestinationCards", types, params);
             CM.addCommand(drawDestinationCards, info);
         }
@@ -234,7 +234,7 @@ public class CommandFacade
         //------------------------------add command portion-----------------------------------------
         {
             Class<?>[] types = {Player.class, List.class};
-            Object[] params = {p, cards};
+            Object[] params = {p, cards};//ok
             Command cmd = new Command(CommandsExtensions.clientSide + "ClientCardService", "discardDestinationCards", types, params);
             CM.addCommand(cmd, p);
         }
@@ -291,7 +291,7 @@ public class CommandFacade
         //------------------------------add command portion-----------------------------------------
         {
             Class<?>[] types = {Player.class, TrainCard.class, TrainCard[].class};
-            Object[] params = {p, card, visible};
+            Object[] params = {p, card, visible};//ok
             Command command = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawVisibleCard", types, params);
             CM.addCommand(command, info);
         }
@@ -379,7 +379,7 @@ public class CommandFacade
             throw new CommandFailed("drawTrainCard", "no card to draw");
         }
 
-        System.out.println("I am trying to actually tell people what. card. to draw.");
+        System.out.println("I am trying to actually tell people what. card. to draw.");//mad?
 
         //------------------------------add command portion-----------------------------------------
         //give command to actual player
