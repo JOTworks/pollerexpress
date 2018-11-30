@@ -55,6 +55,7 @@ public class CommandFacade
     public static void joinGame(Player player, GameInfo info) throws CommandFailed, DatabaseException
     {
         SetupService.joinGame(player, info);
+
         Player real = model.getGame(info).getPlayer(player).toPlayer();
         //------------------------------add command portion-----------------------------------------
         Class<?>[] loadTypes = {Game.class};
@@ -97,11 +98,25 @@ public class CommandFacade
     public static void claimRoute(Player p, Route r, List<TrainCard> cards) throws CommandFailed, DatabaseException
     {
         GameInfo info = model.getMyGame(p);
-        Player real = model.getGame(info).getPlayer(p).toPlayer();
+        ServerGame game = model.getGame(info);
+        Player real = game.getPlayer(p).toPlayer();
 
         if( (new GameService()).claim(real, r, cards))
         {
             //its verified so...
+            {
+                r.setOwner(null);//for safety
+                Class<?>[] types = {Player.class, Route.class, List.class};
+                Object[] params = {real, r, cards};//ok
+                Command command = new Command(CommandsExtensions.clientSide + "ClientGameService", "claimRoute", types, params);
+                CM.addCommand(command, info);
+            }
+            {
+                Class<?>[] types = {TrainCard[].class};
+                Object[] params = { game.getVisibleCards().asArray()};
+                Command startGame = new Command(CommandsExtensions.clientSide + "ClientCardService", "setVisibleCards", types, params);
+                CM.addCommand(startGame, info);
+            }
             r.setOwner(null);//for safety
             Class<?>[] types = {Player.class, Route.class, List.class};
             Object[] params = {real, r, cards};//ok
@@ -305,9 +320,9 @@ public class CommandFacade
     {
         GameInfo info = model.getMyGame(p);
         GameService gameService = new GameService();
-
+        ServerGame game = model.getGame(info);
         TrainCard card = gameService.drawVisible(p, i);
-        TrainCard[] visible = model.getGame(info).getVisibleCards().asArray();
+        TrainCard[] visible = game.getVisibleCards().asArray();
 
         //------------------------------add command portion-----------------------------------------
         {
@@ -316,6 +331,12 @@ public class CommandFacade
             Command command = new Command(CommandsExtensions.clientSide + "ClientCardService", "drawVisibleCard", types, params);
             CM.addCommand(command, info);
             sendGameHistory(info, command, p);
+        }
+        {
+            Class<?>[] types = {Integer.class};
+            Object[] params = {game.getTrainCardDeck().size()};
+            Command setTrainDeck = new Command(CommandsExtensions.clientSide + "ClientCardService", "setTrainCardDeck", types, params);
+            CM.addCommand(setTrainDeck, info);
         }
 
         setGameState(p);

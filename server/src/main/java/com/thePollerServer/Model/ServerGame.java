@@ -40,18 +40,15 @@ public class ServerGame extends Observable implements Serializable
 
     //todo:make these private
     public String currentTurn; //right now is players name
-    public VisibleCards faceUpCards;
+
 
     private ServerGame()
     {
-        faceUpCards = new VisibleCards();
+
         tcd = new TrainCardDeck();
         map = new Map(Map.DEFAULT_MAP);
         dcd = new DestinationCardDeck(map);
-        for(int i =0; i < 5; ++i)
-        {
-            faceUpCards.set(i, tcd.drawCard());
-        }
+
         gameState = new GameState();
         currentTurn = "";
     }
@@ -140,6 +137,10 @@ public class ServerGame extends Observable implements Serializable
         if (this.tcd.deck.size() == 0 && this.tcd.discard.size() == 0)
             throw new Exception("cannot draw from an empty deck when there is no discard pile");
         TrainCard drew = this.tcd.drawCard();
+        if(drew == null)
+        {
+            return null;
+        }
         player.getTrainCardHand().addToHand(drew);
         return drew;
     }
@@ -156,49 +157,15 @@ public class ServerGame extends Observable implements Serializable
         return false;
     }
 
-    private TrainCard drawVisible(int index) throws NoCardToDrawException
-    {
-        // draw the face up card
-        TrainCard faceUp = faceUpCards.get(index);
-        if (faceUp.getColor() == Color.TRAIN.BLANK)
-            throw new NoCardToDrawException("train card");
 
-        // replace the drawn card with a new card
-        TrainCard drew;
-        if (this.tcd.deck.size() == 0 && this.tcd.discard.size() == 0)
-            drew = new TrainCard(Color.TRAIN.BLANK);
-        else
-            drew = tcd.drawCard();
-        faceUpCards.set(index, drew);
-
-        //check if the visible cards are good enough
-        int rainbowcount = 0;
-        int allowed= 2;
-        for(TrainCard card: faceUpCards.asArray())
-        {
-            if(card.getColor().equals(Color.TRAIN.RAINBOW))
-            {
-                rainbowcount+=1;
-            }
-        }
-        if(rainbowcount >allowed)
-        {
-            //discard and draw.
-            for(TrainCard card: faceUpCards.asArray())
-            {
-                tcd.discardCard(card);
-            }
-            for(int i =0; i < 5; ++i)
-            {
-                TrainCard card = tcd.drawCard();
-                faceUpCards.set(i, card);//ideally we would continue to check, but i don't want to worry about infinite loops so we won't
-            }
-        }
-        return faceUp;
-    }
-    public TrainCard drawVisible(ServerPlayer p, int index) throws NoCardToDrawException
+    public TrainCard drawVisible(ServerPlayer p, int index)
     {
-        TrainCard drew= drawVisible(index);
+        TrainCard drew = tcd.drawVisible(index);
+        System.out.println(drew);
+        if(drew == null)
+        {
+            return null;
+        }
 
         p.getTrainCardHand().addToHand(drew);
         return drew;
@@ -279,7 +246,7 @@ public class ServerGame extends Observable implements Serializable
 
     public VisibleCards getVisibleCards()
     {
-        return faceUpCards;
+        return tcd.faceUpCards;
     }
     /**
      * initialize or change the gameState object
