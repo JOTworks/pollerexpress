@@ -104,24 +104,20 @@ public class CommandFacade
         if( (new GameService()).claim(real, r, cards))
         {
             //its verified so...
-            {
-                r.setOwner(null);//for safety
-                Class<?>[] types = {Player.class, Route.class, List.class};
-                Object[] params = {real, r, cards};//ok
-                Command command = new Command(CommandsExtensions.clientSide + "ClientGameService", "claimRoute", types, params);
-                CM.addCommand(command, info);
-            }
+
             {
                 Class<?>[] types = {TrainCard[].class};
                 Object[] params = { game.getVisibleCards().asArray()};
                 Command startGame = new Command(CommandsExtensions.clientSide + "ClientCardService", "setVisibleCards", types, params);
                 CM.addCommand(startGame, info);
             }
-            r.setOwner(null);//for safety
-            Class<?>[] types = {Player.class, Route.class, List.class};
-            Object[] params = {real, r, cards};//ok
-            Command command = new Command(CommandsExtensions.clientSide + "ClientGameService", "claimRoute", types, params);
-            CM.addCommand(command, info);
+            
+                r.setOwner(null);//for safety
+                Class<?>[] types = {Player.class, Route.class, List.class};
+                Object[] params = {real, r, cards};//ok
+                Command command = new Command(CommandsExtensions.clientSide + "ClientGameService", "claimRoute", types, params);
+                CM.addCommand(command, info);
+
             sendGameHistory(info, command, p);
             setGameState(real);
             initiateEndgameIfEnd(real);//this might fix...

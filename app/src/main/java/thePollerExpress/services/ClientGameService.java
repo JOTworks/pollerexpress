@@ -69,8 +69,9 @@ public class ClientGameService {
     public static boolean claimRoute(Player p, Route r, List<TrainCard> cards)
     {
         Log.d("ClaimRoute", p.getName() + " " +r.toString());
-        CD.getGame().getMap().claimRoute(p, r);
         Player real = CD.getGame().getPlayer(p);
+        CD.getGame().getMap().claimRoute(real, r);
+
         User user = CD.getUser();
         if(p.equals(user))
         {
@@ -81,6 +82,7 @@ public class ClientGameService {
             }
         }
         real.setTrainCount(p.getTrainCount());
+        real.setPoints(real.getPoints() + r.getRouteValue());
         return true;
     }
 
