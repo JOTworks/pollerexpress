@@ -156,12 +156,12 @@ public class GameService
     public List<DestinationCard> drawDestinationCards(Player p) throws StateException, DatabaseException
     {
         ServerGame game = model.getGame(p);
-        ServerPlayer player =game.getPlayer(p);
+        ServerPlayer player = game.getPlayer(p);
         if(!game.myTurn(player)|| !game.getGameState().getState().equals(NO_ACTION_TAKEN)){
             throw new StateException("draw destination cards", game.getGameState().getTurn());
         }
         List<DestinationCard> dlist = game.drawDestinationCards(player,2) ;
-        GameState newGameState = new GameState(game.getGameState().getTurn(), GameState.State.DRAWN_DEST);
+        GameState newGameState = new GameState(p.name, GameState.State.DRAWN_DEST);
         game.setGameState(newGameState);
         return dlist;
     }
@@ -170,19 +170,7 @@ public class GameService
         EndGameResult gameResult = new EndGameResult();
 
         String id = p.getGameId();
-//<<<<<<< HEAD
-//        try {
-//            GameInfo gi = df.getGameInfo(id);
-//            GameState gs = df.getGameState(gi);
-//
-//            // the state should have already changed to the next player's turn by this point
-//            int trainCount = df.getPlayer(gs.getTurn()).getTrainCount();
-//            if (df.getPlayer(gs.getTurn()).getTrainCount() < 39) {
-//                return gameResult = endGame(gi);
-//            }
-//        } catch (Exception e) {
-//            throw new RuntimeException(e.getClass() + ":" + e.getCause().toString());
-//=======
+
         ServerGame game = model.getGame(p);
 
         GameState gs = game.getGameState();
@@ -192,7 +180,7 @@ public class GameService
         System.out.println(trainCount);
         if (trainCount < 3) {
             return gameResult = endGame(game);
-//>>>>>>> 8b0d0c07e6f0abecf090a37d53eaed8ed24ea3c7
+
         }
 
         return null;

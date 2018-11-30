@@ -85,6 +85,8 @@ public class ServerData
     {
         ServerGame game = new ServerGame(info);
         games.put(info, game);
+        System.out.print(game.getNumPlayers());
+        System.out.println(" - num players");
         return true;
     }
 

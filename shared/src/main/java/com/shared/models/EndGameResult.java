@@ -39,12 +39,10 @@ public class EndGameResult extends Observable implements Serializable {
             }
         }
         // award bonus points if there is not a tie
-        if (isTie) {
-            for (PlayerScore score : playerScores) {
-                if (score.getPlayerName().equals(bonusWinner))
-                {
-                    score.setBonusPoints(BONUS_POINTS);
-                }
+        for (PlayerScore score : playerScores) {
+            if (score.getPlayerName().equals(bonusWinner))
+            {
+                score.setBonusPoints(BONUS_POINTS);
             }
         }
     }

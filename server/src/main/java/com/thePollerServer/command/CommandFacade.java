@@ -104,11 +104,12 @@ public class CommandFacade
         if( (new GameService()).claim(real, r, cards))
         {
             //its verified so...
+            r.setOwner(null);//for safety
             Class<?>[] types = {Player.class, Route.class, List.class};
             Object[] params = {real, r, cards};
             Command command = new Command(CommandsExtensions.clientSide + "ClientGameService", "claimRoute", types, params);
             CM.addCommand(command, info);
-            initiateEndgameIfEnd(real);
+            initiateEndgameIfEnd(real);//its not here
             setGameState(real);
         }
         else
@@ -238,12 +239,13 @@ public class CommandFacade
             CM.addCommand(cmd, p);
         }
 
+        /*
         {
             Class<?>[] types = {Player.class, Integer.class};
             Object[] params = {p, new Integer(cards.size())};
             Command cmd = new Command(CommandsExtensions.clientSide + "ClientCardService", "discardDestinationCards", types, params);
             CM.addCommand(cmd, model.getMyGame(p));
-        }
+        }*/
 
         setGameState(p);
         initiateEndgameIfEnd(p);
@@ -364,7 +366,8 @@ public class CommandFacade
         }
     }
 
-    public static void drawTrainCard(Player p) throws Exception {
+    public static void drawTrainCard(Player p) throws Exception
+    {
         System.out.println("I'm in DRAW TRAIN CARD!!!");
         GameService gm = new GameService();
         GameInfo info = model.getMyGame(p);

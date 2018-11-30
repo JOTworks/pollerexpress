@@ -33,7 +33,8 @@ public class GameState implements Serializable {
     public GameState() {
     }
 
-    public GameState(String turn, State state) {
+    public GameState(String turn, State state)
+    {
         this.turn = turn;
         this.state = state;
     }

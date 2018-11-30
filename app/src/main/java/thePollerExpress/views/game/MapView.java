@@ -96,7 +96,7 @@ public class MapView extends Fragment implements IMapView, IPollerExpressView
             //find the distance
             AnchorPoints pts = new AnchorPoints(r);
             float distance = pts.aprox(x, y);
-            
+
             //Log.d("drawView Click", String.format("%d, %d", hScroll.getScrollX(), vScroll.getScrollY()));
             //Log.d("drawViewListener",String.format("distance = %f, p(%f, %f)%s, %s", distance, x, y, pts.toString(), r.toString()) );
             if(distance < min_distance)

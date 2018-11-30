@@ -36,17 +36,8 @@ public class SetupService
     public static void createGame(Player player, GameInfo info) throws CommandFailed
     {
 
-//<<<<<<< HEAD
-//        Game game = new Game(info);
-//        IDatabaseFacade df = Factory.createDatabaseFacade();
-//        try
-//        {
-//            df.create(player, game);
-//        }
-//        catch(DatabaseException e)
-//=======
         if(!model.createGame(player, info))
-//>>>>>>> 8b0d0c07e6f0abecf090a37d53eaed8ed24ea3c7
+
         {
             throw new CommandFailed("createGame");
         }

@@ -91,13 +91,17 @@ public class PlayerFragment extends Fragment implements IPlayerView {
     }
 
     @Override
-    public void isTurn() {
+    public void isTurn()
+    {
         isTurn = true;
+        playerBackground.setBackgroundColor(isTurnColor);
     }
 
     @Override
-    public void isNotTurn() {
+    public void isNotTurn()
+    {
         isTurn = false;
+        playerBackground.setBackgroundColor(isNotTurnColor);
     }
 
     @Override

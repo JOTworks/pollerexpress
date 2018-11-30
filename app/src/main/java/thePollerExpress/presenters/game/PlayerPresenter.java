@@ -31,11 +31,14 @@ public class PlayerPresenter implements IPlayerPresenter, Observer {
     @Override
     public void update(Observable o, Object arg) {
 
-        if (o instanceof Player) {
+        if (o instanceof Player)
+        {
             playerView.renderPlayer(clientData.getGame().getPlayer(playerName));
         }
         if (clientData.getGame().getGameState().getTurn() == null)
-            return;
+        {
+            playerView.isNotTurn();
+        }
         if(clientData.getGame().getGameState().getTurn().equals(playerName)){
             playerView.isTurn();
         } else {

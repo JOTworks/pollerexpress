@@ -421,8 +421,9 @@ public class ServerGame extends Observable implements Serializable
         int i =0;
         for( ServerPlayer p: this._players)
         {
+            p.setColor(Color.PLAYER.values()[i]);
             Player player =p.toPlayer();
-            player.setColor(Color.PLAYER.values()[i]);
+            //player.setColor(Color.PLAYER.values()[i]);
             players.add(player);
             ++i;
         }

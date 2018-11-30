@@ -150,7 +150,7 @@ public class EndGameFragment extends Fragment implements IEndGameView
             destination.setText(playerEndResult.completedDestination);
             lost.setText(playerEndResult.incompleteDestination);
             longest.setText(playerEndResult.longestRoute);
-            bonus.setText(playerEndResult.longestRoute);
+            bonus.setText(playerEndResult.bonus);
 
             return convertView;
         }
