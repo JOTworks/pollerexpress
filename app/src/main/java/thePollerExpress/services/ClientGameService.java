@@ -48,6 +48,10 @@ public class ClientGameService {
         return true;
     }
 
+    public static boolean sendGameHistory(HistoryItem historyItem){
+        chat(new Chat(historyItem.getaction(),historyItem.getTimestamp(),historyItem.getactionSender()), CD.getGame().getGameInfo());
+        return true;
+    }
     public static boolean chat(Chat chat, GameInfo gameInfo)
     {
         //we dont need the gameinfo, becasue chats should only be sent to poeple in the game? but i guess i could check here too
