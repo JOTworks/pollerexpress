@@ -74,7 +74,9 @@ public class EndGameFragment extends Fragment implements IEndGameView
 
         //set up the recycler view
         recyclerView = v.findViewById( R.id.end_game_recycler_view );
-        adapter = new EndGameFragment.MyAdapter(presenter.getEndGameResult());
+        List<PlayerEndResult> results = presenter.getEndGameResult();
+        winnerName.setText(results.get(0).username);
+        adapter = new EndGameFragment.MyAdapter(results);
         recyclerView.setAdapter(adapter);
 
 

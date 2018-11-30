@@ -111,7 +111,7 @@ public class CommandFacade
                 Command startGame = new Command(CommandsExtensions.clientSide + "ClientCardService", "setVisibleCards", types, params);
                 CM.addCommand(startGame, info);
             }
-            
+
                 r.setOwner(null);//for safety
                 Class<?>[] types = {Player.class, Route.class, List.class};
                 Object[] params = {real, r, cards};//ok

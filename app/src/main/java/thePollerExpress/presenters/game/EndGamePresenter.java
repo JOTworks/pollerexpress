@@ -40,10 +40,10 @@ public class EndGamePresenter implements IEndGamePresenter {
             @Override
             public int compare(PlayerScore x, PlayerScore y)
             {
-                int result = x.getTotalPoints() - y.getTotalPoints();
+                int result =  y.getTotalPoints()- x.getTotalPoints();
                 if(result == 0)
                 {
-                    return x.getDestinationPoints()- y.getDestinationPoints();
+                    return  y.getDestinationPoints()- x.getDestinationPoints();
                 }
                 return result;
             }
