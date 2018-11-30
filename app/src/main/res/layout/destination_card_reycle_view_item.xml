@@ -10,7 +10,8 @@ android:layout_height="wrap_content">
     android:layout_width="100dp"
     android:layout_height="match_parent"
     android:padding="5dp"
-    android:textColor="@color/colorPrimaryDark"
-    android:background="@drawable/destination_card"/>
+    android:textColor="@color/PollerBackground"
+    android:background="@drawable/destination_card"
+    android:textSize="16dp"/>
 
 </android.support.constraint.ConstraintLayout>
