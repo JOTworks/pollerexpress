@@ -13,8 +13,8 @@ import java.util.Set;
 
 public class TrainCardDeck
 {
-    static private final int TRAINS = 5;
-    static private final int LOCOMOTIVES = 2;
+    static private final int TRAINS = 8;
+    static private final int LOCOMOTIVES = 10;
     Set<TrainCard> cards;
     List<TrainCard> deck;
     List<TrainCard> discard;

@@ -274,14 +274,14 @@ public class CommandFacade
             CM.addCommand(cmd, p);
         }
 
-        /* todo: why is this commented out!?!?!?
+        //* todo: why is this commented out!?!?!?
         {
             Class<?>[] types = {Player.class, Integer.class};
             Object[] params = {p, new Integer(cards.size())};
             Command cmd = new Command(CommandsExtensions.clientSide + "ClientCardService", "discardDestinationCards", types, params);
             CM.addCommand(cmd, model.getMyGame(p));
-            sendGameHistory(info, cmd, p);
-        }*/
+            sendGameHistory(model.getMyGame(p), cmd, p);
+        }//*/
 
         setGameState(p);
         initiateEndgameIfEnd(p);
