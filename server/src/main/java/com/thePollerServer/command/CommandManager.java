@@ -3,9 +3,8 @@ package com.thePollerServer.command;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
 import com.shared.models.GameInfo;
-import pollerexpress.database.IDatabaseFacade;
 import com.shared.models.Player;
-import com.thePollerServer.utilities.Factory;
+import com.thePollerServer.Model.ServerData;
 
 import java.util.*;
 
@@ -13,7 +12,7 @@ public class CommandManager {
 
 	private static CommandManager _instance;
 	private HashMap<String, Queue<Command>> userCommands;
-	
+	private ServerData model = ServerData.instance();
 	private CommandManager()
     {
 		userCommands = new HashMap<String, Queue<Command>>();
@@ -91,25 +90,16 @@ public class CommandManager {
      */
 	public boolean addCommand(Command c, GameInfo info)
     {
-        IDatabaseFacade df = Factory.createDatabaseFacade();
-        Player[] players;
-        System.out.print("adding game!!\n");
 
-        try
+        System.out.print("adding command to"+ info.getName() +"\n");
+
+
+        for(Player p: model.getGame(info).getPlayers())
         {
-            players = df.getPlayersInGame(info);
-            System.out.print("players in game!!\n");
-            for(Player p: players)
-            {
-                addCommand(c, p);
-            }
-            return true;
+            addCommand(c, p);
         }
-        catch(DatabaseException e)
-        {
-            e.printStackTrace();
-            return false;
-        }
+        return true;
+
 
     }
 

@@ -1,6 +1,9 @@
 package thePollerExpress.views.game.interfaces;
 
-public interface IEndGameView {
+import thePollerExpress.views.IPollerExpressView;
+
+public interface IEndGameView extends IPollerExpressView
+{
 
 
 }

@@ -61,10 +61,9 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
         }else {
             Game game = clientData.getGame();
             int playerNum = game.getNumPlayers();
-
             if (playerNum < clientData.getGame().getMaxPlayers())
             {
-                lobbyView.displayMessage("Not enough people");
+                lobbyView.displayMessage(game.getNumPlayers() + " out of "+ clientData.getGame().getMaxPlayers());
             } else {
                 //run an async task.
                 AsyncRunner startGameTask = new AsyncRunner(lobbyView);

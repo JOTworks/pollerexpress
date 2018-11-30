@@ -64,8 +64,8 @@ public class ClientGameService {
     {
         Log.d("ClaimRoute", p.getName() + " " +r.toString());
         CD.getGame().getMap().claimRoute(p, r);
+        Player real = CD.getGame().getPlayer(p);
         User user = CD.getUser();
-        user.setTrainCount(user.getTrainCount()-cards.size());
         if(p.equals(user))
         {
 
@@ -74,6 +74,7 @@ public class ClientGameService {
                 user.getTrainCardHand().removeFromHand(card);
             }
         }
+        real.setTrainCount(p.getTrainCount());
         return true;
     }
 

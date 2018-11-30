@@ -4,15 +4,13 @@ import com.shared.exceptions.database.DatabaseException;
 import com.shared.exceptions.CommandFailed;
 import com.shared.models.Game;
 import com.shared.models.GameInfo;
-import pollerexpress.database.IDatabaseFacade;
 import com.shared.models.Player;
-import com.thePollerServer.utilities.Factory;
-
-import java.util.List;
+import com.thePollerServer.Model.ServerData;
 
 
 public class SetupService
 {
+    static ServerData model = ServerData.instance();
     /**
      *
      * @param player
@@ -21,15 +19,12 @@ public class SetupService
      */
     public static void  joinGame(Player player, GameInfo info) throws CommandFailed
     {
-        IDatabaseFacade df = Factory.createDatabaseFacade();
-        try
-        {
-            df.join(player, info);
-        }
-        catch(DatabaseException e)
+        if(!ServerData.instance().joinGame(player, info))
         {
             throw new CommandFailed("joinGame");
         }
+
+
     }
 
     /**
@@ -41,13 +36,8 @@ public class SetupService
     public static void createGame(Player player, GameInfo info) throws CommandFailed
     {
 
-        Game game = new Game(info);
-        IDatabaseFacade df = Factory.createDatabaseFacade();
-        try
-        {
-            df.create(player, game);
-        }
-        catch(DatabaseException e)
+        if(!model.createGame(player, info))
+
         {
             throw new CommandFailed("createGame");
         }

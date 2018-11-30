@@ -66,6 +66,7 @@ public class AsyncRunner extends AsyncTask<ICommand, Void, PollResponse> {
             catch (Exception e)
             {
                 ErrorResponse error = (ErrorResponse) theRet;
+                e.printStackTrace();
                 response = new PollResponse(null, error);
             }
 

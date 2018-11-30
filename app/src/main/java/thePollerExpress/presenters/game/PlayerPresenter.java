@@ -23,20 +23,23 @@ public class PlayerPresenter implements IPlayerPresenter, Observer {
         clientData.getGame().addObserver(this);
     }
 
-    public Player getPlayer() {
-
+    public Player getPlayer()
+    {
         return ClientData.getInstance().getGame().getPlayer(playerName);
     }
 
     @Override
     public void update(Observable o, Object arg) {
 
-        if (o instanceof Player) {
+        if (o instanceof Player)
+        {
             playerView.renderPlayer(clientData.getGame().getPlayer(playerName));
         }
         if (clientData.getGame().getGameState().getTurn() == null)
-            return;
-        if (clientData.getGame().getGameState().getTurn().equals(playerName)) {
+        {
+            playerView.isNotTurn();
+        }
+        if(clientData.getGame().getGameState().getTurn().equals(playerName)){
             playerView.isTurn();
         } else {
             playerView.isNotTurn();

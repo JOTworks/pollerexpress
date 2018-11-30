@@ -1,12 +1,10 @@
 package com.thePollerServer.commandServices;
 
 import com.shared.exceptions.CommandFailed;
-import com.shared.models.Command;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.Player;
 import com.thePollerServer.services.GameService;
 import com.thePollerServer.utilities.Factory;
-import com.thePollerServer.utilities.RealDatabaseFactory;
 
 import org.junit.After;
 import org.junit.Before;

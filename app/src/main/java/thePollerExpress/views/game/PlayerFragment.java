@@ -79,7 +79,8 @@ public class PlayerFragment extends Fragment implements IPlayerView {
     }
 
     @Override
-    public void renderPlayer(Player p) {
+    public void renderPlayer(Player p)
+    {
         playerName.setText(p.getName());
         playerPoints.setText(Integer.toString(p.getPoints()));
         playerTrains.setText(Integer.toString(p.getTrainCount()));
@@ -90,13 +91,17 @@ public class PlayerFragment extends Fragment implements IPlayerView {
     }
 
     @Override
-    public void isTurn() {
+    public void isTurn()
+    {
         isTurn = true;
+        playerBackground.setBackgroundColor(isTurnColor);
     }
 
     @Override
-    public void isNotTurn() {
+    public void isNotTurn()
+    {
         isTurn = false;
+        playerBackground.setBackgroundColor(isNotTurnColor);
     }
 
     @Override

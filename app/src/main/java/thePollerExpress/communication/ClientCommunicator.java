@@ -93,6 +93,7 @@ public class ClientCommunicator
                 }
                 catch(ClassNotFoundException e)
                 {
+                    e.printStackTrace();
                     return null;
                 }
                 finally
