@@ -42,11 +42,16 @@ class ClientSetupService implements ISetupService {
             CD.getUser().setGameID(info.getId());
         }
 
-            for (int i = 0; i < infoList.size(); i++) {
-                if (infoList.get(i).getId().equals(info.getId())) {
+            for (int i = 0; i < infoList.size(); i++)
+            {
+                if (infoList.get(i).getId().equals(info.getId()))
+                {
+
                     //if its your game
-                    if (CD.getGame() != null && infoList.get(i).getId().equals(CD.getGame().getId())) {
-                        if (!(CD.getGame().hasPlayer(player))) {
+                    if (CD.getGame() != null && infoList.get(i).getId().equals(CD.getGame().getId()))
+                    {
+                        if (!(CD.getGame().hasPlayer(player)))
+                        {
                             Log.d("joinGame", "someone joined my game!");
                             CD.addPlayerToGame(player);
                         }
@@ -55,6 +60,7 @@ class ClientSetupService implements ISetupService {
                     else
                     {
                         CD.addPlayerToGameInfo(i);
+                        System.out.println("added "+ player.getName()+" to " + info.getName() );
                     }
                     return true;
                 }

@@ -77,7 +77,7 @@ public class CommandFacade
 
         //------------------------------add command portion-----------------------------------------
         Class<?>[] types = {GameInfo.class};
-        Object[] params= {info};
+        Object[] params= {new GameInfo(info)};
         Command createCommand = new Command(CommandsExtensions.clientSide+"ClientSetupService","createGame",types,params);
         CM.addCommand(createCommand);
 
