@@ -18,13 +18,16 @@ public class SQLDatabase implements IDatabase{
     SQLCommandDao cDao;
 
     public SQLDatabase() throws DatabaseException {
-        url = "jdbc:sqlite:";
+        url = "jdbc:sqlite:db.sqlite3";
 
         uDao = new SQLUserDao(this);
         gDao = new SQLGameDao(this);
         cDao = new SQLCommandDao(this);
 
         this.open();
+        if(this.getConnection() == null) {
+            System.out.println("WHY ISN'T IT OPEN");
+        }
         createTables();
         this.close(true);
     }
@@ -57,8 +60,8 @@ public class SQLDatabase implements IDatabase{
         try {
             this.conn = DriverManager.getConnection(this.url);
             this.conn.setAutoCommit(false);
-            System.out.println("Created a new connection to the database.");
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             System.out.println(e.getStackTrace());
         }
     }
@@ -74,7 +77,6 @@ public class SQLDatabase implements IDatabase{
 
             this.conn.close();
             this.conn = null;
-            System.out.print("Closed Database Connection");
         }
         catch (SQLException e)
         {
@@ -107,7 +109,7 @@ public class SQLDatabase implements IDatabase{
     }
 
     @Override
-    public void endTransaction() {
-        this.close(true);
+    public void endTransaction(boolean commit) {
+        this.close(commit);
     }
 }

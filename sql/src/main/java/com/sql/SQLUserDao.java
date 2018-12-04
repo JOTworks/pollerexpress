@@ -48,6 +48,7 @@ public class SQLUserDao implements IUserDao {
         User user = null;
         try{
             PreparedStatement stmnt = _db.getConnection().prepareStatement(SELECT_USER);
+            stmnt.setString(1, username);
             ResultSet rs = stmnt.executeQuery();
             if(rs.next()) {
                 user = new User(rs.getString("USERNAME"),rs.getString("PASSWORD"),rs.getString("CURRENT_GAME"));

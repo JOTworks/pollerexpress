@@ -2,6 +2,8 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'junit:junit:4.12'
+    implementation 'org.xerial:sqlite-jdbc:3.25.2'
     compile project(path: ':plugin')
 }
 
