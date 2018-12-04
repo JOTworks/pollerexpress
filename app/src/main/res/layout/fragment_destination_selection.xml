@@ -24,31 +24,31 @@
             android:textAlignment="center"
             android:gravity="center"
             android:textColor="@color/PollerBackground"
-            android:textSize="16dp"/>
+            android:textSize="12dp"/>
         <Button
             android:id="@+id/destination_text_view_1"
             android:layout_width="100dp"
             android:layout_margin="5dp"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:text="56"
+            android:text="Santa's Workshop \n to 15 \n Blitzenburg"
             android:background="@drawable/destination_card"
             android:textAlignment="center"
             android:gravity="center"
             android:textColor="@color/PollerBackground"
-            android:textSize="16dp"/>
+            android:textSize="12dp"/>
         <Button
             android:id="@+id/destination_text_view_2"
             android:layout_width="100dp"
             android:layout_margin="5dp"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:text="houstan\nto (14)\namsterdam"
+            android:text="houstan \n to (14) \n amsterdam"
             android:background="@drawable/destination_card"
             android:textAlignment="center"
             android:gravity="center"
             android:textColor="#000000"
-            android:textSize="16dp"/>
+            android:textSize="12dp"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
