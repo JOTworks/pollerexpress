@@ -6,6 +6,7 @@ import com.plugin.IGameDao;
 import com.plugin.IUserDao;
 import com.shared.exceptions.database.DatabaseException;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -17,7 +18,7 @@ public class SQLDatabase implements IDatabase{
     SQLGameDao gDao;
     SQLCommandDao cDao;
 
-    public SQLDatabase() throws DatabaseException {
+    public SQLDatabase() throws IOException {
         url = "jdbc:sqlite:db.sqlite3";
 
         uDao = new SQLUserDao(this);
@@ -32,7 +33,7 @@ public class SQLDatabase implements IDatabase{
         this.close(true);
     }
 
-    public static void rebuildDB() throws DatabaseException {
+    public static void rebuildDB() throws IOException {
         SQLDatabase db = new SQLDatabase();
         db.open();
         db.deleteTables();
@@ -40,13 +41,13 @@ public class SQLDatabase implements IDatabase{
         db.close(true);
     }
 
-    private void createTables() throws DatabaseException {
+    private void createTables() throws IOException {
         uDao.createTable();
         gDao.createTable();
         cDao.createTable();
     }
 
-    private void deleteTables() throws DatabaseException {
+    private void deleteTables() throws IOException {
         uDao.deleteTable();
         gDao.deleteTable();
         cDao.deleteTable();

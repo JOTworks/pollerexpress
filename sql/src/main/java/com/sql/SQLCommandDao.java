@@ -4,7 +4,9 @@ import com.plugin.ICommandDao;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SQLCommandDao implements ICommandDao {
     SQLDatabase _db;
@@ -24,27 +26,22 @@ public class SQLCommandDao implements ICommandDao {
     }
 
     @Override
-    public Command getCommand(int id) throws DatabaseException {
+    public List<Command> getCommands(String gameId) throws IOException {
         return null;
     }
 
     @Override
-    public ArrayList<Command> getGameCommands(String gameId) throws DatabaseException {
-        return null;
-    }
-
-    @Override
-    public void addCommand(Command c) throws DatabaseException {
+    public void addCommand(Command c, String gameId) throws IOException {
 
     }
 
     @Override
-    public void removeCommand(Command c) throws DatabaseException {
+    public void removeCommands(String gameId) throws IOException {
 
     }
 
     @Override
-    public void removeGameCommands(String gameId) throws DatabaseException {
+    public void clearAllCommands() throws IOException {
 
     }
 }
