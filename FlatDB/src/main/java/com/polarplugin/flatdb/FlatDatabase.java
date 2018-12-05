@@ -38,4 +38,11 @@ public class FlatDatabase implements IDatabase {
     public void endTransaction(boolean commit) throws IOException {
         // do nothing
     }
+
+    @Override
+    public void resetDatabase() throws IOException {
+            new FlatCommandDao().clearAllCommands();
+            new FlatGameDao().clearGames();
+            new FlatUserDao().clearUsers();
+    }
 }
