@@ -1,7 +1,10 @@
 package com.polarplugin.flatdb.dao;
 
+import com.plugin.ICommandDao;
 import com.shared.models.Command;
 import com.shared.utilities.Serializer;
+
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,6 +23,7 @@ public class FlatCommandDao implements ICommandDao {
         try {
             InputStream fis = new FileInputStream(new File("games/" + gameId + ".txt"));
             commands = (ArrayList<Command>) Serializer.readData(fis);
+            fis.close();
 
         } catch (FileNotFoundException e) { throw new FileNotFoundException();
         } catch (ClassNotFoundException | IOException e) {
@@ -29,7 +33,7 @@ public class FlatCommandDao implements ICommandDao {
     }
 
     @Override
-    public void addCommand(Command command, String gameId) {
+    public void addCommand(Command command, String gameId) throws IOException {
         List<Command> commands = new ArrayList<>();
 
         // get an array of commands
@@ -38,16 +42,21 @@ public class FlatCommandDao implements ICommandDao {
         finally { commands.add(command); } // regardless, we want to add the command that just came in
 
         // write the new array of commands to to a file
-        try {
-            OutputStream fos = new FileOutputStream(new File("games/" + gameId + ".txt"));
-            Serializer.writeData(commands, fos);
-        } catch(Exception e){
-            throw new RuntimeException(e.getClass() + ":" + e.getMessage());
-        }
+        OutputStream fos = new FileOutputStream(new File("games/" + gameId + ".txt"));
+        Serializer.writeData(commands, fos);
+        fos.close();
     }
 
     @Override
-    public void clearCommands() {
+    public void removeCommands(String gameId) throws IOException {
+            // set the output stream to overwrite instead of appending
+            OutputStream fos = new FileOutputStream(new File("games/" + gameId + ".txt"), false);
+            Serializer.writeData(new ArrayList<Command>(), fos);
+            fos.close();
+    }
 
+    @Override
+    public void clearAllCommands() throws IOException {
+        FileUtils.cleanDirectory(new File("games"));
     }
 }

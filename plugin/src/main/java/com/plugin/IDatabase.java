@@ -1,11 +1,15 @@
 package com.plugin;
 
-import com.shared.exceptions.database.DatabaseException;
+import java.io.IOException;
 
 public interface IDatabase {
     public IUserDao getUserDao();
+
     public IGameDao getGameDao();
+
     public ICommandDao getCommandDao();
-    public void startTransaction() throws DatabaseException;
-    public void endTransaction(boolean commit) throws DatabaseException;
+
+    public void startTransaction() throws IOException;
+
+    public void endTransaction(boolean commit) throws IOException;
 }

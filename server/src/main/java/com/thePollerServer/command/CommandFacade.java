@@ -1,6 +1,5 @@
 package com.thePollerServer.command;
 
-import com.shared.exceptions.NoCardToDrawException;
 import com.shared.exceptions.StateException;
 import com.shared.models.Color;
 import com.shared.models.EndGameResult;
@@ -25,6 +24,7 @@ import com.shared.models.ServerPlayer;
 import com.thePollerServer.services.GameService;
 import com.thePollerServer.services.SetupService;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,9 +50,9 @@ public class CommandFacade
      * @param player
      * @param info
      * @throws CommandFailed
-     * @throws DatabaseException
+     * @throws IOException
      */
-    public static void joinGame(Player player, GameInfo info) throws CommandFailed, DatabaseException
+    public static void joinGame(Player player, GameInfo info) throws CommandFailed
     {
         SetupService.joinGame(player, info);
 
@@ -74,9 +74,9 @@ public class CommandFacade
      * @param player
      * @param info
      * @throws CommandFailed
-     * @throws DatabaseException
+     * @throws IOException
      */
-    public static void createGame(Player player, GameInfo info) throws CommandFailed, DatabaseException  {
+    public static void createGame(Player player, GameInfo info) throws CommandFailed  {
         SetupService.createGame(player, info);
 
         //------------------------------add command portion-----------------------------------------
@@ -92,10 +92,10 @@ public class CommandFacade
      * Done for refactor
      * @param p player
      * @param r route
-     * @throws DatabaseException
+     * @throws IOException
      */
 
-    public static void claimRoute(Player p, Route r, List<TrainCard> cards) throws CommandFailed, DatabaseException
+    public static void claimRoute(Player p, Route r, List<TrainCard> cards) throws CommandFailed, IOException
     {
         GameInfo info = model.getMyGame(p);
         ServerGame game = model.getGame(info);
@@ -132,9 +132,9 @@ public class CommandFacade
      *
      * @param user
      * @throws CommandFailed
-     * @throws DatabaseException
+     * @throws IOException
      */
-    public static void startGame(User user) throws CommandFailed, DatabaseException
+    public static void startGame(User user) throws CommandFailed, IOException
     {
         System.out.println("gameID="+user.getGameId());
 
@@ -205,7 +205,7 @@ public class CommandFacade
 
     }
 
-    public static void drawDestinationCards (Player p) throws StateException, DatabaseException
+    public static void drawDestinationCards (Player p) throws StateException, IOException
     {
         GameService gm = new GameService();
         ServerGame game = model.getGame(p);
@@ -250,10 +250,10 @@ public class CommandFacade
      * @param p
      * @param cards
      * @throws CommandFailed
-     * @throws DatabaseException
+     * @throws IOException
      */
 
-    public static void discardDestinationCards(Player p, List<DestinationCard> cards) throws CommandFailed, DatabaseException
+    public static void discardDestinationCards(Player p, List<DestinationCard> cards) throws CommandFailed, IOException
     {
         GameService gm = new GameService();
         boolean discarded = gm.discardDestinationCards(p, cards);
@@ -292,7 +292,7 @@ public class CommandFacade
      * @param chat
      * @param gameInfo
      */
-    public static void chat(Chat chat, GameInfo gameInfo) throws DatabaseException
+    public static void chat(Chat chat, GameInfo gameInfo)
     {
         // send the chat along to the database
         GameService gameService = new GameService();
@@ -310,7 +310,7 @@ public class CommandFacade
      *
      * @param p
      * @param i
-     * @throws DatabaseException
+     * @throws IOException
      */
     public static void drawVisible(Player p, Integer i) throws Exception, CommandFailed
     {
@@ -363,9 +363,9 @@ public class CommandFacade
      * @param p
      * @param number
      * @throws CommandFailed
-     * @throws DatabaseException
+     * @throws IOException
      */
-    public static void drawTrainCards(Player p, int number) throws CommandFailed
+    public static void drawTrainCards(Player p, int number) throws CommandFailed, IOException
     {
         GameInfo info = model.getMyGame(p);
 
