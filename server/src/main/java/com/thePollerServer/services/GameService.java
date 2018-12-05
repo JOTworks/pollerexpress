@@ -57,7 +57,7 @@ public class GameService
      * @param gameInfo
      * @throws DatabaseException
      */
-    public void chat(Chat chat, GameInfo gameInfo) throws DatabaseException
+    public void chat(Chat chat, GameInfo gameInfo)
     {
         //df.chat(chat, gameInfo);
         ServerGame game = model.getGame(gameInfo);

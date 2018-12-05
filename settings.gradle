@@ -1,1 +1,1 @@
-include ':app', ':server', ':shared', ':shared', ':plugin', ':sql'
+include ':app', ':server', ':shared', ':shared', ':plugin', ':sql', ':FlatDB'
