@@ -20,4 +20,9 @@ public class FlatUserDao implements IUserDao {
     public void updateUser(User user) throws IOException {
 
     }
+
+    @Override
+    public void clearUsers() throws IOException {
+
+    }
 }

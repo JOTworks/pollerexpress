@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
-public class FlatDB_Test {
+public class FlatDB_Game_Test {
 
     @Test
     public void testFileWriting() throws IOException {
