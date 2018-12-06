@@ -7,6 +7,7 @@ import com.plugin.IUserDao;
 import com.shared.exceptions.database.DatabaseException;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Connection;
@@ -14,7 +15,8 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class SQLDatabase implements IDatabase{
+public class SQLDatabase implements IDatabase
+{
     final String url;
     Connection conn;
     SQLUserDao uDao;
@@ -139,5 +141,11 @@ public class SQLDatabase implements IDatabase{
     @Override
     public void endTransaction(boolean commit) {
         this.close(commit);
+    }
+
+    @Override
+    public void resetDatabase() throws IOException
+    {
+        
     }
 }
