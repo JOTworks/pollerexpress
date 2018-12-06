@@ -26,14 +26,11 @@ public class SQLDatabase implements IDatabase{
         cDao = new SQLCommandDao(this);
 
         this.open();
-        if(this.getConnection() == null) {
-            System.out.println("WHY ISN'T IT OPEN");
-        }
         createTables();
         this.close(true);
     }
 
-    public static void rebuildDB() throws IOException {
+    public void resetDatabase() throws IOException {
         SQLDatabase db = new SQLDatabase();
         db.open();
         db.deleteTables();

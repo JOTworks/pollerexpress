@@ -16,6 +16,4 @@ public interface IGameDao {
     public void updateGame(Game game) throws IOException;
 
     public void deleteGame(Game game) throws IOException;
-
-    public void clearGames() throws IOException;
 }
