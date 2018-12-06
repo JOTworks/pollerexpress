@@ -12,4 +12,6 @@ public interface IDatabase {
     public void startTransaction() throws IOException;
 
     public void endTransaction(boolean commit) throws IOException;
+
+    public void resetDatabase() throws IOException;
 }

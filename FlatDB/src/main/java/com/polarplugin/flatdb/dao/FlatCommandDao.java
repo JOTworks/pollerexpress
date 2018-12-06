@@ -41,7 +41,7 @@ public class FlatCommandDao implements ICommandDao {
         catch (FileNotFoundException e) {} // if the file is not found, we will use the list of commands created above
         finally { commands.add(command); } // regardless, we want to add the command that just came in
 
-        // write the new array of commands to to a file
+        // write the new array of commands to a file
         OutputStream fos = new FileOutputStream(new File("games/" + gameId + ".txt"));
         Serializer.writeData(commands, fos);
         fos.close();
