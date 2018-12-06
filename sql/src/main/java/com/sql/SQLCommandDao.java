@@ -23,9 +23,11 @@ public class SQLCommandDao implements ICommandDao {
     private static final String INSERT_COMMAND = "INSERT INTO `COMMANDS` (`GAME_ID`,`COMMAND_OBJ`) VALUES (?,?)";
     private static final String DELETE_COMMANDS = "DELETE FROM `COMMANDS` WHERE `GAME_ID` = ?";
 
-    public SQLCommandDao(SQLDatabase db) {
+    public SQLCommandDao(SQLDatabase db)
+    {
         _db = db;
     }
+
 
     public void createTable() throws DatabaseException {
         try{
@@ -85,12 +87,12 @@ public class SQLCommandDao implements ICommandDao {
 
     @Override
     public void removeCommands(String gameId) throws IOException {
-        try{
+        try {
             PreparedStatement stmnt = _db.getConnection().prepareStatement(DELETE_COMMANDS);
             stmnt.setString(1, gameId);
             stmnt.execute();
             stmnt.close();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new DatabaseException(e.getMessage());
         }
     }

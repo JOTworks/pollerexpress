@@ -1,10 +1,15 @@
 package com.thePollerServer;
 
+import com.plugin.IDatabase;
+import com.plugin.IPluginFactory;
+import com.shared.exceptions.database.DatabaseException;
 import com.sun.net.httpserver.*;
 import com.thePollerServer.handlers.ExecuteHandler;
 import com.thePollerServer.handlers.LoginHandler;
 import com.thePollerServer.handlers.PollHandler;
 import com.thePollerServer.handlers.RegisterHandler;
+import com.thePollerServer.utilities.Factory;
+import com.thePollerServer.utilities.PluginManager;
 
 import java.io.*;
 import java.net.*;
@@ -54,14 +59,30 @@ public class Server
     // on which the Server should accept incoming client connections.
     public static void main(String[] args) {
         String portNumber;
+        String plugin;
         if(args.length > 0)
         {
             portNumber = args[0];
+            plugin = args[1];
         }
         else
         {
             portNumber = "8080"; //address already in use?
+            plugin = "SQL";
 //            portNumber = "4200"; //app cannot connect to server
+        }
+        PluginManager manager = new PluginManager("plugins.config");//TODO set this up in a constant?
+        IPluginFactory factory = manager.getPluginFactory(plugin);
+        Factory.set(factory);
+        try
+        {
+            IDatabase db = Factory.create();
+            db.startTransaction();
+        }
+        catch(Exception db)
+        {
+            db.printStackTrace();
+            System.out.print("it failed\n");
         }
         new Server().run(portNumber);
     }
