@@ -17,7 +17,7 @@ public class ServerPlayer extends Player
         destCardHand = new DestCardHand();
         trainCardHand = new TrainCardHand();
         destCardOptions = new DestCardOptions();
-        setTrainCount(25);//TODO remove this.
+        setTrainCount(15);//TODO remove this.
     }
 
     public DestCardHand getDestCardHand()
