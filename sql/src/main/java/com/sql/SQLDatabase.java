@@ -48,16 +48,16 @@ public class SQLDatabase implements IDatabase
         uDao = new SQLUserDao(this);
         gDao = new SQLGameDao(this);
         cDao = new SQLCommandDao(this);
-
-        this.open();
-        if(this.getConnection() == null) {
-            System.out.println("WHY ISN'T IT OPEN");
+        try {
+            this.open();
+            createTables();
+            this.close(true);
+        } catch(IOException e) {
+            throw new DatabaseException(e.getMessage());
         }
-        createTables();
-        this.close(true);
     }
 
-    public static void rebuildDB() throws DatabaseException {
+    public void resetDatabase() throws IOException {
         SQLDatabase db = new SQLDatabase();
         db.open();
         db.deleteTables();
@@ -65,13 +65,13 @@ public class SQLDatabase implements IDatabase
         db.close(true);
     }
 
-    private void createTables() throws DatabaseException {
+    private void createTables() throws IOException {
         uDao.createTable();
         gDao.createTable();
         cDao.createTable();
     }
 
-    private void deleteTables() throws DatabaseException {
+    private void deleteTables() throws IOException {
         uDao.deleteTable();
         gDao.deleteTable();
         cDao.deleteTable();
@@ -79,7 +79,6 @@ public class SQLDatabase implements IDatabase
 
     private void open()
     {
-        System.out.print("opened a connection wooo!\n");
         if(this.getConnection() != null)
         {
             System.out.print("Tried to open an open line");
@@ -143,9 +142,5 @@ public class SQLDatabase implements IDatabase
         this.close(commit);
     }
 
-    @Override
-    public void resetDatabase() throws IOException
-    {
-
-    }
+    
 }

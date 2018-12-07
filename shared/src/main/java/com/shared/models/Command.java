@@ -86,4 +86,27 @@ public class Command implements ICommand, Serializable
     public Class<?>[] getParamTypes() { return _paramTypes; }
 
     public Object[] getParamValues() { return _paramValues; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Command))
+        {
+            return false;
+        }
+        Command command = (Command) o;
+        if(!(this._className.equals(command._className))) {
+            return false;
+        }
+        if(!(this._methodName.equals(command._methodName))) {
+            return false;
+        }
+        if(!(this._paramTypes.equals(command._paramTypes))) {
+            return false;
+        }
+        if(!(this._paramValues.equals(command._paramValues))) {
+            return false;
+        }
+        return true;
+    }
 }
