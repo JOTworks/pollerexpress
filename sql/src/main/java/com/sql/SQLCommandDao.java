@@ -51,14 +51,14 @@ public class SQLCommandDao implements ICommandDao {
 
     @Override
     public List<Command> getCommands(String gameId) throws IOException {
-        ArrayList<Command> games = new ArrayList<>();
+        ArrayList<Command> commands = new ArrayList<>();
         try{
             PreparedStatement stmnt = _db.getConnection().prepareStatement(SELECT_COMMANDS);
             stmnt.setString(1, gameId);
             ResultSet rs = stmnt.executeQuery();
             while(rs.next()) {
-                ByteArrayInputStream stream = new ByteArrayInputStream(rs.getBytes("GAME_OBJ"));
-                games.add( (Command)Serializer.readData(stream) );
+                ByteArrayInputStream stream = new ByteArrayInputStream(rs.getBytes("COMMAND_OBJ"));
+                commands.add( (Command) Serializer.readData(stream) );
                 stream.close();
             }
             rs.close();
@@ -66,7 +66,7 @@ public class SQLCommandDao implements ICommandDao {
         } catch(Exception e) {
             throw new DatabaseException(e.getMessage());
         }
-        return games;
+        return commands;
     }
 
     @Override

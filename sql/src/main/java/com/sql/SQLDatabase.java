@@ -79,7 +79,6 @@ public class SQLDatabase implements IDatabase
 
     private void open()
     {
-        System.out.print("opened a connection wooo!\n");
         if(this.getConnection() != null)
         {
             System.out.print("Tried to open an open line");
