@@ -74,6 +74,9 @@ public class FlatGameDao implements IGameDao {
         // remove and check at the same time
         if (!games.remove(game))
             throw new DeleteFailedException(game.getId());
+        // write the updated games list back to the file
+        OutputStream fos = new FileOutputStream(new File("allGames.txt"), false);
+        Serializer.writeData(games, fos);
     }
 
     @Override
