@@ -142,5 +142,5 @@ public class SQLDatabase implements IDatabase
         this.close(commit);
     }
 
-    
+
 }
