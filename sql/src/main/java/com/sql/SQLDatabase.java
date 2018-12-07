@@ -146,6 +146,6 @@ public class SQLDatabase implements IDatabase
     @Override
     public void resetDatabase() throws IOException
     {
-        
+
     }
 }
