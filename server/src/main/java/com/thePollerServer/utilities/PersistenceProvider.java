@@ -47,34 +47,6 @@ public class PersistenceProvider
 
     }
 
-    public void saveGame(ServerGame game) throws IOException {
-
-        try{
-            db.startTransaction();
-            db.getGameDao().updateGame(game);
-            db.endTransaction(true);
-
-        } catch (IOException e) {
-            throw e;
-        }
-    }
-
-    public ArrayList getPlayersInGame(ServerGame game) throws IOException {
-
-
-        ArrayList<Player> players = new ArrayList<>();
-        try
-        {
-            db.startTransaction();
-            players = (ArrayList<Player>) db.getGameDao().getGame(game.getId()).getPlayers();
-            db.endTransaction(true);
-        } catch (IOException e) {
-            throw e;
-        }
-
-        return players;
-    }
-
     /**
      * Gets a user with an updated game id and updated the user in the database
      * @param user user with an updated gameId
@@ -104,7 +76,6 @@ public class PersistenceProvider
     }
 
     public ArrayList<ServerGame> getGameList() throws IOException {
-
 
         try{
             db.startTransaction();
@@ -146,7 +117,7 @@ public class PersistenceProvider
                 // the second parameter is the game from server memory
 
                 // write the game into the database
-                saveGame(game);
+                db.getGameDao().updateGame(game);
 
                 // throw away delta commands.
                 db.getCommandDao().removeCommands(game.getId());
