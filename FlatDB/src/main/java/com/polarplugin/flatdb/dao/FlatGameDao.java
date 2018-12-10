@@ -1,6 +1,7 @@
 package com.polarplugin.flatdb.dao;
 
 import com.plugin.IGameDao;
+import com.plugin.models.ServerGame;
 import com.polarplugin.flatdb.exceptions.DeleteFailedException;
 import com.polarplugin.flatdb.exceptions.GameNotFoundException;
 import com.shared.models.Game;
@@ -19,9 +20,9 @@ import java.util.List;
 public class FlatGameDao implements IGameDao {
 
     @Override
-    public Game getGame(String id) throws IOException {
-        List<Game> games = getAllGames();
-        for (Game game : games) {
+    public ServerGame getGame(String id) throws IOException {
+        List<ServerGame> games = getAllGames();
+        for (ServerGame game : games) {
             if (game.getId().equals(id))
                     return game;
         }
@@ -29,11 +30,11 @@ public class FlatGameDao implements IGameDao {
     }
 
     @Override
-    public List<Game> getAllGames() throws FileNotFoundException {
-        List<Game> games;
+    public List<ServerGame> getAllGames() throws FileNotFoundException {
+        List<ServerGame> games;
         try {
             InputStream fis = new FileInputStream(new File("allGames.txt"));
-            games = (ArrayList<Game>) Serializer.readData(fis);
+            games = (ArrayList<ServerGame>) Serializer.readData(fis);
             fis.close();
 
         } catch (FileNotFoundException e) { throw new FileNotFoundException();
@@ -44,8 +45,8 @@ public class FlatGameDao implements IGameDao {
     }
 
     @Override
-    public void addGame(Game game) throws IOException {
-        List<Game> games = new ArrayList<>();
+    public void addGame(ServerGame game) throws IOException {
+        List<ServerGame> games = new ArrayList<>();
 
         // get an array of games
         try { games = getAllGames(); } // get a list comprising all games
@@ -59,8 +60,8 @@ public class FlatGameDao implements IGameDao {
     }
 
     @Override
-    public void updateGame(Game game) throws IOException {
-        List<Game> games = getAllGames();
+    public void updateGame(ServerGame game) throws IOException {
+        List<ServerGame> games = getAllGames();
         int index = games.indexOf(game);
         if (index == -1)
             throw new GameNotFoundException(game.getId());
@@ -69,8 +70,8 @@ public class FlatGameDao implements IGameDao {
     }
 
     @Override
-    public void deleteGame(Game game) throws IOException {
-        List<Game> games = getAllGames();
+    public void deleteGame(ServerGame game) throws IOException {
+        List<ServerGame> games = getAllGames();
         // remove and check at the same time
         if (!games.remove(game))
             throw new DeleteFailedException(game.getId());
