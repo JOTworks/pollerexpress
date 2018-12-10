@@ -21,7 +21,11 @@ public class Server
 
     //the maximum players in a game is five
     private static final int MAX_WAITING_CONNECTIONS = 12;
+    private static int delta;
 
+    public static int getDelta() {
+        return delta;
+    }
 
     private HttpServer server;
 
@@ -59,13 +63,15 @@ public class Server
     // "main" method for the Server program
     // "args" should contain one command-line argument, which is the port number
     // on which the Server should accept incoming client connections.
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         String portNumber;
         String plugin;
         if(args.length > 0)
         {
             portNumber = args[0];
             plugin = args[1];
+            delta = Integer.valueOf(args[2]);
         }
         else
         {
@@ -73,9 +79,13 @@ public class Server
             plugin = "SQL";
 //            portNumber = "4200"; //app cannot connect to server
         }
+
         PluginManager manager = new PluginManager("plugins.config");//TODO set this up in a constant?
+
         IPluginFactory factory = manager.getPluginFactory(plugin);
+
         Factory.set(factory);
+
         try
         {
             IDatabase db = Factory.create();
@@ -91,6 +101,7 @@ public class Server
 
         //PersistenceProvider PP = new PersistenceProvider(delta);
         //PP.onServerStart();
+
         new Server().run(portNumber);
     }
 }

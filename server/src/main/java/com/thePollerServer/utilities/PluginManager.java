@@ -1,8 +1,14 @@
 package com.thePollerServer.utilities;
 
+import com.plugin.ICommandDao;
 import com.plugin.IDatabase;
+import com.plugin.IGameDao;
 import com.plugin.IPluginFactory;
+import com.plugin.IUserDao;
 import com.shared.exceptions.database.DatabaseException;
+import com.shared.models.Command;
+import com.shared.models.Game;
+import com.shared.models.User;
 
 import java.io.File;
 import java.io.FileReader;
@@ -10,6 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 //plugins.config
 public class PluginManager
@@ -70,14 +77,119 @@ public class PluginManager
         {
             e.printStackTrace();
         }
-        return null;
-        /*
+
         return new IPluginFactory()
         {
             @Override
             public IDatabase create() throws DatabaseException
             {
-                throw new DatabaseException("No Database being used");
+                return new IDatabase()
+                {
+                    @Override
+                    public IUserDao getUserDao()
+                    {
+                        return new IUserDao()
+                        {
+                            @Override
+                            public User getUser(String username) throws IOException
+                            {
+                                return null;
+                            }
+
+                            @Override
+                            public void addUser(User user) throws IOException
+                            {
+
+                            }
+
+                            @Override
+                            public void updateUser(User user) throws IOException
+                            {
+
+                            }
+                        };
+                    }
+
+                    @Override
+                    public IGameDao getGameDao()
+                    {
+                        return new IGameDao()
+                        {
+                            @Override
+                            public Game getGame(String id) throws IOException
+                            {
+                                return null;
+                            }
+
+                            @Override
+                            public List<Game> getAllGames() throws IOException
+                            {
+                                return null;
+                            }
+
+                            @Override
+                            public void addGame(Game game) throws IOException
+                            {
+
+                            }
+
+                            @Override
+                            public void updateGame(Game game) throws IOException
+                            {
+
+                            }
+
+                            @Override
+                            public void deleteGame(Game game) throws IOException
+                            {
+
+                            }
+                        };
+                    }
+
+                    @Override
+                    public ICommandDao getCommandDao()
+                    {
+                        return new ICommandDao()
+                        {
+                            @Override
+                            public List<Command> getCommands(String gameId) throws IOException
+                            {
+                                return null;
+                            }
+
+                            @Override
+                            public void addCommand(Command c, String gameId) throws IOException
+                            {
+
+                            }
+
+                            @Override
+                            public void removeCommands(String gameId) throws IOException
+                            {
+
+                            }
+                        };
+                    }
+
+                    @Override
+                    public void startTransaction() throws IOException
+                    {
+
+                    }
+
+                    @Override
+                    public void endTransaction(boolean commit) throws IOException
+                    {
+
+                    }
+
+                    @Override
+                    public void resetDatabase() throws IOException
+                    {
+
+                    }
+                };
             }
         };//maybe create a generic plugin that does nothing? is an option*/
     }
