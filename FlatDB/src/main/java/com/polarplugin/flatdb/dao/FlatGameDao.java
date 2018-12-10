@@ -79,7 +79,6 @@ public class FlatGameDao implements IGameDao {
         Serializer.writeData(games, fos);
     }
 
-    @Override
     public void clearGames() throws IOException {
         File oldFile = new File("allGames.txt");
         boolean deleteSucceeded = oldFile.delete();

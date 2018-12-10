@@ -1,6 +1,7 @@
 package com.polarplugin.flatdb.dao;
 
 import com.plugin.IUserDao;
+import com.polarplugin.flatdb.exceptions.DeleteFailedException;
 import com.polarplugin.flatdb.exceptions.UserNotFoundException;
 import com.shared.models.User;
 import com.shared.utilities.Serializer;
@@ -8,8 +9,10 @@ import com.shared.utilities.Serializer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +44,17 @@ public class FlatUserDao implements IUserDao {
 
     @Override
     public void addUser(User user) throws IOException {
+        List<User> users = new ArrayList<>();
 
+        // get an array of users
+        try { users = getAllUsers(); } // get a list comprising all users
+        catch (FileNotFoundException e) {} // if the file is not found, we will use the list of users created above
+        finally { users.add(user); } // regardless, we want to add the user that just came in
+
+        // write the new array of users to a file
+        OutputStream fos = new FileOutputStream(new File("allUsers.txt"), false);
+        Serializer.writeData(users, fos);
+        fos.close();
     }
 
     @Override
@@ -49,8 +62,10 @@ public class FlatUserDao implements IUserDao {
 
     }
 
-    @Override
     public void clearUsers() throws IOException {
-
+        File oldFile = new File("allUsers.txt");
+        boolean deleteSucceeded = oldFile.delete();
+        if (!deleteSucceeded)
+            throw new DeleteFailedException("allUsers.txt");
     }
 }
