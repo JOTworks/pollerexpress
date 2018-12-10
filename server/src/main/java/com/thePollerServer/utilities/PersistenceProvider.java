@@ -14,12 +14,14 @@ import java.util.ArrayList;
 /**
  * This class is a facade for the database.
  */
-public class PersistenceProvider {
+public class PersistenceProvider
+{
 
     private int delta;
     private IDatabase db = Factory.create();
 
-    public PersistenceProvider(int delta) throws DatabaseException {
+    public PersistenceProvider(int delta) throws DatabaseException
+    {
         this.delta = delta;
     }
 
@@ -28,9 +30,11 @@ public class PersistenceProvider {
      * @param user
      * @throws IOException
      */
-    public void register(User user) throws IOException {
+    public void register(User user) throws IOException
+    {
 
-        try{
+        try
+        {
             db.startTransaction();
             db.getUserDao().addUser(user);
             db.endTransaction(true);
@@ -40,7 +44,8 @@ public class PersistenceProvider {
 
     }
 
-    public void saveGame(Game game) throws IOException {
+    public void saveGame(Game game) throws IOException
+    {
 
         try{
             db.startTransaction();
@@ -52,10 +57,12 @@ public class PersistenceProvider {
         }
     }
 
-    public ArrayList getPlayersInGame(Game game) throws IOException {
+    public ArrayList getPlayersInGame(Game game) throws IOException
+    {
 
         ArrayList<Player> players = new ArrayList<>();
-        try{
+        try
+        {
             db.startTransaction();
             players = (ArrayList<Player>) db.getGameDao().getGame(game.getId()).getPlayers();
             db.endTransaction(true);
@@ -66,9 +73,11 @@ public class PersistenceProvider {
         return players;
     }
 
-    public void joinGame(Player player, Game game) throws IOException {
+    public void joinGame(Player player, Game game) throws IOException
+    {
 
-        try{
+        try
+        {
             db.startTransaction();
             db.getGameDao().getGame(game.getId()).addPlayer(player);
             db.endTransaction(true);
@@ -77,7 +86,8 @@ public class PersistenceProvider {
         }
     }
 
-    public void addGame(Game game) throws IOException {
+    public void addGame(Game game) throws IOException
+    {
 
         try{
             db.startTransaction();
@@ -88,7 +98,8 @@ public class PersistenceProvider {
         }
     }
 
-    public ArrayList<Game> getGameList() throws IOException {
+    public ArrayList<Game> getGameList() throws IOException
+    {
 
         try{
             db.startTransaction();
@@ -135,7 +146,8 @@ public class PersistenceProvider {
                 // throw away delta commands.
                 db.getCommandDao().removeCommands(game.getId());
             }
-            else {
+            else
+                {
                 db.getCommandDao().addCommand(command, game.getId());
             }
             db.endTransaction(true);

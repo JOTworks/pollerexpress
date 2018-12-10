@@ -65,6 +65,7 @@ public class Server
         {
             portNumber = args[0];
             plugin = args[1];
+
         }
         else
         {
@@ -83,6 +84,7 @@ public class Server
         {
             IDatabase db = Factory.create();
             db.startTransaction();
+            db.endTransaction(false);
         }
         catch(Exception db)
         {
