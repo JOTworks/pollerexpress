@@ -9,6 +9,7 @@ import com.shared.models.Player;
 import com.thePollerServer.Model.ServerGame;
 import com.thePollerServer.command.CommandManager;
 import com.shared.models.User;
+import com.thePollerServer.Model.ServerGame;
 
 
 import java.io.IOException;
@@ -43,7 +44,7 @@ public class PersistenceProvider {
 
     }
 
-    public void saveGame(Game game) throws IOException {
+    public void saveGame(ServerGame game) throws IOException {
 
         try{
             db.startTransaction();
@@ -55,7 +56,7 @@ public class PersistenceProvider {
         }
     }
 
-    public ArrayList getPlayersInGame(Game game) throws IOException {
+    public ArrayList getPlayersInGame(ServerGame game) throws IOException {
 
         ArrayList<Player> players = new ArrayList<>();
         try{
@@ -69,7 +70,7 @@ public class PersistenceProvider {
         return players;
     }
 
-    public void joinGame(Player player, Game game) throws IOException {
+    public void joinGame(Player player, ServerGame game) throws IOException {
 
         try{
             db.startTransaction();
@@ -80,7 +81,7 @@ public class PersistenceProvider {
         }
     }
 
-    public void addGame(Game game) throws IOException {
+    public void addGame(ServerGame game) throws IOException {
 
         try{
             db.startTransaction();
@@ -91,11 +92,11 @@ public class PersistenceProvider {
         }
     }
 
-    public ArrayList<Game> getGameList() throws IOException {
+    public ArrayList<ServerGame> getGameList() throws IOException {
 
         try{
             db.startTransaction();
-            ArrayList<Game> gameList = (ArrayList<Game>) db.getGameDao().getAllGames();
+            ArrayList<ServerGame> gameList = (ArrayList<ServerGame>) db.getGameDao().getAllGames();
             db.endTransaction(true);
             return gameList;
         } catch (IOException e) {
@@ -107,7 +108,7 @@ public class PersistenceProvider {
      * @param game
      * @return all commands that have yet to be saved for this game
      */
-    public ArrayList getCommandList(Game game) throws IOException {
+    public ArrayList getCommandList(ServerGame game) throws IOException {
         try{
             db.startTransaction();
             ArrayList<Command> commandList = (ArrayList<Command>) db.getCommandDao().getCommands(game.getId());
@@ -124,7 +125,7 @@ public class PersistenceProvider {
      * @param game
      * @throws IOException
      */
-    public void addCommand(Command command, Game game) throws IOException {
+    public void addCommand(Command command, ServerGame game) throws IOException {
 
         try{
             db.startTransaction();
@@ -164,3 +165,4 @@ public class PersistenceProvider {
         ////also dont edit the DB at all
     }
 }
+
