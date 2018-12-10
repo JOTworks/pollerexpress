@@ -59,7 +59,12 @@ public class FlatUserDao implements IUserDao {
 
     @Override
     public void updateUser(User user) throws IOException {
+        List<User> users = getAllUsers();
+        int index = users.indexOf(user);
+        if (index == -1)
+            throw new UserNotFoundException(user.getName());
 
+        users.set(index, user);
     }
 
     public void clearUsers() throws IOException {
