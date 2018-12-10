@@ -117,11 +117,30 @@ public class PersistenceProvider {
         }
     }
 
+    /**
+     *
+     * @param command
+     * @param game
+     * @throws IOException
+     */
     public void addCommand(Command command, Game game) throws IOException {
 
         try{
             db.startTransaction();
-            db.getCommandDao().addCommand(command, game.getId());
+            if(getCommandList(game).size() >= delta)
+            {
+                // the second parameter is the game
+                // from server memory
+
+                // write the game into the database
+                saveGame(game);
+
+                // throw away delta commands.
+                db.getCommandDao().removeCommands(game.getId());
+            }
+            else {
+                db.getCommandDao().addCommand(command, game.getId());
+            }
             db.endTransaction(true);
         } catch (IOException e) {
             throw e;
