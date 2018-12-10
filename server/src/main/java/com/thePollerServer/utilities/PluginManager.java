@@ -7,7 +7,7 @@ import com.plugin.IPluginFactory;
 import com.plugin.IUserDao;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
-import com.shared.models.Game;
+import com.plugin.models.ServerGame;
 import com.shared.models.User;
 
 import java.io.File;
@@ -116,31 +116,31 @@ public class PluginManager
                         return new IGameDao()
                         {
                             @Override
-                            public Game getGame(String id) throws IOException
+                            public ServerGame getGame(String id) throws IOException
                             {
                                 return null;
                             }
 
                             @Override
-                            public List<Game> getAllGames() throws IOException
+                            public List<ServerGame> getAllGames() throws IOException
                             {
                                 return null;
                             }
 
                             @Override
-                            public void addGame(Game game) throws IOException
+                            public void addGame(ServerGame game) throws IOException
                             {
 
                             }
 
                             @Override
-                            public void updateGame(Game game) throws IOException
+                            public void updateGame(ServerGame game) throws IOException
                             {
 
                             }
 
                             @Override
-                            public void deleteGame(Game game) throws IOException
+                            public void deleteGame(ServerGame game) throws IOException
                             {
 
                             }

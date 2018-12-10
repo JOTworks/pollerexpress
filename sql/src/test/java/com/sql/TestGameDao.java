@@ -1,9 +1,8 @@
 package com.sql;
 
-import com.shared.models.Game;
+import com.plugin.models.ServerGame;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
-import com.shared.models.User;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,13 +15,13 @@ import static org.junit.Assert.*;
 public class TestGameDao {
     SQLDatabase db;
     SQLGameDao gDao;
-    Game g;
+    ServerGame g;
 
     @Before
     public void up() {
-        g = new Game(new GameInfo("A Game", 5));
+        g = new ServerGame(new GameInfo("A Game", 5));
         Player p = new Player("name");
-        g.addPlayer(p);
+        g.join(p);
         try{
             db = new SQLDatabase();
             gDao = db.gDao;
@@ -65,7 +64,7 @@ public class TestGameDao {
             db.startTransaction();
 
             gDao.addGame(g);
-            Game game = gDao.getGame(g.getId());
+            ServerGame game = gDao.getGame(g.getId());
 
             assertEquals(g.getPlayers(),game.getPlayers());
 
@@ -83,11 +82,11 @@ public class TestGameDao {
             db.startTransaction();
 
             gDao.addGame(g);
-            Game game = gDao.getGame(g.getId());
+            ServerGame game = gDao.getGame(g.getId());
 
-            g.addPlayer(new Player("player2"));
+            g.join(new Player("player2"));
             gDao.updateGame(g);
-            Game game2 = gDao.getGame(g.getId());
+            ServerGame game2 = gDao.getGame(g.getId());
 
             assertNotEquals(game.getPlayers(),game2.getPlayers());
             assertEquals(g.getPlayers(),game2.getPlayers());
@@ -122,15 +121,15 @@ public class TestGameDao {
     @Test
     public void testGetAllGames() {
         try{
-            Game g2 = new Game(new GameInfo("Another Game", 5));
-            Game g3 = new Game(new GameInfo("Also Game", 5));
+            ServerGame g2 = new ServerGame(new GameInfo("Another Game", 5));
+            ServerGame g3 = new ServerGame(new GameInfo("Also Game", 5));
             db.startTransaction();
 
             gDao.addGame(g);
             gDao.addGame(g2);
             gDao.addGame(g3);
 
-            ArrayList<Game> games = gDao.getAllGames();
+            ArrayList<ServerGame> games = gDao.getAllGames();
             assertEquals(3, games.size());
             assertTrue(games.contains(g));
             assertTrue(games.contains(g2));

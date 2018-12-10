@@ -18,7 +18,7 @@ import com.shared.models.Player;
 import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.states.GameState;
 import com.thePollerServer.Model.ServerData;
-import com.thePollerServer.Model.ServerGame;
+import com.plugin.models.ServerGame;
 import com.shared.models.ServerPlayer;
 
 import com.thePollerServer.utilities.LongestRouteCalculator;
