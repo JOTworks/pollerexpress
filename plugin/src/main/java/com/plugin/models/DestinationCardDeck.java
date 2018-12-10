@@ -6,6 +6,7 @@ import com.shared.models.Map;
 import com.shared.models.cardsHandsDecks.DestinationCard;
 import com.shared.models.cardsHandsDecks.TrainCard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -16,7 +17,7 @@ import java.util.Set;
 
 import sun.security.krb5.internal.crypto.Des;
 
-public class DestinationCardDeck
+public class DestinationCardDeck implements Serializable
 {
 
     static private final int TRAINS = 12;

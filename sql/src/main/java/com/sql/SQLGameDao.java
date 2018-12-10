@@ -2,8 +2,8 @@ package com.sql;
 
 import com.plugin.IGameDao;
 import com.shared.exceptions.database.DatabaseException;
-import com.shared.models.Game;
 import com.shared.utilities.Serializer;
+import com.plugin.models.ServerGame;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -56,15 +56,15 @@ public class SQLGameDao implements IGameDao {
     }
 
     @Override
-    public Game getGame(String id) throws IOException {
-        Game game = null;
+    public ServerGame getGame(String id) throws IOException {
+        ServerGame game = null;
         try{
             PreparedStatement stmnt = _db.getConnection().prepareStatement(SELECT_GAME);
             stmnt.setString(1, id);
             ResultSet rs = stmnt.executeQuery();
             if(rs.next()) {
                 ByteArrayInputStream stream = new ByteArrayInputStream(rs.getBytes("GAME_OBJ"));
-                game = (Game)Serializer.readData(stream);
+                game = (ServerGame)Serializer.readData(stream);
                 stream.close();
             }
             rs.close();
@@ -76,14 +76,14 @@ public class SQLGameDao implements IGameDao {
     }
 
     @Override
-    public ArrayList<Game> getAllGames() throws IOException {
-        ArrayList<Game> games = new ArrayList<>();
+    public ArrayList<ServerGame> getAllGames() throws IOException {
+        ArrayList<ServerGame> games = new ArrayList<>();
         try{
             PreparedStatement stmnt = _db.getConnection().prepareStatement(SELECT_ALL_GAMES);
             ResultSet rs = stmnt.executeQuery();
             while(rs.next()) {
                 ByteArrayInputStream stream = new ByteArrayInputStream(rs.getBytes("GAME_OBJ"));
-                games.add( (Game)Serializer.readData(stream) );
+                games.add( (ServerGame)Serializer.readData(stream) );
                 stream.close();
             }
             rs.close();
@@ -95,7 +95,7 @@ public class SQLGameDao implements IGameDao {
     }
 
     @Override
-    public void addGame(Game game) throws IOException {
+    public void addGame(ServerGame game) throws IOException {
         try{
             PreparedStatement stmnt = _db.getConnection().prepareStatement(INSERT_GAME);
             stmnt.setString(1, game.getId());
@@ -111,7 +111,7 @@ public class SQLGameDao implements IGameDao {
     }
 
     @Override
-    public void updateGame(Game game) throws IOException {
+    public void updateGame(ServerGame game) throws IOException {
         try{
             PreparedStatement stmnt = _db.getConnection().prepareStatement(UPDATE_GAME);
             stmnt.setString(2, game.getId());
@@ -127,7 +127,7 @@ public class SQLGameDao implements IGameDao {
     }
 
     @Override
-    public void deleteGame(Game game) throws IOException {
+    public void deleteGame(ServerGame game) throws IOException {
         try{
             PreparedStatement stmnt = _db.getConnection().prepareStatement(DELETE_GAME);
             stmnt.setString(1, game.getId());

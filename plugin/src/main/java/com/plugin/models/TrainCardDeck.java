@@ -5,13 +5,14 @@ import com.shared.models.Color;
 import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.cardsHandsDecks.VisibleCards;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-public class TrainCardDeck
+public class TrainCardDeck implements Serializable
 {
     static private final int TRAINS = 4;//8;
     static private final int LOCOMOTIVES = 2;//10;
