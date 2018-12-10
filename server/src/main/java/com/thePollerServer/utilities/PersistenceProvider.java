@@ -50,8 +50,6 @@ public class PersistenceProvider {
         } catch (IOException e) {
             throw e;
         }
-
-        throw new NotImplementedException("PersistenceProvider::saveGame");
     }
 
     public ArrayList getPlayersInGame(Game game) throws IOException {
@@ -129,8 +127,7 @@ public class PersistenceProvider {
             db.startTransaction();
             if(getCommandList(game).size() >= delta)
             {
-                // the second parameter is the game
-                // from server memory
+                // the second parameter is the game from server memory
 
                 // write the game into the database
                 saveGame(game);
