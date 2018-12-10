@@ -49,6 +49,7 @@ public class ExecuteHandler implements HttpHandler
                 try
                 {
                     req.execute();
+                    // method for checkpoints and deltas :
                     Queue<Command> commands = CommandManager._instance().getUserCommands(p.name);
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK,0);
 

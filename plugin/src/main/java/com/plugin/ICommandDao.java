@@ -11,6 +11,4 @@ public interface ICommandDao {
     public void addCommand(Command c, String gameId) throws IOException;
 
     public void removeCommands(String gameId) throws IOException;
-
-    public void clearAllCommands() throws IOException;
 }

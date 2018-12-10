@@ -14,5 +14,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(path: ':shared')
     implementation 'junit:junit:4.12'
+    compile project(path: ':plugin')
+    compile project(path: ':plugin')
 }
 

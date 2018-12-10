@@ -10,6 +10,4 @@ public interface IUserDao {
     public void addUser(User user) throws IOException;
 
     public void updateUser(User user) throws IOException;
-
-    public void clearUsers() throws IOException;
 }
