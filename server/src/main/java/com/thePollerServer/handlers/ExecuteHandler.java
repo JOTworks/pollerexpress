@@ -18,6 +18,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import com.thePollerServer.command.CommandManager;
+import com.thePollerServer.utilities.PersistenceProvider;
 
 
 /**
@@ -49,6 +50,10 @@ public class ExecuteHandler implements HttpHandler
                 try
                 {
                     req.execute();
+                    // method for checkpoints and deltas :
+//                    PersistenceProvider persistenceProvider = new PersistenceProvider(???)
+//                    persistenceProvider.addCommand(req, p.getGameId());
+
                     Queue<Command> commands = CommandManager._instance().getUserCommands(p.name);
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK,0);
 
