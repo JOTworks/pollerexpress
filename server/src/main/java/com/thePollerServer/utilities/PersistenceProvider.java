@@ -77,7 +77,6 @@ public class PersistenceProvider
 
     public ArrayList<ServerGame> getGameList() throws IOException {
 
-
         try{
             db.startTransaction();
             ArrayList<ServerGame> gameList = (ArrayList<ServerGame>) db.getGameDao().getAllGames();
