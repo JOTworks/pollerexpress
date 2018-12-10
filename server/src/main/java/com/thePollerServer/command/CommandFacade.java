@@ -11,7 +11,6 @@ import com.shared.models.cardsHandsDecks.TrainCard;
 import com.shared.models.User;
 import com.shared.models.states.GameState;
 import com.shared.utilities.CommandsExtensions;
-import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
 import com.shared.exceptions.CommandFailed;
 import com.shared.models.Game;
