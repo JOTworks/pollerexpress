@@ -1,6 +1,7 @@
 package com.thePollerServer.utilities;
 
 import com.plugin.IDatabase;
+import com.plugin.models.ServerGame;
 import com.shared.exceptions.NotImplementedException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
@@ -8,7 +9,7 @@ import com.shared.models.Game;
 import com.shared.models.Player;
 import com.thePollerServer.command.CommandManager;
 import com.shared.models.User;
-import com.thePollerServer.Model.ServerGame;
+
 
 
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class PersistenceProvider
 
         try{
             db.startTransaction();
-            db.getGameDao().updateGame(game);
+
             db.endTransaction(true);
 
         } catch (IOException e) {
@@ -59,33 +60,6 @@ public class PersistenceProvider
         }
     }
 
-    public ArrayList getPlayersInGame(ServerGame game) throws IOException {
-
-
-        ArrayList<Player> players = new ArrayList<>();
-        try
-        {
-            db.startTransaction();
-            players = (ArrayList<Player>) db.getGameDao().getGame(game.getId()).getPlayers();
-            db.endTransaction(true);
-        } catch (IOException e) {
-            throw e;
-        }
-
-        return players;
-    }
-
-    public void joinGame(Player player, ServerGame game) throws IOException {
-
-        try
-        {
-            db.startTransaction();
-            db.getGameDao().getGame(game.getId()).addPlayer(player);
-            db.endTransaction(true);
-        } catch (IOException e) {
-            throw e;
-        }
-    }
 
     public void addGame(ServerGame game) throws IOException {
 

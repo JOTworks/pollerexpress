@@ -1,5 +1,6 @@
 package com.thePollerServer.Model;
 
+import com.plugin.models.ServerGame;
 import com.shared.models.Authtoken;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
@@ -25,6 +26,10 @@ public class ServerData
     public static ServerData instance()
     {
         return _instance;
+    }
+    public User getUser(String id)
+    {
+        return users.get(id);
     }
     public boolean addUser(User u)
     {
