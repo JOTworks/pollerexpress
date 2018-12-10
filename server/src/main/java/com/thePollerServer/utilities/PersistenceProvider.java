@@ -8,11 +8,10 @@ import com.shared.models.Command;
 import com.shared.models.Game;
 import com.shared.models.Player;
 import com.thePollerServer.Model.ServerData;
-import com.thePollerServer.Model.ServerGame;
 import com.thePollerServer.command.CommandFacade;
 import com.thePollerServer.command.CommandManager;
 import com.shared.models.User;
-import com.thePollerServer.Model.ServerGame;
+import com.plugin.models.ServerGame;
 
 
 import java.io.IOException;
@@ -21,12 +20,14 @@ import java.util.ArrayList;
 /**
  * This class is a facade for the database.
  */
-public class PersistenceProvider {
+public class PersistenceProvider
+{
 
     private int delta;
     private IDatabase db = Factory.create();
 
-    public PersistenceProvider(int delta) throws DatabaseException {
+    public PersistenceProvider(int delta) throws DatabaseException
+    {
         this.delta = delta;
     }
 
@@ -35,9 +36,11 @@ public class PersistenceProvider {
      * @param user
      * @throws IOException
      */
-    public void register(User user) throws IOException {
+    public void register(User user) throws IOException
+    {
 
-        try{
+        try
+        {
             db.startTransaction();
             db.getUserDao().addUser(user);
             db.endTransaction(true);
@@ -47,37 +50,17 @@ public class PersistenceProvider {
 
     }
 
-    public void saveGame(ServerGame game) throws IOException {
+    /**
+     * Gets a user with an updated game id and updated the user in the database
+     * @param user user with an updated gameId
+     * @throws IOException
+     */
+    public void joinGame(User user) throws IOException {
 
-        try{
+        try
+        {
             db.startTransaction();
-            db.getGameDao().updateGame(game);
-            db.endTransaction(true);
-
-        } catch (IOException e) {
-            throw e;
-        }
-    }
-
-    public ArrayList getPlayersInGame(ServerGame game) throws IOException {
-
-        ArrayList<Player> players = new ArrayList<>();
-        try{
-            db.startTransaction();
-            players = (ArrayList<Player>) db.getGameDao().getGame(game.getId()).getPlayers();
-            db.endTransaction(true);
-        } catch (IOException e) {
-            throw e;
-        }
-
-        return players;
-    }
-
-    public void joinGame(Player player, ServerGame game) throws IOException {
-
-        try{
-            db.startTransaction();
-            db.getGameDao().getGame(game.getId()).addPlayer(player);
+            db.getUserDao().updateUser(user);
             db.endTransaction(true);
         } catch (IOException e) {
             throw e;
@@ -137,12 +120,12 @@ public class PersistenceProvider {
                 // the second parameter is the game from server memory
 
                 // write the game into the database
-                saveGame(game);
+                db.getGameDao().updateGame(game);
 
                 // throw away delta commands.
                 db.getCommandDao().removeCommands(game.getId());
             }
-            else {
+            else{
                 db.getCommandDao().addCommand(command, game.getId());
             }
             db.endTransaction(true);
@@ -155,6 +138,7 @@ public class PersistenceProvider {
         ServerData SD = ServerData.instance();
         CommandFacade CF = CommandFacade.getInstance();
         CommandManager._instance().setActive(false);
+
 
         for (ServerGame game : getGameList()) {
 

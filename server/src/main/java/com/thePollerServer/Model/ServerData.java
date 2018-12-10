@@ -1,8 +1,7 @@
 package com.thePollerServer.Model;
 
-import com.shared.exceptions.NoCardToDrawException;
+import com.plugin.models.ServerGame;
 import com.shared.models.Authtoken;
-import com.shared.models.Game;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.shared.models.User;

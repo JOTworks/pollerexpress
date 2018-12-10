@@ -1,4 +1,4 @@
-package com.thePollerServer.Model;
+package com.plugin.models;
 
 import com.shared.exceptions.NoCardToDrawException;
 import com.shared.models.Color;

@@ -1,4 +1,4 @@
-package com.thePollerServer.Model;
+package com.plugin.models;
 
 import com.shared.models.City;
 import com.shared.models.Color;
