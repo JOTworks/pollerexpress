@@ -17,7 +17,7 @@ public class CommandManager {
     {
 		userCommands = new HashMap<String, Queue<Command>>();
 	}
-	
+	private boolean active = true;
 	public static CommandManager _instance() {
 		if(_instance == null) {
 			_instance = new CommandManager();
@@ -25,6 +25,9 @@ public class CommandManager {
 		return _instance;
 	}
 
+    public void setActive(boolean active){
+        this.active = active;
+    }
     /** The poller gets this queue of commands and
      * uses them to synchronize the app across
      * players' screens.
@@ -32,6 +35,7 @@ public class CommandManager {
      *             its screen with the other client screens.
      * @return
      */
+
 	public Queue<Command> getUserCommands(String user)
     {
 
@@ -63,6 +67,8 @@ public class CommandManager {
      */
     private void addCommand(Command c, String user)
     {
+        if(!active){System.out.print("CommandManager is not active");}
+
         Queue<Command> queue = null;
         try
         {
