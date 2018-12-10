@@ -19,7 +19,11 @@ public class Server
 
     //the maximum players in a game is five
     private static final int MAX_WAITING_CONNECTIONS = 12;
+    private static int delta;
 
+    public static int getDelta() {
+        return delta;
+    }
 
     private HttpServer server;
 
@@ -64,6 +68,7 @@ public class Server
         {
             portNumber = args[0];
             plugin = args[1];
+            delta = Integer.valueOf(args[2]);
         }
         else
         {
