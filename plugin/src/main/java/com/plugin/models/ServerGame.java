@@ -1,6 +1,5 @@
-package com.thePollerServer.Model;
+package com.plugin.models;
 
-import com.shared.exceptions.NoCardToDrawException;
 import com.shared.models.Chat;
 import com.shared.models.ChatHistory;
 import com.shared.models.Color;

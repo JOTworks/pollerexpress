@@ -7,7 +7,6 @@ import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Chat;
 
 
-import com.shared.models.Command;
 import com.shared.models.EndGameResult;
 import com.shared.models.PlayerScore;
 
