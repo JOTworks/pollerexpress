@@ -55,7 +55,6 @@ public class FlatCommandDao implements ICommandDao {
             fos.close();
     }
 
-    @Override
     public void clearAllCommands() throws IOException {
         FileUtils.cleanDirectory(new File("games"));
     }
