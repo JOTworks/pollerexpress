@@ -1,5 +1,6 @@
 package com.thePollerServer.Model;
 
+import com.plugin.models.ServerGame;
 import com.shared.models.Authtoken;
 import com.shared.models.GameInfo;
 import com.shared.models.Player;

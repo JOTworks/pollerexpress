@@ -75,6 +75,11 @@ public class PersistenceProvider
         return players;
     }
 
+    /**
+     * Gets a user with an updated game id and updated the user in the database
+     * @param user user with an updated gameId
+     * @throws IOException
+     */
     public void joinGame(User user) throws IOException {
 
         try
@@ -146,8 +151,7 @@ public class PersistenceProvider
                 // throw away delta commands.
                 db.getCommandDao().removeCommands(game.getId());
             }
-            else
-                {
+            else{
                 db.getCommandDao().addCommand(command, game.getId());
             }
             db.endTransaction(true);
