@@ -1,54 +1,131 @@
 package com.thePollerServer.utilities;
 
+import com.plugin.IDatabase;
 import com.shared.exceptions.NotImplementedException;
+import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
 import com.shared.models.Game;
 import com.shared.models.Player;
+import com.shared.models.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * This class is a facade for the database.
+ */
 public class PersistenceProvider {
 
     private int delta;
+    private IDatabase db = Factory.create();
 
-    public PersistenceProvider(int delta) {
+    public PersistenceProvider(int delta) throws DatabaseException {
         this.delta = delta;
     }
 
-    public void register(Player player) {
-        throw new NotImplementedException("PersistenceProvider::register");
+    /**
+     * Registers user
+     * @param user
+     * @throws IOException
+     */
+    public void register(User user) throws IOException {
+
+        try{
+            db.startTransaction();
+            db.getUserDao().addUser(user);
+            db.endTransaction(true);
+        } catch (IOException e) {
+            throw e;
+        }
+
     }
 
-    public void saveGame(Game game) {
+    public void saveGame(Game game) throws IOException {
+
+        try{
+            db.startTransaction();
+            db.getGameDao().updateGame(game);
+            db.endTransaction(true);
+
+        } catch (IOException e) {
+            throw e;
+        }
+
         throw new NotImplementedException("PersistenceProvider::saveGame");
     }
 
-    public void getUserList() {
-        throw new NotImplementedException("PersistenceProvider::getUserList");
+    public ArrayList getPlayersInGame(Game game) throws IOException {
+
+        ArrayList<Player> players = new ArrayList<>();
+        try{
+            db.startTransaction();
+            players = (ArrayList<Player>) db.getGameDao().getGame(game.getId()).getPlayers();
+            db.endTransaction(true);
+        } catch (IOException e) {
+            throw e;
+        }
+
+        return players;
     }
 
-    public void joinGame(Player player, Game game) {
-        throw new NotImplementedException("PersistenceProvider::joinGame");
+    public void joinGame(Player player, Game game) throws IOException {
+
+        try{
+            db.startTransaction();
+            db.getGameDao().getGame(game.getId()).addPlayer(player);
+            db.endTransaction(true);
+        } catch (IOException e) {
+            throw e;
+        }
     }
 
-    public void addGame(Game game) {
-        throw new NotImplementedException("PersistenceProvider::addGame");
+    public void addGame(Game game) throws IOException {
+
+        try{
+            db.startTransaction();
+            db.getGameDao().addGame(game);
+            db.endTransaction(true);
+        } catch (IOException e) {
+            throw e;
+        }
     }
 
-    public void getGameList() {
-        throw new NotImplementedException("PersistenceProvider::getGameList");
+    public ArrayList<Game> getGameList() throws IOException {
+
+        try{
+            db.startTransaction();
+            ArrayList<Game> gameList = (ArrayList<Game>) db.getGameDao().getAllGames();
+            db.endTransaction(true);
+            return gameList;
+        } catch (IOException e) {
+            throw e;
+        }
     }
 
     /**
      * @param game
      * @return all commands that have yet to be saved for this game
      */
-    public ArrayList getCommandList(Game game) {
-        throw new NotImplementedException("PersistenceProvider::getCommandList");
+    public ArrayList getCommandList(Game game) throws IOException {
+        try{
+            db.startTransaction();
+            ArrayList<Command> commandList = (ArrayList<Command>) db.getCommandDao().getCommands(game.getId());
+            db.endTransaction(true);
+            return commandList;
+        } catch (IOException e) {
+            throw e;
+        }
     }
 
-    public void addCommand(Command command) {
-        throw new NotImplementedException("PersistenceProvider::addCommand");
+    public void addCommand(Command command, Game game) throws IOException {
+
+        try{
+            db.startTransaction();
+            db.getCommandDao().addCommand(command, game.getId());
+            db.endTransaction(true);
+        } catch (IOException e) {
+            throw e;
+        }
     }
 
     public void onServerStart() {
