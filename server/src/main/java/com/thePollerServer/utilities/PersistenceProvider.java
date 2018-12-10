@@ -8,7 +8,7 @@ import com.shared.models.Game;
 import com.shared.models.Player;
 import com.thePollerServer.command.CommandManager;
 import com.shared.models.User;
-import com.thePollerServer.Model.ServerGame;
+import com.plugin.models.ServerGame;
 
 
 import java.io.IOException;
@@ -75,12 +75,12 @@ public class PersistenceProvider
         return players;
     }
 
-    public void joinGame(Player player, ServerGame game) throws IOException {
+    public void joinGame(User user) throws IOException {
 
         try
         {
             db.startTransaction();
-            db.getGameDao().getGame(game.getId()).addPlayer(player);
+            db.getUserDao().updateUser(user);
             db.endTransaction(true);
         } catch (IOException e) {
             throw e;
