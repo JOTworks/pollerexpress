@@ -1,5 +1,6 @@
 package com.thePollerServer.command;
 
+import com.plugin.models.ServerGame;
 import com.shared.exceptions.StateException;
 import com.shared.models.Color;
 import com.shared.models.EndGameResult;
@@ -18,7 +19,6 @@ import com.shared.models.GameInfo;
 
 import com.shared.models.Player;
 import com.thePollerServer.Model.ServerData;
-import com.thePollerServer.Model.ServerGame;
 import com.shared.models.ServerPlayer;
 import com.thePollerServer.services.GameService;
 import com.thePollerServer.services.SetupService;
