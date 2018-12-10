@@ -6,6 +6,7 @@ import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
 import com.shared.models.Game;
 import com.shared.models.Player;
+import com.thePollerServer.Model.ServerGame;
 import com.thePollerServer.command.CommandManager;
 import com.shared.models.User;
 
@@ -146,17 +147,19 @@ public class PersistenceProvider {
         }
     }
 
-    public void onServerStart() {
+    public void onServerStart() throws IOException {
 
-        throw new NotImplementedException("PersistenceProvider::onServerStart");
-        //CommandManager._instance().setActive(false);
+        //throw new NotImplementedException("PersistenceProvider::onServerStart");
 
+        CommandManager._instance().setActive(false);
+
+        ArrayList<ServerGame> gameList = getGameList();
         //for each game getGameList();
         //load game into serverData SD.addGame()
         //exicute each command for that game getCommandList(Game game)
         //send a recync (loadgame command) to each client in the game //hardcode
 
-        //CommandManager._instance().setActive(true);
+        CommandManager._instance().setActive(true);
 
         ////also dont edit the DB at all
     }
