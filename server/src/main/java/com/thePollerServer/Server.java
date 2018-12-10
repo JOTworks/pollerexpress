@@ -87,10 +87,10 @@ public class Server
             System.out.print("it failed\n");
         }
 
-        //!!!!! todo: when should we creat the persistance previder and do we ever get the delta from user?
-        int Delta = 10;
-        PersistenceProvider PP = new PersistenceProvider(Delta);
-        PP.onServerStart();
+        //!!!!! todo: when should we creat the persistance previder and do we ever get the delta from user
+
+        //PersistenceProvider PP = new PersistenceProvider(delta);
+        //PP.onServerStart();
         new Server().run(portNumber);
     }
 }
