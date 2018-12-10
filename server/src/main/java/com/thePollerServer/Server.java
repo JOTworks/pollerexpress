@@ -4,11 +4,13 @@ import com.plugin.IDatabase;
 import com.plugin.IPluginFactory;
 import com.shared.exceptions.database.DatabaseException;
 import com.sun.net.httpserver.*;
+import com.thePollerServer.Model.ServerData;
 import com.thePollerServer.handlers.ExecuteHandler;
 import com.thePollerServer.handlers.LoginHandler;
 import com.thePollerServer.handlers.PollHandler;
 import com.thePollerServer.handlers.RegisterHandler;
 import com.thePollerServer.utilities.Factory;
+import com.thePollerServer.utilities.PersistenceProvider;
 import com.thePollerServer.utilities.PluginManager;
 
 import java.io.*;
@@ -19,7 +21,11 @@ public class Server
 
     //the maximum players in a game is five
     private static final int MAX_WAITING_CONNECTIONS = 12;
+    private static int delta;
 
+    public static int getDelta() {
+        return delta;
+    }
 
     private HttpServer server;
 
@@ -65,7 +71,7 @@ public class Server
         {
             portNumber = args[0];
             plugin = args[1];
-
+            delta = Integer.valueOf(args[2]);
         }
         else
         {
@@ -91,6 +97,11 @@ public class Server
             db.printStackTrace();
             System.out.print("it failed\n");
         }
+
+        //!!!!! todo: when should we creat the persistance previder and do we ever get the delta from user
+
+        //PersistenceProvider PP = new PersistenceProvider(delta);
+        //PP.onServerStart();
 
         new Server().run(portNumber);
     }
