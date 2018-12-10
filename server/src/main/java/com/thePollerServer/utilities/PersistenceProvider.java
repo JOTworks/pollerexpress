@@ -5,12 +5,8 @@ import com.plugin.models.ServerGame;
 import com.shared.exceptions.NotImplementedException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
-import com.shared.models.Game;
-import com.shared.models.Player;
-import com.thePollerServer.command.CommandManager;
 import com.shared.models.User;
-
-
+import com.plugin.models.ServerGame;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,13 +44,18 @@ public class PersistenceProvider
 
     }
 
-    public void saveGame(ServerGame game) throws IOException {
+    /**
+     * Gets a user with an updated game id and updated the user in the database
+     * @param user user with an updated gameId
+     * @throws IOException
+     */
+    public void joinGame(User user) throws IOException {
 
-        try{
+        try
+        {
             db.startTransaction();
-
+            db.getUserDao().updateUser(user);
             db.endTransaction(true);
-
         } catch (IOException e) {
             throw e;
         }
@@ -73,7 +74,6 @@ public class PersistenceProvider
     }
 
     public ArrayList<ServerGame> getGameList() throws IOException {
-
 
         try{
             db.startTransaction();
@@ -115,13 +115,12 @@ public class PersistenceProvider
                 // the second parameter is the game from server memory
 
                 // write the game into the database
-                saveGame(game);
+                db.getGameDao().updateGame(game);
 
                 // throw away delta commands.
                 db.getCommandDao().removeCommands(game.getId());
             }
-            else
-                {
+            else{
                 db.getCommandDao().addCommand(command, game.getId());
             }
             db.endTransaction(true);
