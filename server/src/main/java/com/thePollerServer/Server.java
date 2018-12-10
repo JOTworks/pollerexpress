@@ -61,7 +61,8 @@ public class Server
     // "main" method for the Server program
     // "args" should contain one command-line argument, which is the port number
     // on which the Server should accept incoming client connections.
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         String portNumber;
         String plugin;
         if(args.length > 0)
@@ -76,9 +77,13 @@ public class Server
             plugin = "SQL";
 //            portNumber = "4200"; //app cannot connect to server
         }
+
         PluginManager manager = new PluginManager("plugins.config");//TODO set this up in a constant?
+
         IPluginFactory factory = manager.getPluginFactory(plugin);
+
         Factory.set(factory);
+
         try
         {
             IDatabase db = Factory.create();
@@ -89,6 +94,7 @@ public class Server
             db.printStackTrace();
             System.out.print("it failed\n");
         }
+
         new Server().run(portNumber);
     }
 }
