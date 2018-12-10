@@ -90,6 +90,10 @@ public class Server
         {
             IDatabase db = Factory.create();
             db.startTransaction();
+
+            PersistenceProvider PP = new PersistenceProvider(delta);
+            PP.onServerStart();
+
             db.endTransaction(false);
         }
         catch(Exception db)
@@ -97,11 +101,6 @@ public class Server
             db.printStackTrace();
             System.out.print("it failed\n");
         }
-
-        //!!!!! todo: when should we creat the persistance previder and do we ever get the delta from user
-
-        //PersistenceProvider PP = new PersistenceProvider(delta);
-        //PP.onServerStart();
 
         new Server().run(portNumber);
     }

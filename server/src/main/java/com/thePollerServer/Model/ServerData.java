@@ -47,6 +47,21 @@ public class ServerData
         return true;
     }
 
+    public void addGames(List<ServerGame> games)
+    {
+            for(ServerGame game: games)
+            {
+                addGame(game);
+            }
+    }
+    public void addUsers(List<User> users)
+    {
+        for(User u: users)
+        {
+            addUser(u);
+        }
+    }
+
     public List<GameInfo> getGames()
     {
         return new ArrayList<>(games.keySet());

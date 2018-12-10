@@ -5,6 +5,11 @@ import com.plugin.models.ServerGame;
 import com.shared.exceptions.NotImplementedException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
+import com.shared.exceptions.CommandFailed;
+import com.shared.models.Player;
+import com.thePollerServer.Model.ServerData;
+import com.thePollerServer.command.CommandFacade;
+import com.thePollerServer.command.CommandManager;
 import com.shared.models.User;
 import com.plugin.models.ServerGame;
 
@@ -89,7 +94,7 @@ public class PersistenceProvider
      * @param game
      * @return all commands that have yet to be saved for this game
      */
-    public ArrayList getCommandList(ServerGame game) throws IOException {
+    public ArrayList<Command> getCommandList(ServerGame game) throws IOException {
         try{
             db.startTransaction();
             ArrayList<Command> commandList = (ArrayList<Command>) db.getCommandDao().getCommands(game.getId());
@@ -129,20 +134,29 @@ public class PersistenceProvider
         }
     }
 
-    public void onServerStart()
-    {
+    public void onServerStart() throws IOException {
+        ServerData SD = ServerData.instance();
+        CommandFacade CF = CommandFacade.getInstance();
+        CommandManager._instance().setActive(false);
 
-        throw new NotImplementedException("PersistenceProvider::onServerStart");
-        //CommandManager._instance().setActive(false);
 
-        //for each game getGameList();
-        //load game into serverData SD.addGame()
-        //exicute each command for that game getCommandList(Game game)
-        //send a recync (loadgame command) to each client in the game //hardcode
+        for (ServerGame game : getGameList()) {
 
-        //CommandManager._instance().setActive(true);
+            SD.addGame(game);
+           for (Command command :getCommandList(game)) {
+               try {
+                   command.execute();
+               } catch (CommandFailed commandFailed) {
+                   commandFailed.printStackTrace();
+               }
 
-        ////also dont edit the DB at all
+           }
+        }
+        CommandManager._instance().setActive(true);
+        for (ServerGame game : getGameList()) {
+           for (Player p : game.getPlayers())
+            CF.recync(p);
+        }
     }
 }
 
