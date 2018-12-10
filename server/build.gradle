@@ -16,5 +16,6 @@ dependencies {
     implementation 'junit:junit:4.12'
     compile project(path: ':plugin')
     compile project(path: ':plugin')
+    compile project(path: ':plugin')
 }
 
