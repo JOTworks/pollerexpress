@@ -88,13 +88,10 @@ public class Server
 
         try
         {
-            IDatabase db = Factory.create();
-            db.startTransaction();
 
             PersistenceProvider PP = new PersistenceProvider(delta);
             PP.onServerStart();
 
-            db.endTransaction(false);
         }
         catch(Exception db)
         {

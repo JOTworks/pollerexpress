@@ -19,7 +19,8 @@ import java.util.ArrayList;
 
 import javax.sql.rowset.serial.SerialBlob;
 
-public class SQLGameDao implements IGameDao {
+public class SQLGameDao implements IGameDao
+{
     SQLDatabase _db;
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS `GAMES`\n" +
             "(`GAME_ID` TEXT NOT NULL PRIMARY KEY, `GAME_OBJ` BLOB)";
@@ -89,6 +90,7 @@ public class SQLGameDao implements IGameDao {
             rs.close();
             stmnt.close();
         } catch(Exception e) {
+
             throw new DatabaseException(e.getMessage());
         }
         return games;

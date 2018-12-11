@@ -134,19 +134,24 @@ public class PersistenceProvider
         }
     }
 
-    public void onServerStart() throws IOException {
+    public void onServerStart() throws IOException
+    {
         ServerData SD = ServerData.instance();
         CommandFacade CF = CommandFacade.getInstance();
         CommandManager._instance().setActive(false);
 
 
-        for (ServerGame game : getGameList()) {
+        for (ServerGame game : getGameList())
+        {
 
             SD.addGame(game);
-           for (Command command :getCommandList(game)) {
-               try {
+           for (Command command :getCommandList(game))
+           {
+               try
+               {
                    command.execute();
-               } catch (CommandFailed commandFailed) {
+               } catch (CommandFailed commandFailed)
+               {
                    commandFailed.printStackTrace();
                }
 
