@@ -47,7 +47,7 @@ public class ExecuteHandler implements HttpHandler
 
 
                 //get the data
-                Player p = new Player( exchange.getRequestHeaders().get("username").toArray()[0].toString() );
+                Player p = ServerData.instance().getUser(exchange.getRequestHeaders().get("username").toArray()[0].toString() );
                 OutputStream responseBody = null;
                 try
                 {

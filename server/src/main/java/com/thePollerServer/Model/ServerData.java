@@ -27,6 +27,10 @@ public class ServerData
     {
         return _instance;
     }
+    public User getUser(String id)
+    {
+        return users.get(id);
+    }
     public boolean addUser(User u)
     {
         if(users.containsKey(u.getName()))
@@ -41,6 +45,21 @@ public class ServerData
     {
         games.put(game.getGameInfo(), game);
         return true;
+    }
+
+    public void addGames(List<ServerGame> games)
+    {
+            for(ServerGame game: games)
+            {
+                addGame(game);
+            }
+    }
+    public void addUsers(List<User> users)
+    {
+        for(User u: users)
+        {
+            addUser(u);
+        }
     }
 
     public List<GameInfo> getGames()

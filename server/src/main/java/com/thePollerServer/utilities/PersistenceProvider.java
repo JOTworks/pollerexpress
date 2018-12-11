@@ -1,18 +1,17 @@
 package com.thePollerServer.utilities;
 
 import com.plugin.IDatabase;
-import com.shared.exceptions.CommandFailed;
+import com.plugin.models.ServerGame;
 import com.shared.exceptions.NotImplementedException;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.Command;
-import com.shared.models.Game;
+import com.shared.exceptions.CommandFailed;
 import com.shared.models.Player;
 import com.thePollerServer.Model.ServerData;
 import com.thePollerServer.command.CommandFacade;
 import com.thePollerServer.command.CommandManager;
 import com.shared.models.User;
 import com.plugin.models.ServerGame;
-
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,6 +65,7 @@ public class PersistenceProvider
             throw e;
         }
     }
+
 
     public void addGame(ServerGame game) throws IOException {
 
