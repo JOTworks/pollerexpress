@@ -67,16 +67,25 @@ public class Server
     {
         String portNumber;
         String plugin;
+        boolean reset = false;
         if(args.length > 0)
         {
             portNumber = args[0];
             plugin = args[1];
             delta = Integer.valueOf(args[2]);
+            if(args.length>=4) {
+                if (!(args[3] == null)) {
+                    if (args[3].equals("clear") || args[3].equals("reset") || args[3].equals("getoutahere")) {
+                        reset = true;
+                    }
+                }
+            }
         }
         else
         {
             portNumber = "8080"; //address already in use?
             plugin = "SQL";
+            delta = 0;
 //            portNumber = "4200"; //app cannot connect to server
         }
 
@@ -89,6 +98,11 @@ public class Server
         try
         {
             IDatabase db = Factory.create();
+
+            if(reset){
+                db.resetDatabase();
+            }
+
             db.startTransaction();
 
             PersistenceProvider PP = new PersistenceProvider(delta);
