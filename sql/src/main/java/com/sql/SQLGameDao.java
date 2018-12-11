@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -76,7 +77,7 @@ public class SQLGameDao implements IGameDao {
     }
 
     @Override
-    public ArrayList<ServerGame> getAllGames() throws IOException {
+    public List<ServerGame> getAllGames() throws IOException {
         ArrayList<ServerGame> games = new ArrayList<>();
         try{
             PreparedStatement stmnt = _db.getConnection().prepareStatement(SELECT_ALL_GAMES);
