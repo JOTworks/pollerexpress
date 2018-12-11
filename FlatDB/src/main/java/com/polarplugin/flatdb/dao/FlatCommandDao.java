@@ -1,6 +1,7 @@
 package com.polarplugin.flatdb.dao;
 
 import com.plugin.ICommandDao;
+import com.plugin.models.ServerGame;
 import com.shared.models.Command;
 import com.shared.utilities.Serializer;
 
@@ -57,5 +58,13 @@ public class FlatCommandDao implements ICommandDao {
 
     public void clearAllCommands() throws IOException {
         FileUtils.cleanDirectory(new File("games"));
+    }
+
+    public static void createNewCommandFile(ServerGame game) throws IOException {
+        List<Command> empty = new ArrayList<>();
+        OutputStream fos = new FileOutputStream(new File("games/" + game.getId() + ".txt"));
+        Serializer.writeData(empty, fos);
+        fos.close();
+
     }
 }

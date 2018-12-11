@@ -26,7 +26,7 @@ public class FlatDB_Game_Test {
     @Test
     public void testDeleteGame() throws IOException {
             FlatGameDao fgd = new FlatGameDao();
-            fgd.clearGames();
+            try { fgd.clearGames(); } catch (Exception e) {};
             ServerGame myGame = new ServerGame(new GameInfo("myGameId", "myGame", 2));
             fgd.addGame(myGame);
             fgd.deleteGame(myGame);
