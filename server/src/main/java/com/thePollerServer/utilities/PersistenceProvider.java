@@ -86,7 +86,7 @@ public class PersistenceProvider
             db.endTransaction(true);
             return gameList;
         } catch (IOException e) {
-            throw e;
+            return new ArrayList<ServerGame>();
         }
     }
 
