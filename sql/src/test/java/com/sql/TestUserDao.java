@@ -5,6 +5,9 @@ import com.shared.models.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class TestUserDao {
@@ -60,6 +63,25 @@ public class TestUserDao {
             assertEquals(u.getName(), user.getName());
             assertEquals(u.password, user.password);
             assertEquals(u.getGameId(), user.getGameId());
+            db.endTransaction(true);
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
+    public void testGetAllUsers() {
+        try{
+            User u2 = new User("name","code");
+            db.startTransaction();
+            uDao.addUser(u);
+            uDao.addUser(u2);
+            List<User> users = uDao.getAllUsers();
+            assertEquals(2, users.size());
+            assertTrue(users.contains(u));
+            assertTrue(users.contains(u2));
             db.endTransaction(true);
         } catch(Exception e) {
             System.out.println(e.getMessage());
