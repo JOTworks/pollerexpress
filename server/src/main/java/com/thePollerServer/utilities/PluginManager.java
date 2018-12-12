@@ -97,6 +97,11 @@ public class PluginManager
                             }
 
                             @Override
+                            public List<User> getAllUsers() throws IOException {
+                                return null;
+                            }
+
+                            @Override
                             public void addUser(User user) throws IOException
                             {
 
