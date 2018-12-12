@@ -4,9 +4,12 @@ import com.plugin.IUserDao;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.User;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SQLUserDao implements IUserDao {
     SQLDatabase _db;
@@ -14,6 +17,7 @@ public class SQLUserDao implements IUserDao {
             "(`USERNAME` TEXT NOT NULL PRIMARY KEY, `PASSWORD` TEXT NOT NULL, `CURRENT_GAME` TEXT)";
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS `USERS`";
     private static final String SELECT_USER = "SELECT * FROM `USERS` WHERE `USERNAME` = ?";
+    private static final String SELECT_ALL_USERS = "SELECT * FROM `USERS`";
     private static final String INSERT_USER = "INSERT INTO `USERS`\n" +
             "(`USERNAME`, `PASSWORD`, `CURRENT_GAME`) VALUES (?,?,?)";
     private static final String UPDATE_USER = "UPDATE `USERS` SET\n" +
@@ -59,6 +63,23 @@ public class SQLUserDao implements IUserDao {
             throw new DatabaseException(e.getMessage());
         }
         return user;
+    }
+
+    @Override
+    public List<User> getAllUsers() throws IOException {
+        List<User> users = new ArrayList<>();
+        try{
+            PreparedStatement stmnt = _db.getConnection().prepareStatement(SELECT_ALL_USERS);
+            ResultSet rs = stmnt.executeQuery();
+            while(rs.next()) {
+                users.add(new User(rs.getString("USERNAME"),rs.getString("PASSWORD"),rs.getString("CURRENT_GAME")));
+            }
+            rs.close();
+            stmnt.close();
+        } catch(SQLException e) {
+            throw new DatabaseException(e.getMessage());
+        }
+        return users;
     }
 
     @Override

@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -129,7 +130,7 @@ public class TestGameDao {
             gDao.addGame(g2);
             gDao.addGame(g3);
 
-            ArrayList<ServerGame> games = gDao.getAllGames();
+            List<ServerGame> games = gDao.getAllGames();
             assertEquals(3, games.size());
             assertTrue(games.contains(g));
             assertTrue(games.contains(g2));
