@@ -133,6 +133,13 @@ public class PersistenceProvider
         }
     }
 
+    public void reset(){
+        try {
+            db.resetDatabase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void onServerStart() throws IOException {
         ServerData SD = ServerData.instance();
         CommandFacade CF = CommandFacade.getInstance();
