@@ -83,6 +83,11 @@ public class CommandFacade
     {
         SetupService.createGame(player, info);
 
+        //check if game exists on server. if so, just return.
+        if(model.getGame(info) != null) {
+            return;
+        }
+
         //------------------------------add command portion-----------------------------------------
         Class<?>[] types = {GameInfo.class};
         Object[] params= {new GameInfo(info)};
