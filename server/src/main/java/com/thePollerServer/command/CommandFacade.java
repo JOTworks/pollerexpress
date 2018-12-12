@@ -82,12 +82,12 @@ public class CommandFacade
      */
     public static void createGame(Player player, GameInfo info) throws CommandFailed, IOException
     {
-        SetupService.createGame(player, info);
-
         //check if game exists on server. if so, just return.
         if(model.getGame(info) != null) {
             return;
         }
+
+        SetupService.createGame(player, info);
 
         //------------------------------add command portion-----------------------------------------
         Class<?>[] types = {GameInfo.class};
