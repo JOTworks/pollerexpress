@@ -62,6 +62,7 @@ public class PersistenceProvider
     public void joinGame(User user) throws IOException {
 
         boolean commit = false;
+        System.out.println("running the persistance provider");
         try
         {
             db.startTransaction();

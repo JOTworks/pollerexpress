@@ -53,7 +53,8 @@ public class CommandFacade
      * @throws CommandFailed
      * @throws IOException
      */
-    public static void joinGame(Player player, GameInfo info) throws CommandFailed, IOException {
+    public static void joinGame(Player player, GameInfo info) throws CommandFailed, IOException
+    {
         SetupService.joinGame(player, info);
 
         Player real = model.getGame(info).getPlayer(player).toPlayer();

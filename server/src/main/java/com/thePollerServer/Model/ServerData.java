@@ -15,7 +15,7 @@ import java.util.List;
 public class ServerData
 {
     HashMap<String, User> users= new HashMap<>();
-    HashMap<GameInfo, ServerGame> games = new HashMap<>();
+    HashMap<String, ServerGame> games = new HashMap<>();
     HashMap<String, GameInfo> playersToGame = new HashMap<>();
     private ServerData()
     {
@@ -43,7 +43,7 @@ public class ServerData
 
     public boolean addGame(ServerGame game)
     {
-        games.put(game.getGameInfo(), game);
+        games.put(game.getGameInfo().getId(), game);
         return true;
     }
 
@@ -64,7 +64,12 @@ public class ServerData
 
     public List<GameInfo> getGames()
     {
-        return new ArrayList<>(games.keySet());
+        List<GameInfo> ginfos = new ArrayList<>();
+        for(ServerGame game : games.values())
+        {
+            ginfos.add(game.getGameInfo());
+        }
+        return ginfos;
     }
 
     public ServerGame getGame(GameInfo info)
@@ -84,7 +89,7 @@ public class ServerData
     }
     public boolean joinGame(Player p, GameInfo info)
     {
-        ServerGame game = games.get(info);
+        ServerGame game = games.get(info.getId());
         if(game == null)
         {
             for(GameInfo temp: getGames())
@@ -103,7 +108,7 @@ public class ServerData
     public boolean createGame(Player p, GameInfo info)
     {
         ServerGame game = new ServerGame(info);
-        games.put(info, game);
+        games.put(info.getId(), game);
         System.out.print(game.getNumPlayers());
         System.out.println(" - num players");
         return true;

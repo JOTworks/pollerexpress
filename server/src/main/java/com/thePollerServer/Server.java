@@ -61,6 +61,30 @@ public class Server
         System.out.println("Server started");
     }
 
+
+    public static void loadData(boolean reset)
+    {
+
+        try
+        {
+            IDatabase db = Factory.create();
+
+            if(reset)
+            {
+                db.resetDatabase();
+            }
+
+            PersistenceProvider PP = new PersistenceProvider(delta);
+            PP.onServerStart();
+
+        }
+        catch(Exception db)
+        {
+            db.printStackTrace();
+            System.out.print("it failed\n");
+        }
+    }
+
     // "main" method for the Server program
     // "args" should contain one command-line argument, which is the port number
     // on which the Server should accept incoming client connections.
@@ -90,29 +114,10 @@ public class Server
 //            portNumber = "4200"; //app cannot connect to server
         }
 
+        //Load the plugins
         PluginManager manager = new PluginManager("plugins.config");//TODO set this up in a constant?
-
         IPluginFactory factory = manager.getPluginFactory(plugin);
-
         Factory.set(factory);
-
-        try
-        {
-            IDatabase db = Factory.create();
-
-            if(reset){
-                db.resetDatabase();
-            }
-
-            PersistenceProvider PP = new PersistenceProvider(delta);
-            PP.onServerStart();
-
-        }
-        catch(Exception db)
-        {
-            db.printStackTrace();
-            System.out.print("it failed\n");
-        }
 
         new Server().run(portNumber);
     }
