@@ -15,6 +15,7 @@ import com.plugin.models.ServerGame;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is a facade for the database.
@@ -175,7 +176,8 @@ public class PersistenceProvider
         }
     }
 
-    public void onServerStart() throws IOException {
+    public void onServerStart() throws IOException
+    {
         ServerData SD = ServerData.instance();
         CommandFacade CF = CommandFacade.getInstance();
         CommandManager._instance().setActive(false);
@@ -197,6 +199,16 @@ public class PersistenceProvider
 
            }
         }
+        /*
+        db.startTransaction();
+        List<User> users = db.getUserDao().getUsers();
+        db.endTransaction(false);
+
+        for(User u : users)
+        {
+            SD.addUser(u);
+        }*/
+
         CommandManager._instance().setActive(true);
         for (ServerGame game : getGameList()) {
            for (Player p : game.getPlayers())

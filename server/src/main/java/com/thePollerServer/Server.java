@@ -23,7 +23,8 @@ public class Server
     private static final int MAX_WAITING_CONNECTIONS = 12;
     private static int delta;
 
-    public static int getDelta() {
+    public static int getDelta()
+    {
         return delta;
     }
 
@@ -102,7 +103,7 @@ public class Server
             if(reset){
                 db.resetDatabase();
             }
-            
+
             PersistenceProvider PP = new PersistenceProvider(delta);
             PP.onServerStart();
 

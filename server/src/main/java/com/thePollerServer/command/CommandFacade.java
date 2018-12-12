@@ -89,6 +89,7 @@ public class CommandFacade
         Command createCommand = new Command(CommandsExtensions.clientSide+"ClientSetupService","createGame",types,params);
         CM.addCommand(createCommand);
 
+        System.out.println("adding game to persistance now");
         PersistenceProvider persistenceProvider = new PersistenceProvider(Server.getDelta());
         persistenceProvider.addGame(model.getGame(info));
 
