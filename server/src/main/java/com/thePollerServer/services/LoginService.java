@@ -26,6 +26,7 @@ public class LoginService
         //IDatabaseFacade df = Factory.createDatabaseFacade();
 
         User user = new User(lr.username, lr.password);
+
         if(model.addUser(user))
         {
             try
@@ -35,13 +36,10 @@ public class LoginService
             }
             catch(Exception e)
             {
-
+                e.printStackTrace();
             }
             return model.login(user);
         }
-
-        PersistenceProvider persistenceProvider = new PersistenceProvider(Server.getDelta());
-        persistenceProvider.register(user);
 
         return new LoginResponse(null, null, new ErrorResponse(String.format("%s is already used", lr.username), null, null));
 

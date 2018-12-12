@@ -199,15 +199,15 @@ public class PersistenceProvider
 
            }
         }
-        /*
+
         db.startTransaction();
-        List<User> users = db.getUserDao().getUsers();
+        List<User> users = db.getUserDao().getAllUsers();
         db.endTransaction(false);
 
         for(User u : users)
         {
             SD.addUser(u);
-        }*/
+        }
 
         CommandManager._instance().setActive(true);
         for (ServerGame game : getGameList()) {

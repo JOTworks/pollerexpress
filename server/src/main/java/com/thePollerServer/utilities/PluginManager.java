@@ -15,6 +15,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -90,10 +91,17 @@ public class PluginManager
                     {
                         return new IUserDao()
                         {
+
                             @Override
                             public User getUser(String username) throws IOException
                             {
                                 return null;
+                            }
+
+                            @Override
+                            public List<User> getAllUsers() throws IOException
+                            {
+                                return new ArrayList<>();
                             }
 
                             @Override
