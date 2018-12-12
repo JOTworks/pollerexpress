@@ -87,7 +87,7 @@ public class CommandFacade
         CM.addCommand(createCommand);
 
         PersistenceProvider persistenceProvider = new PersistenceProvider(Server.getDelta());
-        persistenceProvider.addGame(new ServerGame(info));
+        persistenceProvider.addGame(model.getGame(info));
 
         joinGame(player, info);
     }
