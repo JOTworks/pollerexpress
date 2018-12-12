@@ -26,6 +26,7 @@ public class LoginService
         //IDatabaseFacade df = Factory.createDatabaseFacade();
 
         User user = new User(lr.username, lr.password);
+
         if(model.addUser(user))
         {
             try
@@ -35,7 +36,7 @@ public class LoginService
             }
             catch(Exception e)
             {
-
+                e.printStackTrace();
             }
             return model.login(user);
         }

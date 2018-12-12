@@ -53,7 +53,8 @@ public class CommandFacade
      * @throws CommandFailed
      * @throws IOException
      */
-    public static void joinGame(Player player, GameInfo info) throws CommandFailed, IOException {
+    public static void joinGame(Player player, GameInfo info) throws CommandFailed, IOException
+    {
         SetupService.joinGame(player, info);
 
         Player real = model.getGame(info).getPlayer(player).toPlayer();
@@ -69,7 +70,7 @@ public class CommandFacade
         CM.addCommand(joinCommand);
 
         PersistenceProvider persistenceProvider = new PersistenceProvider(Server.getDelta());
-        persistenceProvider.joinGame((User) player);
+        persistenceProvider.joinGame( model.getUser(player.name) );
     }
 
     /**
@@ -81,6 +82,11 @@ public class CommandFacade
      */
     public static void createGame(Player player, GameInfo info) throws CommandFailed, IOException
     {
+        //check if game exists on server. if so, just return.
+        if(model.getGame(info) != null) {
+            return;
+        }
+
         SetupService.createGame(player, info);
 
         //------------------------------add command portion-----------------------------------------
@@ -89,6 +95,7 @@ public class CommandFacade
         Command createCommand = new Command(CommandsExtensions.clientSide+"ClientSetupService","createGame",types,params);
         CM.addCommand(createCommand);
 
+        System.out.println("adding game to persistance now");
         PersistenceProvider persistenceProvider = new PersistenceProvider(Server.getDelta());
         persistenceProvider.addGame(model.getGame(info));
 
