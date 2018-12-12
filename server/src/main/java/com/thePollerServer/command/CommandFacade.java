@@ -53,8 +53,7 @@ public class CommandFacade
      * @throws CommandFailed
      * @throws IOException
      */
-    public static void joinGame(Player player, GameInfo info) throws CommandFailed
-    {
+    public static void joinGame(Player player, GameInfo info) throws CommandFailed, IOException {
         SetupService.joinGame(player, info);
 
         Player real = model.getGame(info).getPlayer(player).toPlayer();
@@ -68,6 +67,9 @@ public class CommandFacade
         Object[] params = {real, model.getGame(info).getGameInfo()};
         Command joinCommand = new Command(CommandsExtensions.clientSide+"ClientSetupService","joinGame",types,params);
         CM.addCommand(joinCommand);
+
+        PersistenceProvider persistenceProvider = new PersistenceProvider(Server.getDelta());
+        persistenceProvider.joinGame((User) player);
     }
 
     /**
