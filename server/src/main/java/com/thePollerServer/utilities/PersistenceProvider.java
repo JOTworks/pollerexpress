@@ -125,6 +125,10 @@ public class PersistenceProvider
                 db.getCommandDao().removeCommands(game.getId());
             }
             else{
+                if(command.getMethodName().equals("createGame")) {
+                    //don't want the create game command, change it to the join game command...
+                    command.set_methodName("joinGame");
+                }
                 db.getCommandDao().addCommand(command, game.getId());
             }
             db.endTransaction(true);
