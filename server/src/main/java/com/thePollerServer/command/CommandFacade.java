@@ -20,8 +20,10 @@ import com.shared.models.GameInfo;
 import com.shared.models.Player;
 import com.thePollerServer.Model.ServerData;
 import com.shared.models.ServerPlayer;
+import com.thePollerServer.Server;
 import com.thePollerServer.services.GameService;
 import com.thePollerServer.services.SetupService;
+import com.thePollerServer.utilities.PersistenceProvider;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -75,7 +77,7 @@ public class CommandFacade
      * @throws CommandFailed
      * @throws IOException
      */
-    public static void createGame(Player player, GameInfo info) throws CommandFailed  {
+    public static void createGame(Player player, GameInfo info) throws CommandFailed, IOException {
         SetupService.createGame(player, info);
 
         //------------------------------add command portion-----------------------------------------
@@ -83,6 +85,9 @@ public class CommandFacade
         Object[] params= {new GameInfo(info)};
         Command createCommand = new Command(CommandsExtensions.clientSide+"ClientSetupService","createGame",types,params);
         CM.addCommand(createCommand);
+
+        PersistenceProvider persistenceProvider = new PersistenceProvider(Server.getDelta());
+        persistenceProvider.addGame(new ServerGame(info));
 
         joinGame(player, info);
     }

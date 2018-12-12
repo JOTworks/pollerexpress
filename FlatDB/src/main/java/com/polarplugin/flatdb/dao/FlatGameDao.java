@@ -57,6 +57,8 @@ public class FlatGameDao implements IGameDao {
         OutputStream fos = new FileOutputStream(new File("allGames.txt"), false);
         Serializer.writeData(games, fos);
         fos.close();
+
+        FlatCommandDao.createNewCommandFile(game); // create a new commandFile for the game added
     }
 
     @Override
