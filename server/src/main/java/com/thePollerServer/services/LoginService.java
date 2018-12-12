@@ -8,6 +8,7 @@ import com.shared.models.User;
 import com.thePollerServer.Model.ServerData;
 import com.thePollerServer.Server;
 import com.thePollerServer.utilities.PersistenceProvider;
+import java.io.IOException;
 
 public class LoginService
 {
@@ -17,8 +18,7 @@ public class LoginService
         return model.login(new User(lr.username, lr.password));
     }
 
-    public LoginResponse register(LoginRequest lr)
-    {
+    public LoginResponse register(LoginRequest lr) throws IOException {
         //currently all error correction is handled down the line at by the facade.
         //the service is just parsing the data.
 
@@ -39,6 +39,9 @@ public class LoginService
             }
             return model.login(user);
         }
+
+        PersistenceProvider persistenceProvider = new PersistenceProvider(Server.getDelta());
+        persistenceProvider.register(user);
 
         return new LoginResponse(null, null, new ErrorResponse(String.format("%s is already used", lr.username), null, null));
 

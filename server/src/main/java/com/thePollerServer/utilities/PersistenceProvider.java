@@ -150,6 +150,10 @@ public class PersistenceProvider
                 db.getCommandDao().removeCommands(game.getId());
             }
             else{
+                if(command.getMethodName().equals("createGame")) {
+                    //don't want the create game command, change it to the join game command...
+                    command.set_methodName("joinGame");
+                }
                 db.getCommandDao().addCommand(command, game.getId());
             }
             commit = true;
@@ -163,8 +167,15 @@ public class PersistenceProvider
         }
     }
 
-    public void onServerStart() throws IOException
-    {
+    public void reset(){
+        try {
+            db.resetDatabase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onServerStart() throws IOException {
         ServerData SD = ServerData.instance();
         CommandFacade CF = CommandFacade.getInstance();
         CommandManager._instance().setActive(false);
