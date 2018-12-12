@@ -37,7 +37,6 @@ public class PersistenceProvider
      */
     public void register(User user) throws IOException
     {
-
         try
         {
             db.startTransaction();
