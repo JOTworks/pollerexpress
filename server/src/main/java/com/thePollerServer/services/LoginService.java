@@ -8,7 +8,6 @@ import com.shared.models.User;
 import com.thePollerServer.Model.ServerData;
 import com.thePollerServer.Server;
 import com.thePollerServer.utilities.PersistenceProvider;
-
 import java.io.IOException;
 
 public class LoginService
@@ -29,6 +28,15 @@ public class LoginService
         User user = new User(lr.username, lr.password);
         if(model.addUser(user))
         {
+            try
+            {
+
+                new PersistenceProvider(Server.getDelta()).register(user);
+            }
+            catch(Exception e)
+            {
+
+            }
             return model.login(user);
         }
 

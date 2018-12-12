@@ -79,7 +79,8 @@ public class CommandFacade
      * @throws CommandFailed
      * @throws IOException
      */
-    public static void createGame(Player player, GameInfo info) throws CommandFailed, IOException {
+    public static void createGame(Player player, GameInfo info) throws CommandFailed, IOException
+    {
         SetupService.createGame(player, info);
 
         //------------------------------add command portion-----------------------------------------

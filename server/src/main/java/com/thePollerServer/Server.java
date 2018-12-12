@@ -102,13 +102,10 @@ public class Server
             if(reset){
                 db.resetDatabase();
             }
-
-            db.startTransaction();
-
+            
             PersistenceProvider PP = new PersistenceProvider(delta);
             PP.onServerStart();
 
-            db.endTransaction(false);
         }
         catch(Exception db)
         {
