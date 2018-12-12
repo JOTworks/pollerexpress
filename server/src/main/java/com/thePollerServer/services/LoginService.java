@@ -40,9 +40,6 @@ public class LoginService
             return model.login(user);
         }
 
-        PersistenceProvider persistenceProvider = new PersistenceProvider(Server.getDelta());
-        persistenceProvider.register(user);
-
         return new LoginResponse(null, null, new ErrorResponse(String.format("%s is already used", lr.username), null, null));
 
     }
