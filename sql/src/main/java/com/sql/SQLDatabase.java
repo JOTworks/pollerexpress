@@ -18,6 +18,7 @@ import java.sql.SQLException;
 public class SQLDatabase implements IDatabase
 {
     final String url;
+    boolean isOpen = false;
     Connection conn;
     SQLUserDao uDao;
     SQLGameDao gDao;
@@ -53,16 +54,26 @@ public class SQLDatabase implements IDatabase
             createTables();
             this.close(true);
         } catch(IOException e) {
+            this.close(false);
             throw new DatabaseException(e.getMessage());
         }
     }
 
-    public void resetDatabase() throws IOException {
+    public void resetDatabase() throws IOException
+    {
         SQLDatabase db = new SQLDatabase();
-        db.open();
-        db.deleteTables();
-        db.createTables();
-        db.close(true);
+        try
+        {
+
+            db.open();
+            db.deleteTables();
+            db.createTables();
+            db.close(true);
+        }
+        finally
+        {
+            db.close(false);
+        }
     }
 
     private void createTables() throws IOException {
@@ -81,13 +92,14 @@ public class SQLDatabase implements IDatabase
     {
         if(this.getConnection() != null)
         {
-            System.out.print("Tried to open an open line");
+            System.out.println("Tried to open an open line");
             return;
         }
         try
         {
             this.conn = DriverManager.getConnection(this.url);
             this.conn.setAutoCommit(false);
+            this.isOpen = true;
         } catch (SQLException e)
         {
             System.out.println(e.getMessage());
@@ -138,7 +150,8 @@ public class SQLDatabase implements IDatabase
     }
 
     @Override
-    public void endTransaction(boolean commit) {
+    public void endTransaction(boolean commit)
+    {
         this.close(commit);
     }
 

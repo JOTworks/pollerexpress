@@ -78,7 +78,8 @@ public class SQLGameDao implements IGameDao
     }
 
     @Override
-    public List<ServerGame> getAllGames() throws IOException {
+    public List<ServerGame> getAllGames() throws IOException
+    {
         ArrayList<ServerGame> games = new ArrayList<>();
         try{
             PreparedStatement stmnt = _db.getConnection().prepareStatement(SELECT_ALL_GAMES);
@@ -98,8 +99,12 @@ public class SQLGameDao implements IGameDao
     }
 
     @Override
-    public void addGame(ServerGame game) throws IOException {
-        try{
+    public void addGame(ServerGame game) throws IOException
+    {
+        System.out.println("in add game");
+        try
+        {
+            System.out.println("Added " + game.toString());
             PreparedStatement stmnt = _db.getConnection().prepareStatement(INSERT_GAME);
             stmnt.setString(1, game.getId());
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -108,7 +113,9 @@ public class SQLGameDao implements IGameDao
             stmnt.execute();
             stmnt.close();
             stream.close();
-        } catch(SQLException e) {
+        } catch(SQLException e)
+        {
+            e.printStackTrace();
             throw new DatabaseException(e.getMessage());
         }
     }

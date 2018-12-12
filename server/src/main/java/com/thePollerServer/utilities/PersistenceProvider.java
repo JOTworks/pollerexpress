@@ -37,14 +37,18 @@ public class PersistenceProvider
      */
     public void register(User user) throws IOException
     {
-
+        boolean commit = false;
         try
         {
             db.startTransaction();
             db.getUserDao().addUser(user);
-            db.endTransaction(true);
+            commit = true;
         } catch (IOException e) {
             throw e;
+        }
+        finally
+        {
+            db.endTransaction(commit);
         }
 
     }
@@ -56,37 +60,52 @@ public class PersistenceProvider
      */
     public void joinGame(User user) throws IOException {
 
+        boolean commit = false;
         try
         {
             db.startTransaction();
             db.getUserDao().updateUser(user);
-            db.endTransaction(true);
+            commit = true;
         } catch (IOException e) {
             throw e;
+        }
+        finally
+        {
+            db.endTransaction(commit);
         }
     }
 
 
     public void addGame(ServerGame game) throws IOException {
 
-        try{
+        boolean commit = false;
+        try
+        {
             db.startTransaction();
             db.getGameDao().addGame(game);
-            db.endTransaction(true);
+            commit = true;
         } catch (IOException e) {
             throw e;
+        }
+        finally
+        {
+            db.endTransaction(commit);
         }
     }
 
     public ArrayList<ServerGame> getGameList() throws IOException {
-
+        boolean commit = false;
         try{
             db.startTransaction();
             ArrayList<ServerGame> gameList = (ArrayList<ServerGame>) db.getGameDao().getAllGames();
-            db.endTransaction(true);
+            commit = true;
             return gameList;
         } catch (IOException e) {
             return new ArrayList<ServerGame>();
+        }
+        finally
+        {
+            db.endTransaction(commit);
         }
     }
 
@@ -98,10 +117,14 @@ public class PersistenceProvider
         try{
             db.startTransaction();
             ArrayList<Command> commandList = (ArrayList<Command>) db.getCommandDao().getCommands(game.getId());
-            db.endTransaction(true);
+
             return commandList;
         } catch (IOException e) {
             throw e;
+        }
+        finally
+        {
+            db.endTransaction(false);
         }
     }
 
@@ -113,6 +136,7 @@ public class PersistenceProvider
      */
     public void addCommand(Command command, ServerGame game) throws IOException {
 
+        boolean commit = false;
         try{
             db.startTransaction();
             if(getCommandList(game).size() >= delta)
@@ -128,9 +152,14 @@ public class PersistenceProvider
             else{
                 db.getCommandDao().addCommand(command, game.getId());
             }
-            db.endTransaction(true);
+            commit = true;
+
         } catch (IOException e) {
             throw e;
+        }
+        finally
+        {
+            db.endTransaction(commit);
         }
     }
 

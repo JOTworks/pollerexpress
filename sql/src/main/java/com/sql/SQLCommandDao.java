@@ -50,7 +50,8 @@ public class SQLCommandDao implements ICommandDao {
     }
 
     @Override
-    public List<Command> getCommands(String gameId) throws IOException {
+    public List<Command> getCommands(String gameId) throws IOException
+    {
         ArrayList<Command> commands = new ArrayList<>();
         try{
             PreparedStatement stmnt = _db.getConnection().prepareStatement(SELECT_COMMANDS);
