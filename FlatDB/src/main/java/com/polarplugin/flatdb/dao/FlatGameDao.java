@@ -48,10 +48,10 @@ public class FlatGameDao implements IGameDao {
     public void addGame(ServerGame game) throws IOException {
         List<ServerGame> games = new ArrayList<>();
 
-        // get an array of games
-        try { games = getAllGames(); } // get a list comprising all games
-        catch (FileNotFoundException e) {} // if the file is not found, we will use the list of games created above
-        finally { games.add(game); } // regardless, we want to add the game that just came in
+        try {
+            games = getAllGames(); // if the file is not found, we will use the list of games created above
+        } catch (FileNotFoundException e) {} // ignore the exception
+        games.add(game); // regardless, we want to add the game that just came in
 
         // write the new array of games to a file
         OutputStream fos = new FileOutputStream(new File("allGames.txt"), false);
