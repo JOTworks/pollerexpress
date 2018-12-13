@@ -359,4 +359,9 @@ public class Game extends Observable implements Serializable
 //        return super.toString();
         return _info.toString();
     }
+
+    public void setVisibleCards(VisibleCards visible)
+    {
+        faceUpCards = visible;
+    }
 }

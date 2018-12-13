@@ -50,11 +50,12 @@ public class MainActivity extends AppCompatActivity implements ISpecialView
     public void goToGame()
     {
 
-        Fragment fragment = new GameFragment();
+        GameFragment fragment = new GameFragment();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragment_container, fragment);
         ft.commit();
         fm.popBackStack();
+        fragment.displayError("Resynced with server");
     }
 
     @Override

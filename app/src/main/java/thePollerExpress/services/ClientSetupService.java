@@ -159,11 +159,14 @@ class ClientSetupService implements ISetupService {
 
         //todo reset the UI
         CD.deleteObservers();
+        CD.getGame().deleteObservers();
+        System.out.println("Delete the previous game");
         CD.getMainPresenter().deleteFragments();
         CD.setUser(user);
         loadGame(game);
+        System.out.println("Create the new game");
         CD.getMainPresenter().goToGame();
-
+        CD.getGame().setGameState(game.getGameState());//refresh the game state for the destination cards presenter.
         return true;
     }
 

@@ -1,5 +1,6 @@
 package com.thePollerServer.services;
 
+import com.plugin.models.ServerGame;
 import com.shared.exceptions.database.DatabaseException;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.models.requests.LoginRequest;
@@ -7,6 +8,7 @@ import com.shared.models.reponses.LoginResponse;
 import com.shared.models.User;
 import com.thePollerServer.Model.ServerData;
 import com.thePollerServer.Server;
+import com.thePollerServer.command.CommandFacade;
 import com.thePollerServer.utilities.PersistenceProvider;
 import java.io.IOException;
 
@@ -15,7 +17,14 @@ public class LoginService
     private ServerData model = ServerData.instance();
     public LoginResponse login(LoginRequest lr)
     {
-        return model.login(new User(lr.username, lr.password));
+        User u = new User(lr.username, lr.password);
+        LoginResponse response = model.login(u);
+        ServerGame game = model.getGame(u);
+        if(game != null)
+        {
+            //CommandFacade.recync(u);
+        }
+        return response;
     }
 
     public LoginResponse register(LoginRequest lr) throws IOException {
@@ -31,7 +40,6 @@ public class LoginService
         {
             try
             {
-
                 new PersistenceProvider(Server.getDelta()).register(user);
             }
             catch(Exception e)

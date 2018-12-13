@@ -8,7 +8,8 @@ import com.thePollerServer.Model.ServerData;
 
 import java.util.*;
 
-public class CommandManager {
+public class CommandManager
+{
 
 	private static CommandManager _instance;
 	private HashMap<String, Queue<Command>> userCommands;
@@ -109,8 +110,6 @@ public class CommandManager {
             addCommand(c, p);
         }
         return true;
-
-
     }
 
     /**
