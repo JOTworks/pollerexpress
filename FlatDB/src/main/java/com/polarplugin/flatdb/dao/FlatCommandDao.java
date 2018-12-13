@@ -20,9 +20,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FlatCommandDao implements ICommandDao {
+public class FlatCommandDao implements ICommandDao
+{
     @Override
-    public List<Command> getCommands(String gameId) throws IOException {
+    public List<Command> getCommands(String gameId) throws IOException
+    {
         List<Command> commands;
 
 
@@ -56,7 +58,8 @@ public class FlatCommandDao implements ICommandDao {
     }
 
     @Override
-    public void removeCommands(String gameId) throws IOException {
+    public void removeCommands(String gameId) throws IOException
+    {
             // set the output stream to overwrite instead of appending
             OutputStream fos = new FileOutputStream(new File("games/" + gameId + ".txt"), false);
             Serializer.writeData(new ArrayList<Command>(), fos);
