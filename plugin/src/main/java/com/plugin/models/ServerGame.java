@@ -4,6 +4,7 @@ import com.shared.models.Chat;
 import com.shared.models.ChatHistory;
 import com.shared.models.Color;
 import com.shared.models.Game;
+import com.shared.models.GameHistory;
 import com.shared.models.GameInfo;
 import com.shared.models.Map;
 import com.shared.models.Player;
@@ -35,6 +36,7 @@ public class ServerGame extends Observable implements Serializable
 
     // the chat history for the game
     ChatHistory chatHistory = new ChatHistory();
+    GameHistory history = new GameHistory();
     List<ServerPlayer> _players;
 
     //todo:make these private
@@ -117,6 +119,8 @@ public class ServerGame extends Observable implements Serializable
         game.setGameState(gameState);
         game.setVisibleCards(tcd.faceUpCards);
         game.setMap(map);
+        game.setGameHistory(history);
+        game.setChatHistory(chatHistory);
         return game;
     }
 
@@ -416,5 +420,10 @@ public class ServerGame extends Observable implements Serializable
             ++i;
         }
         return players;
+    }
+
+    public GameHistory getHistory()
+    {
+        return history;
     }
 }

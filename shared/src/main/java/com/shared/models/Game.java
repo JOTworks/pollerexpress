@@ -369,4 +369,5 @@ public class Game extends Observable implements Serializable
         this.map = map;
     }
 
+
 }

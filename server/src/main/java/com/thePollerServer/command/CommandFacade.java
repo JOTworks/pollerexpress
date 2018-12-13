@@ -514,6 +514,8 @@ public class CommandFacade
                 break;
         }
         HistoryItem historyItem = new HistoryItem(action, new Timestamp(System.currentTimeMillis()), p);
+        ServerGame game = model.getGame(p);
+        game.getHistory().addHistoryItem(historyItem);
         {
             Class<?>[] types = {HistoryItem.class};
             Object[] params = {historyItem};
