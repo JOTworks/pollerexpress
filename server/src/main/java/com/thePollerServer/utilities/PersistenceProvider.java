@@ -15,6 +15,7 @@ import com.plugin.models.ServerGame;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is a facade for the database.
@@ -180,27 +181,27 @@ public class PersistenceProvider
         CommandFacade CF = CommandFacade.getInstance();
         CommandManager._instance().setActive(false);
 
+        List<ServerGame> gameList = getGameList();
+        if(!(gameList==null)) {
+            for (ServerGame game : gameList) {
 
-        for (ServerGame game : getGameList())
-        {
+                SD.addGame(game);
+                for (Command command : getCommandList(game)) {
+                    try {
+                        command.execute();
+                    } catch (CommandFailed commandFailed) {
+                        commandFailed.printStackTrace();
+                    }
 
-            SD.addGame(game);
-           for (Command command :getCommandList(game))
-           {
-               try
-               {
-                   command.execute();
-               } catch (CommandFailed commandFailed)
-               {
-                   commandFailed.printStackTrace();
-               }
+                }
+            }
+            CommandManager._instance().setActive(true);
+            for (ServerGame game : getGameList()) {
+                for (Player p : game.getPlayers()) {
+                    CF.recync(p);
+                }
+            }
 
-           }
-        }
-        CommandManager._instance().setActive(true);
-        for (ServerGame game : getGameList()) {
-           for (Player p : game.getPlayers())
-            CF.recync(p);
         }
     }
 }
