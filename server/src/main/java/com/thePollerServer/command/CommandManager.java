@@ -19,6 +19,7 @@ public class CommandManager
 		userCommands = new HashMap<String, Queue<Command>>();
 	}
 	private boolean active = true;
+	private Set<String> hasResync = new HashSet<>();
 	public static CommandManager _instance() {
 		if(_instance == null) {
 			_instance = new CommandManager();
@@ -42,6 +43,10 @@ public class CommandManager
 
 	    if(userCommands.containsKey(user))
         {
+            if(hasResync.contains(user ))
+            {
+                hasResync.remove(user);
+            }
             Queue<Command> kwayway = userCommands.get(user);
             userCommands.put(user, new LinkedList<>() );
             //System.out.print(String.format("Command Manager: %s returned queue %d\n", user, kwayway.size()));
@@ -137,4 +142,13 @@ public class CommandManager
         }
     }
 
+    public boolean getUserHasResync(Player p)
+    {
+        return hasResync.contains(p.getName());
+    }
+
+    public void setHasResync(Player p)
+    {
+        hasResync.add(p.getName());
+    }
 }

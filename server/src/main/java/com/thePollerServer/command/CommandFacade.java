@@ -525,6 +525,7 @@ public class CommandFacade
 
     public static void recync(Player p)
     {
+        System.out.println("IN RESYNC RUNNING THINGS");
         Game game = ServerData.instance().getGame(p).toGame();
         ServerPlayer player = ServerData.instance().getGame(p).getPlayer(p.getName());
         User user = player.toUser();
@@ -533,6 +534,7 @@ public class CommandFacade
         Object[] params = {game, user};
         Command recyncCommand = new Command(CommandsExtensions.clientSide + "ClientSetupService", "resync", types, params);
         CM.addCommand(recyncCommand, p);
+        CM.setHasResync(p);
 
 
     }

@@ -116,6 +116,7 @@ public class ServerGame extends Observable implements Serializable
         game.setTrainCardDeckSize(this.tcd.size());
         game.setGameState(gameState);
         game.setVisibleCards(tcd.faceUpCards);
+        game.setMap(map);
         return game;
     }
 

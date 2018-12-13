@@ -14,8 +14,8 @@ import java.util.Set;
 
 public class TrainCardDeck implements Serializable
 {
-    static private final int TRAINS = 4;//8;
-    static private final int LOCOMOTIVES = 2;//10;
+    static private final int TRAINS = 8;//8;
+    static private final int LOCOMOTIVES = 10;//10;
     Set<TrainCard> cards;
     List<TrainCard> deck;
     List<TrainCard> discard;

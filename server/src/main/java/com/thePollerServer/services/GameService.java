@@ -169,7 +169,7 @@ public class GameService
     }
 
     public EndGameResult checkForEndGame(Player p) {
-        EndGameResult gameResult = new EndGameResult();
+        EndGameResult gameResult;
 
         String id = p.getGameId();
 
@@ -180,8 +180,11 @@ public class GameService
         // the state should have already changed to the next player's turn by this point
         int trainCount = game.getPlayer(gs.getTurn()).getTrainCount();
         System.out.println(trainCount);
-        if (trainCount < 3) {
-            return gameResult = endGame(game);
+        if (trainCount < 3)
+        {
+            gameResult = endGame(game);
+            model.removeGame(game);
+            return  gameResult;
 
         }
 

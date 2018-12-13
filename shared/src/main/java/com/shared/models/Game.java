@@ -364,4 +364,9 @@ public class Game extends Observable implements Serializable
     {
         faceUpCards = visible;
     }
+    public void setMap(Map map)
+    {
+        this.map = map;
+    }
+
 }

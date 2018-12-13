@@ -181,6 +181,21 @@ public class PersistenceProvider
         }
     }
 
+    public void deleteGame(ServerGame game) throws IOException
+    {
+        boolean commit = false;
+        try
+        {
+            db.startTransaction();
+            db.getGameDao().deleteGame(game);
+            db.getCommandDao().removeCommands(game.getId());
+        }
+        finally
+        {
+            db.endTransaction(commit);
+        }
+    }
+
     public void onServerStart() throws IOException
     {
         ServerData SD = ServerData.instance();
@@ -198,8 +213,17 @@ public class PersistenceProvider
         }
 
         CommandManager._instance().setActive(false);
-
-        if(!(getGameList()==null)) {
+        List<ServerGame> games = getGameList();
+        if(!(games==null))
+        {
+            SD.addGames(games);
+            for (ServerGame game : SD.getServerGames() )
+            {
+                for (Player p : game.getPlayers())
+                {
+                    SD.setUserGame(p, game);
+                }
+            }
             for (ServerGame game : getGameList()) {
 
                 SD.addGame(game);

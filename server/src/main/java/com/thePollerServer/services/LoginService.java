@@ -9,6 +9,7 @@ import com.shared.models.User;
 import com.thePollerServer.Model.ServerData;
 import com.thePollerServer.Server;
 import com.thePollerServer.command.CommandFacade;
+import com.thePollerServer.command.CommandManager;
 import com.thePollerServer.utilities.PersistenceProvider;
 import java.io.IOException;
 
@@ -22,7 +23,10 @@ public class LoginService
         ServerGame game = model.getGame(u);
         if(game != null)
         {
-            //CommandFacade.recync(u);
+            if(!CommandManager._instance().getUserHasResync(u))
+            {
+                CommandFacade.recync(u);
+            }
         }
         return response;
     }

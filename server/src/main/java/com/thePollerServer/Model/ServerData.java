@@ -7,10 +7,15 @@ import com.shared.models.Player;
 import com.shared.models.User;
 import com.shared.models.reponses.ErrorResponse;
 import com.shared.models.reponses.LoginResponse;
+import com.thePollerServer.Server;
+import com.thePollerServer.utilities.PersistenceProvider;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.imageio.IIOException;
 
 public class ServerData
 {
@@ -43,7 +48,7 @@ public class ServerData
 
     public boolean addGame(ServerGame game)
     {
-        games.put(game.getGameInfo().getId(), game);
+        games.put(game.getId(), game);
         return true;
     }
 
@@ -74,12 +79,26 @@ public class ServerData
 
     public ServerGame getGame(GameInfo info)
     {
-        return games.get(info.getId());
+        try
+        {
+            return games.get(info.getId());
+        }
+        catch(Exception e)
+        {
+            return null;
+        }
     }
 
     public ServerGame getGame(Player p)
     {
-        return games.get(getMyGame(p).getId());
+        try
+        {
+            return games.get(getMyGame(p).getId());
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
     }
 
 
@@ -129,6 +148,28 @@ public class ServerData
         {
             LoginResponse response = new LoginResponse(new Authtoken(user), new ArrayList<>(getGames()), null);
             return response;
+        }
+    }
+
+    public void setUserGame(Player p, ServerGame game)
+    {
+        playersToGame.put(p.getName(), game.getGameInfo());
+    }
+
+    public void removeGame(ServerGame game)
+    {
+        for(Player p: game.getPlayers())
+        {
+            playersToGame.remove(p.getName());
+        }
+        games.remove(game.getId());
+        try
+        {
+            new PersistenceProvider(Server.getDelta()).deleteGame(game);
+        }
+        catch(IOException e)
+        {
+            //do nothing
         }
     }
 
