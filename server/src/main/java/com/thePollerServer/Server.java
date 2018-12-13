@@ -118,6 +118,7 @@ public class Server
         PluginManager manager = new PluginManager("plugins.config");//TODO set this up in a constant?
         IPluginFactory factory = manager.getPluginFactory(plugin);
         Factory.set(factory);
+        loadData(reset);
 
         new Server().run(portNumber);
     }
