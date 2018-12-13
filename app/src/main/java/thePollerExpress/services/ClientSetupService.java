@@ -159,6 +159,7 @@ class ClientSetupService implements ISetupService {
 
         //todo reset the UI
         CD.deleteObservers();
+        CD.getMainPresenter().deleteFragments();
         CD.setUser(user);
         loadGame(game);
         CD.getMainPresenter().goToGame();

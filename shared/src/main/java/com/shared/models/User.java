@@ -23,8 +23,8 @@ public class User extends Player implements Serializable
     }
     public User(String name, String password, String gameId)
     {
-        super(name, gameId);
-        this.password = password;
+        this(name, password);
+        this.gameId = gameId;
     }
 
     public DestCardHand getDestCardHand()

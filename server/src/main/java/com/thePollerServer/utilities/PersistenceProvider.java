@@ -197,7 +197,7 @@ public class PersistenceProvider
 
         }
 
-        CommandManager._instance().setActive(true);
+        CommandManager._instance().setActive(false);
 
         if(!(getGameList()==null)) {
             for (ServerGame game : getGameList()) {
@@ -215,7 +215,7 @@ public class PersistenceProvider
 
             CommandManager._instance().setActive(true);
 
-            for (ServerGame game : getGameList())
+            for (ServerGame game : SD.getServerGames() )
             {
                 for (Player p : game.getPlayers())
                 {

@@ -37,7 +37,7 @@ public class ServerPlayer extends Player
 
     public User toUser()
     {
-            User user = new User(name,null,gameId);
+            User user = new User(name,"something",gameId);
             user.getDestCardHand().setDestinationCards(destCardHand.getDestinationCards());
             user.getTrainCardHand().setTrainCards(trainCardHand.getList());
             user.getDestCardOptions().setDestinationCards(destCardOptions.getDestinationCards());

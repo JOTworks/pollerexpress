@@ -105,6 +105,10 @@ public class ServerData
         return could_join;
     }
 
+    public List<ServerGame> getServerGames()
+    {
+        return new ArrayList<>(games.values());
+    }
     public boolean createGame(Player p, GameInfo info)
     {
         ServerGame game = new ServerGame(info);

@@ -67,7 +67,11 @@ public class CommandManager {
      */
     private void addCommand(Command c, String user)
     {
-        if(!active){System.out.println("CommandManager is not active");}
+        if(!active)
+        {
+            System.out.println("CommandManager is not active");
+            return;
+        }
 
         Queue<Command> queue = null;
         try

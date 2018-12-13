@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.Observable;
 
 import thePollerExpress.communication.PollerExpress;
-import thePollerExpress.presenters.game.MainPresenter;
+import thePollerExpress.presenters.MainPresenter;
 
 /**
  * This class is called "ClientData" rather than "User" in order

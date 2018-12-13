@@ -1,4 +1,4 @@
-package thePollerExpress.presenters.game;
+package thePollerExpress.presenters;
 
 import thePollerExpress.models.ClientData;
 import thePollerExpress.views.ISpecialView;
@@ -17,4 +17,8 @@ public class MainPresenter
         view.goToGame();
     }
 
+    public void deleteFragments()
+    {
+        view.deleteFragments();
+    }
 }
