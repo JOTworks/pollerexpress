@@ -146,9 +146,23 @@ class ClientSetupService implements ISetupService {
      */
 
     public static Boolean setPlayerColors(List<Player> players) {
-        for (Player player : players) {
+        for (Player player : players)
+        {
             CD.getGame().getPlayer(player).setColor(player.getColor());
         }
+        return true;
+    }
+
+
+    public static boolean resync(Game game, User user)
+    {
+
+        //todo reset the UI
+        CD.deleteObservers();
+        CD.setUser(user);
+        loadGame(game);
+        CD.getMainPresenter().goToGame();
+
         return true;
     }
 

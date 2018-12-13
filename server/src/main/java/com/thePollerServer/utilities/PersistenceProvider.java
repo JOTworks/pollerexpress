@@ -187,24 +187,6 @@ public class PersistenceProvider
         CommandFacade CF = CommandFacade.getInstance();
         CommandManager._instance().setActive(false);
 
-
-        for (ServerGame game : getGameList())
-        {
-
-            SD.addGame(game);
-           for (Command command :getCommandList(game))
-           {
-               try
-               {
-                   command.execute();
-               } catch (CommandFailed commandFailed)
-               {
-                   commandFailed.printStackTrace();
-               }
-
-           }
-        }
-
         db.startTransaction();
         List<User> users = db.getUserDao().getAllUsers();
         db.endTransaction(false);
@@ -212,14 +194,40 @@ public class PersistenceProvider
         for(User u : users)
         {
             SD.addUser(u);
+
         }
 
         CommandManager._instance().setActive(true);
-        for (ServerGame game : getGameList())
-        {
-           for (Player p : game.getPlayers())
-            CF.recync(p);
+
+        if(!(getGameList()==null)) {
+            for (ServerGame game : getGameList()) {
+
+                SD.addGame(game);
+                for (Command command : getCommandList(game)) {
+                    try {
+                        command.execute();
+                    } catch (CommandFailed commandFailed) {
+                        commandFailed.printStackTrace();
+                    }
+
+                }
+            }
+
+            CommandManager._instance().setActive(true);
+
+            for (ServerGame game : getGameList())
+            {
+                for (Player p : game.getPlayers())
+                {
+                    User u = SD.getUser(p.getName());
+                    u.setGameID(game.getId());
+                    CF.recync(p);
+                }
+            }
         }
+
+
+
+
     }
 }
-

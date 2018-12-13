@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.Observable;
 
 import thePollerExpress.communication.PollerExpress;
+import thePollerExpress.presenters.game.MainPresenter;
 
 /**
  * This class is called "ClientData" rather than "User" in order
@@ -30,8 +31,8 @@ public class ClientData extends Observable
 
     private final String UPDATE_ALL_STRING = "updateAll";
 
-    private ClientData() {
-
+    private ClientData()
+    {
         gameInfoList = new ArrayList<>();
         gameResult = new EndGameResult();
     }
@@ -40,7 +41,7 @@ public class ClientData extends Observable
 
     private User user = null;
     private Authtoken auth;
-
+    private MainPresenter presenter = null;
     private Game game = new Game(new GameInfo("bob", 3));
 
     private EndGameResult gameResult;
@@ -67,17 +68,23 @@ public class ClientData extends Observable
     }
     public EndGameResult getGameResult() { return gameResult; }
 
-    public boolean gameExists(GameInfo game){
-        for(int i = 0; i<gameInfoList.size(); i++){
-            if(gameInfoList.get(i).getId()==game.getId()) {
+    public boolean gameExists(GameInfo game)
+    {
+        for(int i = 0; i<gameInfoList.size(); i++)
+        {
+            if(gameInfoList.get(i).getId()==game.getId())
+            {
                 return true;
             }
         }
         return false;
     }
-    public boolean gameExists(Game game){
-        for(int i = 0; i<gameInfoList.size(); i++){
-            if(gameInfoList.get(i).getId()==game.getId()) {
+    public boolean gameExists(Game game)
+    {
+        for(int i = 0; i<gameInfoList.size(); i++)
+        {
+            if(gameInfoList.get(i).getId()==game.getId())
+            {
                 return true;
             }
         }
@@ -211,7 +218,8 @@ public class ClientData extends Observable
         this.user.getDestCardOptions().makeEmpty();
     }
 
-    public void updateAll() {
+    public void updateAll()
+    {
         game.updateObservables();
         game.getVisibleCards().updateObservables();
         user.getTrainCardHand().updateObservables();
@@ -227,5 +235,15 @@ public class ClientData extends Observable
 
     public void setGameResult(EndGameResult gameResult) {
         this.gameResult.setPlayerScores(gameResult.getPlayerScores());
+    }
+
+    public void setMainPresenter(MainPresenter p)
+    {
+        presenter = p;
+    }
+
+    public MainPresenter getMainPresenter()
+    {
+        return presenter;
     }
 }
