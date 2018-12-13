@@ -526,9 +526,12 @@ public class CommandFacade
     public static void recync(Player p)
     {
         Game game = ServerData.instance().getGame(p).toGame();
-        Class<?>[] types = {Game.class};
-        Object[] params = {game};
-        Command recyncCommand = new Command(CommandsExtensions.clientSide + "ClientSetupService", "loadGame", types, params);
+        ServerPlayer player = ServerData.instance().getGame(p).getPlayer(p.getName());
+        User user = player.toUser();
+
+        Class<?>[] types = {Game.class, User.class};
+        Object[] params = {game, user};
+        Command recyncCommand = new Command(CommandsExtensions.clientSide + "ClientSetupService", "resync", types, params);
         CM.addCommand(recyncCommand, p);
 
 

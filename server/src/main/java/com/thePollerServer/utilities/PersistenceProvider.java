@@ -26,7 +26,7 @@ public class PersistenceProvider
     private int delta;
     private IDatabase db = Factory.create();
 
-    public PersistenceProvider(int delta) throws DatabaseException
+    public PersistenceProvider(int delta) throws IOException
     {
         this.delta = delta;
     }

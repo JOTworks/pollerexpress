@@ -1,8 +1,8 @@
 package com.plugin;
 
-import com.shared.exceptions.database.DatabaseException;
+import java.io.IOException;
 
 public interface IPluginFactory
 {
-    IDatabase create() throws DatabaseException;
+    IDatabase create() throws IOException;
 }
