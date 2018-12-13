@@ -35,7 +35,18 @@ public class ServerPlayer extends Player
         return trainCardHand;
     }
 
-
+    public User toUser()
+    {
+            User user = new User(name,null,gameId);
+            user.getDestCardHand().setDestinationCards(destCardHand.getDestinationCards());
+            user.getTrainCardHand().setTrainCards(trainCardHand.getList());
+            user.getDestCardOptions().setDestinationCards(destCardOptions.getDestinationCards());
+            user.setPoints(points);
+            user.setColor(color);
+            user.setRoutes(routes);
+            user.setTrainCount(trainCount);
+            return user;
+    }
     public Player toPlayer()
     {
         Player temp =new Player(this.name);
