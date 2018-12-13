@@ -69,13 +69,18 @@ public class FlatGameDao implements IGameDao {
     }
 
     @Override
-    public void updateGame(ServerGame game) throws IOException {
+    public void updateGame(ServerGame game) throws IOException
+    {
         List<ServerGame> games = getAllGames();
         int index = games.indexOf(game);
         if (index == -1)
             throw new GameNotFoundException(game.getId());
 
         games.set(index, game);
+
+        OutputStream fos = new FileOutputStream(new File("allGames.txt"), false);
+        Serializer.writeData(games, fos);//overwrite the data.... gannny
+        fos.close();
     }
 
     @Override

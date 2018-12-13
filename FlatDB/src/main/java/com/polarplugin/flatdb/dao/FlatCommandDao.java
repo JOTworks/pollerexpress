@@ -29,12 +29,17 @@ public class FlatCommandDao implements ICommandDao
 
 
         try {
-            InputStream fis = new FileInputStream(new File("games/" + gameId + ".txt"));
+            InputStream fis = new FileInputStream(new File("games",  gameId + ".txt"));
             commands = (ArrayList<Command>) Serializer.readData(fis);
             fis.close();
 
-        } catch (FileNotFoundException e) { throw e;
-        } catch (ClassNotFoundException | IOException e) {
+        }
+        catch (FileNotFoundException e)
+        {
+            throw e;
+        }
+        catch (ClassNotFoundException | IOException e)
+        {
             throw new RuntimeException(e.getClass() + ": " + e.getMessage());
         }
         return commands;
@@ -66,7 +71,8 @@ public class FlatCommandDao implements ICommandDao
             fos.close();
     }
 
-    public void clearAllCommands() throws IOException {
+    public void clearAllCommands() throws IOException
+    {
         FileUtils.cleanDirectory(new File("games"));
     }
 

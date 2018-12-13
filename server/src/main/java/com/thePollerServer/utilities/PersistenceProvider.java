@@ -227,7 +227,8 @@ public class PersistenceProvider
             for (ServerGame game : getGameList()) {
 
                 SD.addGame(game);
-                for (Command command : getCommandList(game)) {
+                List<Command> commands = getCommandList(game);
+                for (Command command : commands) {
                     try {
                         command.execute();
                     } catch (CommandFailed commandFailed) {
