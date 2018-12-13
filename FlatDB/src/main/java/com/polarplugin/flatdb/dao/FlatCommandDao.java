@@ -14,6 +14,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +39,8 @@ public class FlatCommandDao implements ICommandDao {
     @Override
     public void addCommand(Command command, String gameId) throws IOException {
         List<Command> commands = new ArrayList<>();
+        if (!Files.exists(Paths.get("games")))
+            Files.createDirectories(Paths.get("games"));
 
         // get an array of commands
         try { commands = getCommands(gameId); } // get a list of Command objects for a given game
@@ -62,7 +67,10 @@ public class FlatCommandDao implements ICommandDao {
 
     public static void createNewCommandFile(ServerGame game) throws IOException {
         List<Command> empty = new ArrayList<>();
-        OutputStream fos = new FileOutputStream(new File("games/" + game.getId() + ".txt"));
+        if (!Files.exists(Paths.get("games")))
+            Files.createDirectories(Paths.get("games"));
+
+        FileOutputStream fos = new FileOutputStream(new File("games/" + game.getId() + ".txt"));
         Serializer.writeData(empty, fos);
         fos.close();
 

@@ -1,9 +1,11 @@
 package com.polarplugin.flatdb.tests;
 
 import com.plugin.models.ServerGame;
+import com.polarplugin.flatdb.dao.FlatCommandDao;
 import com.polarplugin.flatdb.dao.FlatGameDao;
 import com.polarplugin.flatdb.exceptions.DeleteFailedException;
 import com.polarplugin.flatdb.exceptions.GameNotFoundException;
+import com.shared.models.Command;
 import com.shared.models.GameInfo;
 
 import org.junit.Assert;
@@ -11,6 +13,7 @@ import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 public class FlatDB_Game_Test {
 
@@ -21,6 +24,20 @@ public class FlatDB_Game_Test {
         fgd.addGame(myGame);
         ServerGame myReadGame = fgd.getGame("myGameId");
         Assert.assertTrue(myReadGame.getId().equals("myGameId"));
+    }
+
+    @Test
+    public void testFileWriting_addsNewCommandFile() throws IOException {
+        FlatGameDao fgd = new FlatGameDao();
+        ServerGame myGame = new ServerGame(new GameInfo("myGameId", "myGame", 2));
+        fgd.addGame(myGame);
+        ServerGame myReadGame = fgd.getGame("myGameId");
+        Assert.assertTrue(myReadGame.getId().equals("myGameId"));
+
+        FlatCommandDao fcd = new FlatCommandDao();
+        List<Command> commandList = fcd.getCommands("myGameId");
+        Assert.assertTrue(commandList != null);
+
     }
 
     @Test

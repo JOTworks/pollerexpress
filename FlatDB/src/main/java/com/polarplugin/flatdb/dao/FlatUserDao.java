@@ -18,7 +18,7 @@ import java.util.List;
 
 public class FlatUserDao implements IUserDao {
 
-    private List<User> getAllUsers() throws FileNotFoundException {
+    public List<User> getAllUsers() throws FileNotFoundException {
         List<User> users;
         try {
             InputStream fis = new FileInputStream(new File("allUsers.txt"));
