@@ -10,9 +10,24 @@ import com.polarplugin.flatdb.dao.FlatGameDao;
 import com.polarplugin.flatdb.dao.FlatUserDao;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class FlatDatabase implements IDatabase {
 
+    public FlatDatabase() throws IOException {
+        try {
+            if (!Files.exists(Paths.get("allGames.txt")))
+                new FlatGameDao().createAllGamesFile();
+            if (!Files.exists(Paths.get("allUsers.txt")))
+                new FlatUserDao().createAllUsersFile();
+            if (!Files.exists(Paths.get("games")))
+                Files.createDirectories(Paths.get("games"));
+        } catch (Exception e) {
+            System.out.println("unable to start FlatDB. Check thrown error");
+            throw e;
+        }
+    }
 
     @Override
     public IUserDao getUserDao() {
