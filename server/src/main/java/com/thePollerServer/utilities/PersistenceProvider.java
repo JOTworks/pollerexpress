@@ -115,10 +115,10 @@ public class PersistenceProvider
      * @param game
      * @return all commands that have yet to be saved for this game
      */
-    public ArrayList<Command> getCommandList(ServerGame game) throws IOException {
+    public List<Command> getCommandList(ServerGame game) throws IOException {
         try{
             db.startTransaction();
-            ArrayList<Command> commandList = (ArrayList<Command>) db.getCommandDao().getCommands(game.getId());
+            List<Command> commandList =  db.getCommandDao().getCommands(game.getId());
 
             return commandList;
         } catch (IOException e) {
@@ -139,28 +139,32 @@ public class PersistenceProvider
     public void addCommand(Command command, ServerGame game) throws IOException {
 
         boolean commit = false;
-        try{
+        try
+        {
+
             db.startTransaction();
-            if(getCommandList(game).size() >= delta)
+            if(db.getCommandDao().getCommands(game.getId()).size() >= delta)
             {
                 // the second parameter is the game from server memory
-
                 // write the game into the database
                 db.getGameDao().updateGame(game);
-
-                // throw away delta commands.
                 db.getCommandDao().removeCommands(game.getId());
+                commit = true;
             }
-            else{
-                if(command.getMethodName().equals("createGame")) {
+            else
+                {
+                if(command.getMethodName().equals("createGame"))
+                {
                     //don't want the create game command, change it to the join game command...
                     command.set_methodName("joinGame");
                 }
                 db.getCommandDao().addCommand(command, game.getId());
+                commit = true;
             }
-            commit = true;
 
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             throw e;
         }
         finally
@@ -211,7 +215,8 @@ public class PersistenceProvider
         }
 
         CommandManager._instance().setActive(true);
-        for (ServerGame game : getGameList()) {
+        for (ServerGame game : getGameList())
+        {
            for (Player p : game.getPlayers())
             CF.recync(p);
         }
