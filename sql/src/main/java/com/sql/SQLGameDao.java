@@ -104,7 +104,6 @@ public class SQLGameDao implements IGameDao
         System.out.println("in add game");
         try
         {
-            System.out.println("Added " + game.toString());
             PreparedStatement stmnt = _db.getConnection().prepareStatement(INSERT_GAME);
             stmnt.setString(1, game.getId());
             ByteArrayOutputStream stream = new ByteArrayOutputStream();

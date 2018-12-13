@@ -62,6 +62,7 @@ public class PersistenceProvider
     public void joinGame(User user) throws IOException {
 
         boolean commit = false;
+        System.out.println("running the persistance provider");
         try
         {
             db.startTransaction();
@@ -176,14 +177,23 @@ public class PersistenceProvider
         }
     }
 
-    public void onServerStart() throws IOException {
+    public void onServerStart() throws IOException
+    {
         ServerData SD = ServerData.instance();
         CommandFacade CF = CommandFacade.getInstance();
         CommandManager._instance().setActive(false);
 
-        List<ServerGame> gameList = getGameList();
-        if(!(gameList==null)) {
-            for (ServerGame game : gameList) {
+        db.startTransaction();
+        List<User> users = db.getUserDao().getAllUsers();
+        db.endTransaction(false);
+
+        for(User u : users)
+        {
+            SD.addUser(u);
+        }
+
+        if(!(getGameList()==null)) {
+            for (ServerGame game : getGameList()) {
 
                 SD.addGame(game);
                 for (Command command : getCommandList(game)) {
@@ -197,12 +207,13 @@ public class PersistenceProvider
             }
             CommandManager._instance().setActive(true);
             for (ServerGame game : getGameList()) {
-                for (Player p : game.getPlayers()) {
+                for (Player p : game.getPlayers())
                     CF.recync(p);
-                }
             }
-
         }
+
+
+
+
     }
 }
-
