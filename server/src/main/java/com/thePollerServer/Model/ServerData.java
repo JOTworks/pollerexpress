@@ -74,12 +74,12 @@ public class ServerData
 
     public ServerGame getGame(GameInfo info)
     {
-        return games.get(info);
+        return games.get(info.getId());
     }
 
     public ServerGame getGame(Player p)
     {
-        return games.get(getMyGame(p));
+        return games.get(getMyGame(p).getId());
     }
 
 
