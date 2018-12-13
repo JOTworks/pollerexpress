@@ -18,6 +18,13 @@ import java.util.List;
 
 public class FlatUserDao implements IUserDao {
 
+    public void createAllUsersFile() throws IOException {
+        List<User> empty = new ArrayList<>();
+        OutputStream fos = new FileOutputStream(new File("allUsers.txt"), false);
+        Serializer.writeData(empty, fos);
+        fos.close();
+    }
+
     public List<User> getAllUsers() throws FileNotFoundException {
         List<User> users;
         try {
@@ -56,6 +63,8 @@ public class FlatUserDao implements IUserDao {
         Serializer.writeData(users, fos);
         fos.close();
     }
+
+
 
     @Override
     public void updateUser(User user) throws IOException {

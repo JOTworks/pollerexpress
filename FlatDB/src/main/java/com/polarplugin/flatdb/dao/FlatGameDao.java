@@ -19,6 +19,13 @@ import java.util.List;
 
 public class FlatGameDao implements IGameDao {
 
+    public void createAllGamesFile() throws IOException {
+        List<ServerGame> empty = new ArrayList<>();
+        OutputStream fos = new FileOutputStream(new File("allGames.txt"), false);
+        Serializer.writeData(empty, fos);
+        fos.close();
+    }
+
     @Override
     public ServerGame getGame(String id) throws IOException {
         List<ServerGame> games = getAllGames();

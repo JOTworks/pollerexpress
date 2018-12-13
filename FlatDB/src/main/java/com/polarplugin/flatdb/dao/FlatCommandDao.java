@@ -22,14 +22,16 @@ import java.util.List;
 
 public class FlatCommandDao implements ICommandDao {
     @Override
-    public List<Command> getCommands(String gameId) throws FileNotFoundException {
+    public List<Command> getCommands(String gameId) throws IOException {
         List<Command> commands;
+
+
         try {
             InputStream fis = new FileInputStream(new File("games/" + gameId + ".txt"));
             commands = (ArrayList<Command>) Serializer.readData(fis);
             fis.close();
 
-        } catch (FileNotFoundException e) { throw new FileNotFoundException();
+        } catch (FileNotFoundException e) { throw e;
         } catch (ClassNotFoundException | IOException e) {
             throw new RuntimeException(e.getClass() + ": " + e.getMessage());
         }
