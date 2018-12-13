@@ -13,6 +13,7 @@ import com.shared.models.Color;
 import com.shared.models.Player;
 
 import cs340.pollerexpress.R;
+import thePollerExpress.models.ClientData;
 import thePollerExpress.views.IPollerExpressView;
 import thePollerExpress.presenters.game.interfaces.IPlayerPresenter;
 import thePollerExpress.presenters.game.PlayerPresenter;
@@ -74,6 +75,8 @@ public class PlayerFragment extends Fragment implements IPlayerView {
 
 
         //this line isnt needed when observer works correctly i think
+        playerPresenter.update(ClientData.getInstance().getGame(), new Object());//this is quick and dirty and wrong. but, i am too lazy
+
         renderPlayer(playerPresenter.getPlayer());
         return v;
     }

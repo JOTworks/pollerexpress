@@ -65,7 +65,9 @@ public class GameFragment extends Fragment implements IGameView {
 
         ///
         GameState gameState = ClientData.getInstance().getGame().getGameState();
-        if( (gameState.getTurn()==null) || (gameState.getTurn().equals(ClientData.getInstance().getUser().getName()) && gameState.getState().equals(GameState.State.DRAWN_DEST))){
+        //if( (gameState.getTurn()==null) || (gameState.getTurn().equals(ClientData.getInstance().getUser().getName()) && gameState.getState().equals(GameState.State.DRAWN_DEST))){
+        if(!ClientData.getInstance().getUser().getDestCardOptions().isEmpty())
+        {
             fragment = new DestinationSelectionFragment();
             fm.beginTransaction()
                     .add(R.id.destination_fragment_container, fragment)

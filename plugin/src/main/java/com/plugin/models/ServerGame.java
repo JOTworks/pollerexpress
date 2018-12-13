@@ -215,6 +215,7 @@ public class ServerGame extends Observable implements Serializable
         {
             player.getDestCardHand().addToHand(card);
         }
+        player.getDestCardOptions().makeEmpty();
         return true;
     }
 

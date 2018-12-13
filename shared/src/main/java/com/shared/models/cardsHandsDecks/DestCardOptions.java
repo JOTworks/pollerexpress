@@ -13,7 +13,8 @@ public class DestCardOptions extends Hand implements Serializable { //TODO: ther
         destCards = new ArrayList<>();
     }
 
-    public List<DestinationCard> getDestinationCards(){ return destCards; }
+    public List<DestinationCard> getDestinationCards()
+    { return destCards; }
     public void setDestinationCards(List<DestinationCard> destinationCards)
     {
         this.destCards = destinationCards;
@@ -24,7 +25,8 @@ public class DestCardOptions extends Hand implements Serializable { //TODO: ther
         }
     }
 
-    public void addToOptions(DestinationCard card) {
+    public void addToOptions(DestinationCard card)
+    {
         destCards.add(card);
         synchronized (this)
         {
@@ -52,7 +54,10 @@ public class DestCardOptions extends Hand implements Serializable { //TODO: ther
     public void makeEmpty() {
         destCards = new ArrayList<>();
     }
-
+    public boolean isEmpty()
+    {
+        return destCards.isEmpty();
+    }
     @Override
     public String toString() {
         if(destCards.size() == 0) {
