@@ -39,6 +39,7 @@ public class Game extends Observable implements Serializable
     public VisibleCards faceUpCards;
     public int destinationCardDeck;
     public int trainCardDeck;
+    private boolean started = false;
 
     private Game()
     {
@@ -370,4 +371,13 @@ public class Game extends Observable implements Serializable
     }
 
 
+    public boolean isStarted()
+    {
+        return started;
+    }
+
+    public void setStarted(boolean started)
+    {
+        this.started = started;
+    }
 }

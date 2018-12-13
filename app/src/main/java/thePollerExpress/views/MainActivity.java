@@ -6,13 +6,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import cs340.pollerexpress.R;
 import thePollerExpress.communication.PollerExpress;
 import thePollerExpress.models.ClientData;
 import thePollerExpress.presenters.MainPresenter;
 import thePollerExpress.views.game.GameFragment;
+import thePollerExpress.views.setup.LobbyFragment;
 import thePollerExpress.views.setup.LoginFragment;
+import thePollerExpress.views.setup.SetupGameFragment;
 
 public class MainActivity extends AppCompatActivity implements ISpecialView
 {
@@ -55,9 +58,23 @@ public class MainActivity extends AppCompatActivity implements ISpecialView
         ft.replace(R.id.fragment_container, fragment);
         ft.commit();
         fm.popBackStack();
-        fragment.displayError("Resynced with server");
+        Toast.makeText(this,"Resynced with server",Toast.LENGTH_SHORT);
     }
 
+    @Override
+    public void goToLobby()
+    {
+        SetupGameFragment frag = new SetupGameFragment();
+
+            Bundle args = new Bundle();
+            args.putBoolean("lobby", true);
+            frag.setArguments(args);
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.fragment_container, frag);
+            ft.commit();
+            fm.popBackStack();
+
+    }
     @Override
     public void deleteFragments()
     {

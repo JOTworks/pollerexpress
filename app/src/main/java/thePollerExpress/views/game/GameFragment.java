@@ -98,32 +98,33 @@ public class GameFragment extends Fragment implements IGameView {
 //            if(userName.equals(p.getName()))
 //                players.remove(p);
 //        }
-
+        //should havae used a list view for the fragments...
+        PlayerFragment fragment1;
         if (players.size() > itr) {
-            fragment = PlayerFragment.newInstance(players.get(itr));
+            fragment1 = PlayerFragment.newInstance(players.get(itr));
             fm.beginTransaction()
-                    .add(R.id.player1_fragment_container, fragment)
+                    .add(R.id.player1_fragment_container, fragment1)
                     .commit();
             itr++;
         }
         if (players.size() > itr) {
-            fragment = PlayerFragment.newInstance(players.get(itr));
+            fragment1 = PlayerFragment.newInstance(players.get(itr));
             fm.beginTransaction()
-                    .add(R.id.player2_fragment_container, fragment)
+                    .add(R.id.player2_fragment_container, fragment1)
                     .commit();
             itr++;
         }
         if (players.size() > itr) {
-            fragment = PlayerFragment.newInstance(players.get(itr));
+            fragment1 = PlayerFragment.newInstance(players.get(itr));
             fm.beginTransaction()
-                    .add(R.id.player3_fragment_container, fragment)
+                    .add(R.id.player3_fragment_container, fragment1)
                     .commit();
             itr++;
         }
         if (players.size() > itr) {
-            fragment = PlayerFragment.newInstance(players.get(itr));
+            fragment1 = PlayerFragment.newInstance(players.get(itr));
             fm.beginTransaction()
-                    .add(R.id.player4_fragment_container, fragment)
+                    .add(R.id.player4_fragment_container, fragment1)
                     .commit();
             itr++;
         }

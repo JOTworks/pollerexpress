@@ -16,6 +16,10 @@ public class MainPresenter
     {
         view.goToGame();
     }
+    public void goToLobby()
+    {
+        view.goToLobby();
+    }
 
     public void deleteFragments()
     {

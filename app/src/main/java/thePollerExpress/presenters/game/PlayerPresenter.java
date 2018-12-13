@@ -21,6 +21,7 @@ public class PlayerPresenter implements IPlayerPresenter, Observer {
         clientData = ClientData.getInstance();
         clientData.getGame().getPlayer(playerName).addObserver(this);
         clientData.getGame().addObserver(this);
+
     }
 
     public Player getPlayer()

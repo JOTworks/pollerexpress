@@ -3,6 +3,7 @@ package thePollerExpress.views.setup;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,12 +26,22 @@ public class SetupGameFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_setup_game, container, false);
 
         FragmentManager fm = getFragmentManager();
-
-        Fragment fragment = new GameSelectionFragment();
-        fm.beginTransaction()
-                .add(R.id.right_side_fragment_container, fragment)
-                .commit();
-
+        Bundle args = getArguments();
+        if(args != null && args.containsKey("lobby"))
+        {//Fragment createGameFragment = fragmentManager.findFragmentById(R.rotation.fragment_create_game);
+            LobbyFragment fragment = new LobbyFragment();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            fragmentTransaction.replace(R.id.right_side_fragment_container, fragment);
+            fragmentTransaction.commit();
+            //fragment.displayError("Resynced with server");
+        }
+        else
+        {
+            Fragment fragment = new GameSelectionFragment();
+            fm.beginTransaction()
+                    .add(R.id.right_side_fragment_container, fragment)
+                    .commit();
+        }
         return v;
     }
 }

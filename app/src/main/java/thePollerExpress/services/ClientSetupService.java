@@ -165,8 +165,17 @@ class ClientSetupService implements ISetupService {
         CD.setUser(user);
         loadGame(game);
         System.out.println("Create the new game");
-        CD.getMainPresenter().goToGame();
-        CD.getGame().setGameState(game.getGameState());//refresh the game state for the destination cards presenter.
+        if(game.isStarted())
+        {
+            CD.getMainPresenter().goToGame();
+            CD.getGame().setGameState(game.getGameState());//refresh the game state for the destination cards presenter.
+        }
+        else
+        {
+            CD.getMainPresenter().goToLobby();
+        }
+
+
         return true;
     }
 

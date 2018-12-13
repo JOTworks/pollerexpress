@@ -121,6 +121,7 @@ public class ServerGame extends Observable implements Serializable
         game.setMap(map);
         game.setGameHistory(history);
         game.setChatHistory(chatHistory);
+        game.setStarted(started);
         return game;
     }
 
