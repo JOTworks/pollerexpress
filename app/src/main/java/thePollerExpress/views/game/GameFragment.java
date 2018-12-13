@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.shared.models.Game;
 import com.shared.models.Player;
+import com.shared.models.states.GameState;
 
 import java.util.List;
 
@@ -62,10 +63,21 @@ public class GameFragment extends Fragment implements IGameView {
                 .add(R.id.chat_history_fragment_container, fragment)
                 .commit();
 
-        fragment = new DestinationSelectionFragment();
-        fm.beginTransaction()
-                .add(R.id.destination_fragment_container, fragment)
-                .commit();
+        ///
+        GameState gameState = ClientData.getInstance().getGame().getGameState();
+        if( (gameState.getTurn()==null) || (gameState.getTurn().equals(ClientData.getInstance().getUser().getName()) && gameState.getState().equals(GameState.State.DRAWN_DEST))){
+            fragment = new DestinationSelectionFragment();
+            fm.beginTransaction()
+                    .add(R.id.destination_fragment_container, fragment)
+                    .commit();
+        }else{
+            fragment = new DestinationHandFragment();
+            fm.beginTransaction()
+                    .add(R.id.destination_fragment_container, fragment)
+                    .commit();
+        }
+
+        /////
 
         fragment = new TrainCardHandFragment();
         fm.beginTransaction()
